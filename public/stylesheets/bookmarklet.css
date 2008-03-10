@@ -1,0 +1,6 @@
+#modal_button_cancel { float:right; width:84px; height:26px; marin:1px; background: url('http://homemarks/stylesheets/images/modal/button_cancel.png') no-repeat -85px 0 ; }
+#modal_button_cancel:hover { background-position: -170px 0 ; }
+#modal_button_cancel:active { background-position: 0 0 ; }
+#modal_button_save { float:right; width:84px; height:26px; marin:1px; background: url('http://homemarks/stylesheets/images/modal/button_save_link.png') no-repeat -85px 0 ; }
+#modal_button_save:hover { background-position: -170px 0 ; }
+#modal_button_save:active { background-position: 0 0 ; }

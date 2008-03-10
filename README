@@ -1,0 +1,49 @@
+
+NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
+-------------------------------------------
+
+
+Copyright (c) 2007 Action Moniker LLC., http://www.actionmoniker.com/
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+
+Some Miscellaneous Notes:
+------------------------------------------------------------------
+
+  * As far as I know, the homemarks app requires rails v1.2.1
+  
+  * There is a configuration class in environment.rb. It is used 
+    alot throughout the app. Some things may beed to be set there 
+    on first install.
+  
+  * The app makes pretty decent (filesystem) use of fragment 
+    cachine. The store can be changed to a (db) store. Please 
+    take a look at the cache_masters.rb file.
+  
+  * The application includes a utility script in lib/utilities. 
+    An example of a use in production would be to scrip this with 
+    cron or launchd:
+    
+    env RAILS_ENV=production /pathtoyourapp/current/script/runner DemoUser.reset
+    
+  * Comments welcome: ken@actionmoniker.com

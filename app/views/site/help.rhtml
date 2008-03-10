@@ -1,0 +1,102 @@
+
+<% @page_title = "#{HmConfig.app[:dotcom]} - Documentation & Help" -%>
+
+<% if flash[:signup] -%>
+  <div id="signup_flash" class="clearfix" style="margin: 10px 25px 15px 20px;">
+    <img src="/stylesheets/images/site/email_sent.png" id="signup_flash_image" style="float:left; margin: 0 10px 0 10px;" />
+    <br /><span><%= flash[:signup] %></span>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    new Effect.Pulsate("signup_flash_image",{});
+  </script>
+<% end %>
+
+
+<h1>Documentation & Help</h1>
+<p>The intended purpose of this documentation is to explain the main features of HomeMarks and to highlight features that may not be obvious to first time user. If you cannot find what you are looking for, please <%= link_to_function 'contact us', 'this.blur();'+toggle_ajaxsiteform %> with your questions or lookup try looking thru some of the <%= link_to 'known issues', issues_url %> with the HomeMarks system.</p>
+
+<%= render :partial => 'support_form' %>
+
+
+<h2>Columns</h2>
+<p>Columns are transparent containers for Boxes and Bookmarks. Their appearance and structure on the page is barely noticeable.</p>
+<ul class="helpul1">
+  <li>
+    <img src="/stylesheets/images/site_help/column_create.png" style="float:right; margin: 0 7px 0 10px;" />
+    <span class="helppoint">Create</span> - To create a new Column, click on this icon in the toolbar. Once a Column has been created, you can then create Boxes inside of it (see below) or drag existing Boxes from other Columns.
+  </li>
+  <li>
+    <img src="/stylesheets/images/site_help/column_sort_delete.png" style="float:right; margin: 0 5px 0 8px;" />
+    <span class="helppoint">Sort</span> - Columns can be sorted by dragging their handle located at the top of each Column. When doing so, all of the Column’s Boxes and Bookmarks will moved along with the Column as you drag it.
+  </li>
+  <li><span class="helppoint">Delete</span> - To delete a Column, click on the <span class="site_red">(x)</span> in the left hand side of the Column’s handle bar. A warning will appear asking if you are sure about this action since deleting a Column will also permanently delete all the Boxes and Bookmarks within it.</li>
+</ul>
+
+
+<h2>Boxes</h2>
+<p>Boxes are containers for Bookmarks and are themselves contained within a single Column. All Boxes have a title and a color to reflect your organizational preference and can even be collapsed to reduce space.</p>
+<ul class="helpul1">
+  <li>
+    <span class="helppoint">Create</span> - To create a new Box within a Column simple click on the <span class="site_red">(+)</span> in the right hand side of the Column’s header you wish to create the Box in. The new Box will appear at the top of the Column and can then be renamed, colored and/or available to any other normal Box action.
+  </li>
+  <li>
+    <img src="/stylesheets/images/site_help/box_all.png" style="float:right; margin-left:10px;" />
+    <span class="helppoint">Sort</span> - All Boxes can be sorted within the Column they reside or even from one Column to another. To sort a Box, simply drag it using it’s handle located at the top right of each Box. When doing so, all of the Box’s Bookmarks will moved along with the Box as you drag it.
+  </li>
+  <li><span class="helppoint">Collapse</span> - Collapsing a box helps reduce its vertical space on the page and hence hides all the bookmarks within it. Boxes can even still be sorted when they are collapsed as well. To collapse/uncollapse a Box, click its title.</li>
+  <li>
+    <span class="helppoint">Other Actions</span> - All of these Box features are available from within each Box’s action area. To see these actions, click on the Box’s action icon <span style="color:#ff5200;">(gear)</span> located at the top left of each box.
+    <ul class="helpul2">
+      <li><span class="helppoint" style="color:#ffbd00;">Rename</span> - To change the title of a box, simply type in a new name in the title text field. As you type the Box’s title will be updated in real time. There is no need to hit a save button, changes are saved instantly.</li>
+      <li><span class="helppoint" style="color:#ffbd00;">Change Color</span> - There are 21 color swatches in the action area of a Box. A Box’s color can be changed in real time by clicking on any one of these swatches. Changes are saved instantly.</li>
+      <li><span class="helppoint" style="color:#ffbd00;">Edit Bookmarks</span> - Bookmarks within a Box can be edited by clicking on the (Edit Links) button. A form window will appear at the top of your browser that will show each Bookmark’s name and location. There is also an icon <span style="color:#ff5200;">(heart)</span> at top right that you can use to create a new Bookmark within the Box.</li>
+      <li><span class="helppoint" style="color:#ffbd00;">Delete</span> - To delete a Box, click on the (Delete Box) button. A warning will appear asking if you are sure about this action since deleting a Box will also permanently delete all the Bookmarks within it.</li>
+    </ul>
+  </li>
+</ul>
+
+
+<h2>Bookmarks</h2>
+<p>Bookmarks are the fundamental object of your HomeMarks page and hence can be manipulated in the numerous ways listed below.</p>
+<ul class="helpul1">
+  <li><span class="helppoint">Create</span> - Bookmarks are primarily created using the HomeMarks bookmarklet helper. A bookmarklet is a small JavaScript program that can be stored as a URL within a browser, most often as a toolbar link. Please read the HomeMarklet section for full details on how to use the your HomeMarklet to save Bookmarks to your HomeMarks page.</li>
+  <li><span class="helppoint">Sort</span> - Bookmarks can be sorted within the Box they reside or even from one Box to another, including your inbox and trashbox. To sort a Bookmark, simply  drag it using its handle icon <span style="color:#ff5200;">(+)</span> located to left of each Bookmark.</li>
+  <li><span class="helppoint">Delete</span> - Located at the bottom right of your HomeMarks page is a trashcan icon. Bookmarks can be dragged and dropped into this trashcan. When you do this the bookmark are not permanently deleted but rather sorted within a special Trash Box. Click on trashcan icon to see your Trash Box, which will appear on the left side of the page. Bookmarks can be removed from the Trash Box and sorted in any other Box in the same way you would normally do between Boxes.</li>
+  <li>
+    <a name="homemarklet"></a>
+    <img src="/stylesheets/images/site_help/bookmarklet.png" style="float:right; margin: 3px 7px 0 10px;" />
+    <span class="helppoint">HomeMarklet</span> - Your HomeMarklet is a JavaScript program, commonly called a bookmarklet, which will help you bookmark any webpage and most browser links to your own HomeMarks start page. It is suggested that you install your HomeMarklet as a link in your browser’s bookmark bar. Clicking the HomeMarklet from a website will insert a form at the top of the browser window. Simply choose a name for the Bookmark and choose a Box where to keep it.
+    <ul class="helpul2">
+      <li>
+        <span class="helppoint" style="color:#ffbd00;">Firefox Installation</span>
+        <ul class="helpul3">
+          <li><em>Make sure your Bookmarks Toolbar is viewable:<br />In Firefox » View Menu » Toolbars » Bookmarks Toolbar</em></li>
+          <li>Drag the HomeMarklet icon from your HomeMarks toolbar to your Firefox’s Bookmarks Toolbar.</li>
+        </ul>
+      </li>
+      <li>
+        <span class="helppoint" style="color:#ffbd00;">Safari Installation</span>
+        <ul class="helpul3">
+          <li><em>Make sure your Bookmarks Toolbar is viewable:<br />In Safari » View Menu » Show Bookmarks Bar</em></li>
+          <li>Drag the HomeMarklet icon from your HomeMarks toolbar to your Safari’s Bookmarks Bar.</li>
+        </ul>
+      </li>
+    </ul>
+    <img src="/stylesheets/images/site_help/bookmark_modal.jpg" style="float:right; margin: 16px 7px 0 10px;" />
+    <div style="margin-top:15px;">HomeMarklet usage is simple after installation. When you come to a webpage that you want to add to your HomeMarks start page, just click on your HomeMarklet in the toolbar. The webpage will be masked with a dark overlay and a HomeMark modal box will appear at the top of the browser window. From here you can choose a short name and which box you would like to place your bookmark.</div>
+  </li>
+</ul>
+
+
+
+<h2>Action Area (inbox and trashbox)</h2>
+<p>Your HomeMarks page contains two special boxes to help create, store and manage deleted bookmarks. Both reside in a special section of your HomeMarks page called the Action Area.</p>
+<ul class="helpul1">
+  <li><span class="helppoint">Action Area</span> - To open or close your Action Area click on the small vertical bar that runs along the entire height of the left side of your HomeMarks page. A more convenient method is to use the tilde key <span class="site_red">(~)</span> which is located to the left of the number "1" key on your keyboard.</li>
+  <li>
+    <img src="/stylesheets/images/site_help/actionarea.jpg" style="float:right; margin: 3px 7px 0 10px;" />
+    <span class="helppoint">Inbox</span> - Is provided to give you a dumping ground for inbound bookmarks that need to be categorized and sorted. Bookmarks can be dragged from your inbox to any other box or your trashcan.</li>
+  <li><span class="helppoint">Trashbox</span> - Will give you a second change to recover any bookmarks that were thrown into your trashcan. Just like your inbox, any bookmark can be dragged and sorted to any other box.</li>
+</ul>
+
+

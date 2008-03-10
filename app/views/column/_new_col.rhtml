@@ -1,0 +1,10 @@
+
+<div id="col_<%= col.id %>" class="dragable_columns">
+
+  <span id="column_<%= col.id %>_ctl" class="column_ctl">
+    <%= link_to_remote_for_column_delete(col) %>
+    <span class="ctl_handle">&nbsp;</span>
+    <%= link_to_remote_for_column_add(col) %>
+  </span>
+  
+</div> <!-- #col_<%= col.id %> -->

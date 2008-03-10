@@ -1,0 +1,4 @@
+
+<% for bmark in box.bookmarks -%>
+  <%= render :inline => bookmark_list_item, :locals => {:bmark => bmark, :box_type => box_type} %>
+<% end -%>

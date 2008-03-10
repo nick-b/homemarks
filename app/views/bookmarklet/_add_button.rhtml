@@ -1,0 +1,13 @@
+<script>
+  this.blur();
+  hideModal();
+  var a,d,rjsa;
+  var a=function(o){d.body.appendChild(o)};
+  var d=document;
+  rjsa=d.createElement('script');
+  rjsa.type='text/javascript';
+  rjsa.src='<%= save_link_url(:only_path => false, :uuid => @user.uuid) %>?'+Form.serialize($('savehomemarks_form'));
+  Form.disable('savehomemarks_form');
+  a(rjsa);
+  return false;
+</script>

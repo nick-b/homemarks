@@ -1,0 +1,74 @@
+
+<% cache(user_home_cache) do -%>
+  
+  <div id="col_wrapper">
+    
+    <% if @user.columns.length > 0 -%>
+      <% for col in @user.columns %>
+      <div id="col_<%= col.id %>" class="dragable_columns">
+      
+        <span id="column_<%= col.id %>_ctl" class="column_ctl">
+          <%= link_to_remote_for_column_delete(col) %>
+          <span class="ctl_handle">&nbsp;</span>
+          <%= link_to_remote_for_column_add(col) %>
+        </span>
+      
+        <% for box in col.boxes %>
+        <div id="boxid_<%= box.id %>" class="dragable_boxes">
+        <div id="boxid_<%= box.id %>_style" class="box <%= box.style %>">
+          <div id="boxid_<%= box.id %>_header" class="box_header clearfix">
+            <%= link_to_remote_for_box_actions(box,'down') %>
+            <span class="box_title"><span class="box_handle">&nbsp;</span><%= link_to_remote_for_box_title(box) %></span>
+          </div>
+          <div id="boxid_<%= box.id %>_line" class="line">&nbsp;</div>
+          <div id="boxid_<%= box.id %>_inside" class="inside" style="display:<%= box.collapsed? ? 'none' : 'block' %>;">
+            <ul id="boxid_list_<%= box.id %>" class="sortablelist">
+              <% for bmark in box.bookmarks -%>
+                <%= render :inline => bookmark_list_item, :locals => {:bmark => bmark, :box_type => 'box'} %>
+              <% end -%>
+            </ul>
+          </div>
+        </div>
+        </div> <!-- #boxid_<%= box.id %> -->
+        <% end %>
+    
+      </div> <!-- #col_<%= col.id %> -->
+      <% end -%>
+    <% else -%>
+      <%= render :partial => 'welcome' %>
+    <% end -%>
+  
+  </div>
+  
+  
+  <div id="bookmark_sortables">
+    <script type="text/javascript">
+    //<![CDATA[
+    <%= render(:update) {|page| page.create_bookmark_sortables(@user)} %>
+    //]]>
+    </script>
+  </div>
+  
+  <div id="box_sortables">
+    <script type="text/javascript">
+    //<![CDATA[
+    <%= render(:update) {|page| page.create_box_sortables(@user)} %>
+    //]]>
+    </script>
+  </div>
+
+  <div id="column_sortable">
+    <script type="text/javascript">
+    //<![CDATA[
+    <%= render(:update) {|page| page.create_column_sortable} %>
+    //]]>
+    </script>
+  </div>
+  
+  <% if session[:demo] == true -%>
+  <script type="text/javascript" charset="utf-8">
+    var demoinaround = alert('This demo account may produce errors since it is shared with other public visitors. All account actions are disabled and this account will even reset to its own defaults every few hours. Enjoy.');
+  </script>
+  <% end -%>
+
+<% end -%>

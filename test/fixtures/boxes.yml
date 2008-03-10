@@ -1,0 +1,223 @@
+
+# Ken's Boxes (part-1)
+# --------------------
+# Columns(:id) = 1
+
+boxes_001:
+  id: "1"
+  column_id: "1"
+  title: Current Development
+  position: "1"
+  collapsed: true
+
+boxes_002:
+  id: "2"
+  column_id: "1"
+  title: Administration
+  style: apricot
+  position: "2"
+  collapsed: false
+
+boxes_003:
+  id: "3"
+  column_id: "1"
+  title: Decipher
+  style: black
+  position: "3"
+  collapsed: false
+
+boxes_004:
+  id: "4"
+  column_id: "1"
+  title: Decipher
+  style: yellow_green
+  position: "4"
+  collapsed: false
+
+boxes_005:
+  id: "5"
+  column_id: "1"
+  title: Prag Programmer
+  style: aqua
+  position: "5"
+  collapsed: false
+
+# Columns(:id) = 2
+
+boxes_006:
+  id: "6"
+  column_id: "2"
+  title: Ruby on Rails Project
+  style: cerulian
+  position: "1"
+  collapsed: true
+
+
+
+# Bob's Boxes - All
+# -----------------
+
+boxes_007: 
+  id: "7"
+  column_id: "3"
+  title: Bobs first box
+  position: "1"
+  collapsed: false
+
+boxes_008: 
+  id: "8"
+  column_id: "4"
+  title: Bobs second box
+  style: red
+  position: "1"
+  collapsed: false
+
+boxes_009: 
+  id: "9"
+  column_id: "5"
+  title: Bobs third box
+  position: "1"
+  collapsed: true
+
+boxes_010: 
+  id: "10"
+  column_id: "6"
+  title: Bobs fourth box
+  position: "1"
+  collapsed: false
+
+# ---------------------
+# End Bob's Boxes - All
+
+
+
+# Ken's Boxes (part-2)
+# --------------------
+# Columns(:id) = 2
+
+boxes_011:
+  id: "11"
+  column_id: "2"
+  title: RoR References
+  style: orange
+  position: "2"
+  collapsed: true
+
+boxes_012:
+  id: "12"
+  column_id: "2"
+  title: RoR Local RDocs
+  style: raw_sienna
+  position: "3"
+  collapsed: true
+
+boxes_013:
+  id: "13"
+  column_id: "2"
+  title: ActiveRecord Migrations
+  style: red
+  position: "4"
+  collapsed: true
+
+boxes_014:
+  id: "14"
+  column_id: "2"
+  title: ActiveRecord Associations
+  style: salmon
+  position: "5"
+  collapsed: true
+
+# Columns(:id) = 7
+
+boxes_015:
+  id: "15"
+  column_id: "7"
+  title: Script.aculo.us
+  style: sky_blue
+  position: "1"
+  collapsed: false
+
+boxes_016:
+  id: "16"
+  column_id: "7"
+  title: Prototype
+  style: spring_green
+  position: "2"
+  collapsed: false
+
+boxes_017:
+  id: "17"
+  column_id: "7"
+  title: Current Development
+  style: melon
+  position: "3"
+  collapsed: false
+
+boxes_018:
+  id: "18"
+  column_id: "7"
+  title: Administration
+  style: limeade
+  position: "4"
+  collapsed: false
+
+boxes_019:
+  id: "19"
+  column_id: "7"
+  title: Administration
+  style: postit
+  position: "5"
+  collapsed: false
+
+boxes_020:
+  id: "20"
+  column_id: "7"
+  title: Administration
+  style: lavender
+  position: "6"
+  collapsed: false
+
+# Columns(:id) = 8
+
+boxes_021:
+  id: "21"
+  column_id: "8"
+  title: Prag Programmer and Some More Text
+  style: violet
+  position: "1"
+  collapsed: false
+
+boxes_022:
+  id: "22"
+  column_id: "8"
+  title: RAILs Engines
+  style: white
+  position: "2"
+  collapsed: false
+
+boxes_023:
+  id: "23"
+  column_id: "8"
+  title: RAILs Login/Auth
+  style: wistera
+  position: "3"
+  collapsed: false
+
+boxes_024:
+  id: "24"
+  column_id: "8"
+  title: RAILs 3rd Party
+  style: yellow
+  position: "4"
+  collapsed: false
+
+boxes_025:
+  id: "25"
+  column_id: "8"
+  title: RAILs 3rd Party
+  style: bisque
+  position: "5"
+  collapsed: false
+
+# ------------------------
+# End Ken's Boxes (part-2)

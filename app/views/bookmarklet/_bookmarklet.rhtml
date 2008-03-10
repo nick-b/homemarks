@@ -1,0 +1,65 @@
+<script>
+javascript:
+  (function(){
+    var notHTML=/(pdf|gif|jpg|jpeg|png|css|js|mov)$/i;
+    if(notHTML.test(location.href)){
+      location.href='<%= nonhtml_url(:only_path => false, :uuid => @user.uuid) %>';
+      return
+    };
+    var d,n1,a,h,ac,l,ls,ss,m,ms,mp,mps,f,pjs,ejs,appjs,rjs;
+    var d=document;
+    var n1=d.body.firstChild;
+    var a=function(o){d.body.insertBefore(o,n1)};
+    var h=d.getElementsByTagName('head')[0];
+    var ac=function(o){h.appendChild(o)};
+    l=d.createElement('div');
+    l.innerHTML='Loading..';
+    l.id='loadinghomemarks';
+    ls=l.style;
+    ls.position='fixed';
+    ls.top='0';
+    ls.left='9px';
+    ls.backgroundColor='#f00';
+    ls.color='#fff';
+    ls.font='normal 14px sans-serif';
+    ls.padding='6px';
+    ls.zIndex='799';
+    ls.textDecoration='blink';
+    a(l);
+    ss=d.createElement('link');
+    ss.rel='stylesheet';
+    ss.type='text/css';
+    ss.href='<%= HmConfig.app[:url] %>stylesheets/bookmarklet.css';
+    ac(ss);
+    m=d.createElement('div');
+    m.id='modalmask';
+    ms=m.style;
+    ms.display='none';
+    mp=d.createElement('div');
+    mp.id='modal_progress';
+    mps=mp.style;
+    mps.display='none';
+    m.appendChild(mp);
+    a(m);
+    f=d.createElement('div');
+    f.id='modal_html_ap-wrapper';
+    a(f);
+    pjs=d.createElement('script');
+    pjs.type='text/javascript';
+    pjs.src='<%= HmConfig.app[:url] %><%= HmConfig.js[:prototype] %>';
+    a(pjs);
+    ejs=d.createElement('script');
+    ejs.type='text/javascript';
+    ejs.src='<%= HmConfig.app[:url] %><%= HmConfig.js[:effects] %>';
+    a(ejs);
+    appjs=d.createElement('script');
+    appjs.type='text/javascript';
+    appjs.src='<%= HmConfig.app[:url] %><%= HmConfig.js[:app] %>';
+    a(appjs);
+    rjs=d.createElement('script');
+    rjs.type='text/javascript';
+    rjs.src='<%= setup_form_url(:only_path => false, :uuid => @user.uuid) %>';
+    a(rjs);
+    })
+    ();  
+</script>

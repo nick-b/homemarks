@@ -1,0 +1,14 @@
+<% @changed_attribute = !@email.nil? ? 'email address' : 'login password' -%>
+
+Dear <%= @app_dotcom %> User,
+
+At your request, we have changed your HomeMarks <%= @changed_attribute %>. 
+If this was not at your request, then you should be aware that someone has access 
+to your account and requested this change. If so, please contact us using our 
+online support form:
+
+<%= @support_url %>
+
+ 
+ - Thanks,
+   <%= @app_dotcom %>

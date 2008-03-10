@@ -1,0 +1,16 @@
+
+<div id="boxid_<%= box.id %>" class="dragable_boxes" style="display:none;">
+<div id="boxid_<%= box.id %>_style" class="box <%= box.style %>">
+  <div id="boxid_<%= box.id %>_header" class="box_header clearfix">
+    <%= link_to_remote_for_box_actions(box,'up') %>
+    <span class="box_title"><span class="box_handle">&nbsp;</span><%= link_to_remote_for_box_title(box) %></span>
+  </div>
+  <div id="boxid_<%= box.id %>_line" class="line">&nbsp;</div>
+  <div id="boxid_<%= box.id %>_inside" class="inside">
+    <%= render :partial => 'box/controls', :locals => {:box => box} %>
+    <ul id="boxid_list_<%= box.id %>" class="sortablelist">
+      
+    </ul>
+  </div>
+</div>
+</div> <!-- #boxid_<%= box.id %> -->

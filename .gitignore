@@ -3,3 +3,6 @@ tmp/cache/*
 tmp/pids/*
 config/database.yml
 db/*.sqlite3
+config/uuid.state
+log/*
+public/javascripts/*_min.js

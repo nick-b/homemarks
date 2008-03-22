@@ -66,7 +66,7 @@ end
 # -------------------------------------------------------------------------------------------------------------------------
 
 ActionMailer::Base.delivery_method = :smtp
-ActionMailer::Base.server_settings = { 
+ActionMailer::Base.smtp_settings = { 
   :address => "mail.foobar.com", 
   :domain => "server.foobar.com",
   :authentication => :login, 
@@ -84,7 +84,7 @@ require 'cache_masters'
 # This is used to reset the demo user account. Sets a SKIPTHIS to bypass some other stuff.
 # -------------------------------------------------------------------------------------------------------------------------
 
-if ENV['SKIPTHIS'] == 'true'
+if RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
   require 'utilities/copy_user'
 end
 
@@ -93,7 +93,7 @@ end
 # UUID Generator Configuration
 # -------------------------------------------------------------------------------------------------------------------------
 
-unless ENV['SKIPTHIS'] == 'true'
+unless RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
   require 'UUID'
   UUID.setup
   UUID.config(:state_file => File.join(RAILS_ROOT, "config", "uuid.state"))
@@ -134,7 +134,7 @@ end
 # Setting up streamlined js files for use with the bookmarklet code.
 # -------------------------------------------------------------------------------------------------------------------------
 
-unless ENV['SKIPTHIS'] == 'true'
+unless RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
   require 'jsmin'
   JsMin.optimize('prototype.js')
   JsMin.optimize('effects.js')

@@ -90,7 +90,7 @@ class JsMin
         end
       end
       
-      puts %Q|jsmin: Created new "#{File.basename(@newfile.path)}" in the public/javascripts directory.|
+      RAILS_DEFAULT_LOGGER.debug %Q|jsmin: Created new "#{File.basename(@newfile.path)}" in the public/javascripts directory.|
       @file.close
       @newfile.close
       

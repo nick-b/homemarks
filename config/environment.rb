@@ -76,8 +76,6 @@ ActionMailer::Base.smtp_settings = {
 
 require 'auth_system'
 require 'cache_masters'
-# Homemarks overrides to rails core features, stored in /lib directory
-# require 'rails_overrides'
 
 
 # -------------------------------------------------------------------------------------------------------------------------
@@ -89,15 +87,6 @@ if RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
 end
 
 
-# -------------------------------------------------------------------------------------------------------------------------
-# UUID Generator Configuration
-# -------------------------------------------------------------------------------------------------------------------------
-
-unless RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
-  require 'UUID'
-  UUID.setup
-  UUID.config(:state_file => File.join(RAILS_ROOT, "config", "uuid.state"))
-end
 
 
 class HmConfig
@@ -127,18 +116,6 @@ class HmConfig
   def self.method_missing(method, *arguments)
     HmConfig.property[method.to_sym]
   end
-end
-
-
-# -------------------------------------------------------------------------------------------------------------------------
-# Setting up streamlined js files for use with the bookmarklet code.
-# -------------------------------------------------------------------------------------------------------------------------
-
-unless RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
-  require 'jsmin'
-  JsMin.optimize('prototype.js')
-  JsMin.optimize('effects.js')
-  JsMin.optimize('bookmarklet.js')  
 end
 
 

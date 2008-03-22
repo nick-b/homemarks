@@ -162,7 +162,11 @@ module UUID
   @@last_clock  = nil
   @@logger      = nil
   @@state_file  = nil
-
+  
+  
+  
+  
+  
 
   # Generates and returns a new UUID string.
   #
@@ -246,6 +250,14 @@ module UUID
       @@logger = options[:logger]
       next_sequence options
     end
+  end
+  
+  def self.state_file
+    @@state_file
+  end
+  
+  def self.state_file=(value)
+    @@state_file = value
   end
 
 
@@ -395,16 +407,6 @@ private
 end
 
 
-if defined?(ActiveRecord)
-  class ActiveRecord::Base
 
-    def self.uuid_primary_key
-      before_create { |record| record.id = UUID.new unless record.id }
-    end
 
-  end
-end
 
-if __FILE__ == $0
-  UUID.setup
-end

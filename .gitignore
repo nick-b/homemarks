@@ -1,3 +1,5 @@
 .DS_Store
 tmp/cache/*
 tmp/pids/*
+config/database.yml
+db/*.sqlite3

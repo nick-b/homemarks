@@ -47,3 +47,4 @@ Some Miscellaneous Notes:
     env RAILS_ENV=production /pathtoyourapp/current/script/runner DemoUser.reset
     
   * Comments welcome: ken@actionmoniker.com
+

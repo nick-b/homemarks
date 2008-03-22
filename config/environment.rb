@@ -66,14 +66,10 @@ ActionMailer::Base.server_settings = {
   :password => "" 
   }
 
-# For appliction controller actions for user login system
 require 'auth_system'
-
-# Homemarks overrides to rails core features, stored in /lib directory
-require 'rails_overrides'
-
-# A unified place to keep cache locations for views and conrollers to share info
 require 'cache_masters'
+# Homemarks overrides to rails core features, stored in /lib directory
+# require 'rails_overrides'
 
 
 # -------------------------------------------------------------------------------------------------------------------------
@@ -95,32 +91,6 @@ unless ENV['SKIPTHIS'] == 'true'
   UUID.config(:state_file => File.join(RAILS_ROOT, "config", "uuid.state"))
 end
 
-
-# -------------------------------------------------------------------------------------------------------------------------
-# Dynamic Session Expiration
-# -------------------------------------------------------------------------------------------------------------------------
-# http://blog.codahale.com/2006/04/08/dynamic-session-expiration-times-with-rails/
-# http://svn.codahale.com/dynamic_session_exp/trunk/
-
-require 'dynamic_session_expiry'
-CGI::Session.expire_after 1.month
-
-
-# -------------------------------------------------------------------------------------------------------------------------
-# Poor Mans Configuration Setings: thanks => http://lists.rubyonrails.org/pipermail/rails/2006-May/039160.html
-# -------------------------------------------------------------------------------------------------------------------------
-# This class uses the method_missing() metod to redirect the HmConfig class method as correct symbol in the 
-# @@property hash. We can also add this to our existing classes but we have to make sure to call a config as 
-# a method that does not conflict with any current method we have in that class, for example foo = foo()
-# 
-#   def self.method_missing(method, *arguments)
-#     HmConf.prop[method.to_sym]
-#   end
-# 
-# If not, correct inline usage would be:
-# 
-#   foo = HmConf.app[:foo]
-#   bar = HmConf.css[:bar]
 
 class HmConfig
   @@property = {

@@ -1,48 +1,7 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# Ken's Columns (user_id #1) (part-1)
-
-columns_001: 
-  id: "1"
-  user_id: "1"
-  position: "1"
-
-columns_002: 
-  id: "2"
-  user_id: "1"
-  position: "2"
-
-
-# Bob's Columns (user_id #2)
-
-columns_003: 
-  id: "3"
-  user_id: "2"
-  position: "1"
-
-columns_004: 
-  id: "4"
-  user_id: "2"
-  position: "2"
-
-columns_005: 
-  id: "5"
-  user_id: "2"
-  position: "3"
-
-columns_006: 
-  id: "6"
-  user_id: "2"
-  position: "4"
-
-
-# Ken's Columns (user_id #1) (part-2)
-
-columns_007: 
-  id: "7"
-  user_id: "1"
-  position: "3"
-
-columns_008: 
-  id: "8"
-  user_id: "1"
-  position: "4"
+# one:
+#   column: value
+#
+# two:
+#   column: value

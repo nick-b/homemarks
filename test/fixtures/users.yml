@@ -1,38 +1,7 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-users_001: 
-  salt: 0db07e668791f9eb747e4560633a095fc40ac57f
-  delete_after: 
-  updated_at: 2006-04-18 17:30:31
-  security_token: 15cf64e69055c42e7c59155e0728f390a14be9eb
-  role: 
-  lastname: Collins
-  firstname: Ken
-  id: "1"
-  deleted: "0"
-  token_expiry: 2006-04-18 16:41:17
-  verified: "1"
-  logged_in_at: 2006-04-18 17:30:31
-  salted_password: 2688bc9b25f28481043566241fff99878b3d93c9
-  login: ken
-  created_at: 2006-04-16 11:55:09
-  email: ken@metaskills.net
-  uuid: '129429286423486787924527455599499949803'
-
-users_002: 
-  salt: b82564070fd0f2edfa4e863ea99409546464f4cd
-  delete_after: 
-  updated_at: 2006-04-18 17:30:31
-  security_token: bc237d6683a1465f593a1d965b30051e95a5cd9b
-  role: 
-  lastname: Dobbs
-  firstname: Bob
-  id: "2"
-  deleted: "0"
-  token_expiry: 2006-04-18 16:41:17
-  verified: "1"
-  logged_in_at: 2006-04-18 17:30:31
-  salted_password: ca333d155747afc4dcbab384246728df45cf4f61
-  login: bob
-  created_at: 2006-04-16 11:55:09
-  email: hostmaster@actionmoniker.com
-  uuid: '129429286423486787924582455599499949803'
+# one:
+#   column: value
+#
+# two:
+#   column: value

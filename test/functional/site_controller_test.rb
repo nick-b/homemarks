@@ -1,18 +1,10 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'site_controller'
 
-# Re-raise errors caught by the controller.
-class SiteController; def rescue_action(e) raise e end; end
-
-class SiteControllerTest < Test::Unit::TestCase
-  def setup
-    @controller = SiteController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
-  # Replace this with your real tests.
+class SiteControllerTest < ActionController::TestCase
+  
   def test_truth
     assert true
   end
+  
+  
 end

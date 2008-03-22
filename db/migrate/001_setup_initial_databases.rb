@@ -1,21 +1,3 @@
-
-# create_table(name, options = {}) {|t| ...}
-# --------------------------------------------------------------------------------------------------------------
-#  :id           Set to true or false to add/not add a primary key column automatically. Defaults to true.
-#  :primary_key  The name of the primary key, if one is to be added automatically. Defaults to id.
-#  :options      Any extra options you want appended to the table definition.
-#  :temporary    Make a temporary table.
-#  :force        Set to true or false to drop the table before creating it. Defaults to false.
-# 
-# column(name, type, options = {})
-# --------------------------------------------------------------------------------------------------------------
-#  :primary_key, :string, :text, :integer, :float, :datetime, :timestamp, :time, :date, :binary, :boolean.
-# 
-#  :limit    Requests a maximum column length (:string, :text, :binary or :integer columns only)
-#  :default  The column’s default value. You cannot explicitely set the default value to NULL.
-#            Simply leave off this option if you want a NULL default value.
-#  :null     Allows or disallows NULL values in the column. This option could have been named :null_allowed.
-
 class SetupInitialDatabases < ActiveRecord::Migration
   def self.up
     

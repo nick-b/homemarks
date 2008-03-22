@@ -6,7 +6,7 @@ class Box < ActiveRecord::Base
     
   belongs_to    :column
   acts_as_list  :scope => :column_id
-  has_many      :bookmarks, :order => :position, :dependent => :delete_all
+  has_many      :bookmarks, :order => :position
   
   validates_inclusion_of  :style, :in => BOX_COLORS, :allow_nil => true, :if => Proc.new { |box| box.attribute_present? :style }
   validates_length_of     :title, :within => 0..64, :on => :save, :if => Proc.new { |box| box.attribute_present? :title }
@@ -15,8 +15,16 @@ class Box < ActiveRecord::Base
   
   attr_protected          :column_id, :position
   
+  before_destroy :delete_all_associations
   
   
+  
+  private
+  
+  # TODO: CASCADE DELETE: Verify Me.
+  def delete_all_associations
+    Bookmark.delete_all :box_id => id
+  end
   
   
 end

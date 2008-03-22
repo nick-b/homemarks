@@ -24,7 +24,6 @@ module Rails
       File.exist?("#{RAILS_ROOT}/vendor/rails")
     end
 
-    # FIXME : Ruby 1.9
     def preinitialize
       load(preinitializer_path) if File.exists?(preinitializer_path)
     end

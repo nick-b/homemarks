@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   after_validation            :crypt_password
   after_validation_on_create  :create_uuid, :create_standard_boxes
   after_save                  :falsify_new_password
+  before_destroy              :delete_all_associations
   
   
   def initialize(attributes = nil)
@@ -132,6 +133,16 @@ class User < ActiveRecord::Base
   
   def validate_password?
     @new_password
+  end
+  
+  
+  private
+  
+  # TODO: CASCADE DELETE: Verify Me.
+  def delete_all_associations
+    inbox.destroy
+    trashbox.destroy
+    columns(true).each(&:destroy)
   end
   
   

@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::Base
   
+  layout 'application'
+  protect_from_forgery # :secret => 'a9be993c84c9e7e62872dc24a48c0a43'
+  
   before_filter :login_required, :find_user_object
-  layout  'application'
+  
   
   
   protected
@@ -9,15 +12,13 @@ class ApplicationController < ActionController::Base
   include AuthSystem::ControllerMethods
   include CacheMasters::ControllerMethods
   
-  def rescue_action(flash_msg, userobj, paramsid='no_params')
-    ctl_name = controller_name.camelize
-    act_name = action_name
-    ip = request.env["REMOTE_ADDR"]
-    uri = request.env["REQUEST_URI"]
-    logger.error("ERROR: #{ctl_name}Controller##{act_name} - failure where parmas id (#{paramsid.inspect}) for user id (#{userobj.nil? ? 'none_from_bookmarklet' : userobj.id}) using (#{uri}) from (#{ip}).")
-    unless (ctl_name=='Bookmarklet')
-      flash[:bad] = "#{flash_msg}"
-      render(:update) {|page| page.redirect_to(myhome_url)}
+  def rescue_action_in_public(exception)
+    unless controller_name == 'bookmarklet'
+      flash[:bad] = "Sorry, unknown error."
+      respond_to do |format|
+        format.html { redirect_to myhome_url }
+        format.js   { render(:update) {|page| page.redirect_to(myhome_url)} }
+      end
     end
   end
   

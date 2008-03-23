@@ -23,8 +23,6 @@ class BookmarkController < ApplicationController
       page.hide :modal_progress
       page.visual_effect :slide_down, 'modal_html_rel-wrapper', :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"}
     end
-  rescue
-    rescue_action('Edit bookmarks failed.', @user, params)
   end
   
   def save_links    
@@ -44,8 +42,6 @@ class BookmarkController < ApplicationController
       page.visual_effect :pulsate, "boxid_list_#{@box.id}", :duration => 1.0, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"}
       page.<< "Event.observe(document, 'keypress', actionAreaHelper);"
     end
-  rescue
-    rescue_action('Save bookmarks failed.', @user, params)
   end
   
   
@@ -72,8 +68,6 @@ class BookmarkController < ApplicationController
       page.update_new_trashboxmark_ui_elements_and_message if @trashbox_sort
       page.make_msg('good','Bookmarks sorted.') if !@trashbox_sort
     end
-  rescue
-    rescue_action('Bookmark sort failed.', @user, params)
   end
   
   
@@ -97,8 +91,6 @@ class BookmarkController < ApplicationController
         page.update_new_trashboxmark_ui_elements_and_message
       end
     end
-  rescue
-    rescue_action('Trash bookmark failed.', @user, params)
   end
   
   

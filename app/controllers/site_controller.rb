@@ -1,12 +1,13 @@
 class SiteController < ApplicationController
   
   layout 'site'
+  
   skip_before_filter :login_required, :find_user_object
-  verify :method => :post, :only => [:request_support], :redirect_to => :index_url
   before_filter :setup_site_instance_vars, :only => [ :index, :help, :issues ]
   
+  
   def index
-    @demojumpurl = jumpin_url(:user_id => HmConfig.demo[:id], :token => HmConfig.demo[:token], :redirect => 'myhome')
+    # @demojumpurl = jumpin_url(:user_id => HmConfig.demo[:id], :token => HmConfig.demo[:token], :redirect => 'myhome')
   end
   
   def help

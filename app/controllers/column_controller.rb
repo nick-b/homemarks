@@ -15,16 +15,12 @@ class ColumnController < ApplicationController
       page.create_column_sortable
       page.make_msg('good','Column created.')
     end
-  rescue
-    rescue_action('New column failed.', @user)
   end
   
   def sort
     @column = @user.columns.find(params[:col_id])
     Column.transaction { @column.insert_at(params[:col_position]) }
     render(:update) { |page| page.make_msg('good','Columns sorted.') }
-  rescue
-    rescue_action('Column sort failed.', @user, params[:col_wrapper].inspect)
   end
   
   def destroy
@@ -35,8 +31,6 @@ class ColumnController < ApplicationController
       page.delay(1) { page["col_#{@column.id}"].remove }
       page.make_msg('good','Column was deleted.')
     end
-  rescue
-    rescue_action('Column delete failed.', @user, params[:id])
   end
   
   

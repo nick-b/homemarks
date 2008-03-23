@@ -37,10 +37,10 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_homemarks_session',
+    :session_key => '_myhomemarks_session',
     :secret      => '69385742936eae182b454ab0a7a72a5f79386f2f67d67ee19596ba3e85a2d36baf06d531b2448c145b21bae3bd72d868073ef7c6ef65b3bb85a13f18e7827de9'
   }
-
+  
   # Use the database for sessions instead of the cookie-based default,
   # which shouldn't be used to store highly confidential information
   # (create the session table with 'rake db:sessions:create')

@@ -62,7 +62,6 @@ class BookmarkletController < ApplicationController
     if @user.blank?
       divid = case params[:action] ; when 'setup' : 'loadinghomemarks' ; when 'save' : 'savehomemarks_form_wrapper' ; when 'nonhtml' : '' ; end
       message = case params[:action] ; when 'setup' : 'Make bookmark modal failed.' ; when 'save' : 'Save bookmark failed.' ; when 'nonhtml' : 'Make non-HTML bookmark failed.' ; end
-      rescue_action(message, @user, params)
       return redirect_to(request.referer) if (params[:action]=='nonhtml')
       render :update do |page|
         page.replace_html divid, 'ERROR: Refreshing Page Now!'

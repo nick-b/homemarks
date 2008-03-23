@@ -97,8 +97,6 @@ class UserController < ApplicationController
         end
       end
     end
-  rescue
-    rescue_action('Change password failed.', @user, params)
   end
 
   def edit
@@ -115,8 +113,6 @@ class UserController < ApplicationController
         end
       end
     end
-  rescue
-    rescue_action('Account update failed.', @user, params)
   end
   
   def delete

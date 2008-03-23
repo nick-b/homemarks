@@ -2,6 +2,9 @@
 NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
 -------------------------------------------
 
+* Add exception notification or alias rescue_action_in_public
+
+
 
 Copyright (c) 2007 Action Moniker LLC., http://www.actionmoniker.com/
 

@@ -18,8 +18,6 @@ class BoxController < ApplicationController
       page.blind_new_box(@box)
       page.make_msg('good','Box successfully created.')
     end
-  rescue
-    rescue_action('Box creation failed.', @user, params[:id])
   end
   
   def destroy
@@ -31,8 +29,6 @@ class BoxController < ApplicationController
       page.delay(1) { page[@boxdiv].remove }
       page.make_msg('good','Box successfully deleted.')
     end
-  rescue
-    rescue_action('Box delete failed.', @user, params[:id])
   end
   
   
@@ -48,8 +44,6 @@ class BoxController < ApplicationController
       page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'up')
       page.make_msg('good','Box actions displayed.')
     end
-  rescue
-    rescue_action('Box actions failed.', @user, params[:id])
   end
   
   def actions_up
@@ -60,8 +54,6 @@ class BoxController < ApplicationController
       page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
       page.make_msg('good','Box actions hidden.')
     end
-  rescue
-    rescue_action('Box actions failed.', @user, params[:id])
   end
   
   
@@ -85,8 +77,6 @@ class BoxController < ApplicationController
       end
     end
     @box.save!
-  rescue
-    rescue_action('Box collapse failed.', @user, params[:id])
   end
   
   
@@ -95,8 +85,6 @@ class BoxController < ApplicationController
     @box.style = params[:color]
     @box.save!
     render :nothing => true
-  rescue
-    rescue_action('Box color change failed.', @user, params[:id])
   end
   
   
@@ -105,8 +93,6 @@ class BoxController < ApplicationController
     @box.title = params[:title]
     @box.save!
     render :text => h(@box.title)
-  rescue
-    rescue_action('Box title change failed.', @user, params[:id])
   end
   
   
@@ -118,8 +104,6 @@ class BoxController < ApplicationController
       @box.insert_at_new_scope_and_position(@column.id, params[:box_position]) if !internal_sort?
     end
     render(:update) { |page| page.make_msg('good','Boxes successfully sorted.') }
-  rescue
-    rescue_action('Box sorting failed.', @user, params)
   end
   
   

@@ -1,13 +1,16 @@
 
 class JsMin
   
-  # jsmin.rb 2006-03-21
+  # jsmin.rb 2007-07-20
   # Author: Uladzislau Latynski
   # This work is a translation from C to Ruby of jsmin.c published by
   # Douglas Crockford.  Permission is hereby granted to use the Ruby
   # version under the same conditions as the jsmin.c on which it is
   # based.
-  # 
+  #
+  # /* jsmin.c
+  #    2003-04-21
+  #
   # Copyright (c) 2002 Douglas Crockford  (www.crockford.com)
   #
   # Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,9 +22,9 @@ class JsMin
   #
   # The above copyright notice and this permission notice shall be included in all
   # copies or substantial portions of the Software.
-  # 
+  #
   # The Software shall be used for Good, not Evil.
-  # 
+  #
   # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,10 +32,11 @@ class JsMin
   # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   # SOFTWARE.
-  
+
   EOF = -1
   $theA = ""
   $theB = ""
+  
   
   class << self
     
@@ -43,51 +47,50 @@ class JsMin
       
       $theA = "\n"
       action(3)
-      
       while ($theA != EOF)
-        case $theA
-        when " "
-          if (isAlphanum($theB))
-            action(1)
-          else
-            action(2)
-          end
-        when "\n"
-          case ($theB)
-          when "{","[","(","+","-"
-            action(1)
+          case $theA
           when " "
-            action(3)
-          else
-            if (isAlphanum($theB))
-              action(1)
-            else
-              action(2)
-            end
-          end
-        else
-          case ($theB)
-          when " "
-            if (isAlphanum($theA))
-              action(1)
-            else
-              action(3)
-            end
-          when "\n"
-            case ($theA)
-            when "}","]",")","+","-","\"","\\"
-              action(1)
-            else
-              if (isAlphanum($theA))
-                action(1)
+              if (isAlphanum($theB))
+                  action(1)
               else
-                action(3)
+                  action(2)
               end
-            end
+          when "\n"
+              case ($theB)
+              when "{","[","(","+","-"
+                  action(1)
+              when " "
+                  action(3)
+              else
+                  if (isAlphanum($theB))
+                      action(1)
+                  else
+                      action(2)
+                  end
+              end
           else
-            action(1)
+              case ($theB)
+              when " "
+                  if (isAlphanum($theA))
+                      action(1)
+                  else
+                      action(3)
+                  end
+              when "\n"
+                  case ($theA)
+                  when "}","]",")","+","-","\"","\\", "'", '"'
+                      action(1)
+                  else
+                      if (isAlphanum($theA))
+                          action(1)
+                      else
+                          action(3)
+                      end
+                  end
+              else
+                  action(1)
+              end
           end
-        end
       end
       
       RAILS_DEFAULT_LOGGER.debug %Q|jsmin: Created new "#{File.basename(@newfile.path)}" in the public/javascripts directory.|
@@ -96,56 +99,58 @@ class JsMin
       
     end
 
-
+    
     def action(a)
-
-      if (a==1)
-        @newfile.write $theA
-      end
-      
-      if (a==1 || a==2)
-        $theA = $theB
-        if ($theA == "\'" || $theA == "\"")
-          while (true)
+        if(a==1)
             @newfile.write $theA
-            $theA = get
-            break if ($theA == $theB)
-            raise "Unterminated string literal" if ($theA <= "\n")
-            if ($theA == "\\")
-              @newfile.write $theA
-              $theA = get
-            end
-          end
         end
-      end
-
-      if (a==1 || a==2 || a==3)
-        $theB = mynext
-        if ($theB == "/" && ($theA == "(" || $theA == "," || $theA == "="))
-          @newfile.write $theA
-          @newfile.write $theB
-          while (true)
-            $theA = get
-            if ($theA == "/")
-              break
-            elsif ($theA == "\\")
-              @newfile.write $theA
-              $theA = get
-            elsif ($theA <= "\n")
-              raise "Unterminated RegExp Literal"
+        if(a==1 || a==2)
+            $theA = $theB
+            if ($theA == "\'" || $theA == "\"")
+                while (true)
+                    @newfile.write $theA
+                    $theA = get
+                    break if ($theA == $theB)
+                    raise "Unterminated string literal" if ($theA <= "\n")
+                    if ($theA == "\\")
+                        @newfile.write $theA
+                        $theA = get
+                    end
+                end
             end
-            @newfile.write $theA
-          end
-          $theB = mynext
         end
-      end
-
+        if(a==1 || a==2 || a==3)
+            $theB = mynext
+            if ($theB == "/" && ($theA == "(" || $theA == "," || $theA == "=" ||
+                                 $theA == ":" || $theA == "[" || $theA == "!" ||
+                                 $theA == "&" || $theA == "|" || $theA == "?" ||
+                                 $theA == "{" || $theA == "}" || $theA == ";" ||
+                                 $theA == "\n"))
+                @newfile.write $theA
+                @newfile.write $theB
+                while (true)
+                    $theA = get
+                    if ($theA == "/")
+                        break
+                    elsif ($theA == "\\")
+                        @newfile.write $theA
+                        $theA = get
+                    elsif ($theA <= "\n")
+                        raise "Unterminated RegExp Literal"
+                    end
+                    @newfile.write $theA
+                end
+                $theB = mynext
+            end
+        end
     end
 
 
     def isAlphanum(c)
-      return false if !c || c == EOF
-      return ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || c == '_' || c == '$' || c == '\\' || c[0] > 126)
+       return false if !c || c == EOF
+       return ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') ||
+               (c >= 'A' && c <= 'Z') || c == '_' || c == '$' ||
+               c == '\\' || c[0] > 126)
     end
 
 
@@ -160,41 +165,39 @@ class JsMin
 
 
     def peek
-      lookaheadChar = @file.getc
-      @file.ungetc(lookaheadChar)
-      return lookaheadChar.chr
+        lookaheadChar = @file.getc
+        @file.ungetc(lookaheadChar)
+        return lookaheadChar.chr
     end
 
-
-    def mynext
-      c = get
-
-      if (c == "/")
-        if(peek == "/")
-          while(true)
-            c = get
-            if (c <= "\n")
-              return c
+    
+    def mynext()
+        c = get
+        if (c == "/")
+            if(peek == "/")
+                while(true)
+                    c = get
+                    if (c <= "\n")
+                    return c
+                    end
+                end
             end
-          end
-        end
-        if (peek == "*")
-          get
-          while(true)
-            case get
-            when "*"
-              if (peek == "/")
+            if(peek == "*")
                 get
-                return " "
-              end
-            when EOF
-              raise "Unterminated comment"
+                while(true)
+                    case get
+                    when "*"
+                       if (peek == "/")
+                            get
+                            return " "
+                        end
+                    when EOF
+                        raise "Unterminated comment"
+                    end
+                end
             end
-          end
         end
-      end
-
-      return c
+        return c
     end
     
     

@@ -2,7 +2,8 @@
 NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
 -------------------------------------------
 
-* Add exception notification or alias rescue_action_in_public
+* 
+* Create a bootstrap rake task that asks for a username/pass and sets up initial data.
 
 
 

@@ -3,7 +3,6 @@ class UserController < ApplicationController
   skip_before_filter :login_required, :only => [ :forgot_password, :login, :signup ]
   before_filter :control_demo_user, :only => [ :forgot_password, :change_password, :edit, :delete, :restore_deleted ]
   before_filter :nil_demo_account, :only => [ :signup, :login ]
-  layout 'site'
   
   
   def index

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   
-  layout 'application'
+  layout :site_or_application
   protect_from_forgery # :secret => 'a9be993c84c9e7e62872dc24a48c0a43'
   
   before_filter :login_required, :find_user_object
@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
   
   include AuthSystem::ControllerMethods
   include CacheMasters::ControllerMethods
+  
+  def site_or_application
+    controller_name =~ /^site|user$/ ? 'site' : 'application'
+  end
   
   def rescue_action_in_public(exception)
     unless controller_name == 'bookmarklet'

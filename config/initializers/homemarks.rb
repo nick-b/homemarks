@@ -1,9 +1,9 @@
 
 # Setting up the UUID state file and logger:
 # -----------------------------------------------------------------------
-UUID.state_file = File.join(RAILS_ROOT, "config", "uuid.state")
+UUID.state_file = File.join(RAILS_ROOT, "tmp", "uuid.state")
 UUID.setup unless File.exists?(UUID.state_file)
-UUID.config :logger => RAILS_DEFAULT_LOGGER
+UUID.config :state_file => UUID.state_file, :logger => RAILS_DEFAULT_LOGGER
 
 
 # Setting up streamlined js files for use with the bookmarklet code.

@@ -1,8 +1,8 @@
 .DS_Store
 tmp/cache/*
 tmp/pids/*
+tmp/uuid.state
 config/database.yml
 db/*.sqlite3
-config/uuid.state
 log/*
 public/javascripts/*_min.js

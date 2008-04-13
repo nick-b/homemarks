@@ -117,9 +117,6 @@ module UUID
 
     PACKAGE = "uuid"
 
-    # Default state file.
-    STATE_FILE = "uuid.state"
-
     # Clock multiplier. Converts Time (resolution: seconds) to UUID clock (resolution: 10ns)
     CLOCK_MULTIPLIER = 10000000 #:nodoc:
 
@@ -161,7 +158,7 @@ module UUID
   @@mutex       = Mutex.new
   @@last_clock  = nil
   @@logger      = nil
-  @@state_file  = nil
+  @@state_file  = File.expand_path(File.dirname(__FILE__)+'/../tmp/uuid.state')
   
   
   
@@ -265,11 +262,8 @@ module UUID
   # Works for UNIX (ifconfig) and Windows (ipconfig). Creates the uuid.state file in the
   # installation directory (typically the GEM's lib).
   def self.setup
-    file = File.expand_path(File.dirname(__FILE__))
-    file = File.basename(file) == 'lib' ? file = File.join(file, '../config', STATE_FILE) : file = File.join(file, STATE_FILE)
-    file = File.expand_path(file)
-    if File.exist? file
-      puts "#{PACKAGE}: Found an existing UUID state file: #{file}"
+    if File.exist? state_file
+      puts "#{PACKAGE}: Found an existing UUID state file: #{state_file}"
     else
       puts "#{PACKAGE}: No UUID state file found, attempting to create one for you:"
       # Run ifconfig for UNIX, or ipconfig for Windows.
@@ -289,14 +283,14 @@ module UUID
         puts "Found the following IEEE 802 NIC MAC addresses on your computer:"
         addresses.each { |addr| puts "  #{addr}" }
         puts "Selecting the first address #{addresses[0]} for use in your UUID state file."
-        File.open file, "w" do |output|
+        File.open state_file, "w" do |output|
           output.puts "mac_addr: #{addresses[0]}"
           output.puts format("sequence: \"0x%04x\"", rand(0x10000))
         end
-        puts "Created a new UUID state file: #{file}"
+        puts "Created a new UUID state file: #{state_file}"
       end
     end
-    file
+    state_file
   end
 
 
@@ -310,20 +304,7 @@ private
 
 
     def self.next_sequence config = nil
-      # If called to advance the sequence number (config is nil), we have a state file that we're able to use.
-      # If called from configuration, use the specified or default state file.
-      state_file = (config && config[:state_file]) || @@state_file
-
-      unless state_file
-        if File.exist?(STATE_FILE)
-          state_file = STATE_FILE
-        else
-          file = File.expand_path(File.dirname(__FILE__))
-          file = File.basename(file) == 'lib' ? file = File.join(file, '..', STATE_FILE) : file = File.join(file, STATE_FILE)
-          file = File.expand_path(file)
-          state_file = File.exist?(file) ? file : setup
-        end
-      end
+      setup unless state_file
       begin
         File.open state_file, "r+" do |file|
           # Lock the file for exclusive access, just to make sure it's not being read while we're
@@ -363,7 +344,7 @@ private
       rescue Errno::ENOENT=>error
         if !config
           # Generate random values.
-          @@mac_hex, @@sequence, @@state_file = rand(0x800000000000) | 0xF00000000000, rand(0x10000), nil
+          @@mac_hex, @@sequence, @@state_file = rand(0x800000000000) | 0xF00000000000, rand(0x10000), state_file
           # Initialized.
           if @@logger
             @@logger.error ERROR_INITIALIZED_RANDOM_1

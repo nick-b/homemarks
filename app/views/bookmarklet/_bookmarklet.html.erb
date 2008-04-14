@@ -46,15 +46,15 @@ javascript:
     a(f);
     pjs=d.createElement('script');
     pjs.type='text/javascript';
-    pjs.src='<%= HmConfig.app[:url] %><%= HmConfig.js[:prototype] %>';
+    pjs.src='<%= HmConfig.app[:url] %>/javascripts/prototype_min.js';
     a(pjs);
     ejs=d.createElement('script');
     ejs.type='text/javascript';
-    ejs.src='<%= HmConfig.app[:url] %><%= HmConfig.js[:effects] %>';
+    ejs.src='<%= HmConfig.app[:url] %>/javascripts/effects_min.js';
     a(ejs);
     appjs=d.createElement('script');
     appjs.type='text/javascript';
-    appjs.src='<%= HmConfig.app[:url] %><%= HmConfig.js[:app] %>';
+    appjs.src='<%= HmConfig.app[:url] %>/javascripts/bookmarklet_min.js';
     a(appjs);
     rjs=d.createElement('script');
     rjs.type='text/javascript';

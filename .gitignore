@@ -6,3 +6,4 @@ config/database.yml
 db/*.sqlite3
 log/*
 public/javascripts/*_min.js
+vendor/rails

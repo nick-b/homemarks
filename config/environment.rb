@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
+# RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -53,9 +53,10 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-
-  # Make Active Record use UTC-base instead of local time
-  # config.active_record.default_timezone = :utc
+  
+  config.active_record.default_timezone = :utc
+  config.time_zone = 'UTC'
+  
 end
 
 
@@ -85,40 +86,5 @@ require 'cache_masters'
 if RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
   require 'utilities/copy_user'
 end
-
-
-
-
-class HmConfig
-  @@property = {
-    :app => {
-      :salt                 => 'ase282193kkwdsfdsfjASDfe829234348',
-      :email_from           => '',
-      :admin_email          => '',
-      :url                  => '',
-      :name                 => 'HomeMarks',
-      :dotcom               => 'HomeMarks.com',
-      :token_life           => 1.day,
-      :delayed_delete_days  => 3
-      },
-    :js => {
-      :prototype            => 'javascripts/prototype_min.js',
-      :effects              => 'javascripts/effects_min.js',
-      :app                  => 'javascripts/bookmarklet_min.js'
-      },
-    :demo => {
-      :id                   => '',
-      :email                => '',
-      :token                => ''
-      }
-    }
-  cattr_accessor :property
-  def self.method_missing(method, *arguments)
-    HmConfig.property[method.to_sym]
-  end
-end
-
-
-
 
 

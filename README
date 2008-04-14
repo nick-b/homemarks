@@ -4,6 +4,7 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
 
 * 
 * Create a bootstrap rake task that asks for a username/pass and sets up initial data.
+* Always make sure JS is latest.
 
 
 
@@ -34,7 +35,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 Some Miscellaneous Notes:
 ------------------------------------------------------------------
 
-  * As far as I know, the homemarks app requires rails v1.2.1
+  * Requires Rails 2.1
+  * Uses JavaScript Libraries
+    - Prototype 1.6.0.1
+    - Scriptaculous 1.8.1
+  * Plugins Installed (for testing)
+    - Shoulda => https://svn.thoughtbot.com/plugins/shoulda/tags/rel-4.0.1/
+  
   
   * There is a configuration class in environment.rb. It is used 
     alot throughout the app. Some things may beed to be set there 

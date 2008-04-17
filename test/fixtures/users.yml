@@ -1,7 +1,11 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+bob:
+  id: 1
+  email: "bob@test.com"
+  salt: b375b3c9e943845e15071296cde5daf3a2948cc9
+  crypted_password: 18691b68a1d643de961fd49c3b14b04d738d613f # test
+  uuid: 4abe4b50ed75012abfde001b631d2f2a
+  security_token: 2d73aacb4a4607e6c7a3f818935aba8ab3ff2411
+  verified: true
+  created_at: <%= 5.days.ago.to_s :db %>
+

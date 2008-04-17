@@ -4,7 +4,7 @@ class ActionAreaController < ApplicationController
   
   
   def inbox
-    @inbox = @user.inbox_with_bookmarks if !user_inbox_cache?
+    @inbox = @user.inbox if !user_inbox_cache?
     render :update do |page|
       page.replace_html :inbox_list, :partial => 'action_area/inbox_list'
       page.complete_action_area('inbox_list')
@@ -12,7 +12,7 @@ class ActionAreaController < ApplicationController
   end
   
   def trashbox
-    @trashbox = @user.trashbox_with_bookmarks if !user_trashbox_cache?
+    @trashbox = @user.trashbox if !user_trashbox_cache?
     render :update do |page|
       page.replace_html :trashbox_list, :partial => 'action_area/trashbox_list'
       page.complete_action_area('trashbox_list')

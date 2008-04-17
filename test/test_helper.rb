@@ -4,12 +4,15 @@ require 'test_help'
 
 class Test::Unit::TestCase
   
+  include AuthenticatedTestHelper
+  
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
   
   self.new_backtrace_silencer(:shoulda) { |line| line.include? 'vendor/plugins/shoulda' }
   self.new_backtrace_silencer(:mocha) { |line| line.include? 'vendor/plugins/mocha' }
-  self.backtrace_silencers << :shoulda << :mocha
+  self.new_backtrace_silencer(:vendor_rails) { |line| line.include? 'vendor/rails' }
+  self.backtrace_silencers << :shoulda << :mocha << :vendor_rails
   
   fixtures :all
   

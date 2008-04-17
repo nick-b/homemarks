@@ -10,6 +10,7 @@ class SetupInitialDatabases < ActiveRecord::Migration
       t.datetime :token_expiry
       t.datetime :logged_in_at
       t.integer  :verified,                      :default => 0
+      t.integer  :deleted,                       :default => 0
       t.datetime :delete_after
       t.string   :uuid,            :limit => 32,                 :null => false
       t.timestamps

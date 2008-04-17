@@ -5,7 +5,6 @@ class HmConfig
   JSMIN_TARGETS = ['prototype','effects','bookmarklet']
   @@property = {
     :app => {
-      :salt                 => 'ase282193kkwdsfdsfjASDfe829234348',
       :email_from           => '',
       :admin_email          => '',
       :url                  => 'homemarks.com',  # Need request.host

@@ -34,22 +34,19 @@ class UserController < ApplicationController
       @user = User.new 
     end
     if request.post?
-      if User.email_exists(params[:user][:email])
+      if User.email_exists?(params[:user][:email])
         render(:update) {|page| page.redirect_to(forgot_password_url(:email => params[:user][:email]))}
-      elsif email_empty_or_not_valid? or passwords_empty? or !passwords_match? or password_toshort?
-        render(:update) {|page| page.complete_ajax_form('bad','signup_form')}
       else
-        @user = User.new(params[:user])
-        User.transaction do
-          token = @user.generate_security_token ; @user.save
-          UserNotify.deliver_signup(@user, jumpin_url(:user_id => @user.id, :token => token, :redirect => 'myhome'), issues_form_url)
-          flash[:signup] = %(Thank your for signing up for your own HomeMarks page. ) +
-                           %(An email has been sent to your <span class="site_blue">#{@user.email}</span> address along with a link to activate your account. ) +
-                           %(If you have not done so already, please take a moment to read the HomeMarks documentation.)
-          render(:update) {|page| page.redirect_to(help_url)}
-        end
+        @user = User.create!(params[:user])
+        UserNotify.deliver_signup(@user, jumpin_url(:user_id => @user.id, :token => @user.security_token, :redirect => 'myhome'), issues_form_url)
+        flash[:signup] = %(Thank your for signing up for your own HomeMarks page. ) +
+                         %(An email has been sent to your <span class="site_blue">#{@user.email}</span> address along with a link to activate your account. ) +
+                         %(If you have not done so already, please take a moment to read the HomeMarks documentation.)
+        render(:update) {|page| page.redirect_to(help_url)}
       end
     end
+  rescue ActiveRecord::RecordInvalid
+    render(:update) {|page| page.complete_ajax_form('bad','signup_form')}
   end
   
   def jumpin
@@ -68,64 +65,47 @@ class UserController < ApplicationController
   def forgot_password
     return redirect_to(myaccount_url) if user?
     if request.post?
-      if email_empty? or (user = User.find_by_email(params[:user][:email])).nil?
-        render(:update) {|page| page.complete_forgotpw_form('bad')}
+      unless @user = User.find_by_email(params[:user][:email])
+        render(:update) { |page| page.complete_forgotpw_form('bad') }
       else
-        User.transaction do
-          token = user.generate_security_token(true)
-          UserNotify.deliver_forgot_password(user, jumpin_url(:user_id => user.id, :token => token, :redirect => 'myaccount'), issues_form_url)
-        end
-        render(:update) {|page| page.complete_forgotpw_form('good')}
+        @user.generate_security_token!
+        UserNotify.deliver_forgot_password(@user, jumpin_url(:user_id => user.id, :token => @user.security_token, :redirect => 'myaccount'), issues_form_url)
+        render(:update) { |page| page.complete_forgotpw_form('good') }
       end
     end
-  rescue
-    render(:update) {|page| page.complete_forgotpw_form('bad')}
   end
   
   def change_password
     redirect_to myaccount_url if request.get?
     if request.post?
-      if passwords_empty? or !passwords_match?
-        render(:update) {|page| page.complete_ajax_form('bad','mypassword_form','mypassword_loading')}
-      else
-        User.transaction do
-          @user.change_password(params[:user][:password], params[:user][:password_confirmation])
-          send_account_changed_notification(@user)
-          flash[:good] = 'Password changed.'
-          render(:update) {|page| page.redirect_to(myhome_url)}
-        end
-      end
+      @user.update_attributes! = params[:user]
+      send_account_changed_notification(@user)
+      flash[:good] = 'Password changed.'
+      render(:update) {|page| page.redirect_to(myhome_url)}
     end
+  rescue ActiveRecord::RecordInvalid
+    render(:update) {|page| page.complete_ajax_form('bad','mypassword_form','mypassword_loading')}
   end
 
   def edit
     if request.post?
-      if email_empty? or !email_valid?
-        render(:update) {|page| page.complete_ajax_form('bad','myemail_form','myemail_loading')}
-      else
-        User.transaction do
-          send_account_changed_notification(@user, @user.email)
-          send_account_changed_notification(@user, params[:user][:email])
-          @user.email = params[:user][:email] ; @user.save!
-          flash[:good] = 'Email address updated.'
-          render(:update) {|page| page.redirect_to(myhome_url)}
-        end
-      end
+      send_account_changed_notification(@user, @user.email)
+      send_account_changed_notification(@user, params[:user][:email])
+      @user.email = params[:user][:email] ; @user.save!
+      flash[:good] = 'Email address updated.'
+      render(:update) {|page| page.redirect_to(myhome_url)}
     end
+  rescue ActiveRecord::RecordInvalid
+    render(:update) {|page| page.complete_ajax_form('bad','myemail_form','myemail_loading')}
   end
   
   def delete
     redirect_to index_url if request.get?
     if request.post?
-      User.transaction do
-        token = @user.set_delete_after
-        UserNotify.deliver_pending_delete(@user, recover_url(:user_id => @user.id, :token => token), issues_form_url)
-      end
+      token = @user.delete!
+      UserNotify.deliver_pending_delete(@user, recover_url(:user_id => @user.id, :token => token), issues_form_url)
       logout
     end
-  rescue
-    flash[:bad] = "Something bad happened"
-    redirect_to myhome_url
   end
   
   def restore_deleted
@@ -145,48 +125,15 @@ class UserController < ApplicationController
     UserNotify.deliver_change_account(user, issues_form_url, email)
   end
   
+  # FIXME: Put in some admin namespace
   def destroy(user)
     UserNotify.deliver_delete(user, issues_form_url)
     flash[:good] = "The account for #{user['login']} was successfully deleted."
     user.destroy()
   end
   
-  def email_empty?
-    return true if params[:user][:email].empty?
-    return false
-  end
-  
   def email_demo?
     params[:user][:email] == HmConfig.demo[:email]
-  end
-
-  def email_valid?
-    if (params[:user][:email] =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
-      return true if !User.email_exists(params[:user][:email])
-    end
-    return false
-  end
-  
-  def email_empty_or_not_valid?
-    return true if email_empty?
-    return true if !email_valid?
-    return false
-  end
-  
-  def passwords_empty?
-    return true if params[:user][:password].empty?
-    return true if params[:user][:password_confirmation].empty?
-    return false
-  end
-  
-  def passwords_match?
-    return true if (params[:user][:password] == params[:user][:password_confirmation])
-    return false
-  end
-  
-  def password_toshort?
-    return true if (params[:user][:password].length < 5)
-    return false
   end
   
   

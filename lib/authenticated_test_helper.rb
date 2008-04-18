@@ -9,14 +9,11 @@ module AuthenticatedTestHelper
       ActionController::HttpAuthentication::Basic.encode_credentials(users(user).email,password) : nil
   end
   
-  def create_user(attributes={})
-    returning user = User.new do
-      user.email    = 'user@test.com'
-      user.password = 'test'
-      user.password_confirmation = 'test'
-      user.attributes = attributes
-      user.save
-    end
+  def create_user(overrides={})
+    attributes = {:email => 'user@test.com', :password => 'test', :password_confirmation => 'test'}
+    attributes.merge!(overrides)
+    User.create(attributes)
   end
+  
   
 end

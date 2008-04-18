@@ -2,11 +2,14 @@
 NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
 -------------------------------------------
 
-* 
+* New features to stuff in
+  http://weblog.rubyonrails.org/2008/4/1/a-taste-of-what-s-coming-in-rails-2-1
+  http://mad.ly/2008/04/09/rails-21-time-zone-support-an-overview/
 * Create a bootstrap rake task that asks for a username/pass and sets up initial data.
 * Always make sure JS is latest.
 * Bootstrap task
   - Update secret forgery stuff
+
 
 
 

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < ActiveSupport::TestCase
-
+  
 
   context 'While testing helpers' do
 
@@ -14,16 +14,79 @@ class UserTest < ActiveSupport::TestCase
 
   end
   
-  context 'While white box testing User model' do
-
-    should 'description' do
-      
+  context 'While creating a user with VALID attributes' do
+    
+    setup do
+      @user = create_user
+    end
+    
+    should 'have an standard boxes created' do
+      assert_instance_of Inbox, @user.inbox
+      assert_instance_of Trashbox, @user.trashbox
+    end
+    
+    should 'have a security token and expiry set 1 day from now' do
+      delta = 1.day.from_now.to_i - @user.token_expiry.to_i
+      assert delta < 10 , "Delta in user token_expiry is #{delta}"
+      assert_equal 40, @user.security_token.length
+    end
+    
+    should 'have a salt and crypted_password attribute' do
+      assert_equal 40, @user.salt.length
+      assert_equal 40, @user.crypted_password.length
+    end
+    
+    should 'have a UUID set' do
+      assert_equal 32, @user.uuid.length
     end
     
   end
   
+  context 'While creating a user with INVALID attributes' do
+
+    should 'require a valid email' do
+      user = create_user :email => 'foo.com'
+      assert_match 'invalid', user.errors.on(:email)
+    end
+    
+    should 'require a valid password and confirmation' do
+      user = create_user :password => ''
+      ['blank','too short','confirmation'].each do |error_msg|
+        assert_match error_msg, user.errors.on(:password).to_sentence
+      end
+    end
+
+  end
   
+  context 'While testing class methods' do
+    
+    setup do
+      @fixture_user = users(:bob)
+    end
+    
+    should 'be able to find conflicting emails' do
+      email = 'email@exists.com'
+      create_user :email => email
+      assert User.email_exists?(email), "should have found #{email}"
+    end
+    
+    should 'consistently encrypt password with known salt' do
+      crypted_password = User.encrypt('test',@fixture_user.salt)
+      assert_equal crypted_password, @fixture_user.crypted_password
+    end
+    
+    should 'be able to authenticate and return user' do
+      authed_user = User.authenticate @fixture_user.email, 'test'
+      assert_equal @fixture_user, authed_user
+    end
+    
+    should 'be able to authenticate with token and return user' do
+      authed_user = User.authenticate_by_token(@fixture_user.security_token)
+      assert_equal @fixture_user, authed_user
+    end
+
+  end
   
-  
+    
   
 end

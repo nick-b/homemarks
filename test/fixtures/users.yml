@@ -6,6 +6,7 @@ bob:
   crypted_password: 18691b68a1d643de961fd49c3b14b04d738d613f # test
   uuid: 4abe4b50ed75012abfde001b631d2f2a
   security_token: 2d73aacb4a4607e6c7a3f818935aba8ab3ff2411
+  token_expiry: <%= 1.day.from_now %>
   verified: true
   created_at: <%= 5.days.ago.to_s :db %>
 

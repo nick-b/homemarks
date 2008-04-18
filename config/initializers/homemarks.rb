@@ -10,7 +10,6 @@ class HmConfig
       :url                  => 'homemarks.com',  # Need request.host
       :name                 => 'HomeMarks',
       :dotcom               => 'HomeMarks.com',
-      :token_life           => 1.day,
       :delayed_delete_days  => 3
       },
     :demo => {

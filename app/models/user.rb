@@ -1,5 +1,3 @@
-require 'digest/sha1'
-
 class User < ActiveRecord::Base
   
   has_one   :inbox
@@ -27,13 +25,16 @@ class User < ActiveRecord::Base
   class << self
     
     def authenticate(email, password)
-      u = find_by_email_and_verified_and_deleted(email,true,false)
-      u.blank? ? nil : find_by_email_and_crypted_password(email, u.send(:encrypt,password))
+      if user = find_by_email_and_verified_and_deleted(email,true,false)
+        user.logged_in_at = Time.now ; user.save!
+      end
+      user.blank? ? nil : find_by_email_and_crypted_password(email,user.send(:encrypt,password))
     end
     
     def authenticate_by_token(token)
-      user = find(:first, :conditions => ['security_token = ? AND token_expiry > ?', token, Time.now]) rescue nil
-      user.update_attribute(:verified,true) unless user.blank?
+      if user = find(:first, :conditions => ['security_token = ? AND token_expiry > ?', token, Time.now]) rescue nil
+        user.logged_in_at = Time.now ; user.verified = true ; user.deleted = false ; user.save!
+      end
       user
     end
     
@@ -58,7 +59,8 @@ class User < ActiveRecord::Base
   def delete!
     self.deleted = true
     self.delete_after = HmConfig.app[:delayed_delete_days].days.from_now
-    generate_security_token!
+    generate_security_token
+    save!
   end
   
   

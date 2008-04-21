@@ -7,4 +7,3 @@ doc/api
 doc/app
 log/*
 public/javascripts/*_min.js
-vendor/rails

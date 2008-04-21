@@ -1,5 +1,6 @@
 
 config.gem 'mocha',           :version => '0.5.6'
+config.gem 'quietbacktrace',  :version => '0.1.1'
 
 config.cache_classes = true
 config.whiny_nils = true

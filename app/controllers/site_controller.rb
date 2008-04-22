@@ -2,8 +2,8 @@ class SiteController < ApplicationController
   
   layout 'site'
   
-  skip_before_filter :login_required, :find_user_object
-  before_filter :setup_site_instance_vars, :only => [ :index, :help, :issues ]
+  skip_before_filter  :login_required
+  before_filter       :setup_site_instance_vars, :only => [ :index, :help, :issues ]
   
   
   def index

@@ -78,7 +78,7 @@ class UserController < ApplicationController
   def change_password
     redirect_to myaccount_url if request.get?
     if request.post?
-      @user.update_attributes! = params[:user]
+      @user.update_attributes! params[:user]
       send_account_changed_notification(@user)
       flash[:good] = 'Password changed.'
       render(:update) {|page| page.redirect_to(myhome_url)}

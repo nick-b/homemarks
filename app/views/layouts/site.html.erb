@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title><%= @page_title ? @page_title : HmConfig.app[:dotcom] %></title>
+  <title><%= @page_title || 'HomeMarks - Simple Bookmark Start Page' %></title>
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <%= stylesheet_link_tag 'application', :media => 'all' %>
@@ -17,13 +17,13 @@
     
     <div id="site_masthead">
       <div id="site_links">
-        <%= link_to( image_tag('/stylesheets/images/site/nav_home.png',:border => 'none')+'Home', index_url, :onclick => 'this.blur();' ) %>
-        <%= link_to( image_tag('/stylesheets/images/site/nav_help.png',:border => 'none')+'Help', help_url, :onclick => 'this.blur();' ) %>
+        <%= link_to( image_tag('/stylesheets/images/site/nav_home.png',:border => 'none')+'Home', 'index_url', :onclick => 'this.blur();' ) %>
+        <%= link_to( image_tag('/stylesheets/images/site/nav_help.png',:border => 'none')+'Help', 'help_url', :onclick => 'this.blur();' ) %>
         <% if !user? -%>
-          <%= link_to( image_tag('/stylesheets/images/site/nav_login.png',:border => 'none')+'Login', myhome_url, :onclick => 'this.blur();' ) %>
+          <%= link_to( image_tag('/stylesheets/images/site/nav_login.png',:border => 'none')+'Login', 'myhome_url', :onclick => 'this.blur();' ) %>
         <% else -%>
-          <%= link_to( image_tag('/stylesheets/images/site/nav_myhm.png',:border => 'none')+'My HomeMarks', myhome_url, :onclick => 'this.blur();' ) %>
-          <%= link_to( image_tag('/stylesheets/images/site/nav_logout.png',:border => 'none')+'Logout', logout_url, :onclick => 'this.blur();' ) %>
+          <%= link_to( image_tag('/stylesheets/images/site/nav_myhm.png',:border => 'none')+'My HomeMarks', 'myhome_url', :onclick => 'this.blur();' ) %>
+          <%= link_to( image_tag('/stylesheets/images/site/nav_logout.png',:border => 'none')+'Logout', 'logout_url', :onclick => 'this.blur();' ) %>
         <% end -%>
       </div>
     </div>
@@ -37,7 +37,7 @@
       <div id="site_content_bottom"></div>
       <div id="site_footer">
         <span><em>All information is private and shared with no one.</em></span><br />
-        <span>HomeMarks is a service mark of Action Moniker, LLC. Copyright &copy;2006 Action Moniker, LLC.</span>
+        <span>HomeMarks is a service mark of Action Moniker, LLC. Copyright &copy; 2006-<%= Time.now.year %> Action Moniker, LLC.</span>
       </div>
     </div>
     

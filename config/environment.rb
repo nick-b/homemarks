@@ -4,24 +4,25 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-# RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
+# RAILS_GEM_VERSION = '2.1.0' unless defined? RAILS_GEM_VERSION
 
 require File.join(File.dirname(__FILE__), 'boot')
+require 'digest/sha1'
 
 Rails::Initializer.run do |config|
-  config.frameworks -= [ :active_resource ]
-  config.plugins = [ :acts_as_list, :shoulda ]
-  # config.load_paths += %W( #{RAILS_ROOT}/extras )
+  config.frameworks  -= [ :active_resource ]
+  config.plugins      = [ :acts_as_list, :shoulda ]
   config.action_controller.session = {
     :session_key => '_myhomemarks_session',
     :secret      => '69385742936eae182b454ab0a7a72a5f79386f2f67d67ee19596ba3e85a2d36baf06d531b2448c145b21bae3bd72d868073ef7c6ef65b3bb85a13f18e7827de9'
   }
   # config.active_record.observers = :cacher, :garbage_collector
+  config.active_record.partial_updates  = true
   config.active_record.default_timezone = :utc
   config.time_zone = 'UTC'
 end
 
-require 'digest/sha1'
+# ActiveRecord::Base.partial_updates = true
 
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = { 

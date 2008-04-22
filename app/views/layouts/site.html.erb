@@ -17,22 +17,20 @@
     
     <div id="site_masthead">
       <div id="site_links">
-        <%= link_to( image_tag('/stylesheets/images/site/nav_home.png',:border => 'none')+'Home', 'index_url', :onclick => 'this.blur();' ) %>
-        <%= link_to( image_tag('/stylesheets/images/site/nav_help.png',:border => 'none')+'Help', 'help_url', :onclick => 'this.blur();' ) %>
-        <% if !user? -%>
-          <%= link_to( image_tag('/stylesheets/images/site/nav_login.png',:border => 'none')+'Login', 'myhome_url', :onclick => 'this.blur();' ) %>
-        <% else -%>
-          <%= link_to( image_tag('/stylesheets/images/site/nav_myhm.png',:border => 'none')+'My HomeMarks', 'myhome_url', :onclick => 'this.blur();' ) %>
-          <%= link_to( image_tag('/stylesheets/images/site/nav_logout.png',:border => 'none')+'Logout', 'logout_url', :onclick => 'this.blur();' ) %>
-        <% end -%>
+        <%= top_nav_for 'Home', :url => root_path %>
+        <%= top_nav_for 'Help', :url => site_path('help') %>
+        <% unless logged_in? %>
+          <%= top_nav_for 'Login', :url => '#' %>
+        <% else %>
+          <%= top_nav_for 'My HomeMarks', :url => '#', :img => 'myhm' %>
+          <%= top_nav_for 'Logout', :url => '#' %>
+        <% end %>
       </div>
     </div>
     <div id="site_content">
       <div id="site_content_top"></div>
       <div id="site_content_area">
-        
         <%= yield %>
-        
       </div>
       <div id="site_content_bottom"></div>
       <div id="site_footer">

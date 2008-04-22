@@ -2,9 +2,10 @@ ActionController::Routing::Routes.draw do |map|
   
   map.root :controller => 'site'
   map.site ':page', :controller => 'site', :action => 'show'
-  
-  map.resources :users
+  map.resources :support_requests
   map.resource  :session
+  map.resources :users
+  
   
   
   

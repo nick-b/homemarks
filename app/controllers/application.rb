@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   
+  include AuthenticatedSystem
+  
   layout                :site_or_application_layout
   protect_from_forgery  # :secret => 'a9be993c84c9e7e62872dc24a48c0a43'
   before_filter         :login_required
-  
-  include AuthenticatedSystem
   
   
   

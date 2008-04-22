@@ -58,6 +58,14 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 #site_links a:hover       { color:#ff5200; text-decoration:none; }
 #site_links a:active      { color:#fdbe1a; }
 
+#site_download               { font: normal normal normal 17px/22px "Trebuchet MS", sans-serif ; }
+#site_download img           { vertical-align:top; margin-left:5px; margin-right:3px; }
+#site_download a, 
+#site_download a:link, 
+#site_download a:visited     { color:#fff; text-decoration:none; }
+#site_download a:hover       { color:#ff5200; text-decoration:none; }
+#site_download a:active      { color:#fdbe1a; }
+
 #ajaxforms_wrapper      { width:450px; margin: 0 auto; position:relative; border: 1px solid #666; border-top: 0 none; }
 #ajaxforms_top          { position:absolute; top:0; left:0; 
                           width:452px; height:9px; background: url('/javascripts/modal_assets/modal_top.png') repeat-x; z-index:210; }

@@ -8,6 +8,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <%= stylesheet_link_tag 'application', :media => 'all' %>
+  <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
   <%= javascript_include_tag 'builder' %>
   <%= javascript_include_tag :defaults %>
 </head>
@@ -17,13 +18,13 @@
     
     <div id="site_masthead">
       <div id="site_links">
-        <%= top_nav_for 'Home', :url => root_path %>
-        <%= top_nav_for 'Help', :url => site_path('help') %>
+        <%= site_nav_for 'Home', :url => root_path %>
+        <%= site_nav_for 'Help', :url => site_path('help') %>
         <% unless logged_in? %>
-          <%= top_nav_for 'Login', :url => '#' %>
+          <%= site_nav_for 'Login', :url => '#' %>
         <% else %>
-          <%= top_nav_for 'My HomeMarks', :url => '#', :img => 'myhm' %>
-          <%= top_nav_for 'Logout', :url => '#' %>
+          <%= site_nav_for 'My HomeMarks', :url => '#', :img => 'myhm' %>
+          <%= site_nav_for 'Logout', :url => '#' %>
         <% end %>
       </div>
     </div>

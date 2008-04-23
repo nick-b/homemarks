@@ -1,40 +1,61 @@
 
-<% @page_title = "#{HmConfig.app[:dotcom]} - Documentation & Help" -%>
+<% title 'Documentation & Help' %>
 
-<% if flash[:signup] -%>
+<% if flash[:signup] %>
   <div id="signup_flash" class="clearfix" style="margin: 10px 25px 15px 20px;">
-    <img src="/stylesheets/images/site/email_sent.png" id="signup_flash_image" style="float:left; margin: 0 10px 0 10px;" />
-    <br /><span><%= flash[:signup] %></span>
+    <%= image_tag 'email_sent.png', :id => 'signup_flash_image', :class => 'floatl mt10 mb10' %><br />
+    Thank your for signing up for your own HomeMarks page. An email has been sent to 
+    your <span class="site_blue"><%= flash[:signup] %></span> address along with a link 
+    to activate your account. If you have not done so already, please take a moment to 
+    read the HomeMarks documentation.
   </div>
-  <script type="text/javascript" charset="utf-8">
-    new Effect.Pulsate("signup_flash_image",{});
-  </script>
+  <% javascript_tag do %>
+    <%= visual_effect :pulsate, 'signup_flash_image' %>
+  <% end %>
 <% end %>
 
 
-<h1>Documentation & Help</h1>
-<p>The intended purpose of this documentation is to explain the main features of HomeMarks and to highlight features that may not be obvious to first time user. If you cannot find what you are looking for, please <%= link_to_function 'contact us', 'this.blur();'+toggle_ajaxsiteform %> with your questions or lookup try looking thru some of the <%= link_to 'known issues', issues_url %> with the HomeMarks system.</p>
 
-<%= render :partial => 'support_form' %>
+<h1 id="test"><%= yield(:title) %></h1>
+
+<p>
+  The intended purpose of this documentation is to explain the main features of HomeMarks and to highlight features that may 
+  not be obvious to first time user. If you cannot find what you are looking for, please 
+  <%= link_to_function 'contact us', 'Site.toggleSupportForm(this)' %> with your questions or lookup try looking thru 
+  some of the <%= link_to 'known issues', '#' %> with the HomeMarks system.
+</p>
+
+<%= render :partial => 'support_requests/form' %>
+
 
 
 <h2>Columns</h2>
-<p>Columns are transparent containers for Boxes and Bookmarks. Their appearance and structure on the page is barely noticeable.</p>
+
+<p>
+  Columns are transparent containers for Boxes and Bookmarks. Their appearance and structure on the page is barely noticeable.
+</p>
+
 <ul class="helpul1">
   <li>
-    <img src="/stylesheets/images/site_help/column_create.png" style="float:right; margin: 0 7px 0 10px;" />
+    <img src="/stylesheets/images/site_help/column_create.png" class="floatr" style="margin: 0 7px 0 10px;" />
     <span class="helppoint">Create</span> - To create a new Column, click on this icon in the toolbar. Once a Column has been created, you can then create Boxes inside of it (see below) or drag existing Boxes from other Columns.
   </li>
   <li>
-    <img src="/stylesheets/images/site_help/column_sort_delete.png" style="float:right; margin: 0 5px 0 8px;" />
+    <img src="/stylesheets/images/site_help/column_sort_delete.png" class="floatr" style="margin: 0 5px 0 8px;" />
     <span class="helppoint">Sort</span> - Columns can be sorted by dragging their handle located at the top of each Column. When doing so, all of the Column’s Boxes and Bookmarks will moved along with the Column as you drag it.
   </li>
   <li><span class="helppoint">Delete</span> - To delete a Column, click on the <span class="site_red">(x)</span> in the left hand side of the Column’s handle bar. A warning will appear asking if you are sure about this action since deleting a Column will also permanently delete all the Boxes and Bookmarks within it.</li>
 </ul>
 
 
+
 <h2>Boxes</h2>
-<p>Boxes are containers for Bookmarks and are themselves contained within a single Column. All Boxes have a title and a color to reflect your organizational preference and can even be collapsed to reduce space.</p>
+
+<p>
+  Boxes are containers for Bookmarks and are themselves contained within a single Column. All Boxes have a title and a color 
+  to reflect your organizational preference and can even be collapsed to reduce space.
+</p>
+
 <ul class="helpul1">
   <li>
     <span class="helppoint">Create</span> - To create a new Box within a Column simple click on the <span class="site_red">(+)</span> in the right hand side of the Column’s header you wish to create the Box in. The new Box will appear at the top of the Column and can then be renamed, colored and/or available to any other normal Box action.
@@ -56,8 +77,13 @@
 </ul>
 
 
+
 <h2>Bookmarks</h2>
-<p>Bookmarks are the fundamental object of your HomeMarks page and hence can be manipulated in the numerous ways listed below.</p>
+
+<p>
+  Bookmarks are the fundamental object of your HomeMarks page and hence can be manipulated in the numerous ways listed below.
+</p>
+
 <ul class="helpul1">
   <li><span class="helppoint">Create</span> - Bookmarks are primarily created using the HomeMarks bookmarklet helper. A bookmarklet is a small JavaScript program that can be stored as a URL within a browser, most often as a toolbar link. Please read the HomeMarklet section for full details on how to use the your HomeMarklet to save Bookmarks to your HomeMarks page.</li>
   <li><span class="helppoint">Sort</span> - Bookmarks can be sorted within the Box they reside or even from one Box to another, including your inbox and trashbox. To sort a Bookmark, simply  drag it using its handle icon <span style="color:#ff5200;">(+)</span> located to left of each Bookmark.</li>
@@ -90,7 +116,12 @@
 
 
 <h2>Action Area (inbox and trashbox)</h2>
-<p>Your HomeMarks page contains two special boxes to help create, store and manage deleted bookmarks. Both reside in a special section of your HomeMarks page called the Action Area.</p>
+
+<p>
+  Your HomeMarks page contains two special boxes to help create, store and manage deleted bookmarks. Both reside in a 
+  special section of your HomeMarks page called the Action Area.
+</p>
+
 <ul class="helpul1">
   <li><span class="helppoint">Action Area</span> - To open or close your Action Area click on the small vertical bar that runs along the entire height of the left side of your HomeMarks page. A more convenient method is to use the tilde key <span class="site_red">(~)</span> which is located to the left of the number "1" key on your keyboard.</li>
   <li>

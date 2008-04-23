@@ -1,10 +1,8 @@
 
-<% show_or_hide = (params[:show_form] == true) ? 'block' : 'none' -%>
-
-<div id="ajaxforms_wrapper" style="display:<%= show_or_hide %>;">
+<div id="ajaxforms_wrapper" style="display:<%= params[:show_form] == true ? 'block' : 'none' %>;">
   <div id="ajaxforms_top"></div>
   <div id="ajaxforms">
-    <% remote_form_for :support, :url => support_url, :after => 'remoteFormLoading(this)', :html => {:id => 'request_support_form'} do |s| %>
+    <% remote_form_for :support, :url => '#', :after => 'remoteFormLoading(this)', :html => {:id => 'request_support_form'} do |s| %>
       <table>
         <tr>
           <th class="label"><label>Email:</label></th>
@@ -22,7 +20,7 @@
           <td></td>
           <td>
             <div class="value_buts">
-              <%= button_to_function 'Cancel', 'this.blur();'+toggle_ajaxsiteform %> <%= submit_tag 'Submit Request' %> 
+              <%= button_to_function 'Cancel', 'Site.toggleSupportForm(this)' %> <%= submit_tag 'Submit Request' %> 
             </div>
             <div class="value_loads"><span id="form_loading"></span></div>
           </td>

@@ -2,6 +2,8 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+ActionController::TestCase.send :include, ERB::Util
+
 class Test::Unit::TestCase
   
   include AuthenticatedTestHelper
@@ -19,3 +21,4 @@ class Test::Unit::TestCase
   
   
 end
+

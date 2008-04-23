@@ -39,9 +39,7 @@ class UserController < ApplicationController
       else
         @user = User.create!(params[:user])
         UserNotify.deliver_signup(@user, jumpin_url(:user_id => @user.id, :token => @user.security_token, :redirect => 'myhome'), issues_form_url)
-        flash[:signup] = %(Thank your for signing up for your own HomeMarks page. ) +
-                         %(An email has been sent to your <span class="site_blue">#{@user.email}</span> address along with a link to activate your account. ) +
-                         %(If you have not done so already, please take a moment to read the HomeMarks documentation.)
+        flash[:signup] = @user.email
         render(:update) {|page| page.redirect_to(help_url)}
       end
     end

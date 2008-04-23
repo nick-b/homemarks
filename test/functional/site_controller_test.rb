@@ -13,8 +13,24 @@ class SiteControllerTest < ActionController::TestCase
 
   end
   
+  context 'While testing other static pages' do
+
+    should 'get pages with basic content assertions' do
+      should_get_static_page 'help', :title => 'Documentation & Help'
+    end
+    
+  end
+  
+  
   
   protected
+  
+  def should_get_static_page(page,options={})
+    get :show, {:page => page}
+    assert_response :success
+    assert_select 'h1', /#{h(options[:title])}/i if options[:title]
+    should_have_top_navigation
+  end
   
   def should_have_top_navigation(logged_in=false)
     standard_nav_names = /Home|Help/

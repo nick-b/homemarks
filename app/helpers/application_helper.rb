@@ -1,7 +1,17 @@
 module ApplicationHelper  
   
-  include AuthSystem::Helpers
   include CacheMasters::UrlPaths
+  
+  
+  def title(title)
+    content_for(:title) { h(title) }
+  end
+  
+  
+  
+  
+  
+  
   
   
   def make_msg(type,message)
@@ -12,10 +22,6 @@ module ApplicationHelper
       page.<< "Element.removeClassName('hud','#{type}');"
       page.visual_effect :fade, 'message'
     end
-  end
-  
-  def toggle_ajaxsiteform
-    visual_effect(:toggle_blind, 'ajaxforms_wrapper', :duration => 0.4, :queue => {:position => 'end', :scope => 'ajaxforms'})
   end
   
   def complete_ajax_form(mood, formid, loadid='form_loading')
@@ -39,8 +45,8 @@ module ApplicationHelper
   def complete_support_form(mood)
     page.complete_ajax_form(mood,'request_support_form')
     if mood=='good'
-      page.delay(1.5){toggle_ajaxsiteform}
-      page.delay(2){page['request_support_form'].reset}
+      page.delay(1.5){ page << 'Site.toggleSupportForm(this);' }
+      page.delay(2){ page['request_support_form'].reset }
     end
   end
   

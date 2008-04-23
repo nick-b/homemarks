@@ -13,7 +13,9 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
 * Always make sure JS is latest.
 * Bootstrap task
   - Update secret forgery stuff
-
+* Add list of Rails 2.X features
+  - Cookie Session Store
+  - SQLite
 
 
 

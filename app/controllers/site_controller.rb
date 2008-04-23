@@ -11,6 +11,7 @@ class SiteController < ApplicationController
   end
   
   def show
+    @support_request = SupportRequest.new
     render :template => "site/#{current_page}"
   end
   

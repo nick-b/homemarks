@@ -6,9 +6,7 @@ class SiteControllerTest < ActionController::TestCase
 
     should 'get the index page' do
       get :index
-      assert_response :success
-      assert_select 'h1', /Welcome to HomeMarks/i
-      should_have_top_navigation
+      should_have_basic_page_success :title => 'Welcome to HomeMarks'
     end
 
   end
@@ -16,7 +14,7 @@ class SiteControllerTest < ActionController::TestCase
   context 'While testing other static pages' do
 
     should 'get pages with basic content assertions' do
-      should_get_static_page 'help', :title => 'Documentation & Help'
+      should_get_page 'help', :title => 'Documentation & Help'
     end
     
   end
@@ -25,23 +23,18 @@ class SiteControllerTest < ActionController::TestCase
   
   protected
   
-  def should_get_static_page(page,options={})
+  def should_get_page(page,options={})
     get :show, {:page => page}
-    assert_response :success
-    assert_select 'h1', /#{h(options[:title])}/i if options[:title]
-    should_have_top_navigation
+    should_have_basic_page_success
+    assert_template(page)
+    assert_instance_of SupportRequest, assigns(:support_request), 'all content pages should get a support request object'
   end
   
-  def should_have_top_navigation(logged_in=false)
-    standard_nav_names = /Home|Help/
-    stateful_nav_names = logged_in ? /My HomeMarks|Logout/ : /Login/
-    all_nav_names      = Regexp.union(standard_nav_names,stateful_nav_names)
-    navigation_count   = logged_in ? 4 : 3
-    assert_select '#site_links a', { :count => navigation_count, :text => all_nav_names }
-    assert_select '#site_links a' do
-      assert_select 'img', true, 'should have an image tag inside all nav items'
-      assert_select 'img[alt=?]', all_nav_names
-    end
+  def should_have_basic_page_success(options={})
+    assert_response :success
+    assert_select 'h1', /#{h(options[:title])}/i if options[:title]
+    should_have_site_navigation
   end
+  
   
 end

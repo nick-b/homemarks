@@ -2,15 +2,23 @@ class SupportRequestsController < ApplicationController
   
   skip_before_filter  :login_required
   
-  # @support = SupportRequest.new
-  
-  def index
-    
+
+  def new
+    @support_request = SupportRequest.new
   end
-  
-  def show
-    
+
+  def create
+    @support_request = SupportRequest.new(params[:support_request])
+    respond_to do |format|
+      if @support_request.save
+        flash[:good] = 'Support request was successfully created.'
+        format.html { redirect_to(@support_request) }
+      else
+        format.html { render :action => "new" }
+      end
+    end
   end
+
   
   
   protected

@@ -1,11 +1,13 @@
 
 
 var Site = {
+  
   toggleSupportForm: function(link) {
     link.blur();
     var formWrapper = $('ajaxforms_wrapper');
     Effect.toggle(formWrapper,'blind', {duration:0.4});
   }
+  
 }
 
 

@@ -37,11 +37,11 @@
 
 <ul class="helpul1">
   <li>
-    <img src="/stylesheets/images/site_help/column_create.png" class="floatr" style="margin: 0 7px 0 10px;" />
+    <%= image_tag 'column_create.png', :class => 'floatr', :style => 'margin: 0 7px 0 10px;' %>
     <span class="helppoint">Create</span> - To create a new Column, click on this icon in the toolbar. Once a Column has been created, you can then create Boxes inside of it (see below) or drag existing Boxes from other Columns.
   </li>
   <li>
-    <img src="/stylesheets/images/site_help/column_sort_delete.png" class="floatr" style="margin: 0 5px 0 8px;" />
+    <%= image_tag 'column_sort_delete.png', :class => 'floatr', :style => 'margin: 0 5px 0 8px;' %>
     <span class="helppoint">Sort</span> - Columns can be sorted by dragging their handle located at the top of each Column. When doing so, all of the Column’s Boxes and Bookmarks will moved along with the Column as you drag it.
   </li>
   <li><span class="helppoint">Delete</span> - To delete a Column, click on the <span class="site_red">(x)</span> in the left hand side of the Column’s handle bar. A warning will appear asking if you are sure about this action since deleting a Column will also permanently delete all the Boxes and Bookmarks within it.</li>
@@ -61,7 +61,7 @@
     <span class="helppoint">Create</span> - To create a new Box within a Column simple click on the <span class="site_red">(+)</span> in the right hand side of the Column’s header you wish to create the Box in. The new Box will appear at the top of the Column and can then be renamed, colored and/or available to any other normal Box action.
   </li>
   <li>
-    <img src="/stylesheets/images/site_help/box_all.png" style="float:right; margin-left:10px;" />
+    <%= image_tag 'box_all.png', :class => 'floatr ml10 mb5' %>
     <span class="helppoint">Sort</span> - All Boxes can be sorted within the Column they reside or even from one Column to another. To sort a Box, simply drag it using it’s handle located at the top right of each Box. When doing so, all of the Box’s Bookmarks will moved along with the Box as you drag it.
   </li>
   <li><span class="helppoint">Collapse</span> - Collapsing a box helps reduce its vertical space on the page and hence hides all the bookmarks within it. Boxes can even still be sorted when they are collapsed as well. To collapse/uncollapse a Box, click its title.</li>
@@ -90,7 +90,7 @@
   <li><span class="helppoint">Delete</span> - Located at the bottom right of your HomeMarks page is a trashcan icon. Bookmarks can be dragged and dropped into this trashcan. When you do this the bookmark are not permanently deleted but rather sorted within a special Trash Box. Click on trashcan icon to see your Trash Box, which will appear on the left side of the page. Bookmarks can be removed from the Trash Box and sorted in any other Box in the same way you would normally do between Boxes.</li>
   <li>
     <a name="homemarklet"></a>
-    <img src="/stylesheets/images/site_help/bookmarklet.png" style="float:right; margin: 3px 7px 0 10px;" />
+    <%= image_tag 'bookmarklet.png', :class => 'floatr', :style => 'margin: 3px 7px 0 10px;' %>
     <span class="helppoint">HomeMarklet</span> - Your HomeMarklet is a JavaScript program, commonly called a bookmarklet, which will help you bookmark any webpage and most browser links to your own HomeMarks start page. It is suggested that you install your HomeMarklet as a link in your browser’s bookmark bar. Clicking the HomeMarklet from a website will insert a form at the top of the browser window. Simply choose a name for the Bookmark and choose a Box where to keep it.
     <ul class="helpul2">
       <li>
@@ -108,8 +108,13 @@
         </ul>
       </li>
     </ul>
-    <img src="/stylesheets/images/site_help/bookmark_modal.jpg" style="float:right; margin: 16px 7px 0 10px;" />
-    <div style="margin-top:15px;">HomeMarklet usage is simple after installation. When you come to a webpage that you want to add to your HomeMarks start page, just click on your HomeMarklet in the toolbar. The webpage will be masked with a dark overlay and a HomeMark modal box will appear at the top of the browser window. From here you can choose a short name and which box you would like to place your bookmark.</div>
+    <div class="mt20">
+      <%= image_tag 'bookmark_modal.jpg', :class => 'floatr', :style => 'margin: 4px 7px 0 15px;' %>
+      HomeMarklet usage is simple after installation. When you come to a webpage that you want to add to your HomeMarks start 
+      page, just click on your HomeMarklet in the toolbar. The webpage will be masked with a dark overlay and a HomeMark modal 
+      box will appear at the top of the browser window. From here you can choose a short name and which box you would like to 
+      place your bookmark.
+    </div>
   </li>
 </ul>
 
@@ -125,7 +130,7 @@
 <ul class="helpul1">
   <li><span class="helppoint">Action Area</span> - To open or close your Action Area click on the small vertical bar that runs along the entire height of the left side of your HomeMarks page. A more convenient method is to use the tilde key <span class="site_red">(~)</span> which is located to the left of the number "1" key on your keyboard.</li>
   <li>
-    <img src="/stylesheets/images/site_help/actionarea.jpg" style="float:right; margin: 3px 7px 0 10px;" />
+    <%= image_tag 'actionarea.jpg', :class => 'floatr', :style => 'margin: 3px 7px 0 15px;' %>
     <span class="helppoint">Inbox</span> - Is provided to give you a dumping ground for inbound bookmarks that need to be categorized and sorted. Bookmarks can be dragged from your inbox to any other box or your trashcan.</li>
   <li><span class="helppoint">Trashbox</span> - Will give you a second change to recover any bookmarks that were thrown into your trashcan. Just like your inbox, any bookmark can be dragged and sorted to any other box.</li>
 </ul>

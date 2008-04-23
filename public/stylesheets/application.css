@@ -36,10 +36,10 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 #site_wrapper h1            { font: normal normal 24px/26px Helvetica, sans-serif; margin: 0 0 10px 0; color:#ffbd00; }
 #site_wrapper h2            { font: italic normal 18px/18px "Trebuchet MS", Georgia, serif; font-weight:100; color:#999; margin-top:25px; border-bottom: 1px solid #999; }
 #site_wrapper p             { margin: 0 0 5px 0; }
-#site_wrapper ul            { margin-right:35px; font-size:11px; line-height:17px; }
+#site_wrapper ul            { margin-right:35px; font-size:12px; line-height:17px; }
 #site_wrapper ul.helpul2    { margin-top:12px; padding-left:16px; }
 #site_wrapper ul.helpul3    { padding-left:16px; }
-#site_wrapper li            { margin-bottom:5px; }
+#site_wrapper li            { margin-bottom:10px; }
 #site_wrapper .helppoint    { font-weight:bold; text-transform:uppercase; color:#96ff1f; }
 
 #site_wrapper ul.issuetopics li { margin-bottom:0; }

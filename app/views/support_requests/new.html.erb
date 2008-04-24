@@ -2,13 +2,13 @@
 <% title 'Issues & Support' %>
 
 <h1><%= yield(:title) %></h1>
-<p>
-  <img src="/stylesheets/images/site/dabomb.png" style="float:right; margin: 0 5px 0 8px;" />
+<p class="mb20">
+  <%= image_tag 'dabomb.png', :class => 'floatr mr5 ml10' %>
   If you are having a problem and do not see your issue listed as one of the known issues below, please 
-  <%= link_to_function 'fill out the support form', 'Site.toggleSupportForm(this)' %> and give me a detailed description 
-  of what your problem is. I will try to get back to you as soon as possible.
+  <%= link_to_function 'fill out the support form', 'Site.toggleSupportForm(this)' %> and give me a detailed 
+  description of your problem. I will try to get back to you as soon as possible.
 </p>
-<%= render :partial => 'support_form' %>
+<%= render :partial => 'form' %>
 
 
 <h2>Known Issues</h2>
@@ -21,26 +21,19 @@
 <a name="javascript_speed"></a>
 <h2>JavaScript Speed</h2>
 <p>
-  Because HomeMarks makes heavy usage of JavaScript and DHTML, it is important to use a browser that can process JavaScript 
+  Because HomeMarks makes heavy use of JavaScript, it is important to use a browser that can process JavaScript 
   quickly. Currently, the most recommended browser is the latest release of 
-  <%= link_to 'Firefox 2.0', 'http://www.mozilla.com/en-US/firefox/' %>, which processes JavaScript much faster than its 
-  predecessors. If you are using OS X, and prefer Safari, you can download the latest development release, 
-  called <%= link_to 'WebKit', 'http://webkit.org/' %>, which also processes JavaScript much faster than the current Tiger 
-  release of Safari. Also for OS X users that prefer Firefox, I highly suggest the unofficial optimized builds called 
-  <%= link_to 'BonEcho', 'http://www.beatnikpad.com/archives/2006/10/26/firefox-20' %>.
+  <%= link_to 'Firefox', 'http://www.mozilla.com/en-US/firefox/' %>, which processes JavaScript much faster than its 
+  predecessors. Apple's Safari is also really fast at processing client side JavaScript. 
+  You can <%= link_to 'download Safari', 'http://www.apple.com/safari/download/' %> from Apple's site for either
+  Mac or Windows.
 </p>
 
 
 <a name="homemarklet"></a>
 <h2>HomeMarklet Visual Errors</h2>
 <p>
-  Sometimes the CSS or existing page elements on a webpage can conflict with the appearance of the HomeMarklet form. This 
-  can be compensated for and if you find a web page that shows this behavior, please let me know.
+  Sometimes the CSS or existing page elements on a webpage can conflict with the appearance of the HomeMarklet 
+  form. This can be compensated for and if you find a web page that shows this behavior, please let me know.
 </p>
-
-
-
-
-
-
 

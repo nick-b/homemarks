@@ -1,6 +1,7 @@
 
 <% title 'Documentation & Help' %>
 
+<%# FIXME: TEST flash[:signup] %>
 <% if flash[:signup] %>
   <div id="signup_flash" class="clearfix" style="margin: 10px 25px 15px 20px;">
     <%= image_tag 'email_sent.png', :id => 'signup_flash_image', :class => 'floatl mt10 mb10' %><br />
@@ -15,24 +16,20 @@
 <% end %>
 
 
-
 <h1 id="test"><%= yield(:title) %></h1>
-
 <p>
   The intended purpose of this documentation is to explain the main features of HomeMarks and to highlight features that may 
   not be obvious to first time user. If you cannot find what you are looking for, please 
   <%= link_to_function 'contact us', 'Site.toggleSupportForm(this)' %> with your questions or lookup try looking thru 
-  some of the <%= link_to 'known issues', '#' %> with the HomeMarks system.
+  some of the <%= link_to 'known issues', new_support_request_path %> with the HomeMarks system.
 </p>
-
 <%= render :partial => 'support_requests/form' %>
 
 
-
 <h2>Columns</h2>
-
 <p>
-  Columns are transparent containers for Boxes and Bookmarks. Their appearance and structure on the page is barely noticeable.
+  Columns are transparent containers for Boxes and Bookmarks. 
+  Their appearance and structure on the page is barely noticeable.
 </p>
 
 <ul class="helpul1">
@@ -50,10 +47,9 @@
 
 
 <h2>Boxes</h2>
-
 <p>
-  Boxes are containers for Bookmarks and are themselves contained within a single Column. All Boxes have a title and a color 
-  to reflect your organizational preference and can even be collapsed to reduce space.
+  Boxes are containers for Bookmarks and are themselves contained within a single Column. All Boxes have a title 
+  and a color to reflect your organizational preference and can even be collapsed to reduce space.
 </p>
 
 <ul class="helpul1">
@@ -81,7 +77,8 @@
 <h2>Bookmarks</h2>
 
 <p>
-  Bookmarks are the fundamental object of your HomeMarks page and hence can be manipulated in the numerous ways listed below.
+  Bookmarks are the fundamental object of your HomeMarks page and hence can be manipulated in the numerous 
+  ways listed below.
 </p>
 
 <ul class="helpul1">
@@ -121,7 +118,6 @@
 
 
 <h2>Action Area (inbox and trashbox)</h2>
-
 <p>
   Your HomeMarks page contains two special boxes to help create, store and manage deleted bookmarks. Both reside in a 
   special section of your HomeMarks page called the Action Area.

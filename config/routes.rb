@@ -1,13 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
   
   map.root :controller => 'site'
-  map.site ':page', :controller => 'site', :action => 'show'
+  
   map.resources :support_requests
   map.resource  :session
   map.resources :users
   
-  
-  
+  map.site ':page', :controller => 'site', :action => 'show'
   
   
   # map.with_options(:controller => 'site') do |site|

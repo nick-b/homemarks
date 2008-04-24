@@ -1,8 +1,9 @@
 class SupportRequestsController < ApplicationController
   
+  helper SiteHelper
   skip_before_filter  :login_required
   
-
+  
   def new
     @support_request = SupportRequest.new
   end

@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def site_or_application_layout
-    controller_name =~ /^(site|user)$/ ? 'site' : 'application'
+    controller_name =~ /^(site|user|support_requests)$/ ? 'site' : 'application'
   end
   
   # FIXME: Add an error mailer, or use exception notification plugin.

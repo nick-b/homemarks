@@ -6,16 +6,16 @@ class SupportRequest < ActiveRecord::Base
     'Using The HomeMarklet',
     'New Feature Request',
     'Other...'
-    ]
+    ].freeze
   
-  validates_presence_of   :problem
-  validates_presence_of   :details
-  validates_presence_of   :email
+  belongs_to :user
+  
+  validates_presence_of   :problem, :details, :email
   validates_inclusion_of  :problem, :in => SUPPORT_OPTIONS
   
-  attr_protected        :from_user, :user_id
+  attr_protected          :user_id
   
-
-
-
+  
+  
+  
 end

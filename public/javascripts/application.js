@@ -1,13 +1,40 @@
 
-
 var Site = {
   
   toggleSupportForm: function(link) {
-    link.blur();
+    if (link) { link.blur(); };
     var formWrapper = $('ajaxforms_wrapper');
     Effect.toggle(formWrapper,'blind', {duration:0.4});
-  }
+  },
   
+  completeSupportForm(mood) {
+    var form = $('request_support_form');
+    Site.completeRemoteForm(form,mood);
+    if (mood == 'good') {
+      setTimeout(function() { Site.toggleSupportForm() },1500);
+      setTimeout(function() { form.reset() },2000);
+    };
+  },
+  
+  startRemoteForm(form,loadId) {
+    var loadId = (loadId == null) ? 'form_loading' : loadId;
+    var imgSrc = (form.id == 'request_support_form') ? 'loading.gif' : 'loading_invert.gif';
+    var imgTmpl = new Template('<img src="/images/#{src}" />');
+    var imgTag = imgTmpl.evaluate({ src: imgSrc });
+    form.disable();
+    loadId.update(imgTag);
+  },
+  
+  completeRemoteForm(form,mood,loadId) {
+    var loadId = (loadId == null) ? 'form_loading' : loadId;
+    var completeId = 'complete_ajax_form_' + loadId;
+    var moodTmpl = '<span id="#{id}" class="m0 p0"><img src="/images/#{src}.png" /></span>';
+    var moodHtml = moodTmpl.evaluate({ id: completeId, src: mood});
+    loadId.update(moodHtml);
+    setTimeout(function() { $(completeId).visualEffect('fade') },2000);
+    form.enable();
+  }
+    
 }
 
 

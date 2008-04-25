@@ -11,12 +11,12 @@ class SupportRequestsControllerTest < ActionController::TestCase
       assert assigns(:support_request).new_record?
     end
 
-    should 'not show the form' do
+    should 'not show the support form' do
       get :new
       assert_element_hidden '#ajaxforms_wrapper'
     end
     
-    should 'show the form when params allow it' do
+    should 'show the support form when params allow it' do
       get :new, {:show_form => 'true'}
       assert_element_visible '#ajaxforms_wrapper'
     end

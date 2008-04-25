@@ -47,6 +47,8 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 #site_wrapper form           { margin-top:10px; }
 #site_wrapper th.label       { width:190px; text-align:right; font-size:13px; }
 #site_wrapper td.value input { padding:3px; font-size:13px; }
+
+/* FIXME: Remove these. */
 #site_wrapper .value_buts    { float:left; }
 #site_wrapper .value_loads   { float:left; margin: 3px 0 0 6px; }
 
@@ -71,8 +73,10 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
                           width:452px; height:9px; background: url('/javascripts/modal_assets/modal_top.png') repeat-x; z-index:210; }
 #ajaxforms              { width:400px; padding:17px; border: 8px solid #333; border-top: 0 none; color:#000; 
                           background: #fff url('/stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left; }
-#ajaxforms th.label     { width:80px; }
-.ajax_field             { width:265px; }
+#ajaxforms th                   { width:80px; }
+#ajaxforms select,
+#ajaxforms textarea,
+#ajaxforms input[type='text']   { width:265px; }
 
 
 

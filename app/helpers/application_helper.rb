@@ -24,14 +24,6 @@ module ApplicationHelper
     end
   end
   
-  def complete_ajax_form(mood, formid, loadid='form_loading')
-    page.replace_html loadid, %|<span id="complete_ajax_form_#{loadid}" style="margin:0;padding:0;"><img src="/stylesheets/images/site/#{mood}.png" /></span>|
-    page.delay(2) do
-      page.visual_effect :fade, "complete_ajax_form_#{loadid}"
-    end
-    page.<< "Form.enable('#{formid}');"
-  end
-  
   def complete_forgotpw_form(mood)
     page.complete_ajax_form(mood,'forgotpw_form')
     if mood=='good'
@@ -39,14 +31,6 @@ module ApplicationHelper
       page<< %| $('forgotpw_email').setStyle({backgroundColor:'#96ff1f'}) |
       page['forgotpw_submit'].disable
       page['forgotpw_cancel'].disable
-    end
-  end
-  
-  def complete_support_form(mood)
-    page.complete_ajax_form(mood,'request_support_form')
-    if mood=='good'
-      page.delay(1.5){ page << 'Site.toggleSupportForm(this);' }
-      page.delay(2){ page['request_support_form'].reset }
     end
   end
   

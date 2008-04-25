@@ -63,11 +63,10 @@ ActiveRecord::Schema.define(:version => 2) do
   add_index "inboxmarks", ["inbox_id"], :name => "indx_inboxmarks_inbox_id"
 
   create_table "support_requests", :force => true do |t|
-    t.string  "problem",                                     :null => false
-    t.string  "details",   :limit => 510,                    :null => false
-    t.boolean "from_user",                :default => false, :null => false
+    t.string  "problem",                :null => false
+    t.string  "details", :limit => 510, :null => false
     t.integer "user_id"
-    t.string  "email",                                       :null => false
+    t.string  "email",                  :null => false
   end
 
   create_table "trashboxes", :force => true do |t|

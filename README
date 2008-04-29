@@ -15,7 +15,13 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
   - Update secret forgery stuff
 * Add list of Rails 2.X features
   - Cookie Session Store
-  - SQLite
+  - Developed to SQLite, I run mysql in production.
+  - TESTS TESTS TESTS
+  - Foxy Fixtures
+  - Unobtrusive Javascript (death to tagsoup)
+  - JavaScript Rewrite
+  - Restful routes.
+  
 
 
 

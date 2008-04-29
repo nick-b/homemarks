@@ -2,25 +2,24 @@
 <div id="ajaxforms_wrapper" style="display:<%= params[:show_form] == 'true' ? 'block' : 'none' %>;">
   <div id="ajaxforms_top"></div>
   <div id="ajaxforms">
-    <% remote_form_for( @support_request, :html => {:id => 'request_support_form'}, :after => 'remoteFormLoading(this)',
-       :success => "Site.completeSupportForm('good')", :failure => "Site.completeSupportForm('bad')" ) do |sr| %>
+    <% form_for @support_request, :html => {:id => 'support_form'} do |sr| %>
       <table>
         <tr>
           <th>Email:</th>
-          <td><%= sr.text_field 'email', :value => @email_value %></td>
+          <td><%= sr.text_field :email, :value => logged_in? ? current_user.email : nil %></td>
         </tr>
         <tr>
           <th>Problem:</th>
-          <td><%= sr.select 'problem', SupportRequest::SUPPORT_OPTIONS, {:include_blank => true} %></td>
+          <td><%= sr.select :problem, SupportRequest::SUPPORT_OPTIONS, {:include_blank => true} %></td>
         </tr>
         <tr>
           <th>Details:</th>
-          <td><%= sr.text_area 'details', :rows => 5 %></td>
+          <td><%= sr.text_area :details, :rows => 5 %></td>
         </tr>
         <tr>
           <td></td>
           <td class="vmiddle_all">
-            <%= button_to_function 'Cancel', 'Site.toggleSupportForm(this)' %> 
+            <input class="ajaxform_link" type="button" value="Cancel" />
             <%= submit_tag 'Submit Request' %> 
             <span id="form_loading"></span>
           </td>
@@ -29,3 +28,4 @@
     <% end %>
   </div>
 </div>
+

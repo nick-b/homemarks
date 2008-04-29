@@ -5,7 +5,7 @@
 <p class="mb20">
   <%= image_tag 'dabomb.png', :class => 'floatr mr5 ml10' %>
   If you are having a problem and do not see your issue listed as one of the known issues below, please 
-  <%= link_to_function 'fill out the support form', 'Site.toggleSupportForm(this)' %> and give me a detailed 
+  <%= link_to 'fill out the support form', '#', :class => 'ajaxform_link' %> and give me a detailed 
   description of your problem. I will try to get back to you as soon as possible.
 </p>
 <%= render :partial => 'form' %>

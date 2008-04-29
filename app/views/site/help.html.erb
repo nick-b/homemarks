@@ -1,7 +1,7 @@
 
 <% title 'Documentation & Help' %>
 
-<%# FIXME: TEST flash[:signup] %>
+<%# FIXME: TEST flash[:signup] and move :pulsate to an onobtrusive %>
 <% if flash[:signup] %>
   <div id="signup_flash" class="clearfix" style="margin: 10px 25px 15px 20px;">
     <%= image_tag 'email_sent.png', :id => 'signup_flash_image', :class => 'floatl mt10 mb10' %><br />
@@ -20,7 +20,7 @@
 <p>
   The intended purpose of this documentation is to explain the main features of HomeMarks and to highlight features that may 
   not be obvious to first time user. If you cannot find what you are looking for, please 
-  <%= link_to_function 'contact me', 'Site.toggleSupportForm(this)' %> with your questions or lookup try looking thru 
+  <%= link_to 'contact me', '#', :class => 'ajaxform_link' %> with your questions or lookup try looking thru 
   some of the <%= link_to 'known issues', new_support_request_path %> with the HomeMarks system.
 </p>
 <%= render :partial => 'support_requests/form' %>

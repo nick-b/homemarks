@@ -1,50 +1,87 @@
 
-var Site = {
+var HomeMarksUtil = {
   
-  toggleSupportForm: function(link) {
-    if (link) { link.blur(); };
-    var formWrapper = $('ajaxforms_wrapper');
-    Effect.toggle(formWrapper,'blind', {duration:0.4});
+  errorsToSentences: function(errors) {
+    var sentences = errors.collect(function(e) { return e.first().capitalize() + ' ' + e.last() });
+    return sentences.join('. ');
+  }
+  
+};
+
+var HomeMarksSite = Class.create({ 
+  
+  initialize: function() {
+    this.ajaxFrom = $('ajaxforms_wrapper');
+    this.ajaxFromLinks = $$('.ajaxform_link');
+    this.supportForm = $('support_form');
+    this.initEvents();
   },
   
-  completeSupportForm(mood) {
-    var form = $('request_support_form');
-    Site.completeRemoteForm(form,mood);
-    if (mood == 'good') {
-      setTimeout(function() { Site.toggleSupportForm() },1500);
-      setTimeout(function() { form.reset() },2000);
+  toggleAjaxForm: function(event) {
+    if (event) { event.element().blur(); };
+    Effect.toggle(this.ajaxFrom, 'blind', {duration:0.4});
+  },
+  
+  startAjaxForm: function(form) {
+    $(form).disable();
+    var options = Object.extend({loadId:'form_loading',imgSrc:'loading_invert.gif'}, arguments[1] || {});
+    var imgTmpl = new Template('<img src="/images/#{src}" />');
+    var imgTag = imgTmpl.evaluate({ src: options.imgSrc });
+    $(options.loadId).update(imgTag);
+  },
+  
+  completeAjaxForm: function(form) {
+    var options = Object.extend({loadId:'form_loading',mood:'good',enable:true}, arguments[1] || {});
+    var completeId = 'complete_ajax_form_' + options.loadId;
+    var moodTmpl = new Template('<span id="#{id}" class="m0 p0"><img src="/images/#{src}.png" /></span>');
+    var moodHtml = moodTmpl.evaluate({ id: completeId, src: options.mood});
+    $(options.loadId).update(moodHtml);
+    setTimeout(function() { $(completeId).visualEffect('fade') },2000);
+    if (options.enable) { $(form).enable(); };
+  },
+  
+  submitSupportForm: function(event) {
+    event.stop();
+    new Ajax.Request('/support_requests',{
+      onComplete: function(request){ this.completeSupportForm(request) }.bind(this),
+      parameters: this.supportForm.serialize()
+    });
+    this.startAjaxForm(this.supportForm,{imgSrc:'loading.gif'});
+  },
+  
+  completeSupportForm: function(request) {
+    var status = (request.status >= 200 && request.status < 300) ? 'good' : 'bad';
+    this.completeAjaxForm(this.supportForm,{mood:status,enable:(status == 'bad')});
+    if (status == 'good') {
+      setTimeout(function(){ this.toggleAjaxForm() }.bind(this),1500);
+      setTimeout(function(){ this.supportForm.reset(); this.supportForm.enable(); }.bind(this),2000);
+    }
+    else {
+      alert(HomeMarksUtil.errorsToSentences(request.responseJSON));
     };
   },
   
-  startRemoteForm(form,loadId) {
-    var loadId = (loadId == null) ? 'form_loading' : loadId;
-    var imgSrc = (form.id == 'request_support_form') ? 'loading.gif' : 'loading_invert.gif';
-    var imgTmpl = new Template('<img src="/images/#{src}" />');
-    var imgTag = imgTmpl.evaluate({ src: imgSrc });
-    form.disable();
-    loadId.update(imgTag);
-  },
-  
-  completeRemoteForm(form,mood,loadId) {
-    var loadId = (loadId == null) ? 'form_loading' : loadId;
-    var completeId = 'complete_ajax_form_' + loadId;
-    var moodTmpl = '<span id="#{id}" class="m0 p0"><img src="/images/#{src}.png" /></span>';
-    var moodHtml = moodTmpl.evaluate({ id: completeId, src: mood});
-    loadId.update(moodHtml);
-    setTimeout(function() { $(completeId).visualEffect('fade') },2000);
-    form.enable();
+  initEvents: function() {
+    if (this.supportForm) { this.supportForm.observe('submit', this.submitSupportForm.bindAsEventListener(this)); };
+    this.ajaxFromLinks.each(function(element){ 
+      element.observe('click', this.toggleAjaxForm.bindAsEventListener(this)); 
+    }.bind(this));
   }
-    
-}
+
+});
 
 
+document.observe('dom:loaded', function(){
+  HmSite = new HomeMarksSite();
+});
 
+// document.observe("dom:loaded", function() {
+//   HmSite = new HomeMarksSite();
+// });
 
-
-
-
-
-
+// document.observe('contentloaded', function() { 
+//   $$('form').invoke('observe', 'submit', d);
+// });
 
 
 

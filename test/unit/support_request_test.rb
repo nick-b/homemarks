@@ -10,13 +10,13 @@ class SupportRequestTest < ActiveSupport::TestCase
   context 'While creating a new record' do
 
     setup do
-      build_suport_request
+      @support = build_suport_request
     end
 
     should 'not allow bad problem attributes' do
       assert_valid @support
       @support.problem = 'Foobar'
-      assert !@support.valid?
+      assert !@support.valid?, inspect_errors(@support)
       assert_match 'not included', @support.errors.on(:problem) 
     end
     
@@ -26,9 +26,11 @@ class SupportRequestTest < ActiveSupport::TestCase
   
   protected
   
-  def build_suport_request(attributes={})
-    @support = SupportRequest.new(support_requests(:account_issues).attributes)
-    @support.attributes = attributes
+  def build_suport_request(overrides={})
+    attributes = {:email => 'user@test.com', :problem => 'Account Issues', :details => 'Test'}
+    attributes.merge!(overrides)
+    SupportRequest.new(attributes)
   end
+  
   
 end

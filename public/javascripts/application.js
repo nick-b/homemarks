@@ -1,9 +1,8 @@
 
 var HomeMarksUtil = {
   
-  errorsToSentences: function(errors) {
-    var sentences = errors.collect(function(e) { return e.first().capitalize() + ' ' + e.last() });
-    return sentences.join('. ');
+  joinErrors: function(errors) {
+    return errors.join(".\n");
   }
   
 };
@@ -57,7 +56,7 @@ var HomeMarksSite = Class.create({
       setTimeout(function(){ this.supportForm.reset(); this.supportForm.enable(); }.bind(this),2000);
     }
     else {
-      alert(HomeMarksUtil.errorsToSentences(request.responseJSON));
+      alert(HomeMarksUtil.joinErrors(request.responseJSON));
     };
   },
   
@@ -75,13 +74,7 @@ document.observe('dom:loaded', function(){
   HmSite = new HomeMarksSite();
 });
 
-// document.observe("dom:loaded", function() {
-//   HmSite = new HomeMarksSite();
-// });
 
-// document.observe('contentloaded', function() { 
-//   $$('form').invoke('observe', 'submit', d);
-// });
 
 
 

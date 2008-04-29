@@ -12,9 +12,9 @@ module RenderInvalidRecord
     instance_variable_set(record_instance_name, record) unless instance_variable_get(record_instance_name)
     respond_to do |format|
       format.html { render :action => (record.new_record? ? 'new' : 'edit') }
-      format.js   { render :json => record.errors, :status => :unprocessable_entity, :content_type => 'application/json' }
-      format.xml  { render :xml => record.errors, :status => :unprocessable_entity }
-      format.json { render :json => record.errors, :status => :unprocessable_entity }
+      format.js   { render :json => record.errors.full_messages, :status => :unprocessable_entity, :content_type => 'application/json' }
+      format.xml  { render :xml => record.errors.full_messages,  :status => :unprocessable_entity }
+      format.json { render :json => record.errors.full_messages, :status => :unprocessable_entity }
     end
   end
   

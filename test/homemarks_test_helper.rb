@@ -20,6 +20,10 @@ module HomemarksTestHelper
       end
     end
     
+    def inspect_errors(obj)
+      obj.errors.full_messages.inspect
+    end
+    
   end
   
   module DomAssertions

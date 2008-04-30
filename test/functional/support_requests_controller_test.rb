@@ -23,6 +23,17 @@ class SupportRequestsControllerTest < ActionController::TestCase
     
   end
   
+  context 'While testing the create action' do
+
+    should 'create a new support request' do
+      xhr :post, :create, {:support_request => {:email => 'user@test.com', :problem => 'Account Issues', :details => 'Test'}}
+      assert_instance_of SupportRequest, assigns(:support_request)
+      assert_response :success, "object was not saved, errors are #{inspect_errors(assigns(:support_request))}"
+    end
+
+  end
+  
+  
   
   
 end

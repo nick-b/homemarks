@@ -11,7 +11,7 @@ require 'digest/sha1'
 
 Rails::Initializer.run do |config|
   config.frameworks  -= [ :active_resource ]
-  config.plugins      = [ :acts_as_list, :shoulda, :selenium_on_rails ]
+  config.plugins      = [ :acts_as_list, :shoulda ]
   config.action_controller.session = {
     :session_key => '_myhomemarks_session',
     :secret      => '69385742936eae182b454ab0a7a72a5f79386f2f67d67ee19596ba3e85a2d36baf06d531b2448c145b21bae3bd72d868073ef7c6ef65b3bb85a13f18e7827de9'

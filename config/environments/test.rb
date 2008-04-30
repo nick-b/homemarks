@@ -2,6 +2,8 @@
 config.gem 'mocha',           :version => '0.5.6'
 config.gem 'quietbacktrace',  :version => '0.1.1'
 
+# config.plugins = [ :selenium_on_rails ]
+
 config.cache_classes = true
 config.whiny_nils = true
 config.action_controller.consider_all_requests_local = true

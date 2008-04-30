@@ -7,3 +7,4 @@ doc/api
 doc/app
 log/*
 public/javascripts/*_min.js
+vendor/plugins/selenium-on-rails/config.yml

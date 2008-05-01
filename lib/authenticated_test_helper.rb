@@ -10,8 +10,7 @@ module AuthenticatedTestHelper
   end
   
   def create_user(overrides={})
-    attributes = {:email => 'user@test.com', :password => 'test', :password_confirmation => 'test'}
-    attributes.merge!(overrides)
+    attributes = {:email => 'user@test.com', :password => 'test', :password_confirmation => 'test'}.merge!(overrides)
     User.create(attributes)
   end
   

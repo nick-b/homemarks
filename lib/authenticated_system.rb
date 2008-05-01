@@ -15,7 +15,7 @@ module AuthenticatedSystem
   end
 
   def current_user=(new_user)
-    session[:user_id] = new_user ? new_user.id : nil
+    session[:user_id] = (new_user && new_user.respond_to?(:crypted_password)) ? new_user.id : nil
     @current_user = new_user || false
   end
 

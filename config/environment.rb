@@ -22,7 +22,6 @@ Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
 end
 
-# ActiveRecord::Base.partial_updates = true
 
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = { 

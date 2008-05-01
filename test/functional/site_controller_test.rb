@@ -9,6 +9,12 @@ class SiteControllerTest < ActionController::TestCase
       assert_site_page_success :title => 'Welcome to HomeMarks'
     end
     
+    should 'get index page when logged in' do
+      login_as(:bob)
+      get :index
+      assert_site_page_success :title => 'Welcome to HomeMarks'
+    end
+    
   end
   
   context 'While testing other static pages' do

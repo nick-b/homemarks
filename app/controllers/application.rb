@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def site_or_application_layout
-    controller_name =~ /^(site|user|support_requests)$/ ? 'site' : 'application'
+    controller_name =~ /^(site|support_requests|sessions|users)$/ ? 'site' : 'application'
   end
   
   # FIXME: Add an error mailer, or use exception notification plugin.
@@ -25,6 +25,13 @@ class ApplicationController < ActionController::Base
         format.html { redirect_to myhome_url }
         format.js   { render(:update) { |page| page.redirect_to(myhome_url) } }
       end
+    end
+  end
+  
+  def nil_demo_account
+    if session[:demo] == true
+      session[:user] = nil
+      session[:demo] = nil
     end
   end
   

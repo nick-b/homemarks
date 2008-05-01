@@ -4,17 +4,12 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :support_requests
   map.resource  :session
-  map.resources :users
+  map.resources :users, :member => { :home => :get }
   
   map.site ':page', :controller => 'site', :action => 'show'
   
   
-  # map.with_options(:controller => 'site') do |site|
-  #   site.help        'help',                 :action => 'help'
-  #   site.issues      'issues',               :action => 'issues'
-  #   site.issues_form 'issues/support_form',  :action => 'issues', :show_form => true
-  #   site.support     'request_support',      :action => 'request_support'
-  # end
+  
   
   # # Named route for user actions.
   # map.login             'login', :controller => 'user', :action => 'login'

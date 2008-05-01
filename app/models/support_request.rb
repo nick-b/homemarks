@@ -11,7 +11,7 @@ class SupportRequest < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of   :problem, :details, :email
-  validates_inclusion_of  :problem, :in => SUPPORT_OPTIONS
+  validates_inclusion_of  :problem, :in => SUPPORT_OPTIONS, :message => 'is invalid'
   
   attr_protected          :user_id
   

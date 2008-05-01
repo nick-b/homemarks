@@ -38,9 +38,6 @@ module ApplicationHelper
     %Q{window.location.href='#{location}'}
   end
   
-  def redirect_function_url_for(location)
-    %Q{window.location.href='#{url_for(location)}'}
-  end
   
   
   

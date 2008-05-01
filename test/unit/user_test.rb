@@ -2,6 +2,11 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < ActiveSupport::TestCase
   
+  should_have_one  :inbox
+  should_have_one  :trashbox
+  should_have_many :columns, :support_requests
+  should_have_many :boxes, :through => :columns
+  
 
   context 'While testing helpers' do
 

@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
   
-  attr_accessor  :password, :password_confirmation
+  attr_accessor   :password, :password_confirmation
   attr_accessible :email, :password, :password_confirmation
   
   before_validation_on_create :build_standard_boxes, :generate_security_token

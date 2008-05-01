@@ -73,11 +73,18 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
                           width:452px; height:9px; background: url('/javascripts/modal_assets/modal_top.png') repeat-x; z-index:210; }
 #ajaxforms              { width:400px; padding:17px; border: 8px solid #333; border-top: 0 none; color:#000; 
                           background: #fff url('/stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left; }
-#ajaxforms th                   { width:80px; }
+#ajaxforms th                   { width:80px; text-align:right; }
 #ajaxforms select,
 #ajaxforms textarea,
 #ajaxforms input[type='text']   { width:265px; }
 
+
+.ajaxform th                      { width:110px; text-align:right; padding-right:7px; }
+.ajaxform td                      { padding: 3px 0; }
+.ajaxform select,
+.ajaxform textarea,
+.ajaxform input[type='text'],
+.ajaxform input[type='password']  { width:320px; font-size:14px; padding:3px; }
 
 
 /*---    Welcome Message Formatting    ---*/

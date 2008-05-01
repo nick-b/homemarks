@@ -2,13 +2,18 @@ module HomemarksTestHelper
   
   def self.included(klass)
     klass.class_eval do
-      include RailsAssertions
+      include ActionControllerAssertions
+      include ActiveRecordAssertions
       include DomAssertions
       include SiteAssertions
     end
   end
   
-  module RailsAssertions
+  module ActionControllerAssertions
+    
+    def assert_good_flash(contents)
+      assert_match contents, flash[:good]
+    end
     
     def assert_layout(expected=nil, message=nil)
       clean_backtrace do
@@ -18,6 +23,18 @@ module HomemarksTestHelper
           expected.nil? ? @response.layout : expected.to_s == layout
         end
       end
+    end
+    
+  end
+  
+  module ActiveRecordAssertions
+    
+    def assert_valid(obj)
+      assert obj.valid?, "Expected [#{obj.class}] to be valid. Errors: #{inspect_errors(obj)}"
+    end
+    
+    def assert_not_valid(obj)
+      assert !obj.valid?, "Expected [#{obj.class}] to not be valid"
     end
     
     def inspect_errors(obj)

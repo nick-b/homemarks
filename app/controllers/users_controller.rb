@@ -1,31 +1,13 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
 
-  skip_before_filter :login_required, :only => [ :forgot_password, :login, :signup ]
-  before_filter :control_demo_user, :only => [ :forgot_password, :change_password, :edit, :delete, :restore_deleted ]
-  before_filter :nil_demo_account, :only => [ :signup, :login ]
+  skip_before_filter :login_required,    :only => [ :forgot_password, :signup ]
+  before_filter      :control_demo_user, :only => [ :forgot_password, :change_password, :edit, :delete, :restore_deleted ]
+  before_filter      :nil_demo_account,  :only => [ :signup, :login ]
   
-  
-  def index
-    redirect_to myhome_url
-  end
   
   def home
     @trashbox = @user.trashbox
     render :layout => 'application'
-  end
-
-  def login
-    @user = User.new if request.get?
-    if request.post?
-      u = User.authenticate(params[:user][:email], params[:user][:password])
-      if session[:user] = u.blank? ? nil : u.id
-        u.logged_in_at = Time.now ; u.save
-        flash[:good] = 'Login successful'
-        render(:update) {|page| page.redirect_to(myhome_url)}
-      else
-        render(:update) {|page| page.complete_ajax_form('do_not_enter','login_form')}
-      end
-    end
   end
   
   def signup
@@ -52,12 +34,6 @@ class UserController < ApplicationController
       @user.token_expiry = Time.now + 30.days ; @user.save
     end
     redirect_to eval(params[:redirect]+'_url')
-  end
-  
-  def logout
-    session[:user] = nil
-    session[:demo] = nil
-    redirect_to index_url
   end
   
   def forgot_password

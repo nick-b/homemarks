@@ -4,6 +4,7 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
 
 * Make cookie store remember 1 year
 * Add tests for redirect found email to forgot password
+* http://svn.rubyonrails.org/rails/plugins/exception_notification/README
 
 * New features to stuff in
   http://weblog.rubyonrails.org/2008/4/1/a-taste-of-what-s-coming-in-rails-2-1
@@ -25,7 +26,13 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
   - JavaScript Rewrite
   - Restful routes.
   - Restful authentication.
-  
+
+
+* HasManyAssociation callbacks.
+  has_many :foo :before_add => do, :after_add => do, :before_remove => do, :after_remove => do, 
+  callbacks = %w(before_add after_add before_remove after_remove)
+  callbacks.each do |callback_name|
+    full_callback_name = "#{callback_name}_for_#{association_name}"
 
 
 

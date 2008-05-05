@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SiteControllerTest < ActionController::TestCase
   
+  
   context 'While testing the site root' do
     
     should 'get the index page' do
@@ -15,7 +16,13 @@ class SiteControllerTest < ActionController::TestCase
       assert_site_page_success :title => 'Welcome to HomeMarks'
     end
     
+    should 'have HomeMarksUrls JS constant' do
+      get :index
+      assert_select 'script', /var HomeMarksUrls = \{/
+    end
+    
   end
+  
   
   context 'While testing other static pages' do
     

@@ -15,23 +15,15 @@ class SessionsController < ApplicationController
     respond_to do |format|
       if logged_in?
         flash[:good] = 'Login successful'
-        format.html { redirect_to home_user_url(current_user) }
+        format.html { redirect_to myhome_url }
         format.js   { head :ok }
       else
         format.html { render :action => 'new' }
-        format.js   { head :unauthorized }
+        format.js   { render :json => login_failures, :status => :unauthorized, :content_type => 'application/json' }
       end
     end
   end
   
-  # def login
-  #   if
-  #     render(:update) {|page| page.redirect_to(myhome_url)}
-  #   else
-  #     render(:update) {|page| page.complete_ajax_form('do_not_enter','login_form')}
-  #   end
-  # end
-
   def destroy
     cookies.delete :auth_token
     reset_session
@@ -39,6 +31,17 @@ class SessionsController < ApplicationController
     redirect_back_or_default('/')
   end
 
-
-
+  
+  protected
+  
+  def login_failures
+    login_failed_message = "Login failed. Please double check what you entered. If you still have problems, use the forgot password button."
+    returning messages = [] do
+      messages << "Email is blank" if params[:email].blank?
+      messages << "Password is blank" if params[:password].blank?
+      messages << login_failed_message if messages.blank?
+    end
+  end
+  
+  
 end

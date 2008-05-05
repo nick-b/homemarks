@@ -4,9 +4,10 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :support_requests
   map.resource  :session
-  map.resources :users, :member => { :home => :get }
+  map.resources :users
   
-  map.site ':page', :controller => 'site', :action => 'show'
+  map.myhome    'myhome', :controller => 'user', :action => 'home', :method => :get
+  map.site      ':page',  :controller => 'site', :action => 'show'
   
   
   

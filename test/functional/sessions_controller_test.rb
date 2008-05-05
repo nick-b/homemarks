@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SessionsControllerTest < ActionController::TestCase
   
   
-  context 'While test new action' do
+  context 'While testing the new action' do
     
     should 'get the page with success' do
       get :new
@@ -16,6 +16,7 @@ class SessionsControllerTest < ActionController::TestCase
     end
     
   end
+  
   
   context 'While testing the create action' do
     
@@ -58,6 +59,7 @@ class SessionsControllerTest < ActionController::TestCase
     end
     
   end
+  
   
   
   protected

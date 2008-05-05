@@ -1,8 +1,14 @@
 
 var HomeMarksUtil = {
   
-  joinErrors: function(errors) {
-    return errors.join(".\n");
+  alertMessages: function(request) {
+    var messages = request.responseJSON;
+    var alertText = messages.join(".\n");
+    if (alertText.endsWith('.')) { alert(alertText); } else { alert(alertText+'.'); };
+  },
+  
+  parseStatus: function(request) {
+    return (request.status >= 200 && request.status < 300) ? 'good' : 'bad';
   }
   
 };
@@ -13,10 +19,11 @@ var HomeMarksSite = Class.create({
     this.ajaxFrom = $('ajaxforms_wrapper');
     this.ajaxFromLinks = $$('.ajaxform_link');
     this.supportForm = $('support_form');
+    this.loginForm = $('login_form');
     this.initEvents();
   },
   
-  toggleAjaxForm: function(event) {
+  toggleAjaxFormBlind: function(event) {
     if (event) { event.element().blur(); };
     Effect.toggle(this.ajaxFrom, 'blind', {duration:0.4});
   },
@@ -41,7 +48,7 @@ var HomeMarksSite = Class.create({
   
   submitSupportForm: function(event) {
     event.stop();
-    new Ajax.Request('/support_requests',{
+    new Ajax.Request(HomeMarksUrls.supportForm,{
       onComplete: function(request){ this.completeSupportForm(request) }.bind(this),
       parameters: this.supportForm.serialize()
     });
@@ -49,21 +56,38 @@ var HomeMarksSite = Class.create({
   },
   
   completeSupportForm: function(request) {
-    var status = (request.status >= 200 && request.status < 300) ? 'good' : 'bad';
+    var status = HomeMarksUtil.parseStatus(request);
     this.completeAjaxForm(this.supportForm,{mood:status,enable:(status == 'bad')});
     if (status == 'good') {
-      setTimeout(function(){ this.toggleAjaxForm() }.bind(this),1500);
+      setTimeout(function(){ this.toggleAjaxFormBlind() }.bind(this),1500);
       setTimeout(function(){ this.supportForm.reset(); this.supportForm.enable(); }.bind(this),2000);
     }
     else {
-      alert(HomeMarksUtil.joinErrors(request.responseJSON));
+      HomeMarksUtil.alertMessages(request);
     };
+  },
+  
+  submitLoginForm: function(event) {
+    event.stop();
+    new Ajax.Request(HomeMarksUrls.loginForm,{
+      onComplete: function(request){ this.completeLoginForm(request) }.bind(this),
+      parameters: this.loginForm.serialize()
+    });
+    this.startAjaxForm(this.loginForm,{imgSrc:'loading_invert.gif'});
+  },
+  
+  completeLoginForm: function(request) {
+    var status = HomeMarksUtil.parseStatus(request);
+    this.completeAjaxForm(this.loginForm,{mood:status,enable:(status == 'bad')});
+    if (status == 'good') { window.location = HomeMarksUrls.root; }
+    else { HomeMarksUtil.alertMessages(request); };
   },
   
   initEvents: function() {
     if (this.supportForm) { this.supportForm.observe('submit', this.submitSupportForm.bindAsEventListener(this)); };
+    if (this.loginForm) { this.loginForm.observe('submit', this.submitLoginForm.bindAsEventListener(this)); };
     this.ajaxFromLinks.each(function(element){ 
-      element.observe('click', this.toggleAjaxForm.bindAsEventListener(this)); 
+      element.observe('click', this.toggleAjaxFormBlind.bindAsEventListener(this)); 
     }.bind(this));
   }
 
@@ -73,6 +97,21 @@ var HomeMarksSite = Class.create({
 document.observe('dom:loaded', function(){
   HmSite = new HomeMarksSite();
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

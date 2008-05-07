@@ -24,6 +24,19 @@ class SessionsController < ApplicationController
     end
   end
   
+  def forgot_password
+    return redirect_to(myaccount_url) if user?
+    if request.post?
+      unless @user = User.find_by_email(params[:user][:email])
+        render(:update) { |page| page.complete_forgotpw_form('bad') }
+      else
+        @user.generate_security_token && @user.save!
+        UserNotify.deliver_forgot_password(@user, jumpin_url(:user_id => user.id, :token => @user.security_token, :redirect => 'myaccount'), issues_form_url)
+        render(:update) { |page| page.complete_forgotpw_form('good') }
+      end
+    end
+  end
+  
   def destroy
     cookies.delete :auth_token
     reset_session

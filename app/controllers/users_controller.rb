@@ -1,13 +1,29 @@
 class UsersController < ApplicationController
-
-  skip_before_filter :login_required,    :only => [ :forgot_password, :signup ]
+  
+  helper SiteHelper
+  
+  skip_before_filter :login_required,    :only => [ :new, :create ]
   before_filter      :control_demo_user, :only => [ :forgot_password, :change_password, :edit, :delete, :restore_deleted ]
   before_filter      :nil_demo_account,  :only => [ :signup, :login ]
   
   
-  def home
-    @trashbox = @user.trashbox
-    render :layout => 'application'
+  def new
+    @user = User.new
+  end
+
+  def create
+    cookies.delete :auth_token
+    # Protects against session fixation attacks, wreaks havoc with request forgery protection. Uncomment at your own risk.
+    # reset_session
+    @user = User.new(params[:user])
+    @user.register! if @user.valid?
+    if @user.errors.empty?
+      self.current_user = @user
+      redirect_back_or_default('/')
+      flash[:notice] = "Thanks for signing up!"
+    else
+      render :action => 'new'
+    end
   end
   
   def signup
@@ -29,24 +45,30 @@ class UsersController < ApplicationController
     render(:update) {|page| page.complete_ajax_form('bad','signup_form')}
   end
   
+  def activate
+    self.current_user = params[:activation_code].blank? ? false : User.find_by_activation_code(params[:activation_code])
+    if logged_in? && !current_user.active?
+      current_user.activate!
+      flash[:notice] = "Signup complete!"
+    end
+    redirect_back_or_default('/')
+  end
+  
+  
+  
+  
+  def home
+    @trashbox = @user.trashbox
+    render :layout => 'application'
+  end
+  
+  
+  
   def jumpin
     if @user.email = HmConfig.demo[:email]
       @user.token_expiry = Time.now + 30.days ; @user.save
     end
     redirect_to eval(params[:redirect]+'_url')
-  end
-  
-  def forgot_password
-    return redirect_to(myaccount_url) if user?
-    if request.post?
-      unless @user = User.find_by_email(params[:user][:email])
-        render(:update) { |page| page.complete_forgotpw_form('bad') }
-      else
-        @user.generate_security_token && @user.save!
-        UserNotify.deliver_forgot_password(@user, jumpin_url(:user_id => user.id, :token => @user.security_token, :redirect => 'myaccount'), issues_form_url)
-        render(:update) { |page| page.complete_forgotpw_form('good') }
-      end
-    end
   end
   
   def change_password

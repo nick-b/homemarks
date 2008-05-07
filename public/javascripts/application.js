@@ -20,6 +20,7 @@ var HomeMarksSite = Class.create({
     this.ajaxFromLinks = $$('.ajaxform_link');
     this.supportForm = $('support_form');
     this.loginForm = $('login_form');
+    this.signupForm = $('signup_form');
     this.initEvents();
   },
   
@@ -28,12 +29,33 @@ var HomeMarksSite = Class.create({
     Effect.toggle(this.ajaxFrom, 'blind', {duration:0.4});
   },
   
-  startAjaxForm: function(form) {
-    $(form).disable();
+  startAjaxForm: function(event) {
+    event.stop();
+    var form = event.findElement('form');
     var options = Object.extend({loadId:'form_loading',imgSrc:'loading_invert.gif'}, arguments[1] || {});
     var imgTmpl = new Template('<img src="/images/#{src}" />');
     var imgTag = imgTmpl.evaluate({ src: options.imgSrc });
     $(options.loadId).update(imgTag);
+    new Ajax.Request(form.action,{
+      onComplete: function(request){ this.delegateCompleteAjaxForm(form,request) }.bind(this),
+      parameters: form.serialize(true)
+    });
+    form.disable();
+  },
+  
+  delegateCompleteAjaxForm: function(form,request) {
+    var status = HomeMarksUtil.parseStatus(request);
+    this.completeAjaxForm(form,{mood:status,enable:(status == 'bad')}); // This should go in completeAjaxForm ??
+    if (status == 'good') { 
+      switch (form) { 
+        case this.supportForm : this.completeSupportForm(request);
+        case this.loginForm   : this.completeLoginForm(request); 
+        case this.signupForm  : this.completeSignupForm(request); 
+      }
+    }
+    else { 
+      HomeMarksUtil.alertMessages(request); 
+    };
   },
   
   completeAjaxForm: function(form) {
@@ -46,46 +68,35 @@ var HomeMarksSite = Class.create({
     if (options.enable) { $(form).enable(); };
   },
   
-  submitSupportForm: function(event) {
-    event.stop();
-    new Ajax.Request(HomeMarksUrls.supportForm,{
-      onComplete: function(request){ this.completeSupportForm(request) }.bind(this),
-      parameters: this.supportForm.serialize()
-    });
-    this.startAjaxForm(this.supportForm,{imgSrc:'loading.gif'});
+  submitSupportForm: function(event) { 
+    this.startAjaxForm(event,{imgSrc:'loading.gif'});
   },
   
-  completeSupportForm: function(request) {
-    var status = HomeMarksUtil.parseStatus(request);
-    this.completeAjaxForm(this.supportForm,{mood:status,enable:(status == 'bad')});
-    if (status == 'good') {
-      setTimeout(function(){ this.toggleAjaxFormBlind() }.bind(this),1500);
-      setTimeout(function(){ this.supportForm.reset(); this.supportForm.enable(); }.bind(this),2000);
-    }
-    else {
-      HomeMarksUtil.alertMessages(request);
-    };
+  completeSupportForm: function() {
+    setTimeout(function(){ this.toggleAjaxFormBlind() }.bind(this),1500);
+    setTimeout(function(){ this.supportForm.reset(); this.supportForm.enable(); }.bind(this),2000);
   },
   
-  submitLoginForm: function(event) {
-    event.stop();
-    new Ajax.Request(HomeMarksUrls.loginForm,{
-      onComplete: function(request){ this.completeLoginForm(request) }.bind(this),
-      parameters: this.loginForm.serialize()
-    });
-    this.startAjaxForm(this.loginForm,{imgSrc:'loading_invert.gif'});
+  submitLoginForm: function(event) { 
+    this.startAjaxForm(event);
   },
   
-  completeLoginForm: function(request) {
-    var status = HomeMarksUtil.parseStatus(request);
-    this.completeAjaxForm(this.loginForm,{mood:status,enable:(status == 'bad')});
-    if (status == 'good') { window.location = HomeMarksUrls.root; }
-    else { HomeMarksUtil.alertMessages(request); };
+  completeLoginForm: function() {
+    window.location = HomeMarksUrls.root;
+  },
+  
+  submitSignupForm: function(event) { 
+    this.startAjaxForm(event);
+  },
+  
+  completeSignupForm: function() {
+    window.location = HomeMarksUrls.root;
   },
   
   initEvents: function() {
     if (this.supportForm) { this.supportForm.observe('submit', this.submitSupportForm.bindAsEventListener(this)); };
     if (this.loginForm) { this.loginForm.observe('submit', this.submitLoginForm.bindAsEventListener(this)); };
+    if (this.signupForm) { this.signupForm.observe('submit', this.submitSignupForm.bindAsEventListener(this)); };
     this.ajaxFromLinks.each(function(element){ 
       element.observe('click', this.toggleAjaxFormBlind.bindAsEventListener(this)); 
     }.bind(this));

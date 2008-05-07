@@ -79,7 +79,7 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 #ajaxforms input[type='text']   { width:265px; }
 
 
-.ajaxform th                      { width:110px; text-align:right; padding-right:7px; }
+.ajaxform th                      { width:140px; text-align:right; padding-right:7px; }
 .ajaxform td                      { padding: 3px 0; }
 .ajaxform select,
 .ajaxform textarea,

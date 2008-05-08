@@ -53,9 +53,7 @@ var HomeMarksSite = Class.create({
         case this.signupForm  : this.completeSignupForm(request); 
       }
     }
-    else { 
-      HomeMarksUtil.alertMessages(request); 
-    };
+    else { HomeMarksUtil.alertMessages(request); };
   },
   
   completeAjaxForm: function(form) {

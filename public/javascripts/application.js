@@ -75,16 +75,8 @@ var HomeMarksSite = Class.create({
     setTimeout(function(){ this.supportForm.reset(); this.supportForm.enable(); }.bind(this),2000);
   },
   
-  submitLoginForm: function(event) { 
-    this.startAjaxForm(event);
-  },
-  
   completeLoginForm: function() {
     window.location = HomeMarksUrls.root;
-  },
-  
-  submitSignupForm: function(event) { 
-    this.startAjaxForm(event);
   },
   
   completeSignupForm: function() {
@@ -93,8 +85,8 @@ var HomeMarksSite = Class.create({
   
   initEvents: function() {
     if (this.supportForm) { this.supportForm.observe('submit', this.submitSupportForm.bindAsEventListener(this)); };
-    if (this.loginForm) { this.loginForm.observe('submit', this.submitLoginForm.bindAsEventListener(this)); };
-    if (this.signupForm) { this.signupForm.observe('submit', this.submitSignupForm.bindAsEventListener(this)); };
+    if (this.loginForm) { this.loginForm.observe('submit', this.startAjaxForm.bindAsEventListener(this)); };
+    if (this.signupForm) { this.signupForm.observe('submit', this.startAjaxForm.bindAsEventListener(this)); };
     this.ajaxFromLinks.each(function(element){ 
       element.observe('click', this.toggleAjaxFormBlind.bindAsEventListener(this)); 
     }.bind(this));

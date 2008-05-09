@@ -16,11 +16,6 @@ class SiteControllerTest < ActionController::TestCase
       assert_site_page_success :title => 'Welcome to HomeMarks'
     end
     
-    should 'have HomeMarksUrls JS constant' do
-      get :index
-      assert_select 'script', /var HomeMarksUrls = \{/
-    end
-    
   end
   
   

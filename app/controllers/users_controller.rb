@@ -17,9 +17,8 @@ class UsersController < ApplicationController
   def create
     cookies.delete :auth_token
     @user = User.create!(params[:user])
-    flash[:good] = 'Signup complete!'
     self.current_user = @user
-    redirect_to root_url
+    head :ok
   end
   
   

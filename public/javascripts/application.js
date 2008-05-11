@@ -1,14 +1,23 @@
 
 var HomeMarksUtil = {
   
+  parseResponseMood: function(request) {
+    return (request.status >= 200 && request.status < 300) ? 'good' : 'bad';
+  },
+  
   alertMessages: function(request) {
     var messages = request.responseJSON;
     var alertText = messages.join(".\n");
     if (alertText.endsWith('.')) { alert(alertText); } else { alert(alertText+'.'); };
   },
   
-  parseStatus: function(request) {
-    return (request.status >= 200 && request.status < 300) ? 'good' : 'bad';
+  parseFlashMessages: function(request) {
+    var messages = request.responseJSON;
+    var messageList = UL();
+    messages.each(function(message){ 
+      messageList.appendChild( LI(message.escapeHTML()) );
+    });
+    return messageList;
   }
   
 };
@@ -21,7 +30,21 @@ var HomeMarksSite = Class.create({
     this.supportForm = $('support_form');
     this.loginForm = $('login_form');
     this.signupForm = $('signup_form');
+    this.flashes = $$('div.flash_message');
     this.initEvents();
+  },
+  
+  clearFlashes: function() {
+    this.flashes.invoke('hide');
+    this.flashes.invoke('update','');
+  },
+  
+  flash: function(mood,html) {
+    this.clearFlashes();
+    var moodFlash = this.flashes.find(function(e){ if (e.id == 'flash_'+mood) {return true}; });
+    moodFlash.update(html);
+    moodFlash.show();
+    $('site_wrapper').scrollTo();
   },
   
   toggleAjaxFormBlind: function(event) {
@@ -44,26 +67,29 @@ var HomeMarksSite = Class.create({
   },
   
   delegateCompleteAjaxForm: function(form,request) {
-    var status = HomeMarksUtil.parseStatus(request);
-    this.completeAjaxForm(form,{mood:status,enable:(status == 'bad')}); // This should go in completeAjaxForm ??
-    if (status == 'good') { 
+    var mood = HomeMarksUtil.parseResponseMood(request);
+    this.completeAjaxForm(form,{mood:mood});
+    if (mood == 'good') { 
       switch (form) { 
         case this.supportForm : this.completeSupportForm(request);
         case this.loginForm   : this.completeLoginForm(request); 
         case this.signupForm  : this.completeSignupForm(request); 
       }
     }
-    else { HomeMarksUtil.alertMessages(request); };
+    else { 
+      form.enable();
+      var flashHtml = DIV([H2('Errors:'),HomeMarksUtil.parseFlashMessages(request)]);
+      this.flash('bad',flashHtml);
+    };
   },
   
   completeAjaxForm: function(form) {
-    var options = Object.extend({loadId:'form_loading',mood:'good',enable:true}, arguments[1] || {});
+    var options = Object.extend({loadId:'form_loading',mood:'good'}, arguments[1] || {});
     var completeId = 'complete_ajax_form_' + options.loadId;
     var moodTmpl = new Template('<span id="#{id}" class="m0 p0"><img src="/images/#{src}.png" /></span>');
     var moodHtml = moodTmpl.evaluate({ id: completeId, src: options.mood});
     $(options.loadId).update(moodHtml);
-    setTimeout(function() { $(completeId).visualEffect('fade') },2000);
-    if (options.enable) { $(form).enable(); };
+    setTimeout(function() { $(completeId).visualEffect('fade') },3000);
   },
   
   submitSupportForm: function(event) { 
@@ -80,7 +106,8 @@ var HomeMarksSite = Class.create({
   },
   
   completeSignupForm: function() {
-    window.location = HomeMarksUrls.root;
+    // this.signup
+    window.location = '/';
   },
   
   initEvents: function() {
@@ -98,6 +125,8 @@ var HomeMarksSite = Class.create({
 document.observe('dom:loaded', function(){
   HmSite = new HomeMarksSite();
 });
+
+
 
 
 

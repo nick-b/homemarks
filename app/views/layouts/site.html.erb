@@ -11,6 +11,7 @@
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
   <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarksjslib' %>
   <%= javascript_include_tag 'application' %>
+  <script type="text/javascript">Builder.dump();</script>
 </head>
 <body>
   
@@ -32,7 +33,7 @@
       <div id="site_content_top"></div>
       <div id="site_content_area">
         <% [:good,:bad,:indif].each do |key| %>
-          <div class="flash_message flash_<%= key %>" style="display:<%= flash[key].blank? ? 'none' : 'block' %>;">
+          <div id="flash_<%= key %>" class="flash_message" style="display:<%= flash[key].blank? ? 'none' : 'block' %>;">
         	  <span><%= flash[key] %></span>
         	</div>
         <% end %>

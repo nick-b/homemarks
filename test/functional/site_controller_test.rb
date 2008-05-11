@@ -5,6 +5,10 @@ class SiteControllerTest < ActionController::TestCase
   
   context 'While testing the site root' do
     
+    should 'recognize route' do
+      assert_generates('/',{:controller => 'site',:action => 'index'})
+    end
+    
     should 'get the index page' do
       get :index
       assert_site_page_success :title => 'Welcome to HomeMarks'

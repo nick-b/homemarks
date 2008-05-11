@@ -1,8 +1,8 @@
 class SessionsController < ApplicationController
   
   helper SiteHelper
-  
   filter_parameter_logging :password
+  
   skip_before_filter :login_required, :except => [ :destroy ]
   
   
@@ -41,7 +41,7 @@ class SessionsController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
-    redirect_back_or_default('/')
+    redirect_back_or_default
   end
 
   

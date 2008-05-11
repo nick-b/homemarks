@@ -25,6 +25,14 @@ module HomemarksTestHelper
       end
     end
     
+    def assert_json_response
+      content_type = (@response.headers['Content-Type'] || @response.headers['type']).to_s
+      json = 'application/json'
+      msg = "Content Type #{content_type.inspect} doesn't match #{json.inspect}\n"
+      msg += "Body: #{@response.body.first(100).chomp} ..." 
+      assert_match json, content_type, msg
+    end
+    
   end
   
   module ActiveRecordAssertions

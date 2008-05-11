@@ -24,7 +24,7 @@ class SessionsControllerTest < ActionController::TestCase
       @bob = users(:bob)
     end
     
-    context 'with XHR' do
+    context 'with XHR POST' do
 
       should 'login as bob' do
         xhr_login_as_bob
@@ -33,9 +33,13 @@ class SessionsControllerTest < ActionController::TestCase
       end
       
       should 'fail login as bob' do
-        xhr_login_as_bob(:password => 'badpw')
-        assert_bad_login
+        xhr_login_as_bob(:email => '', :password => '')
+        assert_no_current_user
+        assert_json_response
         assert_response :unauthorized, 'Should be a simple head Unauthorized'
+        ['Email is blank','Password is blank'].each do |error|
+          assert_match error, @response.body
+        end
       end
 
     end
@@ -45,12 +49,12 @@ class SessionsControllerTest < ActionController::TestCase
       should 'login as bob' do
         post_login_as_bob
         assert_good_login_for_bob
-        assert_response :redirect, "Should redirect to user's home"
+        assert_redirected_to(myhome_url)
       end
       
       should 'fail login as bob and render new action' do
         post_login_as_bob(:password => 'badpw')
-        assert_bad_login
+        assert_no_current_user
         assert_response :success
         assert_template('new')
         assert_login_form
@@ -85,12 +89,9 @@ class SessionsControllerTest < ActionController::TestCase
   end
   
   def assert_good_login_for_bob
+    assert_current_user
     assert_equal session[:user_id], @bob.id, 'Bobs ID should be in the session'
     assert_good_flash 'Login successful'
-  end
-  
-  def assert_bad_login
-    assert_nil session[:user_id]
   end
   
   

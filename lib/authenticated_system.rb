@@ -42,12 +42,22 @@ module AuthenticatedSystem
   def store_location
     session[:return_to] = request.request_uri
   end
-
-  def redirect_back_or_default(default)
-    redirect_to(session[:return_to] || default)
-    session[:return_to] = nil
+  
+  def redirect_logged_in
+    if logged_in?
+      respond_to do |format|
+        format.html { redirect_to myhome_url }
+        format.js { redirect_to myhome_url }
+      end
+      return false
+    end
   end
 
+  def redirect_back_or_default
+    redirect_to session[:return_to] || root_url
+    session[:return_to] = nil
+  end
+  
   def login_from_session
     self.current_user = User.find_by_id(session[:user_id]) if session[:user_id]
   end

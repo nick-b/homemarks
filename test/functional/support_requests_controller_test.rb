@@ -31,25 +31,57 @@ class SupportRequestsControllerTest < ActionController::TestCase
   
   context 'While testing the create action' do
     
-    should 'create a new support request' do
-      xhr_create_support_request
-      assert_instance_of SupportRequest, assigns(:support_request)
-      assert_response :success, "object was not saved, errors are #{inspect_errors(assigns(:support_request))}"
+    context 'with XHR POST' do
+
+      should 'create a new support request' do
+        xhr_create_support_request
+        assert_instance_of SupportRequest, assigns(:support_request)
+        assert_response :success, "object was not saved, errors are #{inspect_errors(assigns(:support_request))}"
+      end
+
+      should 'create a new support request bound to a user when logged in' do
+        login_as(:bob)
+        xhr_create_support_request
+        assert_equal users(:bob), assigns(:support_request).user
+      end
+
+      should 'fail on create with blank attributes wi' do
+        xhr_create_support_request :email => '', :problem => '', :details => ''
+        assert_json_response
+        [ "Details can't be blank", "Problem can't be blank", 
+          "Problem is invalid", "Email can't be blank"].each do |error|
+          assert_match error, @response.body
+        end
+      end
+
     end
     
-    should 'create a new support request bound to a user when logged in' do
-      login_as(:bob)
-      xhr_create_support_request
-      assert_equal users(:bob), assigns(:support_request).user
+    context 'with HTTP POST' do
+
+      should 'create a new support request' do
+        post_create_support_request
+        assert_redirected_to(root_url)
+      end
+
     end
+    
+    
 
   end
   
   
   protected
   
-  def xhr_create_support_request
-    xhr :post, :create, {:support_request => {:email => 'user@test.com', :problem => 'Account Issues', :details => 'Test'}}
+  def xhr_create_support_request(overrides={})
+    xhr :post, :create, support_request_params(overrides)
+  end
+  
+  def post_create_support_request(overrides={})
+    post :create, support_request_params(overrides)
+  end
+  
+  def support_request_params(overrides={})
+    {:support_request => {:email => 'user@test.com', :problem => 'Account Issues', :details => 'Test'}.merge(overrides)}
   end
   
   

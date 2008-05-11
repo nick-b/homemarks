@@ -9,7 +9,7 @@
   signup, a confirmation email will be sent to you with a link to activate your account.
 </p>
 
-<% form_for :user, :id => 'signup_form' do |u| %>
+<% form_for @user, :html => {:id => 'signup_form'} do |u| %>
 <table class="ajaxform">
   <%= render :partial => 'edit', :locals => {:u => u} %>
   <%= render :partial => 'password', :locals => {:u => u} %>

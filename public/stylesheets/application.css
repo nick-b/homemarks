@@ -1,15 +1,8 @@
 
 
-
 /*---    [Page] Elements & Structure    ---*/
 
 body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x fixed bottom left; margin:0; padding:0; }
-
-.clearfix:after { content:"."; display:block; height:0; clear:both; visibility:hidden; }
-.clearfix       { display:inline-block; }
-.clearfix       { display:block; }
-
-.centered       { text-align:center; }
 
 
 /*---    [Public/Site] Formatting    ---*/
@@ -78,13 +71,19 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 #ajaxforms textarea,
 #ajaxforms input[type='text']   { width:265px; }
 
-
 .ajaxform th                      { width:140px; text-align:right; padding-right:7px; }
 .ajaxform td                      { padding: 3px 0; }
 .ajaxform select,
 .ajaxform textarea,
 .ajaxform input[type='text'],
 .ajaxform input[type='password']  { width:320px; font-size:14px; padding:3px; }
+
+.flash_message    { margin: 10px 0 25px 0; padding: 10px 10px 10px 35px; color:#000; }
+.flash_good       { border: 2px solid #3c3; background: #cfc url('/images/good.png') no-repeat 8px 10px; }
+.flash_bad        { border: 2px solid #f00; background: #fcc url('/images/bad.png') no-repeat 8px 10px; }
+.flash_indif      { border: 2px solid #06f; background: #9cf url('/images/indif.png') no-repeat 8px 10px; }
+.flash_bad h2     { margin: 0 0 0 0; }
+
 
 
 /*---    Welcome Message Formatting    ---*/

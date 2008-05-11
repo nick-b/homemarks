@@ -70,6 +70,7 @@ var HomeMarksSite = Class.create({
     var mood = HomeMarksUtil.parseResponseMood(request);
     this.completeAjaxForm(form,{mood:mood});
     if (mood == 'good') { 
+      this.clearFlashes();
       switch (form) { 
         case this.supportForm : this.completeSupportForm(request);
         case this.loginForm   : this.completeLoginForm(request); 
@@ -96,17 +97,19 @@ var HomeMarksSite = Class.create({
     this.startAjaxForm(event,{imgSrc:'loading.gif'});
   },
   
-  completeSupportForm: function() {
-    setTimeout(function(){ this.toggleAjaxFormBlind() }.bind(this),1500);
+  completeSupportForm: function(request) {
     setTimeout(function(){ this.supportForm.reset(); this.supportForm.enable(); }.bind(this),2000);
+    this.toggleAjaxFormBlind();
+    this.flash('good','Thanks for submitting a support request!');
   },
   
-  completeLoginForm: function() {
+  completeLoginForm: function(request) {
     window.location = HomeMarksUrls.root;
   },
   
-  completeSignupForm: function() {
+  completeSignupForm: function(request) {
     // this.signup
+    
     window.location = '/';
   },
   

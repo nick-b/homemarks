@@ -12,10 +12,7 @@ class SupportRequestsController < ApplicationController
     @support_request = SupportRequest.new(params[:support_request])
     @support_request.user = current_user
     @support_request.save!
-    respond_to do |format|
-      format.html { redirect_to root_url }
-      format.js { head :ok }
-    end
+    head :ok
   end
   
   

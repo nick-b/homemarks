@@ -12,15 +12,11 @@ class SessionsController < ApplicationController
   
   def create
     self.current_user = User.authenticate(params[:email], params[:password])
-    respond_to do |format|
-      if logged_in?
-        flash[:good] = 'Login successful'
-        format.html { redirect_to myhome_url }
-        format.js   { head :ok }
-      else
-        format.html { render :action => 'new' }
-        format.js   { render :json => login_failures, :status => :unauthorized, :content_type => 'application/json' }
-      end
+    if logged_in?
+      flash[:good] = 'Login Successful!'
+      head :ok
+    else
+      render :json => login_failures, :status => :unauthorized, :content_type => 'application/json'
     end
   end
   
@@ -38,7 +34,6 @@ class SessionsController < ApplicationController
   end
   
   def destroy
-    cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
     redirect_back_or_default

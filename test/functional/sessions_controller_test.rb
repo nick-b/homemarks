@@ -24,42 +24,20 @@ class SessionsControllerTest < ActionController::TestCase
       @bob = users(:bob)
     end
     
-    context 'with XHR POST' do
-
-      should 'login as bob' do
-        xhr_login_as_bob
-        assert_good_login_for_bob
-        assert_response :ok, 'Should be a simple head OK'
-      end
-      
-      should 'fail login as bob' do
-        xhr_login_as_bob(:email => '', :password => '')
-        assert_no_current_user
-        assert_json_response
-        assert_response :unauthorized, 'Should be a simple head Unauthorized'
-        ['Email is blank','Password is blank'].each do |error|
-          assert_match error, @response.body
-        end
-      end
-
+    should 'login as bob' do
+      xhr_login
+      assert_good_login
+      assert_response :ok
     end
     
-    context 'with HTTP POST' do
-
-      should 'login as bob' do
-        post_login_as_bob
-        assert_good_login_for_bob
-        assert_redirected_to(myhome_url)
+    should 'fail login as bob' do
+      xhr_login(:email => '', :password => '')
+      assert_no_current_user
+      assert_json_response
+      assert_response :unauthorized, 'Should be a simple head Unauthorized'
+      ['Email is blank','Password is blank'].each do |error|
+        assert_match error, @response.body
       end
-      
-      should 'fail login as bob and render new action' do
-        post_login_as_bob(:password => 'badpw')
-        assert_no_current_user
-        assert_response :success
-        assert_template('new')
-        assert_login_form
-      end
-      
     end
     
   end
@@ -76,22 +54,18 @@ class SessionsControllerTest < ActionController::TestCase
     end
   end
   
-  def xhr_login_as_bob(overrides={})
-    xhr :post, :create, bobs_params(overrides)
+  def xhr_login(overrides={})
+    xhr :post, :create, default_params(overrides)
   end
   
-  def post_login_as_bob(overrides={})
-    post :create, bobs_params(overrides)
-  end
-  
-  def bobs_params(overrides={})
+  def default_params(overrides={})
     {:email => @bob.email, :password => 'test'}.merge!(overrides)
   end
   
-  def assert_good_login_for_bob
+  def assert_good_login
     assert_current_user
     assert_equal session[:user_id], @bob.id, 'Bobs ID should be in the session'
-    assert_good_flash 'Login successful'
+    assert_equal 'Login Successful!', flash[:good]
   end
   
   

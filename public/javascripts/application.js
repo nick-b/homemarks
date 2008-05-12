@@ -104,7 +104,7 @@ var HomeMarksSite = Class.create({
   },
   
   completeLoginForm: function(request) {
-    window.location = HomeMarksUrls.root;
+    window.location = '/myhome'
   },
   
   completeSignupForm: function(request) {

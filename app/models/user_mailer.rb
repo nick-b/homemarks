@@ -5,32 +5,32 @@ class UserMailer < ActionMailer::Base
     @subject += 'Welcome to HomeMarks'
   end
   
-  def forgot_password(user)
-    setup_email(user)
-    @subject += 'Forgotten password notification'
-    @body['jumpinurl'] = jumpinurl
-    @body['support_url'] = support_url
-  end
-
-  def change_account(user)
-    setup_email(user)
-    @recipients = email if !email.nil?
-    @subject += 'Changed account notification'
-    @body['email'] = email
-    @body['support_url'] = support_url
-  end
-
-  def pending_delete(user)
-    setup_email(user)
-    @subject += 'Delete account notification'
-    @body['days'] = HmConfig.app[:delayed_delete_days]
-    @body['recover_url'] = url
-  end
-
-  def delete(user)
-    setup_email(user)
-    @subject += 'Deleted account permanently'
-  end
+  # def forgot_password(user)
+  #   setup_email(user)
+  #   @subject += 'Forgotten password notification'
+  #   @body['jumpinurl'] = jumpinurl
+  #   @body['support_url'] = support_url
+  # end
+  # 
+  # def change_account(user)
+  #   setup_email(user)
+  #   @recipients = email if !email.nil?
+  #   @subject += 'Changed account notification'
+  #   @body['email'] = email
+  #   @body['support_url'] = support_url
+  # end
+  # 
+  # def pending_delete(user)
+  #   setup_email(user)
+  #   @subject += 'Delete account notification'
+  #   @body['days'] = HmConfig.app[:delayed_delete_days]
+  #   @body['recover_url'] = url
+  # end
+  # 
+  # def delete(user)
+  #   setup_email(user)
+  #   @subject += 'Deleted account permanently'
+  # end
   
   
   protected

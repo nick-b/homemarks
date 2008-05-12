@@ -44,11 +44,14 @@ class UsersControllerTest < ActionController::TestCase
       assert_nil cookies[:auth_token]
     end
     
-    # should 'fail signup' do
-    #   xhr_signup :email => '', :password => '', :password_confirmation => ''
-    #   assert_bad_login
-    #   assert_response :unauthorized, 'Should be a simple head Unauthorized'
-    # end
+    should 'fail with blank attributes and json body errors' do
+      xhr_signup :email => '', :password => '', :password_confirmation => ''
+      assert_json_response
+      [ "Email can't be blank", "Email is invalid", 
+        "Password can't be blank", "Password is too short", "Password confirmation"].each do |error|
+        assert_match error, @response.body
+      end
+    end
     
   end
   
@@ -70,7 +73,7 @@ class UsersControllerTest < ActionController::TestCase
   end
   
   def default_params(overrides={})
-    {:user => {:email => 'signup@test.com', :password => 'test', :password_confirmation => 'test'}}.merge!(overrides)
+    {:user => {:email => 'signup@test.com', :password => 'test', :password_confirmation => 'test'}.merge(overrides)}
   end
     
   def assert_good_signup

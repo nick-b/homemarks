@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
   end
-
+  
   def create
     cookies.delete :auth_token
     @user = User.create!(params[:user])

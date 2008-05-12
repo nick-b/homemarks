@@ -108,9 +108,8 @@ var HomeMarksSite = Class.create({
   },
   
   completeSignupForm: function(request) {
-    // this.signup
-    
-    window.location = '/';
+    var flashHtml = DIV([H2('Signup Complete:'),P('You can not login unless you verify your email address. We have sent an email with a link to verify and activate your account.')]);
+    this.flash('good',flashHtml);
   },
   
   initEvents: function() {

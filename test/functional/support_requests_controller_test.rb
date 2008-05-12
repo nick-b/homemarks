@@ -45,7 +45,7 @@ class SupportRequestsControllerTest < ActionController::TestCase
       assert_equal users(:bob), assigns(:support_request).user
     end
 
-    should 'fail on create with blank attributes wi' do
+    should 'fail on create with blank attributes and json body errors' do
       xhr_create_support_request :email => '', :problem => '', :details => ''
       assert_json_response
       [ "Details can't be blank", "Problem can't be blank", 

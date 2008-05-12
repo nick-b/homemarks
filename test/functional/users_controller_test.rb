@@ -38,12 +38,6 @@ class UsersControllerTest < ActionController::TestCase
       assert_redirected_to myhome_url
     end
     
-    should 'delete auth token' do
-      cookies[:auth_token] = 'abcd'
-      xhr_signup
-      assert_nil cookies[:auth_token]
-    end
-    
     should 'fail with blank attributes and json body errors' do
       xhr_signup :email => '', :password => '', :password_confirmation => ''
       assert_json_response

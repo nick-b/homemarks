@@ -20,24 +20,35 @@ class SessionsController < ApplicationController
     end
   end
   
-  def forgot_password
-    return redirect_to(myaccount_url) if user?
-    if request.post?
-      unless @user = User.find_by_email(params[:user][:email])
-        render(:update) { |page| page.complete_forgotpw_form('bad') }
-      else
-        @user.generate_security_token && @user.save!
-        UserNotify.deliver_forgot_password(@user, jumpin_url(:user_id => user.id, :token => @user.security_token, :redirect => 'myaccount'), issues_form_url)
-        render(:update) { |page| page.complete_forgotpw_form('good') }
-      end
-    end
+  def jumpin
+    destination = logged_in? ? myhome_url : root_url
+    redirect_to destination
   end
   
-  def destroy
-    reset_session
-    flash[:notice] = "You have been logged out."
-    redirect_back_or_default
-  end
+  
+  # def jumpin
+  #   redirect_to eval(params[:redirect]+'_url')
+  # end
+  
+  
+  # def forgot_password
+  #   return redirect_to(myaccount_url) if user?
+  #   if request.post?
+  #     unless @user = User.find_by_email(params[:user][:email])
+  #       render(:update) { |page| page.complete_forgotpw_form('bad') }
+  #     else
+  #       @user.generate_security_token && @user.save!
+  #       UserNotify.deliver_forgot_password(@user)
+  #       render(:update) { |page| page.complete_forgotpw_form('good') }
+  #     end
+  #   end
+  # end
+  # 
+  # def destroy
+  #   reset_session
+  #   flash[:notice] = "You have been logged out."
+  #   redirect_back_or_default
+  # end
 
   
   protected

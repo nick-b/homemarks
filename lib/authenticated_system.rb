@@ -11,7 +11,7 @@ module AuthenticatedSystem
   end
 
   def current_user
-    @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
+    @current_user ||= (login_from_session || login_from_basic_auth || login_from_token) unless @current_user == false
   end
 
   def current_user=(new_user)
@@ -68,11 +68,10 @@ module AuthenticatedSystem
     end
   end
 
-  def login_from_cookie
-    user = cookies[:auth_token] && User.find_by_remember_token(cookies[:auth_token])
-    if user && user.remember_token?
-      cookies[:auth_token] = { :value => user.remember_token, :expires => user.remember_token_expires_at }
-      self.current_user = user
+  def login_from_token
+    authorized_action = controller_name == 'sessions' && action_name == 'jumpin'
+    if authorized_action
+      self.current_user = User.authenticate_by_token(params[:token])
     end
   end
   

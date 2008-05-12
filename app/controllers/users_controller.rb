@@ -15,7 +15,6 @@ class UsersController < ApplicationController
   end
   
   def create
-    cookies.delete :auth_token
     @user = User.create!(params[:user])
     self.current_user = @user
     head :ok
@@ -25,32 +24,9 @@ class UsersController < ApplicationController
   
   
   
-  
-  
-  # def signup
-  #   UserNotify.deliver_signup(@user, jumpin_url(:user_id => @user.id, :token => @user.security_token, :redirect => 'myhome'), issues_form_url)
-  #   flash[:signup] = @user.email
-  # end
-  # 
-  # def activate
-  #   self.current_user = params[:activation_code].blank? ? false : User.find_by_activation_code(params[:activation_code])
-  #   if logged_in? && !current_user.active?
-  #     current_user.activate!
-  #     flash[:notice] = "Signup complete!"
-  #   end
-  #   redirect_back_or_default
-  # end
-  # 
   # def home
   #   @trashbox = @user.trashbox
   #   render :layout => 'application'
-  # end
-  # 
-  # def jumpin
-  #   if @user.email = HmConfig.demo[:email]
-  #     @user.token_expiry = Time.now + 30.days ; @user.save
-  #   end
-  #   redirect_to eval(params[:redirect]+'_url')
   # end
   # 
   # def change_password

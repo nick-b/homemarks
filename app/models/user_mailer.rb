@@ -46,7 +46,7 @@ class UserMailer < ActionMailer::Base
   def setup_body(user)
     @host_uri             = "http://#{HmConfig.app[:host]}"
     @body['support_url']  = "#{@host_uri}/support_requests/new?show_form=true"
-    @body['jumpin_url']   = "#{@host_uri}/users/#{user.id}/jumpin"
+    @body['jumpin_url']   = "#{@host_uri}/session/jumpin?token=#{user.security_token}"
   end
     
 end

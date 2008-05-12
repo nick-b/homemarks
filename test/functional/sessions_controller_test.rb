@@ -2,6 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SessionsControllerTest < ActionController::TestCase
   
+  def setup
+    @bob = users(:bob)
+  end
+  
   
   context 'While testing the new action' do
     
@@ -17,16 +21,12 @@ class SessionsControllerTest < ActionController::TestCase
     
   end
   
-  
   context 'While testing the create action' do
-    
-    setup do
-      @bob = users(:bob)
-    end
     
     should 'login as bob' do
       xhr_login
       assert_good_login
+      assert_equal 'Login Successful!', flash[:good]
       assert_response :ok
     end
     
@@ -41,6 +41,23 @@ class SessionsControllerTest < ActionController::TestCase
     end
     
   end
+  
+  context 'While testing the jumpin action' do
+
+    should 'login with token' do
+      get :jumpin, {:token => @bob.security_token}
+      assert_good_login
+      assert_redirected_to myhome_url
+    end
+    
+    should 'fail login when token is bad' do
+      get :jumpin, {:token => '1234'}
+      assert_no_current_user
+      assert_redirected_to root_url
+    end
+    
+  end
+  
   
   
   
@@ -65,7 +82,6 @@ class SessionsControllerTest < ActionController::TestCase
   def assert_good_login
     assert_current_user
     assert_equal session[:user_id], @bob.id, 'Bobs ID should be in the session'
-    assert_equal 'Login Successful!', flash[:good]
   end
   
   

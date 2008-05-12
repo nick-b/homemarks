@@ -21,7 +21,7 @@ module AuthenticatedTestHelper
   
   def assert_no_current_user
     assert_nil session[:user_id], 'The session[:user_id] should be nil'
-    assert_equal false, assigns(:current_user)
+    assert_contains [false,nil], assigns(:current_user)
   end
   
   

@@ -1,5 +1,5 @@
 
-<% @page_title = "My #{HmConfig.app[:name]} Account Preferences" -%>
+<% @page_title = "My HomeMarks Account Preferences" -%>
 
 <h1>My Account</h1>
 
@@ -39,7 +39,7 @@
 
 <h2>Delete Account</h2>
 <img src="/stylesheets/images/site/trashcan.png" style="float:left; margin-right:12px;" />
-<p>If you choose to delete your account, it will be immediatly deactived and then deleted by the <%= HmConfig.app[:name] %> system in <%= HmConfig.app[:delayed_delete_days] %> days. If you do choose yes, an email will be sent to your address on file with a link that will allow you to cancel this action within the <%= HmConfig.app[:delayed_delete_days] %> day period.</p>
+<p>If you choose to delete your account, it will be immediatly deactived and then deleted by the HomeMarks system in <%= HmConfig.app[:delayed_delete_days] %> days. If you do choose yes, an email will be sent to your address on file with a link that will allow you to cancel this action within the <%= HmConfig.app[:delayed_delete_days] %> day period.</p>
 <div class="clearfix">
   <div style="float:right;">
     <%= button_to 'Delete Account', {:action => 'delete'}, :confirm => "Are you REALLY sure you want to delete your account?", :id => 'delete_account_button' %>

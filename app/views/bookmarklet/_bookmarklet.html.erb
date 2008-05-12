@@ -29,7 +29,7 @@ javascript:
     ss=d.createElement('link');
     ss.rel='stylesheet';
     ss.type='text/css';
-    ss.href='<%= HmConfig.app[:url] %>stylesheets/bookmarklet.css';
+    ss.href='<%= HmConfig.app[:host] %>stylesheets/bookmarklet.css';
     ac(ss);
     m=d.createElement('div');
     m.id='modalmask';
@@ -46,15 +46,15 @@ javascript:
     a(f);
     pjs=d.createElement('script');
     pjs.type='text/javascript';
-    pjs.src='<%= HmConfig.app[:url] %>/javascripts/prototype_min.js';
+    pjs.src='<%= HmConfig.app[:host] %>/javascripts/prototype_min.js';
     a(pjs);
     ejs=d.createElement('script');
     ejs.type='text/javascript';
-    ejs.src='<%= HmConfig.app[:url] %>/javascripts/effects_min.js';
+    ejs.src='<%= HmConfig.app[:host] %>/javascripts/effects_min.js';
     a(ejs);
     appjs=d.createElement('script');
     appjs.type='text/javascript';
-    appjs.src='<%= HmConfig.app[:url] %>/javascripts/bookmarklet_min.js';
+    appjs.src='<%= HmConfig.app[:host] %>/javascripts/bookmarklet_min.js';
     a(appjs);
     rjs=d.createElement('script');
     rjs.type='text/javascript';

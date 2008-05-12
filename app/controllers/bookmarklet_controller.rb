@@ -12,7 +12,7 @@ class BookmarkletController < ApplicationController
       page.<< "Element.setStyle('modal_html_ap-wrapper',{position:'fixed',top:'0',left:'0',zIndex:'999999'});"
       page.<< "Element.setStyle('modalmask',{position:'absolute',top:'0',left:'0',zIndex:'999998',width:'100%',height:'100%',textAlign:'center',backgroundColor:'#000',opacity:'0.9'});"
       page.<< "$('modalmask').style.setProperty('-moz-opacity','0.9',null);"
-      page.<< "Element.setStyle('modal_progress',{position:'relative',width:'100px',height:'130px',margin:'0 auto',cursor:'pointer',backgroundImage:'url(#{HmConfig.app[:url]}javascripts/modal_assets/progress_invert.gif)'});"
+      page.<< "Element.setStyle('modal_progress',{position:'relative',width:'100px',height:'130px',margin:'0 auto',cursor:'pointer',backgroundImage:'url(#{HmConfig.app[:host]}javascripts/modal_assets/progress_invert.gif)'});"
       page.<< "Event.observe('modal_progress','click', goHere, false);"
       # Miscellaneous JavaScript calls to mimic a box's edit links modal.
       page.remove :loadinghomemarks
@@ -54,7 +54,7 @@ class BookmarkletController < ApplicationController
   end
   
   def redirect_if_self_referal
-    render(:update) {|page| page.<< "#{redirect_function(help_url(:anchor => 'homemarklet'))}"} if request.referer.to_s.match "^#{HmConfig.app[:url]}"
+    render(:update) {|page| page.<< "#{redirect_function(help_url(:anchor => 'homemarklet'))}"} if request.referer.to_s.match "^#{HmConfig.app[:host]}"
   end
   
   def find_user_by_uuid

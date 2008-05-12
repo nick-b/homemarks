@@ -1,6 +1,6 @@
 <div id="modal_html_rel-wrapper" style="position:relative;display:<%= @nonhtml ? 'block' : 'none' %>;">
   <div id="modal_html_border" style="position:relative; border: 1px solid #666; border-top: 0 none;">
-    <div id="modal_html" style="position: relative; width: 300px; height: 145px; padding:17px; border: 8px solid #333; border-top: 0 none; background: #fff url('<%= HmConfig.app[:url] %>stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left;">
+    <div id="modal_html" style="position: relative; width: 300px; height: 145px; padding:17px; border: 8px solid #333; border-top: 0 none; background: #fff url('<%= HmConfig.app[:host] %>stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left;">
       <div style="margin:0 auto; width:260px;" id="savehomemarks_form_wrapper">
         <div style="margin-bottom:8px; color:#000; font-size:14px; font-family:'Lucida Grande',Tahoma,sans-serif;">Type a name for the bookmark, <br />and choose where to keep it.</div>
         <% form_tag( save_link_url(:only_path => false, :uuid => @user.uuid), {:id => 'savehomemarks_form'} ) do %>
@@ -10,12 +10,12 @@
             <%= select_tag 'box[id]', option_groups_from_collection_for_select(@user.boxes_for_option_group, :boxes, :col_name, :id, :title), :id => 'hm_bookmark_box_select', :style => "width:100%;" %>            
           </div>
           <div style="text-align:right;margin-top:12px;">
-            <span id="modal_button_save"><input type="image" src="<%= HmConfig.app[:url] %>stylesheets/images/page/nil.png" id="hm_modal_submit" onclick="<%= render_bookmarklet_save_button %>" style="width:84px;height:26px;" /></span>
+            <span id="modal_button_save"><input type="image" src="<%= HmConfig.app[:host] %>stylesheets/images/page/nil.png" id="hm_modal_submit" onclick="<%= render_bookmarklet_save_button %>" style="width:84px;height:26px;" /></span>
             <span id="modal_button_cancel" onclick="<%= @nonhtml ? "location.href = '#{@bookmark_url}'" : 'destroyModal();' %>"></span>
           </div>
         <% end %>
       </div>
     </div>
   </div>
-  <div id="modal_html_top" style="position:absolute; top:0; left:0; width:352px; height:9px; background: url('<%= HmConfig.app[:url] %>javascripts/modal_assets/modal_top.png') repeat-x; z-index:995;"></div>
+  <div id="modal_html_top" style="position:absolute; top:0; left:0; width:352px; height:9px; background: url('<%= HmConfig.app[:host] %>javascripts/modal_assets/modal_top.png') repeat-x; z-index:995;"></div>
 </div>

@@ -5,22 +5,20 @@ class HmConfig
   JSMIN_TARGETS = ['prototype','effects','bookmarklet']
   @@property = {
     :app => {
-      :email_from           => '',
-      :admin_email          => '',
-      :url                  => 'homemarks.com',  # Need request.host
-      :name                 => 'HomeMarks',
-      :dotcom               => 'HomeMarks.com',
+      :email_from           => 'ken@homemarks.com',
+      :admin_email          => 'ken@homemarks.com',
+      :host                 => 'homemarks.com',
       :delayed_delete_days  => 3
-      },
+    },
     :demo => {
       :id                   => '',
       :email                => '',
       :token                => ''
-      }
     }
+  }
   cattr_accessor :property
   def self.method_missing(method, *arguments)
-    HmConfig.property[method.to_sym]
+    self.property[method.to_sym]
   end
 end
 

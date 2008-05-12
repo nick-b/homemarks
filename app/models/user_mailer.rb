@@ -1,20 +1,18 @@
-class UserNotify < ActionMailer::Base
-
-  def signup(user, jumpinurl, support_url)
+class UserMailer < ActionMailer::Base
+  
+  def signup(user)
     setup_email(user)
-    @subject += "Welcome to #{HmConfig.app[:dotcom]}"
-    @body['jumpinurl'] = jumpinurl
-    @body['support_url'] = support_url
+    @subject += 'Welcome to HomeMarks'
   end
-
-  def forgot_password(user, jumpinurl, support_url)
+  
+  def forgot_password(user)
     setup_email(user)
     @subject += 'Forgotten password notification'
     @body['jumpinurl'] = jumpinurl
     @body['support_url'] = support_url
   end
 
-  def change_account(user, support_url, email)
+  def change_account(user)
     setup_email(user)
     @recipients = email if !email.nil?
     @subject += 'Changed account notification'
@@ -22,33 +20,33 @@ class UserNotify < ActionMailer::Base
     @body['support_url'] = support_url
   end
 
-  def pending_delete(user, url, support_url)
+  def pending_delete(user)
     setup_email(user)
     @subject += 'Delete account notification'
     @body['days'] = HmConfig.app[:delayed_delete_days]
     @body['recover_url'] = url
   end
 
-  def delete(user, support_url)
+  def delete(user)
     setup_email(user)
     @subject += 'Deleted account permanently'
   end
   
-  private
+  
+  protected
   
   def setup_email(user)
     @recipients = user.email
-    @from       = HmConfig.app[:email_from].to_s
+    @from       = HmConfig.app[:email_from]
     @sent_on    = Time.now
-    @subject    = %([#{HmConfig.app[:name]}] - )
-    setup_body
+    @subject    = %|[HomeMarks] |
+    setup_body(user)
   end
   
-  def setup_body
-    @body['app_name'] = HmConfig.app[:name]
-    @body['app_url'] = HmConfig.app[:url]
-    @body['app_dotcom'] = HmConfig.app[:dotcom]
+  def setup_body(user)
+    @host_uri             = "http://#{HmConfig.app[:host]}"
+    @body['support_url']  = "#{@host_uri}/support_requests/new?show_form=true"
+    @body['jumpin_url']   = "#{@host_uri}/users/#{user.id}/jumpin"
   end
-  
-  
+    
 end

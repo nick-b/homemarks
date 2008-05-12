@@ -6,6 +6,7 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
 * Add tests for redirect found email to forgot password
 * http://svn.rubyonrails.org/rails/plugins/exception_notification/README
 * Create sitewide JS browser check (happy message)
+* Confirm all HmConfig settings.
 * New features to stuff in
   http://weblog.rubyonrails.org/2008/4/1/a-taste-of-what-s-coming-in-rails-2-1
   http://mad.ly/2008/04/09/rails-21-time-zone-support-an-overview/

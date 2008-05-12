@@ -16,7 +16,7 @@ Rails::Initializer.run do |config|
     :session_key => '_myhomemarks_session',
     :secret      => '69385742936eae182b454ab0a7a72a5f79386f2f67d67ee19596ba3e85a2d36baf06d531b2448c145b21bae3bd72d868073ef7c6ef65b3bb85a13f18e7827de9'
   }
-  # config.active_record.observers = :cacher, :garbage_collector
+  config.active_record.observers = :user_observer
   config.active_record.partial_updates  = true
   config.active_record.default_timezone = :utc
   config.time_zone = 'UTC'
@@ -24,13 +24,13 @@ end
 
 
 ActionMailer::Base.delivery_method = :smtp
-ActionMailer::Base.smtp_settings = { 
-  :address => "mail.foobar.com", 
-  :domain => "server.foobar.com",
-  :authentication => :login, 
-  :user_name => "", 
-  :password => "" 
-  }
+# ActionMailer::Base.smtp_settings = { 
+#   :address => "mail.foobar.com", 
+#   :domain => "server.foobar.com",
+#   :authentication => :login, 
+#   :user_name => "", 
+#   :password => "" 
+# }
 
 if RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
   require 'utilities/copy_user'

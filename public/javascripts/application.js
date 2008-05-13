@@ -56,8 +56,7 @@ var HomeMarksSite = Class.create({
     event.stop();
     var form = event.findElement('form');
     var options = Object.extend({loadId:'form_loading',imgSrc:'loading_invert.gif'}, arguments[1] || {});
-    var imgTmpl = new Template('<img src="/images/#{src}" />');
-    var imgTag = imgTmpl.evaluate({ src: options.imgSrc });
+    var imgTag = IMG({src:('/images/'+options.imgSrc)});
     $(options.loadId).update(imgTag);
     new Ajax.Request(form.action,{
       onComplete: function(request){ this.delegateCompleteAjaxForm(form,request) }.bind(this),
@@ -87,8 +86,8 @@ var HomeMarksSite = Class.create({
   completeAjaxForm: function(form) {
     var options = Object.extend({loadId:'form_loading',mood:'good'}, arguments[1] || {});
     var completeId = 'complete_ajax_form_' + options.loadId;
-    var moodTmpl = new Template('<span id="#{id}" class="m0 p0"><img src="/images/#{src}.png" /></span>');
-    var moodHtml = moodTmpl.evaluate({ id: completeId, src: options.mood});
+    var imgSrc = '/images/'+options.mood+'.png';
+    var moodHtml = SPAN({id:completeId,class:'m0 p0'}, [IMG({src:imgSrc})]);
     $(options.loadId).update(moodHtml);
     setTimeout(function() { $(completeId).visualEffect('fade') },3000);
   },

@@ -1,31 +1,66 @@
 
 <% title 'My HomeMarks Login' %>
 
-<h1><%= yield(:title) %></h1>
+<div id="login_area">
+  
+  <h1><%= yield(:title) %></h1>
 
-<p class="mb30">
-  Login into your HomeMarks start page or, signup now and <%= link_to 'create your own', new_user_path %>. If you have any 
-  problems please use our <%= link_to 'online support form', new_support_request_path(:show_form => true) %>.
-</p>
+  <p class="mb20">
+    Login into your HomeMarks start page or, signup now and <%= link_to 'create your own', new_user_path %>. If you have any 
+    problems please use our <%= link_to 'online support form', new_support_request_path(:show_form => true) %>.
+  </p>
 
-<% form_tag session_path, :id => 'login_form' do %>
-  <table class="ajaxform">
-    <tr>
-      <th><label>Email:</label></th>
-      <td><%= text_field_tag 'email', params[:email] %></td>
-    </tr>
-    <tr>
-      <th><label>Password:</label></th>
-      <td><%= password_field_tag 'password', params[:password] %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td class="vmiddle_all">
-        <input class="forgotpw_link" type="button" value="Forgot password" />
-        <%= submit_tag 'Login' %> 
-        <span id="form_loading"></span>
-      </td>
-    </tr>
-  </table>
-<% end %>
+  <% form_tag session_path, :id => 'login_form' do %>
+    <table class="ajaxform">
+      <tr>
+        <th><label>Email:</label></th>
+        <td><%= text_field_tag 'email', params[:email] %></td>
+      </tr>
+      <tr>
+        <th><label>Password:</label></th>
+        <td><%= password_field_tag 'password', params[:password] %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="vmiddle_all">
+          <input class="forgotpw_link" type="button" value="Forgot password" />
+          <%= submit_tag 'Login' %> 
+          <span id="form_loading"></span>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+  
+</div>
+
+
+<div id="forgotpw_area">
+  
+  <h1>Forgot Password</h1>
+
+  <p class="mb20">
+    Enter your email address in the field below and click 'Reset Password' to have instructions on how 
+    to reset your password emailed to you.
+  </p>
+
+  <% form_tag forgot_password_session_path, :id => 'forgotpw_form' do %>
+    <table class="ajaxform">
+      <tr>
+        <th>Email:</th>
+        <td><%= text_field_tag :email, nil, :size => 30, :id => 'forgotpw_email' %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="vmiddle_all">
+          <input class="forgotpw_cancel" type="button" value="« Cancel" />
+          <%= submit_tag 'Reset Password' %> 
+          <span id="form_loading"></span>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+  
+</div>
+
+
 

@@ -3,8 +3,8 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'site'
   
   map.resources :support_requests
-  map.resource  :session, :member => { :jumpin => :get }
-  map.resources :users
+  map.resource  :session, :member => { :jumpin => :get, :forgot_password => :post }
+  map.resources :users#,   :member => {  }
   
   map.myhome    'myhome', :controller => 'user', :action => 'home', :method => :get
   map.site      ':page',  :controller => 'site', :action => 'show'

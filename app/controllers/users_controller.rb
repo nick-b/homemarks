@@ -23,7 +23,6 @@ class UsersController < ApplicationController
   
   
   
-  
   # def home
   #   @trashbox = @user.trashbox
   #   render :layout => 'application'

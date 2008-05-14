@@ -13,7 +13,6 @@ class SessionsController < ApplicationController
   def create
     self.current_user = User.authenticate(params[:email], params[:password])
     if logged_in?
-      flash[:good] = 'Login Successful!'
       head :ok
     else
       render :json => login_failures, :status => :unauthorized, :content_type => 'application/json'
@@ -25,25 +24,21 @@ class SessionsController < ApplicationController
     redirect_to destination
   end
   
+  def forgot_password
+    unless @user = User.find_by_email(params[:user][:email])
+      render(:update) { |page| page.complete_forgotpw_form('bad') }
+    else
+      @user.generate_security_token && @user.save!
+      UserNotify.deliver_forgot_password(@user)
+      render(:update) { |page| page.complete_forgotpw_form('good') }
+    end
+  end
+  
   
   # def jumpin
   #   redirect_to eval(params[:redirect]+'_url')
   # end
   
-  
-  # def forgot_password
-  #   return redirect_to(myaccount_url) if user?
-  #   if request.post?
-  #     unless @user = User.find_by_email(params[:user][:email])
-  #       render(:update) { |page| page.complete_forgotpw_form('bad') }
-  #     else
-  #       @user.generate_security_token && @user.save!
-  #       UserNotify.deliver_forgot_password(@user)
-  #       render(:update) { |page| page.complete_forgotpw_form('good') }
-  #     end
-  #   end
-  # end
-  # 
   # def destroy
   #   reset_session
   #   flash[:notice] = "You have been logged out."

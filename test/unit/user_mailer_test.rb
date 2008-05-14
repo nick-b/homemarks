@@ -19,6 +19,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_equal [@user.email], @email.to
       assert_match 'Welcome to HomeMarks', @email.subject
       assert_equal [HmConfig.app[:email_from]], @email.from
+      assert_match 'homemarks.com/session/jumpin?token=', @email.body
     end
 
   end

@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   
-  include ERB::Util
-  include AuthenticatedSystem
-  include RenderInvalidRecord
+  include ERB::Util, AuthenticatedSystem, RenderInvalidRecord
   
   protect_from_forgery
   

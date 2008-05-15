@@ -12,11 +12,8 @@ class SessionsController < ApplicationController
   
   def create
     self.current_user = User.authenticate(params[:email], params[:password])
-    if logged_in?
-      head :ok
-    else
-      render :json => login_failures, :status => :unauthorized, :content_type => 'application/json'
-    end
+    return head :ok if logged_in?
+    render :json => login_failures, :status => :unauthorized, :content_type => 'application/json'
   end
   
   def jumpin

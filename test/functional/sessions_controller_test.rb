@@ -26,7 +26,6 @@ class SessionsControllerTest < ActionController::TestCase
     should 'login as bob' do
       xhr_login
       assert_good_login
-      assert_equal 'Login Successful!', flash[:good]
       assert_response :ok
     end
     

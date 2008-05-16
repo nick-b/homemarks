@@ -10,7 +10,7 @@
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
   <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarksjslib' %>
-  <%= javascript_include_tag 'site', 'application' %>
+  <%= javascript_include_tag 'hm_site' %>
   <script type="text/javascript">Builder.dump();</script>
 </head>
 <body>
@@ -18,9 +18,8 @@
   <div id="modalmask" style="display:none;">
     <div id="modal_progress" style="display:none;" onclick="location.reload();"></div>
   </div>
-  <div id="modal_html_ap-wrapper" class="inhomemarks_site">
-    <div id="modal_html_rel-wrapper" style="display:none;">
-    </div>
+  <div id="modal_html_ap-wrapper">
+    <div id="modal_html_rel-wrapper" style="display:none;"></div>
   </div>
   
   <div id="site_wrapper">

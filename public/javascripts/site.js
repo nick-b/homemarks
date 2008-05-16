@@ -284,36 +284,7 @@ var Modal = Class.create(HomeMarksUtilities,{
   
 });
 
-var Boxes = $A();
-var Box = Class.create({
-  
-  
-});
 
-var HomeMarksApp = Class.create(HomeMarksUtilities,{
-  
-  initialize: function() {
-    var boxEdits = $$('span.box_edit');
-  },
-  
-  editBoxLinks: function() {
-    
-    // Data from request:
-    // 
-    
-    // page.replace_html 'modal_html_rel-wrapper', :partial => 'edit_links'
-    // page.hide :modal_progress
-    // page.visual_effect :slide_down, 'modal_html_rel-wrapper', :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"}
-    
-  },
-  
-  initEvents: function() {
-    this.boxEdits.each(function(element){ 
-      element.observe('click', this.editBoxLinks.bindAsEventListener(this)); 
-    }.bind(this));
-  }
-  
-});
 
 
 

@@ -9,18 +9,17 @@
   <link rel="icon" type="image/png" href="/favicon.png" />
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
-  <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarksjslib' %>
-  <%= javascript_include_tag 'hm_site' %>
-  <script type="text/javascript">Builder.dump();</script>
+  <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor' %>
+  <%= javascript_include_tag 'homemarks/utilities','homemarks/site','homemarks/modal', :cache => 'homemarks_site' %>
+  <script type="text/javascript">
+    document.observe('dom:loaded', function(){
+      HmSite = new HomeMarksSite();
+      HmModal = new HomeMarksModal();
+    });
+    Builder.dump();
+  </script>
 </head>
-<body>
-  
-  <div id="modalmask" style="display:none;">
-    <div id="modal_progress" style="display:none;" onclick="location.reload();"></div>
-  </div>
-  <div id="modal_html_ap-wrapper">
-    <div id="modal_html_rel-wrapper" style="display:none;"></div>
-  </div>
+<body id="body">
   
   <div id="site_wrapper">
     

@@ -1,28 +1,72 @@
 
-var HomeMarksUtil = {
+var HomeMarksUtilities = {
   
-  parseResponseMood: function(request) {
+  actionBar: function(request) { return $('action_bar'); },
+  
+  getRequestMood: function(request) {
     return (request.status >= 200 && request.status < 300) ? 'good' : 'bad';
   },
   
-  alertMessages: function(request) {
+  messagesToAlert: function(request) {
     var messages = request.responseJSON;
     var alertText = messages.join(".\n");
     if (alertText.endsWith('.')) { alert(alertText); } else { alert(alertText+'.'); };
   },
   
-  parseFlashMessages: function(request) {
+  messagesToList: function(request) {
     var messages = request.responseJSON;
     var messageList = UL();
     messages.each(function(message){ 
       messageList.appendChild( LI(message.escapeHTML()) );
     });
     return messageList;
+  },
+  
+  scroll: function() { return document.viewport.getScrollOffsets(); },
+  
+  pageSize: function() { 
+    var xScroll, yScroll;
+    if (window.innerHeight && window.scrollMaxY) {	
+  		xScroll = window.innerWidth + window.scrollMaxX;
+  		yScroll = window.innerHeight + window.scrollMaxY;
+  	} else if (document.body.scrollHeight > document.body.offsetHeight){
+  		xScroll = document.body.scrollWidth;
+  		yScroll = document.body.scrollHeight;
+  	} else {
+  		xScroll = document.body.offsetWidth;
+  		yScroll = document.body.offsetHeight;
+  	}
+	  var windowWidth, windowHeight;
+  	if (self.innerHeight) {
+  		if(document.documentElement.clientWidth){
+  			windowWidth = document.documentElement.clientWidth; 
+  		} else {
+  			windowWidth = self.innerWidth;
+  		}
+  		windowHeight = self.innerHeight;
+  	} else if (document.documentElement && document.documentElement.clientHeight) {
+  		windowWidth = document.documentElement.clientWidth;
+  		windowHeight = document.documentElement.clientHeight;
+  	} else if (document.body) { 
+  		windowWidth = document.body.clientWidth;
+  		windowHeight = document.body.clientHeight;
+  	}	
+  	if(yScroll < windowHeight){
+  		pageHeight = windowHeight;
+  	} else { 
+  		pageHeight = yScroll;
+  	}
+  	if(xScroll < windowWidth){	
+  		pageWidth = xScroll;		
+  	} else {
+  		pageWidth = windowWidth;
+  	}
+  	return { width: pageWidth, height: pageHeight };
   }
   
 };
 
-var HomeMarksSite = Class.create({ 
+var HomeMarksSite = Class.create(HomeMarksUtilities,{ 
   
   initialize: function() {
     this.ajaxFrom = $('ajaxforms_wrapper');
@@ -66,7 +110,7 @@ var HomeMarksSite = Class.create({
   },
   
   delegateCompleteAjaxForm: function(form,request) {
-    var mood = HomeMarksUtil.parseResponseMood(request);
+    var mood = this.getRequestMood(request);
     this.completeAjaxForm(form,{mood:mood});
     if (mood == 'good') { 
       this.clearFlashes();
@@ -78,7 +122,7 @@ var HomeMarksSite = Class.create({
     }
     else { 
       form.enable();
-      var flashHtml = DIV([H2('Errors:'),HomeMarksUtil.parseFlashMessages(request)]);
+      var flashHtml = DIV([H2('Errors:'),this.messagesToList(request)]);
       this.flash('bad',flashHtml);
     };
   },
@@ -107,8 +151,8 @@ var HomeMarksSite = Class.create({
   },
   
   completeSignupForm: function(request) {
-    var flashHtml = DIV([H2('Signup Complete:'),P('We have sent an email with a link to verify and activate your account. You can not login unless you verify your email address.')]);
-    this.flash('good',flashHtml);
+    var flashHTML = DIV([H2('Signup Complete:'),P('We have sent an email with a link to verify and activate your account. You can not login unless you verify your email address.')]);
+    this.flash('good',flashHTML);
   },
   
   initEvents: function() {
@@ -121,6 +165,156 @@ var HomeMarksSite = Class.create({
   }
 
 });
+
+
+// WindowUtilities.getWindowScroll()     // => { top: 0, left: 0, width: 1002, height: 464 }
+// document.viewport.getDimensions()     // => { width: 987, height: 494 }
+// document.viewport.getWidth()          // => 987
+// document.viewport.getHeight()         // => 494
+// document.viewport.getScrollOffsets()  // => [0, 0]
+// 
+// WindowUtilities.getPageSize()         // => { pageWidth: 1002, pageHeight: 3129, windowWidth: 1002 }
+// WindowUtilities.getPageSize()         // => [987,3129]
+
+
+var Modal = Class.create(HomeMarksUtilities,{
+  
+  initialize: function(modalFor) {
+    this.mask = $('modalmask');
+    this.progress = $('modal_progress');
+    this.wrapper = $('modal_html_ap-wrapper');
+    this.content = $('modal_html_rel-wrapper');
+    this.create();
+  },
+  
+  create: function() {
+    this.centerStuff();
+  },
+  
+  showProgress: function() {
+    this.progress.show();
+  },
+  
+  build: function() {
+    
+    var maskHTML = DIV({id:'modalmask',style:'display:none;'},[DIV({id:'modal_progress',style:'display:none;'})]);
+    var modalHTML = DIV({id:'modal_html_ap-wrapper',className:'inhomemarks_site'},[DIV({id:'modal_html_rel-wrapper',style:'display:none;'})]);
+    
+    
+    //                   :before => "this.blur(); setupModal(#{box.id})",
+    //                   :loading => "Element.show('modal_progress')" )
+    
+    
+  },
+  
+  setupModal: function(boxid) {
+    boxid = (boxid == null) ? 'bookmarklet' : boxid;
+    centerStuff();
+    Effect.Appear(modalMask, {duration:0.4, from:0.0, to:0.9, queue:{position:'end', scope:'boxid_' + boxid}});
+    Event.observe(window, 'resize', centerStuff);
+    Event.observe(window, 'scroll', centerStuff);
+    Event.observe(document, 'keypress', respondtoKeypress);
+    if (typeof($('action_area_shim'))!='undefined') {
+      Event.stopObserving(document, 'keypress', actionAreaHelper);
+      if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
+    }
+  },
+  
+  centerStuff: function() {
+    this.centerMask();
+    if (this.wrapper.hasClassName('inhomemarks_site')) {this.centerBoxEdit();} else {this.centerBookmarklet();};
+  },
+  
+  centerMask: function() {
+    this.mask.setStyle({height: this.pageSize().height + 'px'});
+    this.progress.setStyle({top: (this.scroll().top + 60) + 'px'});
+  },
+  
+  centerBoxEdit: function() {
+    modalWrapperLeft = (this.pageSize().width - 652)/2;
+    if (modalWrapperLeft < 0) modalWrapperLeft = 0;
+    modalWrapper.setStyle({left: modalWrapperLeft+'px'}) ;
+  },
+
+  centerBookmarklet: function() {
+    modalWrapperLeft = (this.pageSize().width - 352)/2;
+    if (modalWrapperLeft < 0) modalWrapperLeft = 0;
+    modalWrapper.setStyle({left: modalWrapperLeft+'px'}) ;
+  },
+
+  destroyModal: function(boxid) {
+    boxid = (boxid == null) ? 'bookmarklet' : boxid;
+    Event.stopObserving(window, 'resize', centerStuff);
+    Event.stopObserving(window, 'scroll', centerStuff);
+    Event.stopObserving(document, 'keypress', respondtoKeypress);
+    Effect.SlideUp(modalContent, {duration:0.4, queue:{position:'end', scope:'boxid_' + boxid}});
+    Effect.Fade(modalMask, {duration:0.2, queue:{position:'end', scope:'boxid_' + boxid}});
+    Event.observe(document, 'keypress', actionAreaHelper);
+  },
+
+  respondtoKeypress: function(event) {
+    if ($('modal_html_ap-wrapper').hasClassName('inhomemarks_site')) {
+      boxidstring = $('modal_button_cancel').classNames().toString();
+      boxid = boxidstring.gsub('cancel_modalbox_','');
+      if (event.keyCode == Event.KEY_ESC) destroyModal(boxid);
+    }
+    else {
+      if (event.keyCode == Event.KEY_ESC) destroyModal();
+    }
+  },
+
+  hideModal: function(boxid) {
+    boxid = (boxid == null) ? 'bookmarklet' : boxid;
+    Event.stopObserving(document, 'keypress', respondtoKeypress);
+    Effect.SlideUp(modalContent, {duration:0.4, queue:{position:'end', scope:'boxid_' + boxid}});
+    Effect.Appear(modalProgress, {duration:0.2, from:0.0, to:0.9, queue:{position:'end', scope:'boxid_' + boxid}});
+  },
+
+  destroyModalMask: function(boxid) {
+    boxid = (boxid == null) ? 'bookmarklet' : boxid;
+    Event.stopObserving(window, 'resize', centerStuff);
+    Event.stopObserving(window, 'scroll', centerStuff);
+    Effect.Fade(modalMask, {duration:0.2, queue:{position:'end', scope:'boxid_' + boxid}});
+  },
+
+  goHere: function() {
+    window.location.reload();
+  }
+
+  
+});
+
+var Boxes = $A();
+var Box = Class.create({
+  
+  
+});
+
+var HomeMarksApp = Class.create(HomeMarksUtilities,{
+  
+  initialize: function() {
+    var boxEdits = $$('span.box_edit');
+  },
+  
+  editBoxLinks: function() {
+    
+    // Data from request:
+    // 
+    
+    // page.replace_html 'modal_html_rel-wrapper', :partial => 'edit_links'
+    // page.hide :modal_progress
+    // page.visual_effect :slide_down, 'modal_html_rel-wrapper', :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"}
+    
+  },
+  
+  initEvents: function() {
+    this.boxEdits.each(function(element){ 
+      element.observe('click', this.editBoxLinks.bindAsEventListener(this)); 
+    }.bind(this));
+  }
+  
+});
+
 
 
 document.observe('dom:loaded', function(){
@@ -162,20 +356,20 @@ function globalLoadingBehavior() {
   $('hud').classNames().set('');
 	Element.show('loading');
 	Element.update('message_wrapper', '<span id="message">&nbsp;</span>');
-  }
+}
 
 function loadLameActionSpan(boxid,direction) {
   if (direction == 'down') { spanclass = 'box_action box_action_down' }
   if (direction == 'up') { spanclass = 'box_action' }
   Element.replace('boxid_'+boxid+'_action_alink', '<span class="'+spanclass+'" id="boxid_'+boxid+'_action_lame"></span>')
-  }
+}
 
 function remoteFormLoading(formobj,loadid) {
   loadid = (loadid == null) ? 'form_loading' : loadid;
   if (formobj.id == 'request_support_form') {loadimg=''} else {loadimg='_invert'};
   Element.update($(loadid),'<img src="/images/loading'+loadimg+'.gif" />');
   Form.disable(formobj);
-  }
+}
 
 
 /*  Custom sortable serialize params Column#sort
@@ -354,100 +548,10 @@ Event.observe(window, 'load', activateTooltips, false);
 function activateTooltips() {
   toolTipLinks = $$('a.tooltipable');
   toolTipLinks.each( function(a) { new Tooltip(a); } );
-};
+}
 
 
 
-/*  Modal Specific Functions
- * ----------------------------------------------------------------------------------------------------------------- */
-
-function getModalVars() {
-  modalMask = $('modalmask');
-  modalProgress = $('modal_progress');
-  modalWrapper = $('modal_html_ap-wrapper');
-  modalContent = $('modal_html_rel-wrapper');
-  windowScroll = WindowUtilities.getWindowScroll();
-  pageSize = WindowUtilities.getPageSize();
-  }
-
-function setupModal(boxid) {
-  boxid = (boxid == null) ? 'bookmarklet' : boxid;
-  getModalVars();
-  centerStuff();
-  Effect.Appear(modalMask, {duration:0.4, from:0.0, to:0.9, queue:{position:'end', scope:'boxid_' + boxid}});
-  Event.observe(window, 'resize', centerStuff);
-  Event.observe(window, 'scroll', centerStuff);
-  Event.observe(document, 'keypress', respondtoKeypress);
-  if (typeof($('action_area_shim'))!='undefined') {
-    Event.stopObserving(document, 'keypress', actionAreaHelper);
-    if (Element.hasClassName('action_bar','barout')) { toggleActionArea('inbox'); }
-    }
-  }
-
-function centerStuff() {
-  getModalVars();
-  centerModalMask();
-  if (modalWrapper.hasClassName('inhomemarks_site')) {centerBoxEditModal();} else {centerBookmarkletModal();};
-  }
-
-function centerModalMask() {
-  modalMask.setStyle({height: pageSize.pageHeight + 'px'});
-  modalProgress.setStyle({top: (windowScroll.top + 60) + 'px'});
-  }
-
-function centerBoxEditModal() {
-  modalWrapperLeft = (pageSize.pageWidth - 652)/2;
-  if (modalWrapperLeft < 0) modalWrapperLeft = 0;
-  modalWrapper.setStyle({left: modalWrapperLeft+'px'}) ;
-  }
-
-function centerBookmarkletModal() {
-  modalWrapperLeft = (pageSize.pageWidth - 352)/2;
-  if (modalWrapperLeft < 0) modalWrapperLeft = 0;
-  modalWrapper.setStyle({left: modalWrapperLeft+'px'}) ;
-  }
-
-function destroyModal(boxid) {
-  boxid = (boxid == null) ? 'bookmarklet' : boxid;
-  getModalVars();
-  Event.stopObserving(window, 'resize', centerStuff);
-  Event.stopObserving(window, 'scroll', centerStuff);
-  Event.stopObserving(document, 'keypress', respondtoKeypress);
-  Effect.SlideUp(modalContent, {duration:0.4, queue:{position:'end', scope:'boxid_' + boxid}});
-  Effect.Fade(modalMask, {duration:0.2, queue:{position:'end', scope:'boxid_' + boxid}});
-  Event.observe(document, 'keypress', actionAreaHelper);
-  }
-
-function respondtoKeypress(event) {
-  if ($('modal_html_ap-wrapper').hasClassName('inhomemarks_site')) {
-    boxidstring = $('modal_button_cancel').classNames().toString();
-    boxid = boxidstring.gsub('cancel_modalbox_','');
-    if (event.keyCode == Event.KEY_ESC) destroyModal(boxid);
-    }
-  else {
-    if (event.keyCode == Event.KEY_ESC) destroyModal();
-    }
-  }
-
-function hideModal(boxid) {
-  boxid = (boxid == null) ? 'bookmarklet' : boxid;
-  getModalVars();
-  Event.stopObserving(document, 'keypress', respondtoKeypress);
-  Effect.SlideUp(modalContent, {duration:0.4, queue:{position:'end', scope:'boxid_' + boxid}});
-  Effect.Appear(modalProgress, {duration:0.2, from:0.0, to:0.9, queue:{position:'end', scope:'boxid_' + boxid}});
-  }
-
-function destroyModalMask(boxid) {
-  boxid = (boxid == null) ? 'bookmarklet' : boxid;
-  getModalVars();
-  Event.stopObserving(window, 'resize', centerStuff);
-  Event.stopObserving(window, 'scroll', centerStuff);
-  Effect.Fade(modalMask, {duration:0.2, queue:{position:'end', scope:'boxid_' + boxid}});
-  }
-
-function goHere() {
-  window.location.reload();
-  }
 
 
 
@@ -460,8 +564,7 @@ function getActionAreaVars() {
   actionArea = $('action_area');
   actionAreaShim = $('action_area_shim');
   pageSize = WindowUtilities.getPageSize();
-  windowScroll = WindowUtilities.getWindowScroll();
-  }
+}
 
 function toggleActionArea(action_box) {
   getActionAreaVars();
@@ -474,8 +577,8 @@ function toggleActionArea(action_box) {
       hud.setStyle({marginLeft:'28px'});
       Event.stopObserving(window, 'resize', setActionAreaHeigth);
       Event.stopObserving(window, 'scroll', setActionAreaHeigth);      
-      }
     }
+  }
   else {
     actionAreaShim.show();
     actionAreaShim.setStyle({height:pageSize.pageHeight+'px'});
@@ -487,50 +590,50 @@ function toggleActionArea(action_box) {
     if (getFieldsetFlag()=='') {
       if (action_box=='inbox') {inboxLoad()}
       else if (action_box=='trashbox') {trashboxLoad();}
-      }
-    else if (forceTrashbox(action_box)) { forceTrashboxLoad() }
     }
+    else if (forceTrashbox(action_box)) { forceTrashboxLoad() }
   }
+}
 
 function forceTrashbox(action_box) {
   if ((getFieldsetFlag()!='legend_trash') && (action_box=='trashbox')) { return true; } else { return false };
-  }
+}
 
 function forceTrashboxLoad() {
   loadingActionArea($('legend_trash_link'));
   new Ajax.Request('/actionarea/trashbox', {asynchronous:true, evalScripts:true});
-  }
+}
 
 function trashboxLoad() {
   setFieldsetFlag('legend_trash');
   $('legend_trash').classNames().set('fld_on');
   new Ajax.Request('/actionarea/trashbox', {asynchronous:true, evalScripts:true});
-  }
+}
 
 function inboxLoad() {
   setFieldsetFlag('legend_inbox');
   $('legend_inbox').classNames().set('fld_on');
   new Ajax.Request('/actionarea/inbox', {asynchronous:true, evalScripts:true});
-  }
+}
 
 function setActionAreaHeigth(event) {
   getActionAreaVars();
   actionAreaShim.setStyle({height:pageSize.pageHeight+'px'});
   actionArea.setStyle({height:pageSize.windowHeight+'px'});
-  }
+}
 
 function setFieldsetFlag(ulid) {
   $('fieldset_legend').classNames().set(ulid);
-  }
+}
 
 function getFieldsetFlag() {
   return $('fieldset_legend').classNames().toString();
-  }
+}
 
 function isActionAreaDisplayed(obj) {
   if (obj.childNodes[0].hasClassName('fld_on')) return false ;
   return true;
-  }
+}
 
 function loadingActionArea(obj) {
   clicked = obj.childNodes[0];
@@ -539,97 +642,26 @@ function loadingActionArea(obj) {
     case 'legend_inbox' : hidelist = 'inbox_list' ; break;
     case 'legend_trash' : hidelist = 'trashbox_list' ; break;
     case 'legend_search' : hidelist = 'searchbox_list' ; break;
-    }
+  }
   setFieldsetFlag(clicked.id);
   clicked.classNames().set('fld_on');
   $(currentFieldsetFlag).classNames().set('');
   if (clicked.id != 'legend_trash') {$('trashbox_emptytrash_box').hide()};
   $('fieldset_progress_wrap').visualEffect('blind_down',{duration: 0.35});
   $(hidelist).visualEffect('blind_up',{duration: 0.35});
-  }
+}
 
 function showOrHideEmptyTrashBox() {
   emptyTrashBox = $('trashbox_emptytrash_box');
   if ( (Element.hasClassName('trashcan','trash_full')) && (getFieldsetFlag()=='legend_trash') ) {emptyTrashBox.show();} else {emptyTrashBox.hide();};
-  }
-
-
-/*  Some Window Utilities
- * -----------------------------------------------------------------------------------------------------------------
- * getPageSize() based on Lightbox JS: Fullsize Image Overlays by Lokesh Dhakar - http://www.huddletogether.com
- * For more information on this script, visit:  http://huddletogether.com/projects/lightbox/
- * Licensed under the Creative Commons Attribution 2.5 License - http://creativecommons.org/licenses/by/2.5/
- * 
- * getWindowScroll() - Returns a hash with top & left scroll offset and total viewport scroll area. From script.aculo.us
- * Get geeky and learn more at http://www.evolt.org/article/document_body_doctype_switching_and_more/17/30655/
- * ----------------------------------------------------------------------------------------------------------------- */
-
-var WindowUtilities = {
-
-  getWindowScroll: function() {
-    var w = window;
-      var T, L, W, H;
-      with (w.document) {
-        if (w.document.documentElement && documentElement.scrollTop) {
-          T = documentElement.scrollTop;
-          L = documentElement.scrollLeft;
-        } else if (w.document.body) {
-          T = body.scrollTop;
-          L = body.scrollLeft;
-        }
-        if (w.innerWidth) {
-          W = w.innerWidth;
-          H = w.innerHeight;
-        } else if (w.document.documentElement && documentElement.clientWidth) {
-          W = documentElement.clientWidth;
-          H = documentElement.clientHeight;
-        } else {
-          W = body.offsetWidth;
-          H = body.offsetHeight
-        }
-      }
-      return { top: T, left: L, width: W, height: H };
-  },
-
-  getPageSize: function(){
-    var xScroll, yScroll;
-    if (window.innerHeight && window.scrollMaxY) {  
-      xScroll = document.body.scrollWidth;
-      yScroll = window.innerHeight + window.scrollMaxY;
-    } else if (document.body.scrollHeight > document.body.offsetHeight){ // all but Explorer Mac
-      xScroll = document.body.scrollWidth;
-      yScroll = document.body.scrollHeight;
-    } else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
-      xScroll = document.body.offsetWidth;
-      yScroll = document.body.offsetHeight;
-    }
-    var windowWidth, windowHeight;
-    if (self.innerHeight) {  // all except Explorer
-      windowWidth = self.innerWidth;
-      windowHeight = self.innerHeight;
-    } else if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
-      windowWidth = document.documentElement.clientWidth;
-      windowHeight = document.documentElement.clientHeight;
-    } else if (document.body) { // other Explorers
-      windowWidth = document.body.clientWidth;
-      windowHeight = document.body.clientHeight;
-    }  
-    var pageHeight, pageWidth;
-    // for small pages with total height less then height of the viewport
-    if(yScroll < windowHeight){
-      pageHeight = windowHeight;
-    } else { 
-      pageHeight = yScroll;
-    }
-    // for small pages with total width less then width of the viewport
-    if(xScroll < windowWidth){  
-      pageWidth = windowWidth;
-    } else {
-      pageWidth = xScroll;
-    }
-    return {pageWidth: pageWidth ,pageHeight: pageHeight , windowWidth: windowWidth, windowHeight: windowHeight};
-  }
-
 }
+
+
+
+
+
+
+
+
 
 

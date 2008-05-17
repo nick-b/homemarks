@@ -1,40 +1,55 @@
 
 var HomeMarksModal = Class.create(HomeMarksUtilities,{
   
-  initialize: function(contents) {
+  initialize: function() {
     this.build();
-    this.contents = contents || 'misc' // ['box','bookmark']
     this.mask = $('modalmask'); 
     this.progress = $('modal_progress');
-    this.wrapper = $('modal_html_ap-wrapper');
-    this.content = $('modal_html_rel-wrapper');
+    this.apWrapper = $('modal_html_ap-wrapper');
+    this.relWrapper = $('modal_html_rel-wrapper');
+    this.topShadow = $('modal_html_top');
+    this.content = $('modal_html');
+    this.contentFor = 'misc'; // ['box','bookmark']
     this.queue = {position:'end', scope:'modalscope'};
   },
   
-  miscContents: function() { return this.contents == 'misc'; },
-  boxContents: function() { return this.contents == 'box'; },
-  bookmarkContents: function() { return this.contents == 'bookmark'; },
-  
   build: function() {
     if (!$('modalmask')) {
-      var body = $('body');
+      var body = $$('body').first();
       var maskHTML = DIV({id:'modalmask',style:'display:none;'},[DIV({id:'modal_progress',style:'display:none;',onclick:'location.reload();'})]);
-      var modalHTML = DIV({id:'modal_html_ap-wrapper'},[DIV({id:'modal_html_rel-wrapper',style:'display:none;'})]);
+      var modalHTML = DIV({id:'modal_html_ap-wrapper'},[
+        DIV({id:'modal_html_rel-wrapper',style:'display:none;'},[
+          DIV({id:'modal_html_border'},[
+            DIV({id:'modal_html'})
+          ]),
+          DIV({id:'modal_html_top'})
+        ])]
+      );
       body.insert({top:modalHTML});
       body.insert({top:maskHTML});
     };
   },
-  
-  create: function() {
-    this.center();
+    
+  show: function(contentFor) {
+    this.contentFor = contentFor;
     this.toggleMask('on');
     this.toggleProgress('on');
     this.toggleObservers('on');
+    this.updateContent();
+    this.toggleProgress('off');
+    this.relWrapper.slideDown({duration:0.4, queue:this.queue});
     // document.stopObserving('keypress', actionAreaHelper);
     // if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
   },
   
-  destroy: function(boxid) {
+  updateContent: function() {
+    this.topShadow.setStyle({width:this.dimensions().topWidth+'px'});
+    this.content.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
+    this.content.update('<div>Hello Modal</div>');
+    this.center();
+  },
+  
+  hide: function(boxid) {
     this.toggleObservers('off');
     this.toggleProgress('off');
     this.toggleMask('off');
@@ -42,26 +57,19 @@ var HomeMarksModal = Class.create(HomeMarksUtilities,{
   },
   
   center: function() {
-    this.centerMask();
-    this.centerModal();
-  },
-  
-  centerMask: function() {
     this.mask.setStyle({height: this.pageSize().height + 'px'});
     this.progress.setStyle({top: (this.scroll().top + 60) + 'px'});
-  },
-  
-  centerModal: function() {
-    left = (( this.pageSize().width - this.width() ) / 2).ceil();
+    var total = this.pageSize().width - this.dimensions().topWidth;
+    var left = (total/2).ceil();
     if (left < 0) left = 0;
-    this.wrapper.setStyle({left: left+'px'});
+    this.apWrapper.setStyle({left:left+'px'});
   },
   
-  width: function() {
-    switch (this.contents) { 
-      case 'misc' : return 450;
-      case 'box' : return 652; 
-      case 'bookmark' : return 352; 
+  dimensions: function() {
+    switch (this.contentFor) { 
+      case 'misc'     : return { topWidth:452, contentWidth:'400px', contentHeight:'auto' };
+      case 'box'      : return { topWidth:652, contentWidth:'600px', contentHeight:'300px' }; 
+      case 'bookmark' : return { topWidth:352, contentWidth:'300px', contentHeight:'145px' }; 
     }
   },
   
@@ -71,7 +79,7 @@ var HomeMarksModal = Class.create(HomeMarksUtilities,{
     }
     else {
       // May not need visible check.
-      if (this.content.visible()) { this.content.slideUp({duration:0.4, queue:this.queue}); };
+      if (this.relWrapper.visible()) { this.relWrapper.slideUp({duration:0.4, queue:this.queue}); };
       this.mask.fade({duration:0.2, queue:this.queue});
     };
   },
@@ -99,20 +107,6 @@ var HomeMarksModal = Class.create(HomeMarksUtilities,{
     if (event.keyCode == Event.KEY_ESC) { this.destroy(); };
   }
   
-  // hideModal: function(boxid) {
-  //   boxid = (boxid == null) ? 'bookmarklet' : boxid;
-  //   Event.stopObserving(document, 'keypress', respondtoKeypress);
-  //   Effect.SlideUp(modalContent, {duration:0.4, queue:{position:'end', scope:'boxid_' + boxid}});
-  //   Effect.Appear(modalProgress, {duration:0.2, from:0.0, to:0.9, queue:{position:'end', scope:'boxid_' + boxid}});
-  // },
-  // 
-  // destroyModalMask: function(boxid) {
-  //   boxid = (boxid == null) ? 'bookmarklet' : boxid;
-  //   Event.stopObserving(window, 'resize', centerStuff);
-  //   Event.stopObserving(window, 'scroll', centerStuff);
-  //   Effect.Fade(modalMask, {duration:0.2, queue:{position:'end', scope:'boxid_' + boxid}});
-  // },
-  // 
   // goHere: function() {
   //   window.location.reload();
   // }

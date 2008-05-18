@@ -15,6 +15,10 @@ module HomemarksTestHelper
       assert_match contents, flash[:good]
     end
     
+    def assert_indif_flash(contents)
+      assert_match contents, flash[:indif]
+    end
+    
     def assert_layout(expected=nil, message=nil)
       clean_backtrace do
         layout = @response.layout ? @response.layout.split('/').last : false

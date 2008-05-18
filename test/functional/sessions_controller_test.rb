@@ -56,6 +56,20 @@ class SessionsControllerTest < ActionController::TestCase
     
   end
   
+  context 'While testing the destroy action' do
+
+    setup { login_as(:bob) }
+    
+    should 'description' do
+      delete :destroy
+      assert_nil session[:user_id]
+      assert_indif_flash('logged out')
+      assert_redirected_to root_url
+    end
+
+  end
+  
+  
   context 'While testing the jumpin action' do
 
     should 'login with token' do

@@ -3,7 +3,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   
   initialize: function() {
     this.ajaxFrom = $('ajaxforms_wrapper');
-    this.ajaxFromLinks = $$('.ajaxform_link');
+    this.ajaxFromLinks = $$('a.ajaxform_link');
     this.supportForm = $('support_form');
     this.loginForm = $('login_form');
     this.signupForm = $('signup_form');
@@ -26,11 +26,12 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   
   flashModal: function(mood,html) {
     var moodColor = this.flashMoodColors.get(mood);
+    
     HmModal.show(html,{color:moodColor});
   },
   
   toggleAjaxFormBlind: function(event) {
-    if (event) { event.element().blur(); };
+    if (event) { event.stop(); event.element().blur(); };
     Effect.toggle(this.ajaxFrom, 'blind', {duration:0.4});
   },
   
@@ -50,17 +51,17 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   delegateCompleteAjaxForm: function(form,request) {
     var mood = this.getRequestMood(request);
     this.completeAjaxForm(form,{mood:mood});
+    this.clearFlashes();
     if (mood == 'good') { 
-      this.clearFlashes();
       switch (form) { 
-        case this.supportForm : this.completeSupportForm(request);
-        case this.loginForm   : this.completeLoginForm(request); 
-        case this.signupForm  : this.completeSignupForm(request); 
+        case this.supportForm : this.completeSupportForm(request); break;
+        case this.loginForm   : this.completeLoginForm(request); break;
+        case this.signupForm  : this.completeSignupForm(request); break;
       }
     }
     else { 
       form.enable();
-      var flashHTML = DIV([H2('Sorry! The Form Errors Are:'),this.messagesToList(request)]);
+      var flashHTML = DIV([H2('Errors! On Form:'),this.messagesToList(request)]);
       this.flashModal('bad',flashHTML);
     };
   },

@@ -26,6 +26,7 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
       );
       body.insert({top:modalHTML});
       body.insert({top:maskHTML});
+      this.cancelButton = DIV({id:'modal_button_cancel',onclick:'HmModal.hide()'});
     };
   },
   
@@ -49,13 +50,24 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
     this.toggleModal('off');
     // document.observe('keypress', actionAreaHelper);
   },
-  
+
   updateContent: function(content) {
     this.topShadow.setStyle({width:this.dimensions().topWidth+'px'});
     this.content.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
     this.content.addClassName(this.color);
+    this.appendButtons(content);
     this.content.update(content);
     this.center();
+  },
+  
+  appendButtons: function(content) {
+    switch (this.contentFor) { 
+      case 'misc'     : var modalButtons = [this.cancelButton]; break;
+      case 'box'      : var modalButtons = [this.cancelButton]; break; 
+      case 'bookmark' : var modalButtons = [this.cancelButton]; break; 
+    }
+    var buttonBox = DIV({id:'modal_buttons',className:'clearfix'},modalButtons);
+    content.appendChild(buttonBox);
   },
   
   center: function() {

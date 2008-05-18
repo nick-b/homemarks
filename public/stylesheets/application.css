@@ -438,16 +438,16 @@ input.bookmark_url_field  { font-size:10px; font-family:Verdana,Helvetica,sansse
 .bookmark_name_field      { width:180px; }
 .bookmark_url_field       { width:385px; }
 
+#modal_buttons                { margin: 5px 0 0 0; }
+
 #modal_button_cancel          { float:right; width:84px; height:26px; marin:1px; background: url('/stylesheets/images/modal/button_cancel.png') no-repeat -85px 0 ; }
 #modal_button_cancel:hover    { background-position: -170px 0 ; }
 #modal_button_cancel:active   { background-position: 0 0 ; }
 
+#modal_submit                 { width:84px; height:26px; }
 #modal_button_save            { float:right; width:84px; height:26px; marin:1px; background: url('/stylesheets/images/modal/button_save.png') no-repeat -85px 0 ; }
 #modal_button_save:hover      { background-position: -170px 0 ; }
 #modal_button_save:active     { background-position: 0 0 ; }
-
-#modal_buttons  { margin: 7px 0 0 0; }
-#modal_submit   { width:84px; height:26px; }
 
 .modal_command_new { float:right; border:none; }
 

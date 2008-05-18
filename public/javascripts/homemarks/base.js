@@ -11,6 +11,7 @@
 var HomeMarksBase = {
   
   flashMoods: $A(['good','bad','indif']),
+  flashMoodColors: $H({ good:'spring_green', bad:'red', indif:'aqua' }),
   
   getRequestMood: function(request) {
     return (request.status >= 200 && request.status < 300) ? 'good' : 'bad';

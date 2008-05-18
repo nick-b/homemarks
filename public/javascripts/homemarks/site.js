@@ -25,10 +25,8 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   },
   
   flashModal: function(mood,html) {
-    
-    
-    HmModal.show(html,{contentFor:'misc',mood:mood});
-    
+    var moodColor = this.flashMoodColors.get(mood);
+    HmModal.show(html,{color:moodColor});
   },
   
   toggleAjaxFormBlind: function(event) {
@@ -62,7 +60,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
     }
     else { 
       form.enable();
-      var flashHTML = DIV([H2('Errors:'),this.messagesToList(request)]);
+      var flashHTML = DIV([H2('Sorry! The Form Errors Are:'),this.messagesToList(request)]);
       this.flashModal('bad',flashHTML);
     };
   },

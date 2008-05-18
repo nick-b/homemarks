@@ -24,7 +24,15 @@ var Box = Class.create({
   
 });
 
-Box.colors = $A(['foo']);
+Box.colors = $w('white     timberwolf    black' +
+                'aqua      sky_blue      cerulian' +
+                'melon     salmon        red' +
+                'limeade   spring_green  yellow_green' +
+                'lavender  wistera       violet' +
+                'postit    yellow        orange' +
+                'bisque    apricot       raw_sienna' );
+
+
 
 
 // document.observe('dom:loaded', function(){

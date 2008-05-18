@@ -28,45 +28,34 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
       body.insert({top:maskHTML});
     };
   },
-    
+  
   show: function(content) {
-    var options = Object.extend({contentFor:'misc',color:'indif'}, arguments[1] || {});
-    this.contentFor = contentFor;
+    var options = Object.extend({contentFor:'misc',color:'timberwolf',showProgress:false}, arguments[1] || {});
+    this.contentFor = options.contentFor;
     this.color = options.color;
-    this.toggleMask('on');
-    this.toggleProgress('on');
-    this.toggleObservers('on');
     this.updateContent(content);
-    this.toggleProgress('off');
-    this.relWrapper.slideDown({duration:0.4, queue:this.queue});
+    this.toggleMask('on');
+    if (options.showProgress) { this.toggleProgress('on') };
+    this.toggleObservers('on');
+    this.toggleModal('on');
     // document.stopObserving('keypress', actionAreaHelper);
     // if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
-  },
-  
-  updateContent: function(content) {
-    this.topShadow.setStyle({width:this.dimensions().topWidth+'px'});
-    this.content.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
-    this.content.update(content);
-    this.center();
   },
   
   hide: function(boxid) {
     this.toggleObservers('off');
     this.toggleProgress('off');
     this.toggleMask('off');
+    this.toggleModal('off');
     // document.observe('keypress', actionAreaHelper);
   },
   
-  setMood: function() {
-    var classMood = 
-    $A('good','bad','indif').each(function(m){ this.content.removeClassName(m); });
-    
-    switch (this.mood) { 
-      case 'misc'     : return { topWidth:452, contentWidth:'400px', contentHeight:'auto' };
-      case 'box'      : return { topWidth:652, contentWidth:'600px', contentHeight:'300px' }; 
-      case 'bookmark' : return { topWidth:352, contentWidth:'300px', contentHeight:'145px' }; 
-    }
-    this.content.addClassName();
+  updateContent: function(content) {
+    this.topShadow.setStyle({width:this.dimensions().topWidth+'px'});
+    this.content.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
+    this.content.addClassName(this.color);
+    this.content.update(content);
+    this.center();
   },
   
   center: function() {
@@ -87,26 +76,23 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
   },
   
   toggleMask: function(toggle) {
-    if (toggle == 'on') {
-      this.mask.appear({duration:0.4, from:0.0, to:0.9, queue:this.queue});
-    }
-    else {
-      // May not need visible check.
-      if (this.relWrapper.visible()) { this.relWrapper.slideUp({duration:0.4, queue:this.queue}); };
-      this.mask.fade({duration:0.2, queue:this.queue});
-    };
+    var options = { duration:0.2, queue:this.queue };
+    if (toggle == 'on') { this.mask.appear(Object.extend(options,{from:0.0,to:0.9})); }
+    else { this.mask.fade(options); };
   },
   
   toggleObservers: function(toggle) {
     if (toggle == 'on') {
-      Event.observe(window, 'resize', this.center.bindAsEventListener(this));
-      Event.observe(window, 'scroll', this.center.bind(this));
-      document.observe('keypress', this.keypress.bind(this));
+      this.modalResizeObserver = this.center.bindAsEventListener(this);
+      Event.observe(window,'resize', this.modalResizeObserver);
+      Event.observe(window,'scroll', this.modalResizeObserver);
+      this.keypressObserver = this.keypress.bindAsEventListener(this);
+      document.observe('keypress', this.keypressObserver);
     }
     else {
-      Event.stopObserving(window, 'resize', this.center);
-      Event.stopObserving(window, 'scroll', this.center);
-      document.stopObserving('keypress', this.keypress);
+      Event.stopObserving(window,'resize',this.modalResizeObserver);
+      Event.stopObserving(window,'scroll',this.modalResizeObserver);
+      document.stopObserving('keypress',this.keypressObserver);
     };
   },
   
@@ -115,8 +101,12 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
     if (toggle == 'on') { this.progress.appear(options); } else { this.progress.fade(options); };
   },
   
+  toggleModal: function(toggle) {
+    var options = { duration:0.4 }; // Helps speed by removing: queue:this.queue} 
+    if (toggle == 'on') { this.relWrapper.slideDown(options); } else { this.relWrapper.slideUp(options); };
+  },
+  
   keypress: function(event) {
-    console.log(event)
     if (event.keyCode == Event.KEY_ESC) { this.hide(); };
   }
   

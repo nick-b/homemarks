@@ -408,7 +408,7 @@ div.yellow_green .inside        { background-image: url('images/box/yellow_green
 #modal_html_border      { position:relative; border: 1px solid #666; border-top: 0 none; }
 #modal_html_top         { position:absolute; top:0; left:0; 
                           height:9px; background: url('/javascripts/modal_assets/modal_top.png') repeat-x; z-index:210; }
-#modal_html             { position: relative; padding:17px; border: 8px solid #333; border-top: 0 none;
+#modal_html             { position: relative; padding:17px; border: 8px solid #333; border-top: 0 none; color:black!important;
                           background: #fff url('/stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left; }
 
 #modal_html.white,    #modal_html.timberwolf,   #modal_html.black           { background-image: url('/stylesheets/images/modal/bg_grey.jpg') ; }
@@ -423,7 +423,9 @@ div.yellow_green .inside        { background-image: url('images/box/yellow_green
 
 /*---    Modal Box's Content Styles    ---*/
 
-#modal_html h3 { margin: 0 0 10px 0; color:#000; font-size:28px; letter-spacing:-2px; font-family:"Trebuchet MS",sansserif; font-weight:bold; }
+#modal_html h2  { margin: 0 0 10px 0; color:#000; font-size:22px; letter-spacing:-1px; font-family:"Trebuchet MS",sansserif; font-weight:bold; }
+#modal_html h3  { margin: 0 0 10px 0; color:#000; font-size:28px; letter-spacing:-2px; font-family:"Trebuchet MS",sansserif; font-weight:bold; }
+#modal_html ul  { color: #000; font: 13px/16px "Lucida Grande", "Helvetica", sans-serif ;}
 
 #bookmark_header_table  { color:#666; font-size:10px; font-family: Tahoma, Helvetica, sans-serif; }
 #bookmark_header_name   { width:180px; border-bottom: 1px solid #ccc; }

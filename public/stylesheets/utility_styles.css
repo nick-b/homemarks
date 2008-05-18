@@ -23,9 +23,11 @@
 .redbg           { background-color:red !important; }
                  
 .vtop            { vertical-align:top !important; }
+.vtop_all *      { vertical-align:top !important; }
 .vmiddle         { vertical-align:middle !important; }
 .vmiddle_all *   { vertical-align:middle !important; }
 .vbottom         { vertical-align:bottom !important; }
+.vbottom_all *   { vertical-align:bottom !important; }
 .nowrap          { white-space:nowrap; }
                  
 .left            { text-align:left !important; }

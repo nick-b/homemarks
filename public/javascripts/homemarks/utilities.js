@@ -8,8 +8,10 @@
 // WindowUtilities.getPageSize()         // => { pageWidth: 1002, pageHeight: 3129, windowWidth: 1002 }
 // WindowUtilities.getPageSize()         // => [987,3129]
 
-var HomeMarksUtilities = {
-    
+var HomeMarksBase = {
+  
+  flashMoods: $A(['good','bad','indif']),
+  
   getRequestMood: function(request) {
     return (request.status >= 200 && request.status < 300) ? 'good' : 'bad';
   },

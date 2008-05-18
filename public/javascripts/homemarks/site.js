@@ -1,5 +1,5 @@
 
-var HomeMarksSite = Class.create(HomeMarksUtilities,{ 
+var HomeMarksSite = Class.create(HomeMarksBase,{ 
   
   initialize: function() {
     this.ajaxFrom = $('ajaxforms_wrapper');
@@ -22,6 +22,13 @@ var HomeMarksSite = Class.create(HomeMarksUtilities,{
     moodFlash.update(html);
     moodFlash.show();
     $('site_wrapper').scrollTo();
+  },
+  
+  flashModal: function(mood,html) {
+    
+    
+    HmModal.show(html,{contentFor:'misc',mood:mood});
+    
   },
   
   toggleAjaxFormBlind: function(event) {
@@ -55,8 +62,8 @@ var HomeMarksSite = Class.create(HomeMarksUtilities,{
     }
     else { 
       form.enable();
-      var flashHtml = DIV([H2('Errors:'),this.messagesToList(request)]);
-      this.flash('bad',flashHtml);
+      var flashHTML = DIV([H2('Errors:'),this.messagesToList(request)]);
+      this.flashModal('bad',flashHTML);
     };
   },
   

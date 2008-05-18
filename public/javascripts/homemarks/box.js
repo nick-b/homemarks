@@ -1,5 +1,6 @@
 
 var Boxes = $A();
+
 var Box = Class.create({
   
   initialize: function(box) {
@@ -8,7 +9,7 @@ var Box = Class.create({
     this.action = this.box.down('span.box_action');
     this.title = this.box.down('.box_title a');
   },
-  
+    
   showActions: function(event) {
     
   },
@@ -23,17 +24,10 @@ var Box = Class.create({
   
 });
 
-
-var HomeMarksApp = Class.create(HomeMarksUtilities,{
-  
-  initialize: function() {
-    
-  }
-  
-});
+Box.colors = $A(['foo']);
 
 
-document.observe('dom:loaded', function(){
-  $$('div.dragable_boxes').each(function(box){ new Box(box); });
-});
+// document.observe('dom:loaded', function(){
+//   $$('div.dragable_boxes').each(function(box){ new Box(box); });
+// });
 

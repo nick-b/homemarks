@@ -411,18 +411,6 @@ div.yellow_green .inside        { background-image: url('images/box/yellow_green
 #modal_html             { position: relative; padding:17px; border: 8px solid #333; border-top: 0 none;
                           background: #fff url('/stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left; }
 
-
-/*
-
-#ajaxforms_wrapper      { width:450px; margin: 0 auto; position:relative; border: 1px solid #666; border-top: 0 none; }
-#ajaxforms_top          { position:absolute; top:0; left:0; 
-                          width:452px; height:9px; background: url('/javascripts/modal_assets/modal_top.png') repeat-x; z-index:210; }
-#ajaxforms              { width:400px; padding:17px; border: 8px solid #333; border-top: 0 none; color:#000; 
-                          background: #fff url('/stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left; }
-
-
-*/
-
 #modal_html.white,    #modal_html.timberwolf,   #modal_html.black           { background-image: url('/stylesheets/images/modal/bg_grey.jpg') ; }
 #modal_html.aqua,     #modal_html.sky_blue,     #modal_html.cerulian        { background-image: url('/stylesheets/images/modal/bg_blue.jpg') ; }
 #modal_html.melon,    #modal_html.salmon,       #modal_html.red             { background-image: url('/stylesheets/images/modal/bg_red.jpg') ; }
@@ -436,27 +424,28 @@ div.yellow_green .inside        { background-image: url('images/box/yellow_green
 /*---    Modal Box's Content Styles    ---*/
 
 #modal_html h3 { margin: 0 0 10px 0; color:#000; font-size:28px; letter-spacing:-2px; font-family:"Trebuchet MS",sansserif; font-weight:bold; }
-#bookmark_header_table { color:#666; font-size:10px; font-family: Tahoma, Helvetica, sans-serif; }
-#bookmark_header_name { width:180px; border-bottom: 1px solid #ccc; }
-#bookmark_header_url { width:389px; border-bottom: 1px solid #ccc; }
 
-#bookmark_edit_table { font-size:14px; font-family:Tahoma,Helvetica,sansserif; }
-#bookmark_scroll { width:600px; height:210px; overflow: auto; overflow-x: hidden; overflow-y: auto; }
+#bookmark_header_table  { color:#666; font-size:10px; font-family: Tahoma, Helvetica, sans-serif; }
+#bookmark_header_name   { width:180px; border-bottom: 1px solid #ccc; }
+#bookmark_header_url    { width:389px; border-bottom: 1px solid #ccc; }
+#bookmark_edit_table    { font-size:14px; font-family:Tahoma,Helvetica,sansserif; }
+#bookmark_scroll        { width:600px; height:210px; overflow: auto; overflow-x: hidden; overflow-y: auto; }
 
-input.bookmark_name_field, input.bookmark_url_field { font-size:10px; font-family:Verdana,Helvetica,sansserif; }
-.bookmark_name_field { width:180px; }
-.bookmark_url_field { width:385px; }
+input.bookmark_name_field, 
+input.bookmark_url_field  { font-size:10px; font-family:Verdana,Helvetica,sansserif; }
+.bookmark_name_field      { width:180px; }
+.bookmark_url_field       { width:385px; }
 
-#modal_button_cancel { float:right; width:84px; height:26px; marin:1px; background: url('/stylesheets/images/modal/button_cancel.png') no-repeat -85px 0 ; }
-#modal_button_cancel:hover { background-position: -170px 0 ; }
-#modal_button_cancel:active { background-position: 0 0 ; }
+#modal_button_cancel          { float:right; width:84px; height:26px; marin:1px; background: url('/stylesheets/images/modal/button_cancel.png') no-repeat -85px 0 ; }
+#modal_button_cancel:hover    { background-position: -170px 0 ; }
+#modal_button_cancel:active   { background-position: 0 0 ; }
 
-#modal_button_save { float:right; width:84px; height:26px; marin:1px; background: url('/stylesheets/images/modal/button_save.png') no-repeat -85px 0 ; }
-#modal_button_save:hover { background-position: -170px 0 ; }
-#modal_button_save:active { background-position: 0 0 ; }
+#modal_button_save            { float:right; width:84px; height:26px; marin:1px; background: url('/stylesheets/images/modal/button_save.png') no-repeat -85px 0 ; }
+#modal_button_save:hover      { background-position: -170px 0 ; }
+#modal_button_save:active     { background-position: 0 0 ; }
 
-#modal_buttons { margin: 7px 0 0 0; }
-#modal_submit { width:84px; height:26px; }
+#modal_buttons  { margin: 7px 0 0 0; }
+#modal_submit   { width:84px; height:26px; }
 
 .modal_command_new { float:right; border:none; }
 

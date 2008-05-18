@@ -1,5 +1,5 @@
 
-var HomeMarksModal = Class.create(HomeMarksUtilities,{
+var HomeMarksModal = Class.create(HomeMarksBase,{
   
   initialize: function() {
     this.build();
@@ -9,7 +9,6 @@ var HomeMarksModal = Class.create(HomeMarksUtilities,{
     this.relWrapper = $('modal_html_rel-wrapper');
     this.topShadow = $('modal_html_top');
     this.content = $('modal_html');
-    this.contentFor = 'misc'; // ['box','bookmark']
     this.queue = {position:'end', scope:'modalscope'};
   },
   
@@ -30,22 +29,24 @@ var HomeMarksModal = Class.create(HomeMarksUtilities,{
     };
   },
     
-  show: function(contentFor) {
+  show: function(content) {
+    var options = Object.extend({contentFor:'misc',color:'indif'}, arguments[1] || {});
     this.contentFor = contentFor;
+    this.color = options.color;
     this.toggleMask('on');
     this.toggleProgress('on');
     this.toggleObservers('on');
-    this.updateContent();
+    this.updateContent(content);
     this.toggleProgress('off');
     this.relWrapper.slideDown({duration:0.4, queue:this.queue});
     // document.stopObserving('keypress', actionAreaHelper);
     // if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
   },
   
-  updateContent: function() {
+  updateContent: function(content) {
     this.topShadow.setStyle({width:this.dimensions().topWidth+'px'});
     this.content.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
-    this.content.update('<div>Hello Modal</div>');
+    this.content.update(content);
     this.center();
   },
   
@@ -54,6 +55,18 @@ var HomeMarksModal = Class.create(HomeMarksUtilities,{
     this.toggleProgress('off');
     this.toggleMask('off');
     // document.observe('keypress', actionAreaHelper);
+  },
+  
+  setMood: function() {
+    var classMood = 
+    $A('good','bad','indif').each(function(m){ this.content.removeClassName(m); });
+    
+    switch (this.mood) { 
+      case 'misc'     : return { topWidth:452, contentWidth:'400px', contentHeight:'auto' };
+      case 'box'      : return { topWidth:652, contentWidth:'600px', contentHeight:'300px' }; 
+      case 'bookmark' : return { topWidth:352, contentWidth:'300px', contentHeight:'145px' }; 
+    }
+    this.content.addClassName();
   },
   
   center: function() {
@@ -104,7 +117,7 @@ var HomeMarksModal = Class.create(HomeMarksUtilities,{
   
   keypress: function(event) {
     console.log(event)
-    if (event.keyCode == Event.KEY_ESC) { this.destroy(); };
+    if (event.keyCode == Event.KEY_ESC) { this.hide(); };
   }
   
   // goHere: function() {

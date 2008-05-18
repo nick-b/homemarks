@@ -16,6 +16,12 @@ class SessionsController < ApplicationController
     render :json => login_failures, :status => :unauthorized, :content_type => 'application/json'
   end
   
+  def destroy
+    reset_session
+    flash[:indif] = "You have been logged out."
+    redirect_back_or_default
+  end
+  
   def jumpin
     destination = logged_in? ? myhome_url : root_url
     redirect_to destination
@@ -29,12 +35,6 @@ class SessionsController < ApplicationController
     head :ok
   end
   
-  def destroy
-    reset_session
-    flash[:indif] = "You have been logged out."
-    redirect_back_or_default
-  end
-
   
   protected
   

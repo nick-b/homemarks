@@ -1,22 +1,8 @@
 
 <% title 'Documentation & Help' %>
 
-<%# FIXME: TEST flash[:signup] and move :pulsate to an onobtrusive %>
-<% if flash[:signup] %>
-  <div id="signup_flash" class="clearfix" style="margin: 10px 25px 15px 20px;">
-    <%= image_tag 'email_sent.png', :id => 'signup_flash_image', :class => 'floatl mt10 mb10' %><br />
-    Thank your for signing up for your own HomeMarks page. An email has been sent to 
-    your <span class="site_blue"><%= flash[:signup] %></span> address along with a link 
-    to activate your account. If you have not done so already, please take a moment to 
-    read the HomeMarks documentation.
-  </div>
-  <% javascript_tag do %>
-    <%= visual_effect :pulsate, 'signup_flash_image' %>
-  <% end %>
-<% end %>
-
-
 <h1 id="test"><%= yield(:title) %></h1>
+
 <p>
   The intended purpose of this documentation is to explain the main features of HomeMarks and to highlight features that may 
   not be obvious to first time user. If you cannot find what you are looking for, please 
@@ -24,6 +10,7 @@
   some of the <%= link_to 'known issues', new_support_request_path %> with the HomeMarks system.
 </p>
 <%= render :partial => 'support_requests/form' %>
+
 
 
 <h2>Columns</h2>

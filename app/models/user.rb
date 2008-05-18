@@ -49,10 +49,11 @@ class User < ActiveRecord::Base
   end
   
   
-  def generate_security_token
+  def generate_security_token(force_update=false)
     self.token_expiry = deleted? ? HmConfig.app[:delayed_delete_days].days.from_now : 1.day.from_now
     self.security_token = encrypt(email+token_expiry.to_s)
     self.verified = false
+    save! if force_update
     security_token
   end
   

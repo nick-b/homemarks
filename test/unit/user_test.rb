@@ -135,6 +135,16 @@ class UserTest < ActiveSupport::TestCase
       assert @auth_user.verified?
     end
     
+    should 'save record if generate_security_token is passed true' do
+      User.any_instance.expects(:save!).once
+      @user.generate_security_token(true)
+    end
+    
+    should 'not save record if generate_security_token is not called with true' do
+      User.any_instance.expects(:save!).never
+      @user.generate_security_token
+    end
+    
   end
   
   

@@ -5,13 +5,11 @@ class UserMailer < ActionMailer::Base
     @subject += 'Welcome to HomeMarks'
   end
   
-  # def forgot_password(user)
-  #   setup_email(user)
-  #   @subject += 'Forgotten password notification'
-  #   @body['jumpinurl'] = jumpinurl
-  #   @body['support_url'] = support_url
-  # end
-  # 
+  def forgot_password(user)
+    setup_email(user)
+    @subject += 'Forgotten password notification'
+  end
+  
   # def change_account(user)
   #   setup_email(user)
   #   @recipients = email if !email.nil?

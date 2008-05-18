@@ -14,16 +14,16 @@
     <table class="ajaxform">
       <tr>
         <th><label>Email:</label></th>
-        <td><%= text_field_tag 'email', params[:email] %></td>
+        <td><%= text_field_tag :email %></td>
       </tr>
       <tr>
         <th><label>Password:</label></th>
-        <td><%= password_field_tag 'password', params[:password] %></td>
+        <td><%= password_field_tag :password %></td>
       </tr>
       <tr>
         <td></td>
         <td class="vbottom_all">
-          <input class="forgotpw_link" type="button" value="Forgot password" />
+          <input id="forgotpw_button" type="button" value="Forgot password" />
           <%= submit_tag 'Login' %> 
           <span id="form_loading"></span>
         </td>
@@ -34,7 +34,7 @@
 </div>
 
 
-<div id="forgotpw_area">
+<div id="forgotpw_area" style="display:none;">
   
   <h1>Forgot Password</h1>
 
@@ -47,12 +47,12 @@
     <table class="ajaxform">
       <tr>
         <th>Email:</th>
-        <td><%= text_field_tag :email, nil, :size => 30, :id => 'forgotpw_email' %></td>
+        <td><%= text_field_tag :email %></td>
       </tr>
       <tr>
         <td></td>
         <td class="vbottom_all">
-          <input class="forgotpw_cancel" type="button" value="« Cancel" />
+          <input id="forgotpw_cancel" type="button" value="« Cancel" />
           <%= submit_tag 'Reset Password' %> 
           <span id="form_loading"></span>
         </td>

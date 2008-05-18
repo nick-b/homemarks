@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
   
   def create
     self.current_user = User.authenticate(params[:email], params[:password])
-    return head :ok if logged_in?
+    return head(:ok) if logged_in?
     render :json => login_failures, :status => :unauthorized, :content_type => 'application/json'
   end
   
@@ -22,19 +22,12 @@ class SessionsController < ApplicationController
   end
   
   def forgot_password
-    unless @user = User.find_by_email(params[:user][:email])
-      render(:update) { |page| page.complete_forgotpw_form('bad') }
-    else
-      @user.generate_security_token && @user.save!
-      UserNotify.deliver_forgot_password(@user)
-      render(:update) { |page| page.complete_forgotpw_form('good') }
-    end
+    @user = User.find_by_email(params[:email])
+    return head(:not_found) unless @user
+    @user.generate_security_token(true)
+    UserMailer.deliver_forgot_password(@user)
+    head :ok
   end
-  
-  
-  # def jumpin
-  #   redirect_to eval(params[:redirect]+'_url')
-  # end
   
   # def destroy
   #   reset_session

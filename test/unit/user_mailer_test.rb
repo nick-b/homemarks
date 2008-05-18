@@ -16,14 +16,37 @@ class UserMailerTest < ActionMailer::TestCase
     end
     
     should 'build valid email with user' do
-      assert_equal [@user.email], @email.to
+      assert_email_to_user_and_from_app_conf
       assert_match 'Welcome to HomeMarks', @email.subject
-      assert_equal [HmConfig.app[:email_from]], @email.from
-      assert_match 'homemarks.com/session/jumpin?token=', @email.body
+      assert_jumpin_url
     end
 
   end
   
+  context 'While testing forgot_password' do
+
+    setup { @email = UserMailer.create_forgot_password(@user) }
+
+    should 'build valid email with user' do
+      assert_email_to_user_and_from_app_conf
+      assert_match 'Forgotten password notification', @email.subject
+      assert_match 'change your password', @email.body
+      assert_jumpin_url
+    end
+
+  end
+  
+  
+  protected
+  
+  def assert_email_to_user_and_from_app_conf
+    assert_equal [@user.email], @email.to
+    assert_equal [HmConfig.app[:email_from]], @email.from
+  end
+  
+  def assert_jumpin_url
+    assert_match 'homemarks.com/session/jumpin?token=', @email.body
+  end
   
   
 end

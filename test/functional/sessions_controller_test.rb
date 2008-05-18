@@ -14,9 +14,24 @@ class SessionsControllerTest < ActionController::TestCase
       assert_site_page_success :title => 'My HomeMarks Login'
     end
     
-    should 'show the login form' do
+    should 'show have a login form and a forgot password form' do
       get :new
-      assert_login_form
+      assert_select '#login_area' do
+        assert_select '#login_form'
+        assert_select 'input#email'
+        assert_select 'input#password'
+        assert_select 'input[type=submit]'
+      end
+      assert_select '#forgotpw_area' do
+        assert_select '#forgotpw_form'
+        assert_select 'input#email'
+        assert_select 'input[type=submit]'
+      end
+    end
+    
+    should 'not show the forgot password area' do
+      get :new
+      assert_element_hidden '#forgotpw_area'
     end
     
   end
@@ -57,18 +72,36 @@ class SessionsControllerTest < ActionController::TestCase
     
   end
   
+  context 'While testing the forgot_password action' do
+
+    should 'find user, update token, and deliver email' do
+      User.expects(:find_by_email).with(@bob.email).once.returns(@bob)
+      @bob.expects(:generate_security_token).with(true).once
+      UserMailer.expects(:deliver_forgot_password).with(@bob).once
+      xhr :post, :forgot_password, {:email => @bob.email}
+      assert_response :ok
+    end
+    
+    should 'find user without stubed expectations above' do
+      xhr :post, :forgot_password, {:email => @bob.email}
+      assert_response :ok
+    end
+    
+    should 'fail when email is not found' do
+      User.any_instance.expects(:generate_security_token).never
+      UserMailer.expects(:deliver_forgot_password).never
+      xhr :post, :forgot_password, {:email => 'will@notexist.com'}
+      assert_response :not_found
+    end
+    
+
+  end
+  
+  
   
   
   
   protected
-  
-  def assert_login_form
-    assert_select '#login_form' do
-      assert_select 'input#email'
-      assert_select 'input#password'
-      assert_select 'input[type=submit]'
-    end
-  end
   
   def xhr_login(overrides={})
     xhr :post, :create, default_params(overrides)

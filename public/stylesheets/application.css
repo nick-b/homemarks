@@ -425,7 +425,7 @@ div.yellow_green .inside        { background-image: url('images/box/yellow_green
 
 #modal_html h2  { margin: 0 0 10px 0; color:#000; font-size:22px; letter-spacing:-1px; font-family:"Trebuchet MS",sansserif; font-weight:bold; }
 #modal_html h3  { margin: 0 0 10px 0; color:#000; font-size:28px; letter-spacing:-2px; font-family:"Trebuchet MS",sansserif; font-weight:bold; }
-#modal_html ul  { color: #000; font: 13px/16px "Lucida Grande", "Helvetica", sans-serif ;}
+#modal_html ul  { margin:0; padding: 0 10px 0 25px; color: #000; font: 13px/16px "Lucida Grande", "Helvetica", sans-serif ;}
 
 #bookmark_header_table  { color:#666; font-size:10px; font-family: Tahoma, Helvetica, sans-serif; }
 #bookmark_header_name   { width:180px; border-bottom: 1px solid #ccc; }

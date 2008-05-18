@@ -23,7 +23,7 @@ Rails::Initializer.run do |config|
 end
 
 
-ActionMailer::Base.delivery_method = :smtp
+ActionMailer::Base.delivery_method = :sendmail
 # ActionMailer::Base.smtp_settings = { 
 #   :address => "mail.foobar.com", 
 #   :domain => "server.foobar.com",

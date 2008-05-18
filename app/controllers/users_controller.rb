@@ -16,7 +16,6 @@ class UsersController < ApplicationController
   
   def create
     @user = User.create!(params[:user])
-    self.current_user = @user # FIXME: Move this to jumpin and test there.
     head :ok
   end
   

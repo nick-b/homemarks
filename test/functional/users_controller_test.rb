@@ -29,7 +29,8 @@ class UsersControllerTest < ActionController::TestCase
     
     should 'signup' do
       xhr_signup
-      assert_good_signup
+      assert_response :ok
+      assert @response.body.blank?
     end
     
     should 'redirect when already logged in' do
@@ -68,12 +69,6 @@ class UsersControllerTest < ActionController::TestCase
   
   def default_params(overrides={})
     {:user => {:email => 'signup@test.com', :password => 'test', :password_confirmation => 'test'}.merge(overrides)}
-  end
-    
-  def assert_good_signup
-    assert_current_user
-    assert_response :ok
-    assert @response.body.blank?
   end
   
   

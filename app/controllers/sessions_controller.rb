@@ -29,11 +29,11 @@ class SessionsController < ApplicationController
     head :ok
   end
   
-  # def destroy
-  #   reset_session
-  #   flash[:notice] = "You have been logged out."
-  #   redirect_back_or_default
-  # end
+  def destroy
+    reset_session
+    flash[:indif] = "You have been logged out."
+    redirect_back_or_default
+  end
 
   
   protected

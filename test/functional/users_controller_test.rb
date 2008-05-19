@@ -155,6 +155,20 @@ class UsersControllerTest < ActionController::TestCase
 
   end
   
+  context 'While testing the myhome action' do
+  
+    should 'get page with intro content for new user' do
+      newuser = login_as(:newuser)
+      get :home
+      assert_response :success
+      assert_select 'div#welcome_box' do
+        assert_select 'div#welcome_header'
+        assert_select 'div#welcome_message'
+      end
+    end
+  
+  end
+  
   
     
   

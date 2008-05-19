@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bookmarks
   
   
-  map.myhome    'myhome', :controller => 'users', :action => 'home', :method => :get
+  map.myhome    'myhome', :controller => 'users', :action => 'home', :conditions => {:method => :get}
   map.site      ':page',  :controller => 'site',  :action => 'show'
   
   

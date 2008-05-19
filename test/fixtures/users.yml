@@ -10,3 +10,15 @@ bob:
   verified: true
   created_at: <%= 5.days.ago.to_s :db %>
 
+
+newuser:
+  id: 2
+  email: "newuser@test.com"
+  salt: b375b3c9e943845e15071296cde5daf3a2948cc9
+  crypted_password: 18691b68a1d643de961fd49c3b14b04d738d613f # test
+  uuid: 2dkd383ldk3838dkdl38lapwic2ldidk
+  security_token: 1d73aaca4a4607e6c7awi188sk324a8ab3ff241d
+  token_expiry: <%= 1.day.from_now %>
+  verified: true
+  created_at: <%= 2.seconds.ago.to_s :db %>
+

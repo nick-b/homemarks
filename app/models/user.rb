@@ -15,10 +15,12 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password,                   :if => :password_required?
   
   attr_accessor   :password, :password_confirmation
+  attr_reader     :custom_changed_cache
   attr_accessible :email, :password, :password_confirmation
   
   before_validation_on_create :build_standard_boxes, :generate_security_token
   after_validation            :crypt_password, :create_uuid
+  before_update               :backup_dirty_changes
   before_destroy              :delete_all_associations
   
   
@@ -112,6 +114,10 @@ class User < ActiveRecord::Base
   
   def password_required?
     crypted_password.blank? || !password.blank?
+  end
+  
+  def backup_dirty_changes
+    @custom_changed_cache = self.changes.with_indifferent_access
   end
   
   

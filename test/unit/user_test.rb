@@ -145,6 +145,16 @@ class UserTest < ActiveSupport::TestCase
       @user.generate_security_token
     end
     
+    should 'cache dirty changes in custom_changed_cache accessor' do
+      old_email = @user.email
+      new_email = 'new@test.com'
+      assert_nil @user.custom_changed_cache
+      @user.update_attributes! :email => new_email
+      assert_not_nil @user.custom_changed_cache
+      assert_not_nil @user.custom_changed_cache[:email]
+      assert_equal [old_email,new_email], @user.custom_changed_cache[:email]
+    end
+    
   end
   
   

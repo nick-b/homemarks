@@ -3,7 +3,7 @@ javascript:
   (function(){
     var notHTML=/(pdf|gif|jpg|jpeg|png|css|js|mov)$/i;
     if(notHTML.test(location.href)){
-      location.href='<%= nonhtml_url(:only_path => false, :uuid => @user.uuid) %>';
+      location.href='<%# nonhtml_url(:only_path => false, :uuid => @user.uuid) %>';
       return
     };
     var d,n1,a,h,ac,l,ls,ss,m,ms,mp,mps,f,pjs,ejs,appjs,rjs;
@@ -58,7 +58,7 @@ javascript:
     a(appjs);
     rjs=d.createElement('script');
     rjs.type='text/javascript';
-    rjs.src='<%= setup_form_url(:only_path => false, :uuid => @user.uuid) %>';
+    rjs.src='<%# setup_form_url(:only_path => false, :uuid => @user.uuid) %>';
     a(rjs);
     })
     ();  

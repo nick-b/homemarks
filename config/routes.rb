@@ -6,22 +6,15 @@ ActionController::Routing::Routes.draw do |map|
   map.resource  :session, :member => { :jumpin => :get, :forgot_password => :post }
   map.resources :users,   :member => { :undelete => :get }
   
-  map.myhome    'myhome', :controller => 'user', :action => 'home', :method => :get
-  map.site      ':page',  :controller => 'site', :action => 'show'
+  map.resources :columns
+  map.resources :boxes
+  map.resources :bookmarks
   
   
+  map.myhome    'myhome', :controller => 'users', :action => 'home', :method => :get
+  map.site      ':page',  :controller => 'site',  :action => 'show'
   
   
-  # # Named route for user actions.
-  # map.login             'login', :controller => 'user', :action => 'login'
-  # map.signup            'signup', :controller => 'user', :action => 'signup'
-  # map.forgot_password   'forgot_password', :controller => 'user', :action => 'forgot_password'
-  # map.jumpin            'jumpin/:user_id/:token/:redirect', :controller => 'user', :action => 'jumpin', :requirements => { :user_id => /\d+/, :token => /[a-z0-9]{40}/, :redirect => /(myhome|myaccount)/ }
-  # map.myhome            'myhome', :controller => 'user', :action => 'home'
-  # map.myaccount         'myaccount', :controller => 'user', :action => 'edit'
-  # map.logout            'logout', :controller => 'user', :action => 'logout'
-  # map.recover           'recover/:user_id/:token', :controller => 'user', :action => 'restore_deleted', :requirements => { :user_id => /\d+/, :token => /[a-z0-9]{40}/ }
-  # 
   # # Named routes for actions on columns.
   # map.column_new      'column/new/:id', :controller => 'column', :action => 'new'
   # map.column_destroy  'column/destroy/:id', :controller => 'column', :action => 'destroy'

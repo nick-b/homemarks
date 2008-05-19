@@ -54,7 +54,7 @@ class BookmarkletController < ApplicationController
   end
   
   def redirect_if_self_referal
-    render(:update) {|page| page.<< "#{redirect_function(help_url(:anchor => 'homemarklet'))}"} if request.referer.to_s.match "^#{HmConfig.app[:host]}"
+    render(:update) {|page| page.<< "#{redirect_function(site_path('help')(:anchor => 'homemarklet'))}"} if request.referer.to_s.match "^#{HmConfig.app[:host]}"
   end
   
   def find_user_by_uuid

@@ -39,9 +39,9 @@ class UsersController < ApplicationController
     redirect_to myhome_url
   end
   
-  # def home
-  #   render :layout => 'application'
-  # end
+  def home
+    render :layout => 'application'
+  end
   
   # TODO: [ADMIN] Admin destroy action
   # def admin_destroy

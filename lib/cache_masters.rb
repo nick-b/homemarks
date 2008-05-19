@@ -3,13 +3,13 @@ module CacheMasters
   
   module UrlPaths
     def user_home_cache
-      "/user/#{@user.id}/home"
+      "/user/#{current_user.id}/home"
     end
     def user_inbox_cache
-      "/user/#{@user.id}/inbox"
+      "/user/#{current_user.id}/inbox"
     end
     def user_trashbox_cache
-      "/user/#{@user.id}/trashbox"
+      "/user/#{current_user.id}/trashbox"
     end
   end
   

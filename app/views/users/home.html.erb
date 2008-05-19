@@ -3,8 +3,8 @@
   
   <div id="col_wrapper">
     
-    <% if @user.columns.length > 0 -%>
-      <% for col in @user.columns %>
+    <% unless current_user.columns.blank? %>
+      <% current_user.columns.each do |col| %>
       <div id="col_<%= col.id %>" class="dragable_columns">
       
         <span id="column_<%= col.id %>_ctl" class="column_ctl">
@@ -34,9 +34,9 @@
     
       </div> <!-- #col_<%= col.id %> -->
       <% end -%>
-    <% else -%>
+    <% else %>
       <%= render :partial => 'welcome' %>
-    <% end -%>
+    <% end %>
   
   </div>
   
@@ -44,7 +44,7 @@
   <div id="bookmark_sortables">
     <script type="text/javascript">
     //<![CDATA[
-    <%= render(:update) {|page| page.create_bookmark_sortables(@user)} %>
+    <%# render(:update) {|page| page.create_bookmark_sortables(current_user)} %>
     //]]>
     </script>
   </div>
@@ -52,7 +52,7 @@
   <div id="box_sortables">
     <script type="text/javascript">
     //<![CDATA[
-    <%= render(:update) {|page| page.create_box_sortables(@user)} %>
+    <%# render(:update) {|page| page.create_box_sortables(current_user)} %>
     //]]>
     </script>
   </div>
@@ -60,7 +60,7 @@
   <div id="column_sortable">
     <script type="text/javascript">
     //<![CDATA[
-    <%= render(:update) {|page| page.create_column_sortable} %>
+    <%# render(:update) {|page| page.create_column_sortable} %>
     //]]>
     </script>
   </div>

@@ -44,13 +44,13 @@ module ApplicationHelper
   def link_to_remote_for_column_delete(col)
     link_to_remote( content_tag('span', '', :class => 'ctl_close'),
                   { :confirm => 'Are you sure? Deleting a COLUMN will also delete all the boxes and bookmarks within it.',
-                    :url => column_destroy_url(:id => col.id),
+                    :url => '',
                     :before => 'this.blur(); globalLoadingBehavior()' })
   end
   
   def link_to_remote_for_column_add(col)
     link_to_remote( content_tag('span', '', :class => 'ctl_add'),
-                  { :url => box_new_url(:id => col.id),
+                  { :url => '',
                     :before => 'this.blur(); globalLoadingBehavior()' })
   end
   
@@ -58,14 +58,14 @@ module ApplicationHelper
     span_class = 'box_action' if action_dir == 'down'
     span_class = 'box_action box_action_down' if action_dir == 'up'
     link_to_remote( content_tag('span', '', :id => "boxid_#{box.id}_action", :class => span_class),
-                  { :url => {:controller => 'box', :action => "actions_#{action_dir}", :id => box.id, :collapsed => box.collapsed?},
+                  { :url => '', :id => box.id, :collapsed => box.collapsed?, # {:controller => 'box', :action => "actions_#{action_dir}"
                     :before => "this.blur(); globalLoadingBehavior(); loadLameActionSpan(#{box.id},'#{action_dir}')" },
                     :id => "boxid_#{box.id}_action_alink" )
   end
   
   def link_to_remote_for_box_title(box)
     link_to_remote( h(box.title),
-                  { :url => box_collapse_url(:id => box.id), 
+                  { :url => '', 
                     :before => "this.blur(); globalLoadingBehavior(); loadLameActionSpan(#{box.id},'up')" }, 
                     :id => "boxid_#{box.id}_title" )
   end
@@ -73,32 +73,32 @@ module ApplicationHelper
   def link_to_remote_for_box_delete(box)
     link_to_remote( content_tag('span', '', :class => 'box_delete'), 
                   { :confirm => 'Are you sure? Deleting a BOX will also delete all the bookmarks within it.',
-                    :url => box_destroy_url(:id => box.id),
+                    :url => '',
                     :before => 'this.blur(); globalLoadingBehavior()' } )
   end
   
   def link_to_remote_for_box_color_swatches(box,swatch)
     link_to_remote( content_tag('span', '', :class => "box_swatch swatch_#{swatch}"),
-                    :url => change_color_url(:id => box.id, :color => swatch),
+                    :url => '',
                     :before => "this.blur(); $('boxid_#{box.id}_style').classNames().set('box #{swatch}')" )
   end
   
   def link_to_remote_for_box_edit_links(box)
     link_to_remote( content_tag('span', '', :class => 'box_edit'),
-                    :url => edit_links_url(:id => box.id),
+                    :url => '',
                     :before => "this.blur(); setupModal(#{box.id})",
                     :loading => "Element.show('modal_progress')" )
   end
   
   def link_to_remote_for_bookmark_new(box)
     link_to_remote( image_tag('/stylesheets/images/modal/command_new-bookmark2.png', :alt => 'New Bookmark', :class => 'modal_command_new'),
-                    :url => new_in_box_url(:id => box.id),
+                    :url => '',
                     :before => 'this.blur()' )
   end
   
   def link_to_remote_for_actionarea_inbox
     link_to_remote( content_tag('span', '', :id => 'legend_inbox' ), 
-                   {:url => show_inbox_url,
+                   {:url => '',
                     :condition => 'isActionAreaDisplayed(this)',
                     :before => "loadingActionArea(this)"},
                     :id => 'legend_inbox_link')
@@ -106,7 +106,7 @@ module ApplicationHelper
   
   def link_to_remote_for_actionarea_trashbox
     link_to_remote( content_tag('span', '', :id => 'legend_trash' ), 
-                   {:url => show_trashbox_url,
+                   {:url => '',
                     :condition => 'isActionAreaDisplayed(this)',
                     :before => "loadingActionArea(this)"},
                     :id => 'legend_trash_link')
@@ -132,21 +132,21 @@ module ApplicationHelper
   end
   
   def empty_trash_function
-    remote_function( :url => empty_trash_url,
+    remote_function( :url => '',
                      :confirm => 'Are you sure? This will permanently delete all bookmarks in your trash.' )
   end
   
   
   
-  def create_box_sortables(user)
-    user.columns.each do |col|
-      page.create_box_sortables_code(user, col)
+  def create_box_sortables
+    current_user.columns.each do |col|
+      page.create_box_sortables_code(col)
     end    
   end
   
-  def create_bookmark_sortables(user)
-    user.boxes.each do |box|
-      page.create_bookmark_sortables_code(user, box)
+  def create_bookmark_sortables
+    current_user.boxes.each do |box|
+      page.create_bookmark_sortables_code(box)
     end
   end
   
@@ -163,14 +163,14 @@ module ApplicationHelper
                   :with => 'findSortedInfo(this)'
   end
   
-  def create_box_sortables_code(user, col)
+  def create_box_sortables_code(col)
     page.sortable "col_#{col.id}",
                   :tag => 'div',
                   :only => 'dragable_boxes',
                   :hoverclass => 'column_hover',
                   :accept => 'dragable_boxes',
                   :handle => 'box_handle',
-                  :containment => user.column_containment_array,
+                  :containment => current_user.column_containment_array,
                   :constraint => false,
                   :dropOnEmpty => true,
                   :url => { :controller => 'box', :action => 'sort' },
@@ -178,7 +178,7 @@ module ApplicationHelper
                   :with => 'findDroppedBoxInfo(this)'
   end
   
-  def create_bookmark_sortables_code(user, box)
+  def create_bookmark_sortables_code(box)
     sortable_id = case box
                   when Box : "boxid_list_#{box.id}"
                   when Inbox : 'inbox_list'
@@ -187,7 +187,7 @@ module ApplicationHelper
     page.sortable sortable_id,
                   :accept => 'dragable_bmarks',
                   :handle => 'bmrk_handle',
-                  :containment => user.box_containment_array,
+                  :containment => current_user.box_containment_array,
                   :constraint => false,
                   :dropOnEmpty => true,
                   :url => { :controller => 'bookmark', :action => 'sort' },
@@ -195,12 +195,12 @@ module ApplicationHelper
                   :with => 'findDroppedBookmarkInfo(this)'
   end
   
-  def reorder_then_create_box_sortables(col,user)
+  def reorder_then_create_box_sortables(col)
     # Due to some bug, affected column needs to be first in the array before create sortable code fires.
-    ucols = user.columns
+    ucols = current_user.columns
     ucols.slice!(ucols.index(col))
     ucols.unshift(col).each do |sortcol|
-      page.create_box_sortables_code(user, sortcol)
+      page.create_box_sortables_code(sortcol)
     end
   end
   

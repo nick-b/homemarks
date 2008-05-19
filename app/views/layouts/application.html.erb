@@ -8,18 +8,17 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <%= stylesheet_link_tag 'application', :media => 'all' %>
-  <%= javascript_include_tag 'builder' %>
-  <%= javascript_include_tag :defaults %>
+  <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
+  <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor' %>
+  <%= javascript_include_tag 'homemarks/base','homemarks/modal','homemarks/box', :cache => 'homemarks_app' %>
+  <script type="text/javascript">
+    document.observe('dom:loaded', function(){
+      HmModal = new HomeMarksModal();
+    });
+    Builder.dump();
+  </script>
 </head>
 <body>
-  
-  <div id="modalmask" style="display:none;">
-    <div id="modal_progress" style="display:none;" onclick="location.reload();"></div>
-  </div>
-  <div id="modal_html_ap-wrapper" class="inhomemarks_site">
-    <div id="modal_html_rel-wrapper" style="display:none;">
-    </div>
-  </div>
   
   <div id="action_bar" onclick="toggleActionArea('inbox');"></div>
   <div id="action_area_shim" style="display:none;">
@@ -61,22 +60,22 @@
     </div>
     <% end -%>
     <div id="button_box">
-      <%= link_to_remote content_tag('span', '', :id => 'button_new_column', :class => 'user_buttons'), {:url => column_new_url, :loading => "globalLoadingBehavior()"}, :class => 'tooltipable', :title => 'Create a new column.' %>
+      <%= link_to_remote content_tag('span', '', :id => 'button_new_column', :class => 'user_buttons'), {:url => '', :loading => "globalLoadingBehavior()"}, :class => 'tooltipable', :title => 'Create a new column.' %>
       <%= link_to content_tag('span', '', :id => 'button_bookmarklet', :class => 'user_buttons')+'<span style="display:none;">HomeMarklet</span>', render_bookmarklet, :class => 'tooltipable', :title => 'My HomeMarklet. Click to learn more.' %>
-      <%= link_to content_tag('span', '', :id => 'button_prefs', :class => 'user_buttons'), myaccount_url, :class => 'tooltipable', :title => 'My account preferences.' %>
-      <%= link_to content_tag('span', '', :id => 'button_help', :class => 'user_buttons'), help_url, :class => 'tooltipable', :title => 'Documentation & Help' %>
-      <%= link_to content_tag('span', '', :id => 'button_home', :class => 'user_buttons'), index_url, :class => 'tooltipable', :title => 'Site homempage.' %>
+      <%= link_to content_tag('span', '', :id => 'button_prefs', :class => 'user_buttons'), '', :class => 'tooltipable', :title => 'My account preferences.' %>
+      <%= link_to content_tag('span', '', :id => 'button_help', :class => 'user_buttons'), '', :class => 'tooltipable', :title => 'Documentation & Help' %>
+      <%= link_to content_tag('span', '', :id => 'button_home', :class => 'user_buttons'), root_path, :class => 'tooltipable', :title => 'Site homempage.' %>
       <!-- TODO: Make this (tipsy) link go to something. -->
       <!-- <%= link_to content_tag('span', '', :id => 'button_beer', :class => 'user_buttons'), 'sitecontroller.com', :class => 'tooltipable', :title => 'Feeling tipsy?' %> -->
-      <%= link_to content_tag('span', '', :id => 'button_bug', :class => 'user_buttons'), issues_url, :class => 'tooltipable', :title => 'Report any issues.' %>
-      <%= link_to content_tag('span', '', :id => 'button_logout', :class => 'user_buttons'), logout_url, :class => 'tooltipable', :title => 'Log out.' %>
+      <%= link_to content_tag('span', '', :id => 'button_bug', :class => 'user_buttons'), '', :class => 'tooltipable', :title => 'Report any issues.' %>
+      <%= link_to content_tag('span', '', :id => 'button_logout', :class => 'user_buttons'), '', :class => 'tooltipable', :title => 'Log out.' %>
     </div>
   </div><!-- #header -->
   
   <%= yield %>
   
-  <div id="trashcan" class="<%= @trashbox.is_empty? ? 'trash_empty' : 'trash_full' %>" onclick="toggleActionArea('trashbox');"></div>
-  <%= drop_receiving_element 'trashcan', :url => trash_url, 
+  <div id="trashcan" class="<%= current_user.trashbox.is_empty? ? 'trash_empty' : 'trash_full' %>" onclick="toggleActionArea('trashbox');"></div>
+  <%= drop_receiving_element 'trashcan', :url => '', 
       :accept => 'dragable_bmarks', :hoverclass => 'trash_droppable', 
       :before => "element.remove()", :loading => 'globalLoadingBehavior()' %>
       

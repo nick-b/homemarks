@@ -73,7 +73,7 @@ module AuthenticatedSystem
   end
 
   def login_from_token
-    authorized_action = controller_name == 'sessions' && action_name == 'jumpin'
+    authorized_action = controller_name =~ /sessions|users/ && action_name =~ /jumpin|undelete/
     if authorized_action
       self.current_user = User.authenticate_by_token(params[:token])
     end

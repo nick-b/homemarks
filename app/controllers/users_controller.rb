@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   filter_parameter_logging :password
   
   skip_before_filter  :login_required,     :only => [ :new, :create ]
-  before_filter       :redirect_logged_in, :only => [ :new, :create ]
+  before_filter       :redirect_logged_in, :only => [ :new, :create, :undelete ]
   
   # before_filter      :control_demo_user, :only => [ :forgot_password, :change_password, :edit, :delete, :restore_deleted ]
   # before_filter      :nil_demo_account,  :only => [ :signup, :login ]
@@ -34,36 +34,20 @@ class UsersController < ApplicationController
     flash[:good] = "You account has been marked for deletion!"
   end
   
+  def undelete
+    flash[:good] = 'Welcome back :)'
+    redirect_to myhome_url
+  end
+  
   # def home
-  #   @trashbox = @user.trashbox
   #   render :layout => 'application'
   # end
-  # 
-  # def undelete
-  #   @user.deleted = false
-  #   if @user.save
-  #     flash[:good] = "Welcome back :)"
-  #     redirect_to myhome_url
-  #   else
-  #     redirect_to issues_form_url
-  #   end
+  
+  # TODO: [ADMIN] Admin destroy action
+  # def admin_destroy
+  #   flash[:good] = "The account for #{@user.email} was successfully deleted."
+  #   user.destroy
   # end
-  
-  
-  protected
-  
-
-  # # FIXME: Put in some admin namespace
-  # def destroy(user)
-  #   UserNotify.deliver_delete(user, issues_form_url)
-  #   flash[:good] = "The account for #{user['login']} was successfully deleted."
-  #   user.destroy()
-  # end
-  # 
-  # def email_demo?
-  #   params[:user][:email] == HmConfig.demo[:email]
-  # end
-  
   
   
 end

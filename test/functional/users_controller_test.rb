@@ -132,6 +132,30 @@ class UsersControllerTest < ActionController::TestCase
     
   end
   
+  context 'While testing the undelete action' do
+
+    should 'redirect when already logged in' do
+      login_as(:bob)
+      get_undelete_bob
+      assert_redirected_to myhome_url
+    end
+    
+    should 'redirect to login when token is invalid' do
+      get_undelete_bob :token => ''
+      assert_redirected_to_login
+    end
+    
+    should 'undelete and validate bob' do
+      @bob.delete!
+      assert @bob.deleted?
+      get_undelete_bob
+      assert_current_user
+      assert_redirected_to myhome_url
+    end
+
+  end
+  
+  
     
   
   protected
@@ -146,6 +170,10 @@ class UsersControllerTest < ActionController::TestCase
   
   def delete_destroy_bob
     delete :destroy, {:id => @bob.id}
+  end
+  
+  def get_undelete_bob(overrides={})
+    get :undelete, {:id => @bob.id, :token => @bob.security_token}.merge(overrides)
   end
   
   def default_params(overrides={})

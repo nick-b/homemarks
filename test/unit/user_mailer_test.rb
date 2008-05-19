@@ -7,6 +7,7 @@ class UserMailerTest < ActionMailer::TestCase
     @deliveries = ActionMailer::Base.deliveries
   end
   
+  
   context 'While testing signup' do
     
     setup { @email = UserMailer.create_signup(@user) }
@@ -39,7 +40,7 @@ class UserMailerTest < ActionMailer::TestCase
   
   context 'While testing change_account' do
     
-    should 'fire 2 emails when user changes email' do
+    should 'send 2 emails when user changes email' do
       assert_no_emails
       old_email = @user.email
       new_email = 'new@test.com'
@@ -49,6 +50,20 @@ class UserMailerTest < ActionMailer::TestCase
     end
     
   end
+  
+  context 'While testing the pending_delete' do
+
+    should 'send an email when User#delete! is called' do
+      assert_no_emails
+      assert_emails(1) { @user.delete! }
+      @email = @deliveries.first
+      assert_match 'Delete account notification', @email.subject
+      assert_match 'marked your account for deletion', @email.body
+      assert_recover_url
+    end
+
+  end
+  
   
   
   
@@ -61,6 +76,10 @@ class UserMailerTest < ActionMailer::TestCase
   
   def assert_jumpin_url
     assert_match 'homemarks.com/session/jumpin?token=', @email.body
+  end
+  
+  def assert_recover_url
+    assert_match "homemarks.com/users/#{@user.id}/undelete?token=#{@user.security_token}", @email.body
   end
   
   

@@ -17,9 +17,7 @@ class SessionsController < ApplicationController
   end
   
   def destroy
-    reset_session
-    flash[:indif] = "You have been logged out."
-    redirect_back_or_default
+    logout
   end
   
   def jumpin

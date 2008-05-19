@@ -11,12 +11,10 @@ module HomemarksTestHelper
   
   module ActionControllerAssertions
     
-    def assert_good_flash(contents)
-      assert_match contents, flash[:good]
-    end
-    
-    def assert_indif_flash(contents)
-      assert_match contents, flash[:indif]
+    [:good,:bad,:indif].each do |mood|
+      define_method "assert_#{mood}_flash" do |contents|
+        assert_match contents, flash[mood]
+      end
     end
     
     def assert_layout(expected=nil, message=nil)

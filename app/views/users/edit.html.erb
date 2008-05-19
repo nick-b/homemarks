@@ -16,7 +16,6 @@
   <tr>
     <td></td>
     <td class="vbottom_all">
-      <%# button_to_function '« Cancel', redirect_function(myhome_url) %>
       <%= submit_tag 'Update Account' %>
       <span id="form_loading"></span>
     </td>
@@ -25,13 +24,10 @@
 <% end %>
 
 
-
-
 <h2>Delete Account</h2>
 
-<img src="/stylesheets/images/site/trashcan.png" style="float:left; margin-right:12px;" />
-
 <p>
+  <img src="/stylesheets/images/site/trashcan.png" class="floatl mr10" />
   If you choose to delete your account, it will be immediately deactivated and then deleted by the HomeMarks 
   system in <%= HmConfig.app[:delayed_delete_days] %> days. If you do choose to do this, an email will be sent 
   to your address on file with a link that will allow you to cancel this action within the 
@@ -39,9 +35,8 @@
 </p>
 
 <div class="clearfix">
-  <div style="float:right;">
-    <!-- <input id="delete_account" type="button" value="Delete Account" /> -->
-    <%= button_to 'Delete Account', '#', :confirm => "Are you REALLY sure you want to delete your account?", :id => 'delete_account_button' %>
+  <div class="floatr">
+    <%= button_to 'Delete Account', user_path(current_user), :confirm => "Are you REALLY sure you want to delete your account?", :method => :delete %>
   </div>
 </div>
 

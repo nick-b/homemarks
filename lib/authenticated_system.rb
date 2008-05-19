@@ -18,6 +18,12 @@ module AuthenticatedSystem
     session[:user_id] = (new_user && new_user.respond_to?(:crypted_password)) ? new_user.id : nil
     @current_user = new_user || false
   end
+  
+  def logout
+    reset_session
+    flash[:indif] = "You have been logged out."
+    redirect_back_or_default
+  end
 
   def authorized?
     logged_in?
@@ -29,10 +35,8 @@ module AuthenticatedSystem
   
   def access_denied
     respond_to do |format|
-      format.html do
-        store_location
-        redirect_to new_session_path
-      end
+      format.html { store_location ; redirect_to new_session_url }
+      format.js { store_location ; redirect_to new_session_url }
       format.any do
         request_http_basic_authentication 'Web Password'
       end

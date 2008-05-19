@@ -60,11 +60,9 @@ class SessionsControllerTest < ActionController::TestCase
 
     setup { login_as(:bob) }
     
-    should 'description' do
+    should 'logout' do
       delete :destroy
-      assert_nil session[:user_id]
-      assert_indif_flash('logged out')
-      assert_redirected_to root_url
+      assert_logged_out
     end
 
   end

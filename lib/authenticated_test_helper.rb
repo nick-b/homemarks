@@ -3,6 +3,10 @@ module AuthenticatedTestHelper
   def login_as(user)
     @request.session[:user_id] = user ? users(user).id : nil
   end
+  
+  def logout
+    @request.reset_session
+  end
 
   def authorize_as(user, password='test')
     @request.env["HTTP_AUTHORIZATION"] = user ? 
@@ -14,9 +18,19 @@ module AuthenticatedTestHelper
     User.create(attributes)
   end
   
+  def assert_redirected_to_login
+    assert_redirected_to new_session_url
+  end
+  
   def assert_current_user
     assert_not_nil session[:user_id], 'The session[:user_id] should not be nil'
     assert_instance_of User, assigns(:current_user)
+  end
+  
+  def assert_logged_out
+    assert_nil session[:user_id]
+    assert_indif_flash('logged out')
+    assert_redirected_to root_url
   end
   
   def assert_no_current_user

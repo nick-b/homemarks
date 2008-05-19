@@ -17,13 +17,12 @@ class UserMailer < ActionMailer::Base
     @body['changed_attr'] = changed_attr
   end
   
-  # def pending_delete(user)
-  #   setup_email(user)
-  #   @subject += 'Delete account notification'
-  #   @body['days'] = HmConfig.app[:delayed_delete_days]
-  #   @body['recover_url'] = url
-  # end
-  # 
+  def pending_delete(user)
+    setup_email(user)
+    @subject += 'Delete account notification'
+    @body['days'] = HmConfig.app[:delayed_delete_days]
+  end
+  
   # def delete(user)
   #   setup_email(user)
   #   @subject += 'Deleted account permanently'
@@ -45,6 +44,7 @@ class UserMailer < ActionMailer::Base
     @body['user']         = user
     @body['support_url']  = "#{@host_uri}/support_requests/new?show_form=true"
     @body['jumpin_url']   = "#{@host_uri}/session/jumpin?token=#{user.security_token}"
+    @body['recover_url']  = "#{@host_uri}/users/#{user.id}/undelete?token=#{user.security_token}"
   end
     
 end

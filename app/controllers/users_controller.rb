@@ -28,19 +28,18 @@ class UsersController < ApplicationController
     head :ok
   end
   
+  def destroy
+    current_user.delete!
+    logout
+    flash[:good] = "You account has been marked for deletion!"
+  end
   
   # def home
   #   @trashbox = @user.trashbox
   #   render :layout => 'application'
   # end
   # 
-  # def delete
-  #   token = @user.delete!
-  #   UserNotify.deliver_pending_delete(@user, recover_url(:user_id => @user.id, :token => token), issues_form_url)
-  #   logout
-  # end
-  # 
-  # def restore_deleted
+  # def undelete
   #   @user.deleted = false
   #   if @user.save
   #     flash[:good] = "Welcome back :)"

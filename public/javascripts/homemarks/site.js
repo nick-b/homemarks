@@ -9,6 +9,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
     this.forgotPwArea = $('forgotpw_area'); this.forgotPwForm = $('forgotpw_form'); 
     this.forgotPwButton = $('forgotpw_button'); this.forgotPwCancel = $('forgotpw_cancel'); 
     this.signupForm = $('signup_form');
+    this.editForm = $('edit_form');
     this.flashes = $$('div.flash_message');
     this.initEvents();
   },
@@ -61,6 +62,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
         case this.loginForm     : this.completeLoginForm(request); break;
         case this.forgotPwForm  : this.completeForgotPwForm(request); break;
         case this.signupForm    : this.completeSignupForm(request); break;
+        case this.editForm      : this.completeEditForm(request); break;
       }
     }
     else { 
@@ -93,7 +95,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   },
   
   completeLoginForm: function(request) {
-    window.location = '/myhome';
+    this.redirectToUserHome();
   },
   
   completeForgotPwForm: function(request) {
@@ -111,6 +113,13 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
     this.flash('good',flashHTML);
   },
   
+  completeEditForm: function(request) {
+    var message = "You are being redirected to your HomeMarks page...";
+    var flashHTML = DIV([H2('Account Updated:'),P(message)]);
+    this.flash('good',flashHTML);
+    this.redirectToUserHome.delay(2);
+  },
+  
   toggleLoginForgotPwForms: function(event) {
     if (this.loginArea.visible()) { this.loginArea.hide(); this.forgotPwArea.show(); }
     else { this.loginArea.show(); this.forgotPwArea.hide(); };
@@ -119,6 +128,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   initEvents: function() {
     if (this.supportForm) { this.supportForm.observe('submit', this.submitSupportForm.bindAsEventListener(this)); };
     if (this.signupForm) { this.signupForm.observe('submit', this.startAjaxForm.bindAsEventListener(this)); };
+    if (this.editForm) { this.editForm.observe('submit', this.startAjaxForm.bindAsEventListener(this)); };
     if (this.loginArea) {
       this.loginForm.observe('submit', this.startAjaxForm.bindAsEventListener(this));
       this.forgotPwForm.observe('submit', this.startAjaxForm.bindAsEventListener(this));

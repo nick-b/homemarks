@@ -1,56 +1,47 @@
 
-<% @page_title = "My HomeMarks Account Preferences" -%>
+<% title 'My HomeMarks' %>
 
-<h1>My Account</h1>
+<h1><%= yield(:title) %></h1>
 
-<h2>My Email</h2>
-<p>Enter your new email address in the field below. Clicking 'Update Email' will send a notification to both your old and new email address.</p>
-<% remote_form_for :user, :url => {:action => 'edit'}, :after => "remoteFormLoading(this,'myemail_loading')", :html => {:id => 'myemail_form'} do |@u| %>
-<table>
-  <%= render :partial => 'edit' %>
+<p>
+  Enter your new email address or password in the fields below. You do not need to enter a new password if you 
+  are only updating your email address. All changes will send email notifications.
+</p>
+
+<h2>Account Information</h2>
+
+<% form_for @user, :html => {:id => 'edit_form'} do |u| %>
+<table class="ajaxform">
+  <%= render :partial => 'form', :locals => {:u => u} %>
   <tr>
     <td></td>
-    <td>
-      <div class="value_buts">
-        <%= button_to_function '« Cancel', redirect_function(myhome_url) %> <%= submit_tag 'Update Email' %> 
-      </div>
-      <div class="value_loads"><span id="myemail_loading"></span></div>
+    <td class="vbottom_all">
+      <%# button_to_function '« Cancel', redirect_function(myhome_url) %>
+      <%= submit_tag 'Update Account' %>
+      <span id="form_loading"></span>
     </td>
   </tr>
 </table>
 <% end %>
 
-<h2>Change Password</h2>
-<p>Enter your new password in the fields below <span class="site_yellow">(minimum of 5 characters)</span> and click 'Change Password'. Afterward a confirmation email will be sent to your current email address on file.</p>
-<% remote_form_for :user, :url => {:action => 'change_password'}, :after => "remoteFormLoading(this,'mypassword_loading')", :html => {:id => 'mypassword_form'} do |@u| %>
-<table>
-  <%= render :partial => 'password' %>
-  <tr>
-    <td></td>
-    <td>
-      <div class="value_buts">
-        <%= button_to_function '« Cancel', redirect_function(myhome_url) %> <%= submit_tag 'Change password' %> 
-      </div>
-      <div class="value_loads"><span id="mypassword_loading"></span></div>
-    </td>
-  </tr>
-</table>
-<% end %>
+
+
 
 <h2>Delete Account</h2>
+
 <img src="/stylesheets/images/site/trashcan.png" style="float:left; margin-right:12px;" />
-<p>If you choose to delete your account, it will be immediatly deactived and then deleted by the HomeMarks system in <%= HmConfig.app[:delayed_delete_days] %> days. If you do choose yes, an email will be sent to your address on file with a link that will allow you to cancel this action within the <%= HmConfig.app[:delayed_delete_days] %> day period.</p>
+
+<p>
+  If you choose to delete your account, it will be immediately deactivated and then deleted by the HomeMarks 
+  system in <%= HmConfig.app[:delayed_delete_days] %> days. If you do choose to do this, an email will be sent 
+  to your address on file with a link that will allow you to cancel this action within the 
+  <%= HmConfig.app[:delayed_delete_days] %> day period.
+</p>
+
 <div class="clearfix">
   <div style="float:right;">
-    <%= button_to 'Delete Account', {:action => 'delete'}, :confirm => "Are you REALLY sure you want to delete your account?", :id => 'delete_account_button' %>
+    <!-- <input id="delete_account" type="button" value="Delete Account" /> -->
+    <%= button_to 'Delete Account', '#', :confirm => "Are you REALLY sure you want to delete your account?", :id => 'delete_account_button' %>
   </div>
 </div>
-
-<% if @disable_forms -%>
-  <script type="text/javascript" charset="utf-8">
-    var form1Off = Form.disable('myemail_form');
-    var form2Off = Form.disable('mypassword_form');
-    var form3Off = $('delete_account_button').disable();
-  </script>
-<% end -%>
 

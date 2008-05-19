@@ -10,14 +10,13 @@ class UserMailer < ActionMailer::Base
     @subject += 'Forgotten password notification'
   end
   
-  # def change_account(user)
-  #   setup_email(user)
-  #   @recipients = email if !email.nil?
-  #   @subject += 'Changed account notification'
-  #   @body['email'] = email
-  #   @body['support_url'] = support_url
-  # end
-  # 
+  def change_account(user, recipient, changed_attr)
+    setup_email(user)
+    @recipients = recipient
+    @subject += 'Changed account notification'
+    @body['changed_attr'] = changed_attr
+  end
+  
   # def pending_delete(user)
   #   setup_email(user)
   #   @subject += 'Delete account notification'
@@ -43,6 +42,7 @@ class UserMailer < ActionMailer::Base
   
   def setup_body(user)
     @host_uri             = "http://#{HmConfig.app[:host]}"
+    @body['user']         = user
     @body['support_url']  = "#{@host_uri}/support_requests/new?show_form=true"
     @body['jumpin_url']   = "#{@host_uri}/session/jumpin?token=#{user.security_token}"
   end

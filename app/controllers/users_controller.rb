@@ -19,7 +19,14 @@ class UsersController < ApplicationController
     head :ok
   end
   
+  def edit
+    @user = current_user
+  end
   
+  def update
+    current_user.update_attributes! params[:user]
+    head :ok
+  end
   
   
   # def home
@@ -27,37 +34,10 @@ class UsersController < ApplicationController
   #   render :layout => 'application'
   # end
   # 
-  # def change_password
-  #   redirect_to myaccount_url if request.get?
-  #   if request.post?
-  #     @user.update_attributes! params[:user]
-  #     send_account_changed_notification(@user)
-  #     flash[:good] = 'Password changed.'
-  #     render(:update) {|page| page.redirect_to(myhome_url)}
-  #   end
-  # rescue ActiveRecord::RecordInvalid
-  #   render(:update) {|page| page.complete_ajax_form('bad','mypassword_form','mypassword_loading')}
-  # end
-  # 
-  # def edit
-  #   if request.post?
-  #     send_account_changed_notification(@user, @user.email)
-  #     send_account_changed_notification(@user, params[:user][:email])
-  #     @user.email = params[:user][:email] ; @user.save!
-  #     flash[:good] = 'Email address updated.'
-  #     render(:update) {|page| page.redirect_to(myhome_url)}
-  #   end
-  # rescue ActiveRecord::RecordInvalid
-  #   render(:update) {|page| page.complete_ajax_form('bad','myemail_form','myemail_loading')}
-  # end
-  # 
   # def delete
-  #   redirect_to index_url if request.get?
-  #   if request.post?
-  #     token = @user.delete!
-  #     UserNotify.deliver_pending_delete(@user, recover_url(:user_id => @user.id, :token => token), issues_form_url)
-  #     logout
-  #   end
+  #   token = @user.delete!
+  #   UserNotify.deliver_pending_delete(@user, recover_url(:user_id => @user.id, :token => token), issues_form_url)
+  #   logout
   # end
   # 
   # def restore_deleted
@@ -73,10 +53,7 @@ class UsersController < ApplicationController
   
   protected
   
-  # def send_account_changed_notification(user, email=nil)
-  #   UserNotify.deliver_change_account(user, issues_form_url, email)
-  # end
-  # 
+
   # # FIXME: Put in some admin namespace
   # def destroy(user)
   #   UserNotify.deliver_delete(user, issues_form_url)

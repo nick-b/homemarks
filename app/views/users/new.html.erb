@@ -1,7 +1,7 @@
 
-<% title = 'Signup' %>
+<% title 'HomeMarks Signup' %>
 
-<h1>HomeMarks Signup</h1>
+<h1><%= yield(:title) %></h1>
 
 <p>
   Thanks for choosing to try out HomeMarks. To create your account, please enter your email address and choose a 
@@ -11,13 +11,11 @@
 
 <% form_for @user, :html => {:id => 'signup_form'} do |u| %>
 <table class="ajaxform">
-  <%= render :partial => 'edit', :locals => {:u => u} %>
-  <%= render :partial => 'password', :locals => {:u => u} %>
+  <%= render :partial => 'form', :locals => {:u => u} %>
   <tr>
     <td></td>
     <td class="vbottom_all">
-      <input class="ajaxform_link" type="button" value="Cancel" />
-      <%= submit_tag 'Signup' %>
+      <%= submit_tag 'Create Account' %>
       <span id="form_loading"></span>
     </td>
   </tr>

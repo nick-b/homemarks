@@ -4,6 +4,7 @@ class UserMailerTest < ActionMailer::TestCase
   
   def setup
     @user = users(:bob)
+    @deliveries = ActionMailer::Base.deliveries
   end
   
   context 'While testing signup' do
@@ -35,6 +36,20 @@ class UserMailerTest < ActionMailer::TestCase
     end
 
   end
+  
+  context 'While testing change_account' do
+    
+    should 'fire 2 emails when user changes email' do
+      assert_no_emails
+      old_email = @user.email
+      new_email = 'new@test.com'
+      assert_emails(2) { @user.update_attributes! :email => new_email }
+      assert_contains [old_email,new_email], @deliveries[0].to.to_s
+      assert_contains [old_email,new_email], @deliveries[1].to.to_s
+    end
+    
+  end
+  
   
   
   protected

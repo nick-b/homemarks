@@ -32,6 +32,10 @@ var HomeMarksBase = {
     return messageList;
   },
   
+  redirectToUserHome: function() {
+    window.location = '/myhome';
+  },
+  
   scroll: function() { return document.viewport.getScrollOffsets(); },
   
   pageSize: function() { 

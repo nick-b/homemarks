@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   
-  helper SiteHelper
   filter_parameter_logging :password
   
   skip_before_filter  :login_required,     :only => [ :new, :create ]

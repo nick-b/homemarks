@@ -165,6 +165,9 @@ class UsersControllerTest < ActionController::TestCase
         assert_select 'div#welcome_header'
         assert_select 'div#welcome_message'
       end
+      assert_select 'div#button_box' do
+        assert_select 'a.tooltipable', 7
+      end
     end
   
   end

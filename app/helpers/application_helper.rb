@@ -7,6 +7,31 @@ module ApplicationHelper
     content_for(:title) { h(title) }
   end
   
+  def site_nav_for(name, nav_url)
+    id_filename = "nav_#{name.sub(/\s/,'').underscore}"
+    options = {:id => id_filename}
+    options.merge!(:method => :delete) if name =~ /logout/i
+    img = image_tag "/stylesheets/images/site/#{id_filename}.png", :alt => name, :border => 'none'
+    link_to img+name, nav_url, options
+  end
+  
+  def app_nav_for(title, id, nav_url, options={})
+    content = content_tag(:span, '', :id => id, :class => 'user_buttons') + options[:xtra_content].to_s
+    link_options = {:class => 'tooltipable', :title => title}
+    link_options.merge!(:method => :delete) if id =~ /button_logout/
+    link_to(content, nav_url, link_options)
+  end
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -37,9 +62,6 @@ module ApplicationHelper
   def redirect_function(location)
     %Q{window.location.href='#{location}'}
   end
-  
-  
-  
   
   def link_to_remote_for_column_delete(col)
     link_to_remote( content_tag('span', '', :class => 'ctl_close'),

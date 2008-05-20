@@ -10,7 +10,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :boxes
   map.resources :bookmarks
   
-  
   map.myhome    'myhome', :controller => 'users', :action => 'home', :conditions => {:method => :get}
   map.site      ':page',  :controller => 'site',  :action => 'show'
   

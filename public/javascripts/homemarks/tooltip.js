@@ -1,5 +1,5 @@
 
-var Tooltip = Class.create(HomeMarksBase,{
+var Tooltip = Class.create({
   
   initialize: function(a) {
     this.a = $(a);

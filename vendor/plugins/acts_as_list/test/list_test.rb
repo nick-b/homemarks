@@ -1,7 +1,6 @@
 require 'test/unit'
-
 require 'rubygems'
-gem 'activerecord', '>= 1.15.4.7794'
+gem 'activerecord', '>= 2.0.2'
 require 'active_record'
 require 'active_support'
 
@@ -29,7 +28,7 @@ end
 class Mixin < ActiveRecord::Base ; end
 
 class ListMixin < Mixin
-  acts_as_list :column => "pos", :scope => :parent
+  acts_as_list :column => "pos", :scope => :parent_id
   set_table_name :mixins
 end
 
@@ -187,7 +186,39 @@ class ListTest < Test::Unit::TestCase
     assert_equal 1, ListMixin.find(4).pos
     assert_equal 2, ListMixin.find(3).pos
     assert_equal 3, ListMixin.find(1).pos
-  end 
+  end
+  
+  def test_insert_at_new_scope_and_position
+    (1..4).each { |counter| ListMixin.create! :pos => counter, :parent_id => 420 }
+    assert_equal [4, 3, 2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)
+    assert_equal [8, 7, 6, 5], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
+    moving = ListMixin.find(3)
+    moving.insert_at_new_scope_and_position(420,2)
+    assert_equal [4, 2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)
+    assert_equal [8, 3, 7, 6, 5], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
+    moving = ListMixin.find(4)
+    moving.insert_at_new_scope_and_position(420,1)
+    assert_equal [2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)
+    assert_equal [4, 8, 3, 7, 6, 5], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
+  end
+  
+  def test_insert_at_new_scope_and_position_at_one_greater_than_new_last
+    (1..4).each { |counter| ListMixin.create! :pos => counter, :parent_id => 420 }
+    assert_equal [4, 3, 2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)
+    assert_equal [8, 7, 6, 5], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
+    moving = ListMixin.find(3)
+    moving.insert_at_new_scope_and_position(420,5)
+    assert_equal [4, 2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)
+    assert_equal [8, 7, 6, 5, 3], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
+  end
+  
+  def test_insert_at_new_scope_and_position_position_error
+    (1..4).each { |counter| ListMixin.create! :pos => counter, :parent_id => 420 }
+    assert_equal [4, 3, 2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)
+    assert_equal [8, 7, 6, 5], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
+    moving = ListMixin.find(3)
+    assert_raise(ActiveRecord::Acts::List::PositionError) { moving.insert_at_new_scope_and_position(420,6) }
+  end
   
 end
 

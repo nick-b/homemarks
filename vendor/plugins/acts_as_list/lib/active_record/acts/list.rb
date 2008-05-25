@@ -13,10 +13,13 @@
 module ActiveRecord
   module Acts #:nodoc:
     module List #:nodoc:
+      
+      class PositionError < ActiveRecordError ; end
+      
       def self.included(base)
         base.extend(ClassMethods)
       end
-
+      
       # This +acts_as+ extension provides the capabilities for sorting and reordering a number of objects in a list.
       # The class that has this specified needs to have a +position+ column defined as an integer on
       # the mapped database table.
@@ -34,7 +37,9 @@ module ActiveRecord
       #
       #   todo_list.first.move_to_bottom
       #   todo_list.last.move_higher
+      
       module ClassMethods
+        
         # Configuration options are:
         #
         # * +column+ - specifies the column name to use for keeping the position integer (default: +position+)
@@ -84,12 +89,14 @@ module ActiveRecord
             
           EOV
         end
+        
       end
 
       # All the methods available to a record that has had <tt>acts_as_list</tt> specified. Each method works
       # by assuming the object to be the item in the list, so <tt>chapter.move_lower</tt> would move that chapter
       # lower in the list of all chapters. Likewise, <tt>chapter.first?</tt> would return +true+ if that chapter is
       # the first in the list of all chapters.
+      
       module InstanceMethods
         
         # Insert the item at the given position (defaults to the top position of 1).
@@ -98,17 +105,20 @@ module ActiveRecord
         end
         
         # Insert the item at the given position in the new scope. Both values required.
-        def insert_at_new_scope_and_position(scope, position)
-          remove_from_list
-          self.update_attribute(scope_column, scope)
-          increment_positions_on_lower_items(position)
-          self.update_attribute(position_column, position)
+        def insert_at_new_scope_and_position(new_scope, new_position)
+          max_position = acts_as_list_class.maximum(position_column, :conditions => scope_condition)
+          raise PositionError if (new_position > max_position+1)
+          acts_as_list_class.transaction do
+            remove_from_list
+            update_attribute scope_column, new_scope
+            increment_positions_on_lower_items(new_position)
+            update_attribute position_column, new_position
+          end
         end
 
         # Swap positions with the next lower item, if one exists.
         def move_lower
           return unless lower_item
-
           acts_as_list_class.transaction do
             lower_item.decrement_position
             increment_position
@@ -118,7 +128,6 @@ module ActiveRecord
         # Swap positions with the next higher item, if one exists.
         def move_higher
           return unless higher_item
-
           acts_as_list_class.transaction do
             higher_item.increment_position
             decrement_position

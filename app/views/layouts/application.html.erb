@@ -44,7 +44,8 @@
   </div>
   
   <div id="header">
-    <div id="hud" class="<%= flash.keys %>">
+    
+    <div id="hud" class="<%= flash.keys.join(' ') %>">
       <div id="loading_wrapper">
         <div id="loading" style="display:none;"><%= image_tag "loading_invert.gif" %></div>
       </div>

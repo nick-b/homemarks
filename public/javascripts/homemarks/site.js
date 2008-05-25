@@ -29,7 +29,6 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   
   flashModal: function(mood,html) {
     var moodColor = this.flashMoodColors.get(mood);
-    
     HmModal.show(html,{color:moodColor});
   },
   

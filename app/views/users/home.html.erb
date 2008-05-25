@@ -13,7 +13,7 @@
           <%= link_to_remote_for_column_add(col) %>
         </span>
       
-        <% for box in col.boxes %>
+        <% col.boxes.each do |box| %>
         <div id="boxid_<%= box.id %>" class="dragable_boxes">
         <div id="boxid_<%= box.id %>_style" class="box <%= box.style %>">
           <div id="boxid_<%= box.id %>_header" class="box_header clearfix">
@@ -23,17 +23,17 @@
           <div id="boxid_<%= box.id %>_line" class="line">&nbsp;</div>
           <div id="boxid_<%= box.id %>_inside" class="inside" style="display:<%= box.collapsed? ? 'none' : 'block' %>;">
             <ul id="boxid_list_<%= box.id %>" class="sortablelist">
-              <% for bmark in box.bookmarks -%>
+              <% box.bookmarks.each do |bmark| -%>
                 <%= render :inline => bookmark_list_item, :locals => {:bmark => bmark, :box_type => 'box'} %>
-              <% end -%>
+              <% end %>
             </ul>
           </div>
         </div>
-        </div> <!-- #boxid_<%= box.id %> -->
+        </div>
         <% end %>
     
-      </div> <!-- #col_<%= col.id %> -->
-      <% end -%>
+      </div>
+      <% end %>
     <% else %>
       <%= render :partial => 'welcome' %>
     <% end %>

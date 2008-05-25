@@ -5,7 +5,6 @@ class Column < ActiveRecord::Base
   has_many      :boxes, :order => :position
   
   validates_presence_of   :user_id, :position
-  
   attr_protected          :user_id, :position
 
   before_destroy :delete_all_associations

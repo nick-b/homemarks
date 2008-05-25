@@ -8,8 +8,6 @@ module RenderInvalidRecord
   
   def render_invalid_record(exception)
     record = exception.record
-    record_instance_name = "@#{record.class.to_s.underscore}"
-    instance_variable_set(record_instance_name, record) unless instance_variable_get(record_instance_name)
     respond_to do |format|
       format.html { render :action => (record.new_record? ? 'new' : 'edit') }
       format.js   { render :json => record.errors.full_messages, :status => :unprocessable_entity, :content_type => 'application/json' }

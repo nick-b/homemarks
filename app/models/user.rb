@@ -120,13 +120,11 @@ class User < ActiveRecord::Base
     @custom_changed_cache = self.changes.with_indifferent_access
   end
   
-  
-  # FIXME: CASCADE DELETE: test.
-  
   def delete_all_associations
     inbox.destroy
     trashbox.destroy
-    columns(true).each(&:destroy)
+    # TODO: CASCADE DELETE: Verify Me.
+    # columns
   end
   
   

@@ -1,7 +1,14 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+bob_col1:
+  user: bob
+  position: 1
+
+bob_col2:
+  user: bob
+  position: 2
+
+bob_col3:
+  user: bob
+  position: 3
+
+

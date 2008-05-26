@@ -1,7 +1,20 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+bob_ibmark1:
+  inbox: bob_ibox
+  position: 1
+  url: http://www.apple.com/
+  name: Apple
+
+bob_ibmark2:
+  inbox: bob_ibox
+  position: 2
+  url: http://www.google.com/
+  name: Google
+
+bob_ibmark3:
+  inbox: bob_ibox
+  position: 3
+  url: http://www.rubyonrails.org/
+  name: RoR
+
+  

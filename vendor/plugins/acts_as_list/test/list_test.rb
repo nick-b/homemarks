@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'rubygems'
-gem 'activerecord', '>= 2.0.2'
+gem 'activerecord', '>= 2.0.2' # TODO: Chage me to 2.1
 require 'active_record'
 require 'active_support'
 
@@ -218,6 +218,13 @@ class ListTest < Test::Unit::TestCase
     assert_equal [8, 7, 6, 5], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
     moving = ListMixin.find(3)
     assert_raise(ActiveRecord::Acts::List::PositionError) { moving.insert_at_new_scope_and_position(420,6) }
+  end
+  
+  def test_first_of_two_destroy
+    list1 = ListMixin.create! :parent_id => 12
+    list2 = ListMixin.create! :parent_id => 12
+    [list1,list2].each(&:reload)
+    assert_nothing_raised { list1.destroy }
   end
   
 end

@@ -9,14 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 20080526013832) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "box_id",                     :null => false
     t.string   "url",        :limit => 1024, :null => false
     t.string   "name",                       :null => false
     t.datetime "visited_at"
-    t.integer  "position",                   :null => false
+    t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.string  "title",     :limit => 64, :default => "Rename Me...", :null => false
     t.string  "style",     :limit => 16
     t.boolean "collapsed",               :default => false
-    t.integer "position",                                            :null => false
+    t.integer "position"
   end
 
   add_index "boxes", ["id"], :name => "indx_boxes_id"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(:version => 2) do
 
   create_table "columns", :force => true do |t|
     t.integer "user_id",  :null => false
-    t.integer "position", :null => false
+    t.integer "position"
   end
 
   add_index "columns", ["id"], :name => "indx_columns_id"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.string   "name",                       :null => false
     t.datetime "created_at",                 :null => false
     t.datetime "visited_at"
-    t.integer  "position",                   :null => false
+    t.integer  "position"
   end
 
   add_index "inboxmarks", ["id"], :name => "indx_inboxmarks_id"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.string   "name",                        :null => false
     t.datetime "created_at",                  :null => false
     t.datetime "visited_at"
-    t.integer  "position",                    :null => false
+    t.integer  "position"
   end
 
   add_index "trashboxmarks", ["id"], :name => "indx_trashmarks_id"

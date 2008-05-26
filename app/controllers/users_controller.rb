@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   skip_before_filter  :login_required,     :only => [ :new, :create ]
   before_filter       :redirect_logged_in, :only => [ :new, :create, :undelete ]
   
+  # TODO: [DEMO] Add these filters?
   # before_filter      :control_demo_user, :only => [ :forgot_password, :change_password, :edit, :delete, :restore_deleted ]
   # before_filter      :nil_demo_account,  :only => [ :signup, :login ]
   
@@ -14,7 +15,7 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.create!(params[:user])
+    User.create!(params[:user])
     head :ok
   end
   

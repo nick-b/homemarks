@@ -1,6 +1,5 @@
 
 bob:
-  id: 1
   email: "bob@test.com"
   salt: b375b3c9e943845e15071296cde5daf3a2948cc9
   crypted_password: 18691b68a1d643de961fd49c3b14b04d738d613f # test
@@ -12,7 +11,6 @@ bob:
 
 
 newuser:
-  id: 2
   email: "newuser@test.com"
   salt: b375b3c9e943845e15071296cde5daf3a2948cc9
   crypted_password: 18691b68a1d643de961fd49c3b14b04d738d613f # test

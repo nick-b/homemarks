@@ -75,7 +75,7 @@ class BookmarkController < ApplicationController
     find_deleted_bookmark
     if @trashboxmark
       @bookmark.destroy
-      @trashempty = @user.trashbox.is_empty?
+      @trashempty = @user.trashbox.empty?
     else
       Trashboxmark.transaction do
         @box = @user.trashbox

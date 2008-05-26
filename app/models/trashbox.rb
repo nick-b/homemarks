@@ -1,17 +1,14 @@
 class Trashbox < ActiveRecord::Base
 
-  belongs_to    :user
-  has_many      :bookmarks, :order => :position, :dependent => :delete_all, :class_name => 'Trashboxmark'
+  belongs_to  :user
+  has_many    :bookmarks, :class_name => 'Trashboxmark', :foreign_key => 'trashbox_id', :order => :position, :dependent => :delete_all
   
   attr_protected :user_id
   
   
-  def is_empty?
-    count = self.bookmarks.count
-    return false if (count > 0)
-    return true if (count == 0)
+  def empty?
+    bookmarks.count == 0
   end
-  
   
   
 end

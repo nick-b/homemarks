@@ -8,7 +8,7 @@ class UserTest < ActiveSupport::TestCase
   should_have_many :boxes, :through => :columns
   
 
-  context 'While testing helpers' do
+  context 'While testing fixture data and factory methods' do
 
     should 'be able to create a basic user' do
       assert_difference 'User.count' do

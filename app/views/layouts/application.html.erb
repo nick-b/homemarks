@@ -79,7 +79,7 @@
   
   <%= yield %>
   
-  <!-- <div id="trashcan" class="<%# current_user.trashbox.is_empty? ? 'trash_empty' : 'trash_full' %>" onclick="toggleActionArea('trashbox');"></div> -->
+  <!-- <div id="trashcan" class="<%# current_user.trashbox.empty? ? 'trash_empty' : 'trash_full' %>" onclick="toggleActionArea('trashbox');"></div> -->
   <%# drop_receiving_element 'trashcan', :url => '', 
       :accept => 'dragable_bmarks', :hoverclass => 'trash_droppable', 
       :before => "element.remove()", :loading => 'globalLoadingBehavior()' %>

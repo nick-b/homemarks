@@ -32,13 +32,6 @@ module ApplicationHelper
   
   
   
-  
-  
-  
-  
-  
-  
-  
   def make_msg(type,message)
     page.hide :loading
     page.<< "Element.addClassName('hud','#{type}');"
@@ -49,18 +42,26 @@ module ApplicationHelper
     end
   end
   
-  def complete_forgotpw_form(mood)
-    page.complete_ajax_form(mood,'forgotpw_form')
-    if mood=='good'
-      page['forgotpw_email'].value = 'Reset password email sent.'
-      page<< %| $('forgotpw_email').setStyle({backgroundColor:'#96ff1f'}) |
-      page['forgotpw_submit'].disable
-      page['forgotpw_cancel'].disable
-    end
-  end
   
-  def redirect_function(location)
-    %Q{window.location.href='#{location}'}
+  
+  
+  
+  
+  
+  
+  
+  
+  def create_column_sortable
+    page.sortable :col_wrapper,
+                  :handle => 'ctl_handle',
+                  :tag => 'div',
+                  :only => 'dragable_columns',
+                  :containment => 'col_wrapper',
+                  :constraint => false,
+                  :dropOnEmpty => true,
+                  :url => {:controller => 'column', :action => 'sort'},
+                  :before => 'globalLoadingBehavior()',
+                  :with => 'findSortedInfo(this)'
   end
   
   def link_to_remote_for_column_delete(col)
@@ -76,6 +77,40 @@ module ApplicationHelper
                     :before => 'this.blur(); globalLoadingBehavior()' })
   end
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  def create_box_sortables
+    current_user.columns.each do |col|
+      page.create_box_sortables_code(col)
+    end    
+  end
+  
+  def create_box_sortables_code(col)
+    page.sortable "col_#{col.id}",
+                  :tag => 'div',
+                  :only => 'dragable_boxes',
+                  :hoverclass => 'column_hover',
+                  :accept => 'dragable_boxes',
+                  :handle => 'box_handle',
+                  :containment => current_user.column_containment_array,
+                  :constraint => false,
+                  :dropOnEmpty => true,
+                  :url => { :controller => 'box', :action => 'sort' },
+                  :before => 'globalLoadingBehavior()',
+                  :with => 'findDroppedBoxInfo(this)'
+  end
+
   def link_to_remote_for_box_actions(box, action_dir)
     span_class = 'box_action' if action_dir == 'down'
     span_class = 'box_action box_action_down' if action_dir == 'up'
@@ -112,6 +147,42 @@ module ApplicationHelper
                     :loading => "Element.show('modal_progress')" )
   end
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  def create_bookmark_sortables
+    current_user.boxes.each do |box|
+      page.create_bookmark_sortables_code(box)
+    end
+  end
+  
+  def create_bookmark_sortables_code(box)
+    sortable_id = case box
+                  when Box : "boxid_list_#{box.id}"
+                  when Inbox : 'inbox_list'
+                  when Trashbox : 'trashbox_list'
+                  end
+    page.sortable sortable_id,
+                  :accept => 'dragable_bmarks',
+                  :handle => 'bmrk_handle',
+                  :containment => current_user.box_containment_array,
+                  :constraint => false,
+                  :dropOnEmpty => true,
+                  :url => { :controller => 'bookmark', :action => 'sort' },
+                  :before => 'globalLoadingBehavior()',
+                  :with => 'findDroppedBookmarkInfo(this)'
+  end
+  
   def link_to_remote_for_bookmark_new(box)
     link_to_remote( image_tag('/stylesheets/images/modal/command_new-bookmark2.png', :alt => 'New Bookmark', :class => 'modal_command_new'),
                     :url => '',
@@ -132,10 +203,6 @@ module ApplicationHelper
                     :condition => 'isActionAreaDisplayed(this)',
                     :before => "loadingActionArea(this)"},
                     :id => 'legend_trash_link')
-  end
-  
-  def bookmark_list_item
-    %q|<li id="<%= box_type %>bmark_<%= bmark.id %>" class="dragable_bmarks clearfix <%= box_type %>"><span class="bmrk_handle">&nbsp;</span><span class="boxlink"><a href="<%= h(bmark.url) %>"><%= h(bmark.name) %></a></span></li>|
   end
   
   def complete_action_area(box_list)
@@ -160,62 +227,28 @@ module ApplicationHelper
   
   
   
-  def create_box_sortables
-    current_user.columns.each do |col|
-      page.create_box_sortables_code(col)
-    end    
+  
+  
+  
+
+  
+  def bookmark_list_item
+    %q|<li id="<%= box_type %>bmark_<%= bmark.id %>" class="dragable_bmarks clearfix <%= box_type %>"><span class="bmrk_handle">&nbsp;</span><span class="boxlink"><a href="<%= h(bmark.url) %>"><%= h(bmark.name) %></a></span></li>|
   end
   
-  def create_bookmark_sortables
-    current_user.boxes.each do |box|
-      page.create_bookmark_sortables_code(box)
-    end
-  end
+
   
-  def create_column_sortable
-    page.sortable :col_wrapper,
-                  :handle => 'ctl_handle',
-                  :tag => 'div',
-                  :only => 'dragable_columns',
-                  :containment => 'col_wrapper',
-                  :constraint => false,
-                  :dropOnEmpty => true,
-                  :url => {:controller => 'column', :action => 'sort'},
-                  :before => 'globalLoadingBehavior()',
-                  :with => 'findSortedInfo(this)'
-  end
+
   
-  def create_box_sortables_code(col)
-    page.sortable "col_#{col.id}",
-                  :tag => 'div',
-                  :only => 'dragable_boxes',
-                  :hoverclass => 'column_hover',
-                  :accept => 'dragable_boxes',
-                  :handle => 'box_handle',
-                  :containment => current_user.column_containment_array,
-                  :constraint => false,
-                  :dropOnEmpty => true,
-                  :url => { :controller => 'box', :action => 'sort' },
-                  :before => 'globalLoadingBehavior()',
-                  :with => 'findDroppedBoxInfo(this)'
-  end
   
-  def create_bookmark_sortables_code(box)
-    sortable_id = case box
-                  when Box : "boxid_list_#{box.id}"
-                  when Inbox : 'inbox_list'
-                  when Trashbox : 'trashbox_list'
-                  end
-    page.sortable sortable_id,
-                  :accept => 'dragable_bmarks',
-                  :handle => 'bmrk_handle',
-                  :containment => current_user.box_containment_array,
-                  :constraint => false,
-                  :dropOnEmpty => true,
-                  :url => { :controller => 'bookmark', :action => 'sort' },
-                  :before => 'globalLoadingBehavior()',
-                  :with => 'findDroppedBookmarkInfo(this)'
-  end
+  
+
+
+  
+
+  
+  
+
   
   def reorder_then_create_box_sortables(col)
     # Due to some bug, affected column needs to be first in the array before create sortable code fires.

@@ -27,9 +27,16 @@ class ColumnTest < ActiveSupport::TestCase
       assert_equal [1,2,3], @columns.map(&:position)
     end
     
+    should 'destroy columns when user is destroyed' do
+      doomed_column_diff = 0 - @columns.size
+      assert_difference 'Column.count', doomed_column_diff do
+        @bob.destroy
+      end
+    end
+    
   end
   
   
-  
-
 end
+
+

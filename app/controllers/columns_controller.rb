@@ -19,7 +19,7 @@ class ColumnController < ApplicationController
   end
   
   def sort
-    @column.insert_at(params[:col_position])
+    @column.insert_at(params[:position])
     head :ok
     # render(:update) { |page| page.make_msg('good','Columns sorted.') }
   end

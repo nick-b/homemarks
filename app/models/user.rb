@@ -123,8 +123,9 @@ class User < ActiveRecord::Base
   def delete_all_associations
     inbox.destroy
     trashbox.destroy
+    columns.each(&:destroy)
     # TODO: CASCADE DELETE: Verify Me.
-    # columns
+    # boxes and bookmarks
   end
   
   

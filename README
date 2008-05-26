@@ -3,6 +3,7 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.0
 -------------------------------------------
 
 * Make cookie store remember 1 year
+* Use sweepers instead of cache masters
 * http://svn.rubyonrails.org/rails/plugins/exception_notification/README
 * Create sitewide JS browser check (happy message)
 * Confirm all HmConfig settings.

@@ -10,7 +10,7 @@
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
   <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor' %>
-  <%= javascript_include_tag 'homemarks/base','homemarks/modal','homemarks/tooltip','homemarks/box', :cache => 'homemarks_app' %>
+  <%= javascript_include_tag 'homemarks/base','homemarks/app','homemarks/modal','homemarks/tooltip','homemarks/box', :cache => 'homemarks_app' %>
   <script type="text/javascript">
     document.observe('dom:loaded', function(){
       HmApp = new HomeMarksApp();
@@ -44,23 +44,13 @@
   </div>
   
   <div id="header">
-    
-    <div id="hud" class="<%= flash.keys.join(' ') %>">
+    <% flash_mood = [:good,:bad,:indif].detect { |m| flash[m] } %>
+    <div id="hud" class="<%= flash_mood %>">
       <div id="loading_wrapper">
         <div id="loading" style="display:none;"><%= image_tag "loading_invert.gif" %></div>
       </div>
       <div id="message_wrapper">
-        
-        <% flash.keys.each do |name| %>
-          <%= %Q|<span id="message" class="msg_#{name}">#{flash[name]}</span>| %>
-        <% end %>
-        
-        <% [:good,:bad,:indif].each do |key| %>
-          <div id="flash_<%= key %>" class="flash_message" style="display:<%= flash[key].blank? ? 'none' : 'block' %>;">
-        	  <span><%= flash[key] %></span>
-        	</div>
-        <% end %>
-        
+        <%= content_tag(:span, flash_mood, :id => 'message') if flash_mood %>
       </div>
     </div>
     

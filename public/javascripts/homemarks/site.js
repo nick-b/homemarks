@@ -11,6 +11,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
     this.signupForm = $('signup_form');
     this.editForm = $('edit_form');
     this.flashes = $$('div.flash_message');
+    this.modal = new HomeMarksModal();
     this.initEvents();
   },
   
@@ -29,7 +30,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   
   flashModal: function(mood,html) {
     var moodColor = this.flashMoodColors.get(mood);
-    HmModal.show(html,{color:moodColor});
+    this.modal.show(html,{color:moodColor});
   },
   
   toggleAjaxFormBlind: function(event) {

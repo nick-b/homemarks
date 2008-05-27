@@ -8,7 +8,9 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
     this.apWrapper = $('modal_html_ap-wrapper');
     this.relWrapper = $('modal_html_rel-wrapper');
     this.topShadow = $('modal_html_top');
-    this.content = $('modal_html');
+    this.contentWrap = $('modal_html');
+    this.content = $('modal_content');
+    this.initButtons();
     this.queue = {position:'end', scope:'modalscope'};
   },
   
@@ -19,14 +21,18 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
       var modalHTML = DIV({id:'modal_html_ap-wrapper'},[
         DIV({id:'modal_html_rel-wrapper',style:'display:none;'},[
           DIV({id:'modal_html_border'},[
-            DIV({id:'modal_html'})
+            DIV({id:'modal_html'},[
+              DIV({id:'modal_content'}),
+              DIV({id:'modal_buttons',className:'clearfix'},[
+                DIV({id:'modal_button_cancel',style:'display:none;'})
+              ])
+            ]),
           ]),
           DIV({id:'modal_html_top'})
         ])]
       );
       body.insert({top:modalHTML});
       body.insert({top:maskHTML});
-      this.cancelButton = DIV({id:'modal_button_cancel',onclick:'HmModal.hide()'});
     };
   },
   
@@ -35,6 +41,7 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
     this.contentFor = options.contentFor;
     this.color = options.color;
     this.updateContent(content);
+    this.showContentButtons();
     this.toggleMask('on');
     if (options.showProgress) { this.toggleProgress('on') };
     this.toggleObservers('on');
@@ -53,21 +60,19 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
 
   updateContent: function(content) {
     this.topShadow.setStyle({width:this.dimensions().topWidth+'px'});
-    this.content.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
-    this.content.addClassName(this.color);
-    this.appendButtons(content);
+    this.contentWrap.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
+    this.contentWrap.addClassName(this.color);
     this.content.update(content);
     this.center();
   },
   
-  appendButtons: function(content) {
+  showContentButtons: function() {
+    this.allButtons.invoke('hide');
     switch (this.contentFor) { 
-      case 'misc'     : var modalButtons = [this.cancelButton]; break;
-      case 'box'      : var modalButtons = [this.cancelButton]; break; 
-      case 'bookmark' : var modalButtons = [this.cancelButton]; break; 
+      case 'misc'     : $A([this.cancelButton]).invoke('show'); break;
+      case 'box'      : $A([]); break; 
+      case 'bookmark' : $A([]); break; 
     }
-    var buttonBox = DIV({id:'modal_buttons',className:'clearfix'},modalButtons);
-    content.appendChild(buttonBox);
   },
   
   center: function() {
@@ -120,6 +125,12 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
   
   keypress: function(event) {
     if (event.keyCode == Event.KEY_ESC) { this.hide(); };
+  },
+  
+  initButtons: function() {
+    this.cancelButton = $('modal_button_cancel');
+    this.cancelButton.observe('click',this.hide.bindAsEventListener(this))
+    this.allButtons = $A([this.cancelButton]);
   }
   
   // goHere: function() {

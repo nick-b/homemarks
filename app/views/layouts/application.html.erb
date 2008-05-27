@@ -13,7 +13,7 @@
   <%= javascript_include_tag 'homemarks/base','homemarks/modal','homemarks/tooltip','homemarks/box', :cache => 'homemarks_app' %>
   <script type="text/javascript">
     document.observe('dom:loaded', function(){
-      HmModal = new HomeMarksModal();
+      HmApp = new HomeMarksApp();
     });
     Builder.dump();
   </script>
@@ -50,9 +50,17 @@
         <div id="loading" style="display:none;"><%= image_tag "loading_invert.gif" %></div>
       </div>
       <div id="message_wrapper">
-        <% for name in flash.keys -%>
+        
+        <% flash.keys.each do |name| %>
           <%= %Q|<span id="message" class="msg_#{name}">#{flash[name]}</span>| %>
-        <% end -%>
+        <% end %>
+        
+        <% [:good,:bad,:indif].each do |key| %>
+          <div id="flash_<%= key %>" class="flash_message" style="display:<%= flash[key].blank? ? 'none' : 'block' %>;">
+        	  <span><%= flash[key] %></span>
+        	</div>
+        <% end %>
+        
       </div>
     </div>
     

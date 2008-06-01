@@ -32,15 +32,6 @@ module ApplicationHelper
   
   
   
-  def make_msg(type,message)
-    page.hide :loading
-    page.<< "Element.addClassName('hud','#{type}');"
-    page.replace_html :message_wrapper, "<span id='message' class='msg_#{type}'>#{message}</span>"
-    page.delay(5) do 
-      page.<< "Element.removeClassName('hud','#{type}');"
-      page.visual_effect :fade, 'message'
-    end
-  end
   
   
   
@@ -70,6 +61,9 @@ module ApplicationHelper
                     :url => '',
                     :before => 'this.blur(); globalLoadingBehavior()' })
   end
+  
+  
+  
   
   def link_to_remote_for_column_add(col)
     link_to_remote( content_tag('span', '', :class => 'ctl_add'),
@@ -212,12 +206,10 @@ module ApplicationHelper
   
   def update_new_trashboxmark_ui_elements_and_message
     page.<< "$('trashcan').classNames().set('trash_full'); showOrHideEmptyTrashBox();"
-    page.make_msg('good','Bookmark moved to trash.')
   end
   
   def remove_all_trashboxmark_ui_elements_and_message(trashempty)
     page.<< "$('trashcan').classNames().set('trash_empty'); showOrHideEmptyTrashBox();" if trashempty
-    page.make_msg('good','Permanently deleted.')
   end
   
   def empty_trash_function

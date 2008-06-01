@@ -4,15 +4,27 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :support_requests
   map.resource  :session, :member => { :jumpin => :get, :forgot_password => :post }
-  map.resources :users,   :member => { :undelete => :get } do |user|
-    user.resource :inbox
-    user.resource :trashbox
-    user.resources :columns, :member => { :sort => :post } do |column|
-      column.resources :boxes do |box|
-        box.resources :bookmarks
-      end
-    end
-  end
+  
+  map.resources   :users,     :member => { :undelete => :get }
+  map.resource    :inbox
+  map.resource    :trashbox
+  map.resources   :columns,   :member => { :sort => :put }
+  map.resources   :boxes,     :member => { :sort => :put }
+  map.resources   :bookmarks, :member => { :sort => :put, :bookmark => :put }
+  
+  # map.resources :users,   :member => { :undelete => :get } do |user|
+  #   user.resource   :inbox
+  #   user.resource   :trashbox
+  #   user.resources  :columns,   :member => { :sort => :put }
+  #   user.resources  :boxes,     :member => { :sort => :put }
+  #   user.resources  :bookmarks, :member => { :sort => :put, :bookmark => :put }
+  # end
+  
+  # user.resources :columns, :member => { :sort => :post } do |column|
+  #   column.resources :boxes do |box|
+  #     box.resources :bookmarks
+  #   end
+  # end
   
   # http://api.rubyonrails.com/classes/ActionController/Resources.html#M000308
   # map.resources :boxes

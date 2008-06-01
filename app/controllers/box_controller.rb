@@ -16,7 +16,6 @@ class BoxController < ApplicationController
       page.reorder_then_create_box_sortables(@col,@user)
       page.create_column_sortable
       page.blind_new_box(@box)
-      page.make_msg('good','Box successfully created.')
     end
   end
   
@@ -27,7 +26,6 @@ class BoxController < ApplicationController
     render :update do |page|
       page[@boxdiv].visual_effect :fade, { :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"} }
       page.delay(1) { page[@boxdiv].remove }
-      page.make_msg('good','Box successfully deleted.')
     end
   end
   
@@ -42,7 +40,6 @@ class BoxController < ApplicationController
       page.insert_html :top, "boxid_#{@box.id}_inside", {:partial => 'controls', :locals => {:box => @box}}
       page.delay(0.5) { page.blind_box_parts(@box,'controls',:down) }
       page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'up')
-      page.make_msg('good','Box actions displayed.')
     end
   end
   
@@ -52,7 +49,6 @@ class BoxController < ApplicationController
       page.blind_box_parts(@box,'controls',:up)
       page.delay(0.5) { page["boxid_#{@box.id}_controls"].remove }
       page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-      page.make_msg('good','Box actions hidden.')
     end
   end
   
@@ -65,7 +61,6 @@ class BoxController < ApplicationController
       render :update do |page|
         page.blind_box_parts(@box,'inside',:down)
         page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-        page.make_msg('good','Box uncollapsed.')
       end
     when false
       @box.collapsed = true
@@ -73,7 +68,6 @@ class BoxController < ApplicationController
         page.blind_box_parts(@box,'inside',:up)
         page.select("div#boxid_#{@box.id}_controls").each { |div| page.delay(0.5){div.remove} }
         page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-        page.make_msg('good','Box collapsed.')
       end
     end
     @box.save!
@@ -103,7 +97,6 @@ class BoxController < ApplicationController
       @box.insert_at(params[:box_position]) if internal_sort?
       @box.insert_at_new_scope_and_position(@column.id, params[:box_position]) if !internal_sort?
     end
-    render(:update) { |page| page.make_msg('good','Boxes successfully sorted.') }
   end
   
   

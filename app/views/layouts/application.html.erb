@@ -10,11 +10,11 @@
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
   <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor' %>
-  <%= javascript_include_tag 'homemarks/base','homemarks/app','homemarks/modal','homemarks/tooltip','homemarks/box', :cache => 'homemarks_app' %>
+  <%= javascript_include_tag 'homemarks/base','homemarks/app','homemarks/modal','homemarks/tooltip','homemarks/column',
+                             'homemarks/box', :cache => 'homemarks_app' %>
   <script type="text/javascript">
-    document.observe('dom:loaded', function(){
-      HmApp = new HomeMarksApp();
-    });
+    document.observe('dom:loaded', function(){ HmApp = new HomeMarksApp(); });
+    var authParams = $H({<%= request_forgery_protection_token %>:<%= form_authenticity_token.inspect %>});
     Builder.dump();
   </script>
 </head>
@@ -53,16 +53,15 @@
         <%= content_tag(:span, flash_mood, :id => 'message') if flash_mood %>
       </div>
     </div>
-    
+    <%# TODO: [Demo User] %>
     <%# if session[:demo] %>
     <!-- <div id="header_message_box">
       <%# link_to "Quit demo'in around and join HomeMarks...", signup_url, :class => 'header_message' %>
     </div> -->
     <%# end %>
-    
     <div id="button_box">
       <%# TODO: Make column AJAX link %>
-      <%= app_nav_for 'Create a new column.', 'button_new_column', '#' %>
+      <%= app_nav_for 'Create a new column.', 'button_new_column', columns_url %>
       <%= app_nav_for 'My HomeMarklet. Click to learn more.', 'button_bookmarklet', render_bookmarklet, :xtra_content => '<span style="display:none;">HomeMarklet</span>' %>
       <%= app_nav_for 'My account preferences.', 'button_prefs', edit_user_path(current_user) %>
       <%= app_nav_for 'Documentation & Help', 'button_help', site_path('help') %>
@@ -72,7 +71,6 @@
       <%= app_nav_for 'Report any issues.', 'button_bug', new_support_request_path(:show_form => true) %>
       <%= app_nav_for 'Log out.', 'button_logout', session_path %>
     </div>
-    
   </div>
   
   <%= yield %>

@@ -66,7 +66,6 @@ class BookmarkController < ApplicationController
         page.create_bookmark_sortables_code(@user,@box)
       end
       page.update_new_trashboxmark_ui_elements_and_message if @trashbox_sort
-      page.make_msg('good','Bookmarks sorted.') if !@trashbox_sort
     end
   end
   

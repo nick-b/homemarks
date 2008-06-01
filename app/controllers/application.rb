@@ -15,6 +15,15 @@ class ApplicationController < ActionController::Base
     controller_name =~ /^(site|support_requests|sessions|users)$/ ? 'site' : 'application'
   end
   
+  def render_json_data(data,status=:ok)
+    render :json => data, :status => status, :content_type => 'application/json'
+  end
+  
+  
+  
+  
+  
+  
   # FIXME: Add an error mailer, or use exception notification plugin.
   def rescue_action_in_public(exception)
     unless controller_name == 'bookmarklet'

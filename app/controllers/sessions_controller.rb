@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
   def create
     self.current_user = User.authenticate(params[:email], params[:password])
     return head(:ok) if logged_in?
-    render :json => login_failures, :status => :unauthorized, :content_type => 'application/json'
+    render_json_data login_failures, :unauthorized
   end
   
   def destroy

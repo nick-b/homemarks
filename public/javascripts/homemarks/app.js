@@ -42,7 +42,7 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
     new Ajax.Request(this.action,{
       onComplete: function(request){
         this.completeAjaxRequest(request);
-        if (finishMethod) {finishMethod.bind(this).call()};
+        if (finishMethod) {finishMethod.call(this,request)};
       }.bind(this),
       parameters: parameters.merge(authParams),
       method: method

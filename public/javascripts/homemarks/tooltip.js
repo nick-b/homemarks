@@ -47,8 +47,9 @@ var Tooltip = Class.create(HomeMarksApp,{
     if (this.toolButton.id == 'button_new_column') { this.createAjaxObserver(this.a,this._completeNewColumn); };
   },
   
-  _completeNewColumn: function() {
-    new ColumnBuilder();
+  _completeNewColumn: function(request) {
+    var id = request.responseJSON;
+    new ColumnBuilder(id);
   }
   
 });

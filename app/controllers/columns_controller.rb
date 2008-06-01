@@ -5,8 +5,9 @@ class ColumnsController < ApplicationController
   
   
   def create
-    # current_user.columns.create!
-    head :ok
+    # Column.delete_all
+    @column = current_user.columns.create!
+    render_json_data(@column.id)
   end
   
   def sort

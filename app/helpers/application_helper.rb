@@ -40,7 +40,14 @@ module ApplicationHelper
   
   
   
-  
+  def reorder_then_create_box_sortables(col)
+    # Due to some bug, affected column needs to be first in the array before create sortable code fires.
+    ucols = current_user.columns
+    ucols.slice!(ucols.index(col))
+    ucols.unshift(col).each do |sortcol|
+      page.create_box_sortables_code(sortcol)
+    end
+  end
   
   def create_column_sortable
     page.sortable :col_wrapper,
@@ -242,14 +249,7 @@ module ApplicationHelper
   
 
   
-  def reorder_then_create_box_sortables(col)
-    # Due to some bug, affected column needs to be first in the array before create sortable code fires.
-    ucols = current_user.columns
-    ucols.slice!(ucols.index(col))
-    ucols.unshift(col).each do |sortcol|
-      page.create_box_sortables_code(sortcol)
-    end
-  end
+
   
   
   

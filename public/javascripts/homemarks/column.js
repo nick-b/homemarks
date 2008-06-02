@@ -31,9 +31,24 @@ var Column = Class.create(HomeMarksApp,{
   initialize: function($super,column) {
     $super();
     this.id = parseInt(column.id.sub('col_',''));
-    this.column = column;
-    this.controls = column.down('span.column_ctl');
+    this.column = $(column);
+    this.controls = this.column.down('span.column_ctl');
+    this.buildSortable();
+    this.initEvents();
+  },
+  
+  buildSortable: function() {
     
+    // :col_wrapper,
+    // :handle => 'ctl_handle',
+    // :tag => 'div',
+    // :only => 'dragable_columns',
+    // :containment => 'col_wrapper',
+    // :constraint => false,
+    // :dropOnEmpty => true,
+    // :url => {:controller => 'column', :action => 'sort'},
+    // :before => 'globalLoadingBehavior()',
+    // :with => 'findSortedInfo(this)'
   },
   
   initEvents: function() {

@@ -8,9 +8,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources   :users,     :member => { :undelete => :get }
   map.resource    :inbox
   map.resource    :trashbox
-  map.resources   :columns,   :member => { :sort => :put }
-  map.resources   :boxes,     :member => { :sort => :put }
-  map.resources   :bookmarks, :member => { :sort => :put, :bookmark => :put }
+  map.resources   :columns,   :collection => { :sort => :put }
+  map.resources   :boxes,     :collection => { :sort => :put }
+  map.resources   :bookmarks, :collection => { :sort => :put, :bookmark => :put }
   
   # map.resources :users,   :member => { :undelete => :get } do |user|
   #   user.resource   :inbox

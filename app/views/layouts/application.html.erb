@@ -14,7 +14,7 @@
                              'homemarks/box', :cache => 'homemarks_app' %>
   <script type="text/javascript">
     document.observe('dom:loaded', function(){ HmApp = new HomeMarksApp(); });
-    var authParams = $H({<%= request_forgery_protection_token %>:<%= form_authenticity_token.inspect %>});
+    <%= auth_params_js_var %>
     Builder.dump();
   </script>
 </head>

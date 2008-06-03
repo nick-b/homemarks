@@ -22,6 +22,12 @@ module ApplicationHelper
     link_to(content, nav_url, link_options)
   end
   
+  def auth_params_js_var
+    unless RAILS_ENV == 'test'
+      %|var authParams = $H({#{request_forgery_protection_token}:#{form_authenticity_token.inspect}});|
+    end
+  end
+  
   
   
   

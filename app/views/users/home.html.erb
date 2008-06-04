@@ -5,10 +5,10 @@
     
     <% current_user.columns.each do |col| %>
     <div id="col_<%= col.id %>" class="dragable_columns">
-      <span id="column_<%= col.id %>_ctl" class="column_ctl">
-        <%= link_to_remote_for_column_delete(col) %>
-        <span class="ctl_handle">&nbsp;</span>
-        <%= link_to_remote_for_column_add(col) %>
+      <span class="column_ctl">
+        <span class="ctl_close"></span>
+        <span class="ctl_handle"></span>
+        <span class="ctl_add"></span>
       </span>
       <% col.boxes.each do |box| %>
       <div id="boxid_<%= box.id %>" class="dragable_boxes">

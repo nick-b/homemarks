@@ -34,7 +34,9 @@ var Column = Class.create(HomeMarksApp,{
     this.column = $(column);
     this.controls = this.column.down('span.column_ctl');
     this.buildSortable();
-    this.initEvents();
+    this._initDestroyCtl();
+    this._initCreateBoxCtl();
+    this._initEvents();
   },
   
   buildSortable: function() {
@@ -51,8 +53,30 @@ var Column = Class.create(HomeMarksApp,{
     // :with => 'findSortedInfo(this)'
   },
   
-  initEvents: function() {
+  destroyColumn: function() {
+
+  },
+  
+  createBox: function() {
     
+  },
+  
+  _initDestroyCtl: function() {
+    this.destroyCtl = this.controls.down('span.ctl_close');
+    this.destroyCtl.confirmation = 'Are you sure? Deleting a COLUMN will also delete all the boxes and bookmarks within it.';
+    this.destroyCtl.action = '/columns/' + this.id;
+    this.destroyCtl.method = 'delete';
+  },
+  
+  _initCreateBoxCtl: function() {
+    this.createBoxCtl = this.controls.down('span.ctl_add');
+    this.createBoxCtl.action = '/boxes';
+    this.createBoxCtl.parameters = $H({column_id:this.id});
+  },
+  
+  _initEvents: function() {
+    this.createAjaxObserver(this.destroyCtl,this.destroyColumn);
+    this.createAjaxObserver(this.createBoxCtl,this.createBox);
   }
   
 });

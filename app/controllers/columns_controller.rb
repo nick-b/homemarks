@@ -5,23 +5,18 @@ class ColumnsController < ApplicationController
   
   
   def create
-    # Column.delete_all
     @column = current_user.columns.create!
     render_json_data(@column.id)
-  end
-  
-  def sort
-    @column.insert_at(params[:position])
-    head :ok
   end
   
   def destroy
     @column.destroy
     head :ok
-    # render :update do |page|
-    #   page.visual_effect :fade, "col_#{@column.id}", {:duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@column.id}"}}
-    #   page.delay(1) { page["col_#{@column.id}"].remove }
-    # end
+  end
+  
+  def sort
+    @column.insert_at(params[:position])
+    head :ok
   end
   
   

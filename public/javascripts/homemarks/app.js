@@ -34,15 +34,21 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
   },
   
   startAjaxRequest: function(event,finishMethod) {
+    var elmnt = event.element();
     event.stop();
-    event.element().blur();
+    elmnt.blur();
+    if (elmnt.confirmation) { if (confirm(elmnt.confirmation)) { this.doAjaxRequest(elmnt); }; }
+    else { this.doAjaxRequest(elmnt); };
+  },
+  
+  doAjaxRequest: function(elmnt) {
     this.loading.show();
-    var parameters = this.parameters || $H();
-    var method = this.method || 'post'
-    new Ajax.Request(this.action,{
+    var parameters = elmnt.parameters || $H();
+    var method = elmnt.method || 'post';
+    new Ajax.Request(elmnt.action,{
       onComplete: function(request){
         this.completeAjaxRequest(request);
-        if (finishMethod) {finishMethod.call(this,request)};
+        if (finishMethod) { finishMethod.call(this,request) };
       }.bind(this),
       parameters: parameters.merge(authParams),
       method: method

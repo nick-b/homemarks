@@ -68,21 +68,10 @@ module ApplicationHelper
                   :with => 'findSortedInfo(this)'
   end
   
-  def link_to_remote_for_column_delete(col)
-    link_to_remote( content_tag('span', '', :class => 'ctl_close'),
-                  { :confirm => 'Are you sure? Deleting a COLUMN will also delete all the boxes and bookmarks within it.',
-                    :url => '',
-                    :before => 'this.blur(); globalLoadingBehavior()' })
-  end
   
   
   
   
-  def link_to_remote_for_column_add(col)
-    link_to_remote( content_tag('span', '', :class => 'ctl_add'),
-                  { :url => '',
-                    :before => 'this.blur(); globalLoadingBehavior()' })
-  end
   
   
   

@@ -37,11 +37,11 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
     var elmnt = event.element();
     event.stop();
     elmnt.blur();
-    if (elmnt.confirmation) { if (confirm(elmnt.confirmation)) { this.doAjaxRequest(elmnt); }; }
-    else { this.doAjaxRequest(elmnt); };
+    if (elmnt.confirmation) { if (confirm(elmnt.confirmation)) { this.doAjaxRequest(elmnt,finishMethod); }; }
+    else { this.doAjaxRequest(elmnt,finishMethod); };
   },
   
-  doAjaxRequest: function(elmnt) {
+  doAjaxRequest: function(elmnt,finishMethod) {
     this.loading.show();
     var parameters = elmnt.parameters || $H();
     var method = elmnt.method || 'post';

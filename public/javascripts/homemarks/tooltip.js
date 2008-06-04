@@ -6,12 +6,11 @@ var Tooltip = Class.create(HomeMarksApp,{
     this.a = $(a);
     this.a.onmouseover = this.showTooltip.bindAsEventListener(this);
     this.a.onmouseout = this.hideTooltip.bindAsEventListener(this);
-    this.action = this.a.href;
     this.toolButton = this.a.down('span');
     this.tooltipId = this.toolButton.id.gsub('button_','tt_');
     this.toolTitle = this.a.title;
     this.build();
-    this.initEvents();
+    this._initEvents();
   },
   
   build: function() {
@@ -43,13 +42,17 @@ var Tooltip = Class.create(HomeMarksApp,{
     this.a.tt_effect = new Effect.Fade(this.tooltipId,{duration:0.2});
   },
   
-  initEvents: function() {
-    if (this.toolButton.id == 'button_new_column') { this.createAjaxObserver(this.a,this._completeNewColumn); };
+  _initEvents: function() {
+    if (this.toolButton.id == 'button_new_column') { 
+      this.toolButton.action = this.a.href;
+      this.createAjaxObserver(this.toolButton,this._completeNewColumn); 
+    };
   },
   
   _completeNewColumn: function(request) {
     var id = request.responseJSON;
     new ColumnBuilder(id);
+    this.flash('good','New column created.');
   }
   
 });

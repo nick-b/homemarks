@@ -19,7 +19,7 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
     var column = this.colWrap.down('div.dragable_columns')
     var columnObject = new Column(column);
     Columns.push(columnObject);
-    column.pulsate();
+    column.pulsate({duration:0.75});
     // page.reorder_then_create_box_sortables(@column,@user)
     // page.create_column_sortable
   }
@@ -29,9 +29,9 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
 var Column = Class.create(HomeMarksApp,{
   
   initialize: function($super,column) {
-    $super();
-    this.id = parseInt(column.id.sub('col_',''));
     this.column = $(column);
+    this.id = parseInt(this.column.id.sub('col_',''));
+    $super();
     this.controls = this.column.down('span.column_ctl');
     this.buildSortable();
     this._initDestroyCtl();
@@ -53,19 +53,19 @@ var Column = Class.create(HomeMarksApp,{
     // :with => 'findSortedInfo(this)'
   },
   
-  destroyColumn: function() {
-
-  },
-  
-  createBox: function() {
-    
-  },
-  
   _initDestroyCtl: function() {
     this.destroyCtl = this.controls.down('span.ctl_close');
     this.destroyCtl.confirmation = 'Are you sure? Deleting a COLUMN will also delete all the boxes and bookmarks within it.';
     this.destroyCtl.action = '/columns/' + this.id;
     this.destroyCtl.method = 'delete';
+  },
+  
+  _completeDestroyColumn: function() {
+    this.flash('good','Column deleted.');
+    this.column.fade({duration:0.25});
+    Columns = Columns.without(this);
+    if (!Columns.first()) { Element.show.delay(0.35,this.welcome); };
+    // TODO: Add more sub element destroys?
   },
   
   _initCreateBoxCtl: function() {
@@ -74,9 +74,13 @@ var Column = Class.create(HomeMarksApp,{
     this.createBoxCtl.parameters = $H({column_id:this.id});
   },
   
+  _completeCreateBox: function() {
+    
+  },
+  
   _initEvents: function() {
-    this.createAjaxObserver(this.destroyCtl,this.destroyColumn);
-    this.createAjaxObserver(this.createBoxCtl,this.createBox);
+    this.createAjaxObserver(this.destroyCtl,this._completeDestroyColumn);
+    this.createAjaxObserver(this.createBoxCtl,this._completeCreateBox);
   }
   
 });

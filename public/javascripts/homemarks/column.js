@@ -46,10 +46,14 @@ var Column = Class.create(HomeMarksApp,{
   
   completeDestroyColumn: function() {
     Columns = Columns.without(this);
+    SortableUtils.destroySortableMember(this.colWrap,this.column);
     this.flash('good','Column deleted.');
     this.column.fade({duration:0.25});
-    Element.remove.delay(0.35,this.column);
-    if (!Columns.first()) { Element.show.delay(0.35,this.welcome); };
+    setTimeout(function(){
+      this.column.remove();
+      if (!Columns.first()) { this.welcome.show(); };
+      SortableUtils.resetSortableLastValue(this.colWrap);
+    }.bind(this),0350);
     // TODO: Add more sub element destroy?
   },
   

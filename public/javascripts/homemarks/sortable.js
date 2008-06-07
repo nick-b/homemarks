@@ -1,8 +1,12 @@
 
 var SortableUtils = {
   
+  getDragObserver: function(element) {
+    return Draggables.observers.find(function(d){ return d.element == element });
+  },
+  
   getOldNewSort: function(element) {
-    var dragObserver = Draggables.observers.find(function(d){ return d.element == element }.bind(this));
+    var dragObserver = SortableUtils.getDragObserver(element);
     var oldSort = dragObserver.lastValue.toQueryParams()[element.id+'[]'];
     var newSort = Sortable.sequence(element.id);
     return {old:oldSort,now:newSort};
@@ -27,35 +31,23 @@ var SortableUtils = {
     else { 
       return false; 
     }
+  },
+  
+  destroySortableMember: function(parent,member) {
+    // Cherry pick from Sortable.destroy to accomodate only a droppable of the sortable.
+    var sortable = Sortable.sortables[parent.id];
+    // Killing droppables and refs.
+    sortable.droppables = sortable.droppables.without(member);
+    Droppables.remove(member);
+    // Killing draggables and refs.
+    var draggable = sortable.draggables.find(function(d){ return d.element == member });
+    draggable.destroy();
+    sortable.draggables = sortable.draggables.without(draggable);
+  },
+  
+  resetSortableLastValue: function(element) {
+    SortableUtils.getDragObserver(element).onStart()
   }
-  
-  // KILLING A SORTABLE ITEM (cherry pick from Sortable.destroy)
-  //   * var sortable = Sortable.sortables['col_wrapper']
-  //   * sortable.droppables                  # Detect first with element == "column".
-  //                                            sortable.droppables = sortable.droppables.without("column")
-  //   * Droppables.remove(element)           # Pass "column" element to this function.
-  //   * sortable.draggables                  # Detect first with obj.element == "column". Then call destroy() on it.
-  //   * sortable.draggables                    sortable.draggables = sortable.draggables.without("column")
-  
-  // SOME NOTES TO SELF:
-  /* onUpdate: function(event) { 
-       new Ajax.Request('/columns/sort', { asynchronous:true, parameters:findSortedInfo(this) });
-     }
-     
-     Sortable.sortables     => [elements]
-     Sortable.sortables['col_wrapper']
-       #draggables          => [Draggable.elements]
-       #droppables          => [element(containment),draggable.elements]
-     
-     Sortable.sequence($('col_wrapper'))
-     
-     Draggables.drags
-     
-     Draggables.observers
-     Draggables.observers['col_wrapper']
-     
-     Droppables.drops
-  */
   
 };
 

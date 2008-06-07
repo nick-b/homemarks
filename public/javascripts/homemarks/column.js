@@ -8,6 +8,7 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
   build: function(id) {
     if (this.welcome.visible()) { this.welcome.hide(); };
     var colId = 'col_'+ id;
+    var sortable = $('col_wrapper');
     var colHTML = DIV({id:colId,className:'dragable_columns'},[
       SPAN({className:'column_ctl'},[
         SPAN({className:'ctl_close'},''),
@@ -15,12 +16,12 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
         SPAN({className:'ctl_add'},'')
       ])
     ]);
-    this.colWrap.insert({top:colHTML});
-    var column = this.colWrap.down('div.dragable_columns')
+    sortable.insert({top:colHTML});
+    var column = sortable.down('div.dragable_columns')
     var columnObject = new Column(column);
     Columns.push(columnObject);
     column.pulsate({duration:0.75});
-    SortableUtils.resetSortableLastValue(this.colWrap);
+    SortableUtils.resetSortableLastValue(sortable);
   }
   
 });
@@ -28,36 +29,53 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
 var Column = Class.create(HomeMarksApp,{
   
   initialize: function($super,column) {
+    this.sortable = $('col_wrapper');
     this.column = $(column);
     this.col_id = this.column.id;
     this.id = parseInt(this.col_id.sub('col_',''));
     $super();
     this.controls = this.column.down('span.column_ctl');
-    this.buildColumnSortable();
-    this._initDestroyCtl();
-    this._initCreateBoxCtl();
     this._initColumnEvents();
-  },
-  
-  buildSortable: function() {
-    
   },
   
   completeDestroyColumn: function() {
     Columns = Columns.without(this);
-    SortableUtils.destroySortableMember(this.colWrap,this.column);
+    SortableUtils.destroySortableMember(this.sortable,this.column);
     this.flash('good','Column deleted.');
     this.column.fade({duration:0.25});
     setTimeout(function(){
       this.column.remove();
       if (!Columns.first()) { this.welcome.show(); };
-      SortableUtils.resetSortableLastValue(this.colWrap);
+      SortableUtils.resetSortableLastValue(this.sortable);
     }.bind(this),0350);
-    // TODO: Add more sub element destroy?
   },
   
-  completeCreateBox: function() {
-    
+  columnSortParams: function() {
+    return SortableUtils.getSortParams(this.sortable);
+  },
+  
+  completeColumnSort: function() {
+    this.flash('good','Columns sorted.');
+    SortableUtils.resetSortableLastValue(this.sortable);
+  },
+  
+  
+  _buildColumnSortables: function() {
+    if (!Columns.sorted) {
+      this.sortable.action = '/columns/sort';
+      this.sortable.parameters = this.columnSortParams;
+      this.sortable.method = 'put';
+      Sortable.create(this.sortable, {
+        handle:       'ctl_handle', 
+        tag:          'div', 
+        only:         'dragable_columns', 
+        containment:  this.sortable.id,
+        constraint:   false, 
+        dropOnEmpty:  true, 
+        onUpdate: this.startAjaxRequest.bindAsEventListener(this,this.completeColumnSort), 
+      });
+      Columns.sorted = true;
+    };
   },
   
   _initDestroyCtl: function() {
@@ -74,6 +92,9 @@ var Column = Class.create(HomeMarksApp,{
   },
   
   _initColumnEvents: function() {
+    this._buildColumnSortables();
+    this._initDestroyCtl();
+    this._initCreateBoxCtl();
     this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
     this.createAjaxObserver(this.createBoxCtl,this.completeCreateBox);
   }

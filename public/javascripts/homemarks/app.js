@@ -4,7 +4,6 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
   initialize: function() {
     this.loading = $('loading');
     this.welcome = $('welcome_box');
-    this.colWrap = $('col_wrapper');
     this.modal = new HomeMarksModal();
   },
   
@@ -60,38 +59,12 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
     if (mood == 'good') { this.loading.hide(); } else { window.location.reload(); };
   },
   
-  /* The site controls sortable creation for columns */
-  
-  _buildColumnSortables: function() {
-    this.colWrap.action = '/columns/sort';
-    this.colWrap.parameters = this._columnSortParams;
-    this.colWrap.method = 'put';
-    Sortable.create(this.colWrap, {
-      handle:       'ctl_handle', 
-      tag:          'div',
-      only:         'dragable_columns', 
-      containment:  'col_wrapper',
-      constraint:   false,       
-      dropOnEmpty:  true, 
-      onUpdate: this.startAjaxRequest.bindAsEventListener(this,this._completeColumnSort),
-    });
-  },
-  
-  _columnSortParams: function() {
-    return SortableUtils.getSortParams(this.colWrap);
-  },
-  
-  _completeColumnSort: function() {
-    this.flash('good','Columns sorted.');
-    SortableUtils.resetSortableLastValue(this.colWrap);
-  }
-  
 });
 
 
-document.observe('dom:loaded', function(){ 
-  HmApp = new HomeMarksApp();
-  HmApp._buildColumnSortables();
-});
+// document.observe('dom:loaded', function(){ 
+//   HmApp = new HomeMarksApp();
+//   HmApp._buildColumnSortables();
+// });
 
 

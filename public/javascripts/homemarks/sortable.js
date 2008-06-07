@@ -46,7 +46,7 @@ var SortableUtils = {
   },
   
   resetSortableLastValue: function(element) {
-    SortableUtils.getDragObserver(element).onStart()
+    SortableUtils.getDragObserver(element).onStart();
   }
   
 };

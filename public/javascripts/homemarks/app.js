@@ -60,9 +60,11 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
     if (mood == 'good') { this.loading.hide(); } else { window.location.reload(); };
   },
   
-  buildColumnSortable: function() {
+  /* The site controls sortable creation for columns */
+  
+  _buildColumnSortables: function() {
     this.colWrap.action = '/columns/sort';
-    this.colWrap.parameters = this.columnSortParams;
+    this.colWrap.parameters = this._columnSortParams;
     this.colWrap.method = 'put';
     Sortable.create(this.colWrap, {
       handle:       'ctl_handle', 
@@ -71,16 +73,17 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
       containment:  'col_wrapper',
       constraint:   false,       
       dropOnEmpty:  true, 
-      onUpdate: this.startAjaxRequest.bindAsEventListener(this,this.completeColumnSort),
+      onUpdate: this.startAjaxRequest.bindAsEventListener(this,this._completeColumnSort),
     });
   },
   
-  columnSortParams: function() {
+  _columnSortParams: function() {
     return SortableUtils.getSortParams(this.colWrap);
   },
   
-  completeColumnSort: function() {
+  _completeColumnSort: function() {
     this.flash('good','Columns sorted.');
+    SortableUtils.resetSortableLastValue(this.colWrap);
   }
   
 });
@@ -88,7 +91,7 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
 
 document.observe('dom:loaded', function(){ 
   HmApp = new HomeMarksApp();
-  HmApp.buildColumnSortable();
+  HmApp._buildColumnSortables();
 });
 
 

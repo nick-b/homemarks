@@ -20,8 +20,7 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
     var columnObject = new Column(column);
     Columns.push(columnObject);
     column.pulsate({duration:0.75});
-    // page.reorder_then_create_box_sortables(@column,@user)
-    // page.create_column_sortable
+    SortableUtils.resetSortableLastValue(this.colWrap);
   }
   
 });

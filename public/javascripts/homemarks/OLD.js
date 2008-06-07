@@ -8,30 +8,6 @@ function actionAreaHelper(event) { if (event.charCode == 96) {toggleActionArea('
 
 
 
-/*  Custom sortable serialize params Column#sort
- * ----------------------------------------------------------------------------------------------------------------- */
-
-function findSortedInfo(obj) {
-  pg_sortable_id = obj.element.id;
-  pg_lastvalues = $A(obj.lastValue.gsub(/col_wrapper\[\]=/i,'').split('&'));
-  pg_sortable_seq = $A(Sortable.sequence(pg_sortable_id));
-  
-  if (pg_lastvalues.length == pg_sortable_seq.length) { // Find the column info within the sortable.
-    pg_lastvalues.each(function(v,i) {
-      if (v != pg_sortable_seq[i]) {
-        /* Check to see if the bookmark was moved down */
-        if (pg_lastvalues[i+1] == pg_sortable_seq[i]) { col_id=v; col_position=pg_sortable_seq.indexOf(v)+1; };
-        /* Check to see if the bookmark was moved up */
-        if (pg_lastvalues[i] == pg_sortable_seq[i+1]) { col_id=pg_sortable_seq[i]; col_position=i+1; };
-        throw $break;
-      };
-    });
-  return 'col_id='+col_id+'&col_position='+col_position;
-  }
-  else { return false; }
-}
-
-
 
 /*  Custom sortable serialize params Box#sort
  * ----------------------------------------------------------------------------------------------------------------- */

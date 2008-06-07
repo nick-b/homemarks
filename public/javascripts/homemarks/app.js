@@ -34,8 +34,8 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
   },
   
   startAjaxRequest: function(event,finishMethod) {
-    var elmnt = event.element();
-    event.stop();
+    if (event instanceof Event) { var elmnt = event.element(); event.stop(); } 
+    else { var elmnt = event; }; /* Sortable callbacks drop element as first arg */
     elmnt.blur();
     if (elmnt.confirmation) { if (confirm(elmnt.confirmation)) { this.doAjaxRequest(elmnt,finishMethod); }; }
     else { this.doAjaxRequest(elmnt,finishMethod); };
@@ -43,7 +43,7 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
   
   doAjaxRequest: function(elmnt,finishMethod) {
     this.loading.show();
-    var parameters = elmnt.parameters || $H();
+    var parameters = (elmnt.parameters && elmnt.parameters instanceof Function) ? elmnt.parameters.call(this) : elmnt.parameters || $H()
     var method = elmnt.method || 'post';
     new Ajax.Request(elmnt.action,{
       onComplete: function(request){
@@ -58,8 +58,37 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
   completeAjaxRequest: function(request) {
     var mood = this.getRequestMood(request);
     if (mood == 'good') { this.loading.hide(); } else { window.location.reload(); };
+  },
+  
+  buildColumnSortable: function() {
+    this.colWrap.action = '/columns/sort';
+    this.colWrap.parameters = this.columnSortParams;
+    this.colWrap.method = 'put';
+    Sortable.create(this.colWrap, {
+      handle:       'ctl_handle', 
+      tag:          'div',
+      only:         'dragable_columns', 
+      containment:  'col_wrapper',
+      constraint:   false,       
+      dropOnEmpty:  true, 
+      onUpdate: this.startAjaxRequest.bindAsEventListener(this,this.completeColumnSort),
+    });
+  },
+  
+  columnSortParams: function() {
+    return SortableUtils.getSortParams(this.colWrap);
+  },
+  
+  completeColumnSort: function() {
+    this.flash('good','Columns sorted.');
   }
   
+});
+
+
+document.observe('dom:loaded', function(){ 
+  HmApp = new HomeMarksApp();
+  HmApp.buildColumnSortable();
 });
 
 

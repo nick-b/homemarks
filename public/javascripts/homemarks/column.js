@@ -30,27 +30,31 @@ var Column = Class.create(HomeMarksApp,{
   
   initialize: function($super,column) {
     this.column = $(column);
-    this.id = parseInt(this.column.id.sub('col_',''));
+    this.col_id = this.column.id;
+    this.id = parseInt(this.col_id.sub('col_',''));
     $super();
     this.controls = this.column.down('span.column_ctl');
-    this.buildSortable();
+    this.buildColumnSortable();
     this._initDestroyCtl();
     this._initCreateBoxCtl();
-    this._initEvents();
+    this._initColumnEvents();
   },
   
   buildSortable: function() {
     
-    // :col_wrapper,
-    // :handle => 'ctl_handle',
-    // :tag => 'div',
-    // :only => 'dragable_columns',
-    // :containment => 'col_wrapper',
-    // :constraint => false,
-    // :dropOnEmpty => true,
-    // :url => {:controller => 'column', :action => 'sort'},
-    // :before => 'globalLoadingBehavior()',
-    // :with => 'findSortedInfo(this)'
+  },
+  
+  completeDestroyColumn: function() {
+    Columns = Columns.without(this);
+    this.flash('good','Column deleted.');
+    this.column.fade({duration:0.25});
+    Element.remove.delay(0.35,this.column);
+    if (!Columns.first()) { Element.show.delay(0.35,this.welcome); };
+    // TODO: Add more sub element destroy?
+  },
+  
+  completeCreateBox: function() {
+    
   },
   
   _initDestroyCtl: function() {
@@ -60,27 +64,15 @@ var Column = Class.create(HomeMarksApp,{
     this.destroyCtl.method = 'delete';
   },
   
-  _completeDestroyColumn: function() {
-    this.flash('good','Column deleted.');
-    this.column.fade({duration:0.25});
-    Columns = Columns.without(this);
-    if (!Columns.first()) { Element.show.delay(0.35,this.welcome); };
-    // TODO: Add more sub element destroys?
-  },
-  
   _initCreateBoxCtl: function() {
     this.createBoxCtl = this.controls.down('span.ctl_add');
     this.createBoxCtl.action = '/boxes';
     this.createBoxCtl.parameters = $H({column_id:this.id});
   },
   
-  _completeCreateBox: function() {
-    
-  },
-  
-  _initEvents: function() {
-    this.createAjaxObserver(this.destroyCtl,this._completeDestroyColumn);
-    this.createAjaxObserver(this.createBoxCtl,this._completeCreateBox);
+  _initColumnEvents: function() {
+    this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
+    this.createAjaxObserver(this.createBoxCtl,this.completeCreateBox);
   }
   
 });

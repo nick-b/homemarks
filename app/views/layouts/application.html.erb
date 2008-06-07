@@ -10,10 +10,9 @@
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
   <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor' %>
-  <%= javascript_include_tag 'homemarks/base','homemarks/app','homemarks/modal','homemarks/tooltip','homemarks/column',
-                             'homemarks/box', :cache => 'homemarks_app' %>
+  <%= javascript_include_tag 'homemarks/base','homemarks/sortable','homemarks/app','homemarks/modal','homemarks/tooltip',
+                             'homemarks/column','homemarks/box', :cache => 'homemarks_app' %>
   <script type="text/javascript">
-    document.observe('dom:loaded', function(){ HmApp = new HomeMarksApp(); });
     <%= auth_params_js_var %>
     Builder.dump();
   </script>

@@ -62,9 +62,5 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
 });
 
 
-// document.observe('dom:loaded', function(){ 
-//   HmApp = new HomeMarksApp();
-//   HmApp._buildColumnSortables();
-// });
 
 

@@ -15,7 +15,7 @@ class ColumnsController < ApplicationController
   end
   
   def sort
-    @column.insert_at(params[:position])
+    @column.insert_at(params[:position]) 
     head :ok
   end
   

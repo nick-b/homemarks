@@ -35,6 +35,12 @@ module HomemarksTestHelper
       assert_match json, content_type, msg
     end
     
+    protected
+    
+    def decode_json_response
+      ActiveSupport::JSON.decode(@response.body)
+    end
+    
   end
   
   module ActiveRecordAssertions

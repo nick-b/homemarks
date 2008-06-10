@@ -21,7 +21,7 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
     var columnObject = new Column(column);
     Columns.push(columnObject);
     column.pulsate({duration:0.75});
-    SortableUtils.resetSortableLastValue(sortable);
+    SortableUtils.createSortableMember(sortable,column);
   }
   
 });

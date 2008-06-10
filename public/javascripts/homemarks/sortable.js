@@ -1,6 +1,19 @@
 
 var SortableUtils = {
   
+  // dragObserver = SortableUtils.getDragObserver($('col_wrapper'))
+  
+  // >>> dragObserver.lastValue
+  // "col_wrapper[]=88&col_wrapper[]=87"
+  
+  // MUST ADD ONE??? Draggables.add(element)
+  // sortable = Sortable.sortables['col_wrapper']
+  // >>> sortable.droppables
+  // [div#col_wrapper, div#col_88.dragable_columns, div#col_87.dragable_columns]
+  
+  // >>> sortable.draggables
+  // [Object element=div#col_88.dragable_columns, Object element=div#col_87.dragable_columns]
+  
   getDragObserver: function(element) {
     return Draggables.observers.find(function(d){ return d.element == element });
   },
@@ -31,6 +44,41 @@ var SortableUtils = {
     else { 
       return false; 
     }
+  },
+  
+  createSortableMember: function(sortable,member) {
+    SortableUtils.createDraggableForSortable(sortable,member);
+    SortableUtils.createDroppableForSortable(sortable,member);
+    SortableUtils.resetSortableLastValue(sortable);
+  },
+  
+  createDraggableForSortable: function(sortable,member) {
+    var options = Sortable.sortables[sortable.id];
+    var options_for_draggable = {
+      revert:             true,
+      quiet:              options.quiet,
+      scroll:             options.scroll,
+      scrollSpeed:        options.scrollSpeed,
+      scrollSensitivity:  options.scrollSensitivity,
+      delay:              options.delay,
+      ghosting:           options.ghosting,
+      constraint:         options.constraint,
+      handle:             member.down('.'+options.handle) };
+    options.draggables.push(
+      new Draggable(member,options_for_draggable)
+    );
+  },
+  
+  createDroppableForSortable: function(sortable,member) {
+    var options = Sortable.sortables[sortable.id];
+    var options_for_droppable = {
+      overlap:     options.overlap,
+      containment: options.containment,
+      tree:        options.tree,
+      hoverclass:  options.hoverclass,
+      onHover:     Sortable.onHover }
+    Droppables.add(member,options_for_droppable);
+    options.droppables.push(member);
   },
   
   destroySortableMember: function(parent,member) {

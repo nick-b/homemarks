@@ -34,10 +34,6 @@ ActionController::Routing::Routes.draw do |map|
   map.site      ':page',  :controller => 'site',  :action => 'show'
   
   
-  # # Named routes for actions on columns.
-  # map.column_new      'column/new/:id', :controller => 'column', :action => 'new'
-  # map.column_destroy  'column/destroy/:id', :controller => 'column', :action => 'destroy'
-  # 
   # # Named routes for actions on boxes.
   # map.box_new       'box/new/:id', :controller => 'box', :action => 'new'
   # map.box_collapse  'box/collapse/:id', :controller => 'box', :action => 'collapse'

@@ -12,14 +12,14 @@
       </span>
       <% col.boxes.each do |box| %>
       <div id="boxid_<%= box.id %>" class="dragable_boxes">
-      <div id="boxid_<%= box.id %>_style" class="box <%= box.style %>">
-        <div id="boxid_<%= box.id %>_header" class="box_header clearfix">
+      <div class="box <%= box.style %>">
+        <div class="box_header clearfix">
           <%= link_to_remote_for_box_actions(box,'down') %>
-          <span class="box_title"><span class="box_handle">&nbsp;</span><%= link_to_remote_for_box_title(box) %></span>
+          <span class="box_title"><span class="box_handle"></span><%= link_to_remote_for_box_title(box) %></span>
         </div>
-        <div id="boxid_<%= box.id %>_line" class="line">&nbsp;</div>
-        <div id="boxid_<%= box.id %>_inside" class="inside" style="display:<%= box.collapsed? ? 'none' : 'block' %>;">
-          <ul id="boxid_list_<%= box.id %>" class="sortablelist">
+        <div class="line">&nbsp;</div>
+        <div class="inside" style="display:<%= box.collapsed? ? 'none' : 'block' %>;">
+          <ul class="sortablelist">
             <% box.bookmarks.each do |bmark| -%>
               <%= render :inline => bookmark_list_item, :locals => {:bmark => bmark, :box_type => 'box'} %>
             <% end %>
@@ -42,31 +42,6 @@
       </div>
     </div>
   
-  </div>
-  
-  
-  <div id="bookmark_sortables">
-    <script type="text/javascript">
-    //<![CDATA[
-    <%# render(:update) {|page| page.create_bookmark_sortables(current_user)} %>
-    //]]>
-    </script>
-  </div>
-  
-  <div id="box_sortables">
-    <script type="text/javascript">
-    //<![CDATA[
-    <%# render(:update) {|page| page.create_box_sortables(current_user)} %>
-    //]]>
-    </script>
-  </div>
-
-  <div id="column_sortable">
-    <script type="text/javascript">
-    //<![CDATA[
-    <%# render(:update) {|page| page.create_column_sortable} %>
-    //]]>
-    </script>
   </div>
   
   <% if session[:demo] == true -%>

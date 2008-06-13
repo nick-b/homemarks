@@ -1,34 +1,60 @@
-class BoxController < ApplicationController
+class BoxesController < ApplicationController  
   
-  verify :xhr => true, :add_flash => {:bad => 'Invalid request method.'}, :redirect_to => :myhome_url
-  prepend_before_filter :do_nothing_on_lost_box_sort
-  after_filter :expire_user_home_cache, :except => [ :actions_down, :actions_up ]
-  after_filter :expire_action_boxes, :only => [ :new ]
+  before_filter :find_box, :except => :create
+  # after_filter :expire_user_home_cache, :except => [ :actions_down, :actions_up ]
+  # after_filter :expire_action_boxes, :only => [ :new ]
   
   
-  def new
-    @col = @user.columns.find(params[:id])
-    @box = @col.boxes.create
-    render :update do |page|
-      page.insert_html :after, "column_#{@col.id}_ctl", {:partial => 'new_box', :locals => {:box => @box}}
-      page["boxid_#{@box.id}_controls"].show
-      page.create_bookmark_sortables(@user)
-      page.reorder_then_create_box_sortables(@col,@user)
-      page.create_column_sortable
-      page.blind_new_box(@box)
-    end
+  def create
+    @box = current_user.columns.find(params[:column_id]).boxes.create!
+    render_json_data(@box.id)
+    # render :update do |page|
+    #   page.insert_html :after, "column_#{@col.id}_ctl", {:partial => 'new_box', :locals => {:box => @box}}
+    #   page["boxid_#{@box.id}_controls"].show
+    #   page.create_bookmark_sortables(@user)
+    #   page.reorder_then_create_box_sortables(@col,@user)
+    #   page.create_column_sortable
+    #   page.blind_new_box(@box)
+    # end
   end
   
   def destroy
-    @box = @user.boxes.find(params[:id])
-    @boxdiv = "boxid_#{@box.id}"
     @box.destroy
-    render :update do |page|
-      page[@boxdiv].visual_effect :fade, { :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"} }
-      page.delay(1) { page[@boxdiv].remove }
-    end
+    head :ok
+    # render :update do |page|
+    #   page[@boxdiv].visual_effect :fade, { :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"} }
+    #   page.delay(1) { page[@boxdiv].remove }
+    # end
   end
   
+  def sort
+    @box.insert_at(params[:position]) 
+    head :ok
+  end
+  
+  
+  protected
+  
+  def find_box
+    @box = current_user.boxes.find(params[:id])
+  end
+  
+  # def internal_sort?
+  #   return true if (params[:internal_sort] == 'true')
+  #   return false if (params[:internal_sort] == 'false')
+  # end
+  # 
+  # def lost_box?
+  #   return true if (params[:lost_box] == 'true')
+  #   return false if (params[:lost_box] == 'false')
+  # end
+  
+  
+end
+
+
+
+class OldBox
   
   def actions_down
     @box = @user.boxes.find(params[:id])
@@ -52,7 +78,6 @@ class BoxController < ApplicationController
     end
   end
   
-  
   def collapse
     @box = @user.boxes.find(params[:id], :select => "boxes.id, boxes.collapsed")
     case @box.collapsed?
@@ -73,7 +98,6 @@ class BoxController < ApplicationController
     @box.save!
   end
   
-  
   def change_color
     @box = @user.boxes.find(params[:id], :select => "boxes.id, boxes.style")
     @box.style = params[:color]
@@ -81,14 +105,12 @@ class BoxController < ApplicationController
     render :nothing => true
   end
   
-  
   def change_title
     @box = @user.boxes.find(params[:id], :select => "boxes.id, boxes.title")
     @box.title = params[:title]
     @box.save!
     render :text => h(@box.title)
   end
-  
   
   def sort
     @box = @user.boxes.find(params[:box_id])
@@ -98,27 +120,6 @@ class BoxController < ApplicationController
       @box.insert_at_new_scope_and_position(@column.id, params[:box_position]) if !internal_sort?
     end
   end
-  
-  
-  
-  private
-  
-  def internal_sort?
-    return true if (params[:internal_sort] == 'true')
-    return false if (params[:internal_sort] == 'false')
-  end
-  
-  def lost_box?
-    return true if (params[:lost_box] == 'true')
-    return false if (params[:lost_box] == 'false')
-  end
-  
-  def do_nothing_on_lost_box_sort
-    if (params[:action] == 'sort') and lost_box?
-      render :nothing => true
-    end
-  end
-  
   
   
 end

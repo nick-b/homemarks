@@ -1,13 +1,4 @@
 
-// WindowUtilities.getWindowScroll()     // => { top: 0, left: 0, width: 1002, height: 464 }
-// document.viewport.getDimensions()     // => { width: 987, height: 494 }
-// document.viewport.getWidth()          // => 987
-// document.viewport.getHeight()         // => 494
-// document.viewport.getScrollOffsets()  // => [0, 0]
-// 
-// WindowUtilities.getPageSize()         // => { pageWidth: 1002, pageHeight: 3129, windowWidth: 1002 }
-// WindowUtilities.getPageSize()         // => [987,3129]
-
 var HomeMarksBase = {
   
   flashMoods: $A(['good','bad','indif']),

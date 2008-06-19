@@ -11,11 +11,14 @@
         <span class="ctl_add"></span>
       </span>
       <% col.boxes.each do |box| %>
-      <div id="boxid_<%= box.id %>" class="dragable_boxes">
+      <div id="box_<%= box.id %>" class="dragable_boxes">
       <div class="box <%= box.style %>">
         <div class="box_header clearfix">
-          <%= link_to_remote_for_box_actions(box,'down') %>
-          <span class="box_title"><span class="box_handle"></span><%= link_to_remote_for_box_title(box) %></span>
+          <span class="box_action"></span>
+          <span class="box_title">
+            <span class="box_handle"></span><!-- with wrapped <a> ? -->
+            <span class="box_titletext"><%= h(box.title) %></span><!-- remove <span> for an <a> ? -->
+          </span>
         </div>
         <div class="line">&nbsp;</div>
         <div class="inside" style="display:<%= box.collapsed? ? 'none' : 'block' %>;">

@@ -2,7 +2,6 @@ module ApplicationHelper
   
   include CacheMasters::UrlPaths
   
-  
   def title(title)
     content_for(:title) { h(title) }
   end
@@ -46,27 +45,6 @@ module ApplicationHelper
   
   
   
-  def reorder_then_create_box_sortables(col)
-    # Due to some bug, affected column needs to be first in the array before create sortable code fires.
-    ucols = current_user.columns
-    ucols.slice!(ucols.index(col))
-    ucols.unshift(col).each do |sortcol|
-      page.create_box_sortables_code(sortcol)
-    end
-  end
-  
-  def create_column_sortable
-    page.sortable :col_wrapper,
-                  :handle => 'ctl_handle',
-                  :tag => 'div',
-                  :only => 'dragable_columns',
-                  :containment => 'col_wrapper',
-                  :constraint => false,
-                  :dropOnEmpty => true,
-                  :url => {:controller => 'column', :action => 'sort'},
-                  :before => 'globalLoadingBehavior()',
-                  :with => 'findSortedInfo(this)'
-  end
   
   
   
@@ -80,68 +58,6 @@ module ApplicationHelper
   
   
   
-  
-  
-  
-  
-  
-
-  def create_box_sortables
-    current_user.columns.each do |col|
-      page.create_box_sortables_code(col)
-    end    
-  end
-  
-  def create_box_sortables_code(col)
-    page.sortable "col_#{col.id}",
-                  :tag => 'div',
-                  :only => 'dragable_boxes',
-                  :hoverclass => 'column_hover',
-                  :accept => 'dragable_boxes',
-                  :handle => 'box_handle',
-                  :containment => current_user.column_containment_array,
-                  :constraint => false,
-                  :dropOnEmpty => true,
-                  :url => { :controller => 'box', :action => 'sort' },
-                  :before => 'globalLoadingBehavior()',
-                  :with => 'findDroppedBoxInfo(this)'
-  end
-
-  def link_to_remote_for_box_actions(box, action_dir)
-    span_class = 'box_action' if action_dir == 'down'
-    span_class = 'box_action box_action_down' if action_dir == 'up'
-    link_to_remote( content_tag('span', '', :id => "boxid_#{box.id}_action", :class => span_class),
-                  { :url => '', :id => box.id, :collapsed => box.collapsed?, # {:controller => 'box', :action => "actions_#{action_dir}"
-                    :before => "this.blur(); globalLoadingBehavior(); loadLameActionSpan(#{box.id},'#{action_dir}')" },
-                    :id => "boxid_#{box.id}_action_alink" )
-  end
-  
-  def link_to_remote_for_box_title(box)
-    link_to_remote( h(box.title),
-                  { :url => '', 
-                    :before => "this.blur(); globalLoadingBehavior(); loadLameActionSpan(#{box.id},'up')" }, 
-                    :id => "boxid_#{box.id}_title" )
-  end
-  
-  def link_to_remote_for_box_delete(box)
-    link_to_remote( content_tag('span', '', :class => 'box_delete'), 
-                  { :confirm => 'Are you sure? Deleting a BOX will also delete all the bookmarks within it.',
-                    :url => '',
-                    :before => 'this.blur(); globalLoadingBehavior()' } )
-  end
-  
-  def link_to_remote_for_box_color_swatches(box,swatch)
-    link_to_remote( content_tag('span', '', :class => "box_swatch swatch_#{swatch}"),
-                    :url => '',
-                    :before => "this.blur(); $('boxid_#{box.id}_style').classNames().set('box #{swatch}')" )
-  end
-  
-  def link_to_remote_for_box_edit_links(box)
-    link_to_remote( content_tag('span', '', :class => 'box_edit'),
-                    :url => '',
-                    :before => "this.blur(); setupModal(#{box.id})",
-                    :loading => "Element.show('modal_progress')" )
-  end
   
   
   

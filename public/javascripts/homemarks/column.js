@@ -50,6 +50,12 @@ var Column = Class.create(HomeMarksApp,{
     }.bind(this),0350);
   },
   
+  completeCreateBox: function(request) {
+    var id = request.responseJSON;
+    new BoxBuilder(this.column,id);
+    this.flash('good','New box created.');
+  },
+  
   columnSortParams: function() {
     return SortableUtils.getSortParams(this.sortable);
   },
@@ -106,6 +112,6 @@ document.observe('dom:loaded', function(){
   $$('div.dragable_columns').each(function(column){ 
     var columnObject = new Column(column);
     Columns.push(columnObject);
-  });  
+  });
 });
 

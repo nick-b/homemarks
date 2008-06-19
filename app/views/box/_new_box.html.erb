@@ -13,4 +13,31 @@
     </ul>
   </div>
 </div>
-</div> <!-- #boxid_<%= box.id %> -->
+</div>
+
+<div id="box_<%= box.id %>" class="dragable_boxes">
+<div class="box <%= box.style %>">
+  <div class="box_header clearfix">
+    <span class="box_action"></span>
+    <span class="box_title">
+      <span class="box_handle"></span><!-- with wrapped <a> ? -->
+      <span class="title"><%= h(box.title) %></span>
+    </span>
+  </div>
+  <div class="line"></div>
+  <div class="inside" style="display:<%= box.collapsed? ? 'none' : 'block' %>;">
+    <!-- Make a JS partial for controls -->
+    <div class="box_controls clearfix" style="display:none;">
+      <span class="box_delete"></span>
+      <span class="box_edit"></span>
+      <% Box.colors.each do |swatch| %>
+        <span class="box_swatch swatch_<%= swatch %>"></span>
+      <% end %>
+      <input class="box_input" type="text" value="FROMTITLE" name="input_title" maxlength="64" />
+    </div>
+    <!-- Make a JS partial for controls -->
+    <ul class="sortablelist">
+    </ul>
+  </div>
+</div>
+</div>

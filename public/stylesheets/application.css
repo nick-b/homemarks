@@ -185,9 +185,10 @@ div[class~=dragable_columns][class~=column_hover] { border: 2px dashed #ccc; }
 
 div.box { width:178px; background: url('images/box/timberwolf/boxbottom.png') no-repeat 50% 100%; margin: 0px 0px 6px 0px; padding: 0px 0px 10px 0px; }
 div.box .box_header { background: url('images/box/timberwolf/boxtop.png') no-repeat 50% 0; margin: 0; padding: 5px 8px 3px 10px; }
-div.box .box_header a, div.box .box_header a:link, div.box .box_header a:visited { display:inline; color:#000; font-size:12px; font-family:"Trebuchet MS",sans-serif; font-weight:bold; }
-div.box .box_header a:hover { color:#333; }
-div.box .box_header a:active { color:#999; }
+
+div.box .box_titletext         { display:inline; color:#000; font-size:12px; font-family:"Trebuchet MS",sans-serif; font-weight:bold; cursor:pointer; }
+div.box .box_titletext:hover   { color:#333; }
+div.box .box_titletext:active  { color:#999; }
 
 .box_action         { width:23px; height:13px; float:left; background: url('images/box/box_action.png') no-repeat 0 1px; }
 .box_action:hover   { background-position: -29px 1px; }
@@ -242,11 +243,9 @@ div.black a,
 div.black a:link, 
 div.black a:visited             { color:#ccc; }
 div.black a:hover               { color:#000; }
-div.black .box_header a, 
-div.black .box_header a:link, 
-div.black .box_header a:visited { color:#fff; }
-div.black .box_header a:hover   { color:#ccc; }
-div.black .box_header a:active  { color:#fff; }
+div.black .box_titletext        { color:#fff; }
+div.black .box_titletext:hover  { color:#ccc; }
+div.black .box_titletext:active { color:#fff; }
 div.black .box_action           { background-image: url('images/box/box_action2.png'); }
 div.black .box_handle           { background-image: url('images/box/box_grip_negative.png'); }
 div.black li:hover              { background-image: url('images/box/trans_grey.png'); }
@@ -319,11 +318,9 @@ div.violet a,
 div.violet a:link, 
 div.violet a:visited            { color:#ccc; }
 div.violet a:hover              { color:#000; }
-div.violet .box_header a, 
-div.violet .box_header a:link, 
-div.violet .box_header a:visited  { color:#fff; }
-div.violet .box_header a:hover    { color:#ccc; }
-div.violet .box_header a:active   { color:#fff; }
+div.violet .box_titletext       { color:#fff; }
+div.violet .box_titletext       { color:#ccc; }
+div.violet .box_titletext       { color:#fff; }
 div.violet .box_action          { background-image: url('images/box/box_action2.png'); }
 div.violet .box_handle          { background-image: url('images/box/box_grip_negative.png'); }
 div.violet li:hover             { background-image: url('images/box/trans_grey.png'); }

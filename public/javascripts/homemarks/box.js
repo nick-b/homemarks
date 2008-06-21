@@ -14,7 +14,7 @@ var BoxBuilder = Class.create(HomeMarksApp,{
     var boxHTML = DIV({id:boxId,className:'dragable_boxes',style:'display:none;'},[
       DIV({className:'box'},[
         DIV({className:'box_header clearfix'},[
-          SPAN({className:'box_action'}),
+          SPAN({className:'box_action box_action_down'}),
           SPAN({className:'box_title'},[
             SPAN({className:'box_handle'}),
             SPAN({className:'box_titletext'},'Rename Me...')
@@ -53,7 +53,6 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   collapsed: function() { return !this.insides.visible() },
-  
   
   toggleActions: function(event) {
     event.stop()
@@ -162,6 +161,8 @@ var Box = Class.create(HomeMarksApp,{
     this.createAjaxObserver(this.destroyButton,this.completeDestroyBox);
     /* Edit Box */
     // this.editBox = this.controls.down('span.box_edit');
+    /* Change Colors */
+    // WOW
     /* Update Title */
     // observe_field
     // "boxid_#{box.id}_input_title",

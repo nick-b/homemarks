@@ -30,8 +30,9 @@ var BoxBuilder = Class.create(HomeMarksApp,{
     var box = sortable.down('div.dragable_boxes');
     var boxObject = new Box(box);
     Boxes.push(boxObject);
+    boxObject.insertControlsHTML(true);
     box.blindDown({duration:0.35});
-    // SortableUtils.createSortableMember(sortable,box);
+    SortableUtils.createSortableMember(sortable,box);
   }
   
 });
@@ -65,13 +66,17 @@ var Box = Class.create(HomeMarksApp,{
     // $('boxid_#{box.id}_style').classNames().set('box #{swatch}')
   },
   
-  controlHTML: function() {
+  
+  insertControlsHTML: function(display) {
+    this.insides.insert({top:this._controlsHTML(display)});
+  },
+  
+  _controlsHTML: function(display) {
+    var displayStyle = (display) ? 'block' : 'none';
     var controlContent = [ SPAN({className:'box_delete'}), SPAN({className:'box_edit'}) ];
-    Box.colors.each(function(color){ 
-      controlContent.push( SPAN({className:'box_swatch swatch_'+color}) );
-    });
+    Box.colors.each(function(color){ controlContent.push(SPAN({className:'box_swatch swatch_'+color})); });
     controlContent.push(INPUT({className:'box_input',type:'text',value:'Rename Me...',maxlength:'64'}));
-    return DIV({className:'box_controls clearfix',style:'display:none;'},controlContent);
+    return DIV({className:'box_controls clearfix',style:'display:'+displayStyle},controlContent);
   },
   
   _buildBoxSortables: function() {

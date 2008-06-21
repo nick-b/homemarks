@@ -24,7 +24,7 @@ var SortableUtils = {
     var newSort = Sortable.sequence(element.id);
     return {old:oldSort,now:newSort};
   },
-    
+  
   getSortParams: function(element) {
     var sort = SortableUtils.getOldNewSort(element);
     // Doing the work to find which and where the droppable was moved to.

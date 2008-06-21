@@ -46,29 +46,32 @@ var Box = Class.create(HomeMarksApp,{
     this.insides = this.box.down('div.inside');
     this.list = this.insides.down('ul.sortablelist');
     this.id = parseInt(this.box.id.sub('box_',''));
+    this.blindOptions = { duration:0.35 };
+    this.downClass = 'box_action_down';
     $super();
     this._initBoxEvents();
   },
   
+  collapsed: function() { return !this.insides.visible() },
+  
+  
   toggleActions: function(event) {
     event.stop()
-    var downClass = 'box_action_down';
-    var blindOptions = { duration:0.35 };
-    if (this.actions.hasClassName(downClass)) {
-      this.controls.blindUp(blindOptions);
+    if (this.actions.hasClassName(this.downClass)) {
+      this.controls.blindUp(this.blindOptions);
       this.flash('good','Box actions hidden.');
     } else {
       if (this.collapsed()) {
         this.insertControlsHTML(true);
         this.doAjaxRequest(this.title);
-        this.insides.blindDown(blindOptions);
+        this.insides.blindDown(this.blindOptions);
       } else {
         this.insertControlsHTML();
-        this.controls.blindDown(blindOptions);
+        this.controls.blindDown(this.blindOptions);
       };
       this.flash('good','Box actions displayed.');
     };
-    this.actions.toggleClassName(downClass);
+    this.actions.toggleClassName(this.downClass);
   },
   
   editLinks: function(event) {
@@ -88,19 +91,17 @@ var Box = Class.create(HomeMarksApp,{
     
   },
   
-  collapsed: function() { return !this.insides.visible() },
-  
   completeToggleCollapse: function(request) {
     var shown = request.responseJSON;
-    /* If shown */
-    // page.blind_box_parts(@box,'inside',:down)
-    // page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-    // page.make_msg('good','Box uncollapsed.')
-    /* If hidden */
-    // page.blind_box_parts(@box,'inside',:up)
-    // page.select("div#boxid_#{@box.id}_controls").each { |div| page.delay(0.5){div.remove} }
-    // page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-    // page.make_msg('good','Box collapsed.')
+    if (shown) {
+      this.insides.blindUp(this.blindOptions);
+      this.actions.removeClassName(this.downClass);
+      setTimeout(function(){ this.controls.hide(); }.bind(this),0500);
+      this.flash('good','Box collapsed.')
+    } else {
+      this.insides.blindDown(this.blindOptions);
+      this.flash('good','Box uncollapsed.')
+    };
   },
   
   _controlsHTML: function(display) {

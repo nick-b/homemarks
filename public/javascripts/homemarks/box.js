@@ -66,9 +66,22 @@ var Box = Class.create(HomeMarksApp,{
     // $('boxid_#{box.id}_style').classNames().set('box #{swatch}')
   },
   
-  
   insertControlsHTML: function(display) {
     this.insides.insert({top:this._controlsHTML(display)});
+  },
+  
+  
+  completeToggleCollapse: function(request) {
+    var shown = request.responseJSON;
+    /* If shown */
+    // page.blind_box_parts(@box,'inside',:down)
+    // page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
+    // page.make_msg('good','Box uncollapsed.')
+    /* If hidden */
+    // page.blind_box_parts(@box,'inside',:up)
+    // page.select("div#boxid_#{@box.id}_controls").each { |div| page.delay(0.5){div.remove} }
+    // page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
+    // page.make_msg('good','Box collapsed.')
   },
   
   _controlsHTML: function(display) {
@@ -105,28 +118,23 @@ var Box = Class.create(HomeMarksApp,{
   // if (direction == 'up') { spanclass = 'box_action' }
   // Element.replace('boxid_'+boxid+'_action_alink', '<span class="'+spanclass+'" id="boxid_'+boxid+'_action_lame"></span>')
   
-  _initToggleActions: function() {
-    this.actions = this.header.down('span.box_action');
-    
-  },
-  
   _initToggleCollapse: function() {
     this.title = this.header.down('span.box_titletext');
+    this.title.action = '/boxes/' + this.id + '/toggle_collapse';
+    this.title.method = 'put';
+    this.createAjaxObserver(this.title,this.completeToggleCollapse);
   },
   
-  _initDestroyBox: function() {
-    this.destroyBox = this.controls.down('span.box_delete');
-    this.destroyBox.confirmation = 'Are you sure? Deleting a BOX will also delete all the bookmarks within it.';
-    this.destroyBox.action = '/boxes/' + this.id;
-    this.destroyBox.method = 'delete';
-    this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
-  },
-  
-  _initEditBox: function() {
-    this.editBox = this.controls.down('span.box_edit');
-  },
-  
-  _initChangeTitle: function() {
+  _initAllControls: function() {
+    /* Destroy Box */
+    // this.destroyBox = this.controls.down('span.box_delete');
+    // this.destroyBox.confirmation = 'Are you sure? Deleting a BOX will also delete all the bookmarks within it.';
+    // this.destroyBox.action = '/boxes/' + this.id;
+    // this.destroyBox.method = 'delete';
+    // this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
+    /* Edit Box */
+    // this.editBox = this.controls.down('span.box_edit');
+    /* Update Title */
     // observe_field
     // "boxid_#{box.id}_input_title",
     // :frequency => 0.4, 
@@ -135,25 +143,25 @@ var Box = Class.create(HomeMarksApp,{
     // :with => "'title='+escape(value)"
   },
   
-  _initCreateBoxCtl: function() {
-    // this.createBoxCtl = this.controls.down('span.ctl_add');
-    // this.createBoxCtl.action = '/boxes';
-    // this.createBoxCtl.parameters = $H({column_id:this.id});
-    // this.createAjaxObserver(this.createBoxCtl,this.completeCreateBox);
+  _initPrefActions: function() {
+     this.actions = this.header.down('span.box_action');
   },
   
   _initBoxEvents: function() {
     this._buildBoxSortables();
-    // this._initDestroyCtl();
-    // this._initCreateBoxCtl();
+    this._initToggleCollapse();
+    // this._initAllControls();
+    // this._initPrefActions();
   }
   
 });
 
 
-Box.colors = $A([ 'white',      'aqua',     'melon',  'limeade',      'lavender', 'postit', 'bisque',
-                  'timberwolf', 'sky_blue', 'salmon', 'spring_green', 'wistera',  'yellow', 'apricot',
-                  'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' ]);
+Box.colors = $A([ 
+  'white',      'aqua',     'melon',  'limeade',      'lavender', 'postit', 'bisque',
+  'timberwolf', 'sky_blue', 'salmon', 'spring_green', 'wistera',  'yellow', 'apricot',
+  'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' 
+]);
 
 
 document.observe('dom:loaded', function(){

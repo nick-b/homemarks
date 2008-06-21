@@ -33,32 +33,9 @@ class BoxesController < ApplicationController
   #   render :text => h(@box.title)
   # end
   
-  # def actions_down
-  #   @box = @user.boxes.find(params[:id])
-  #   if params[:collapsed] == "true"
-  #     @box.collapsed = false ; @box.save!
-  #   end
-  #   render :update do |page|
-  #     page.blind_box_parts(@box,'inside',:down) if params[:collapsed] == "true"
-  #     page.insert_html :top, "boxid_#{@box.id}_inside", {:partial => 'controls', :locals => {:box => @box}}
-  #     page.delay(0.5) { page.blind_box_parts(@box,'controls',:down) }
-  #     page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'up')
-  #     page.make_msg('good','Box actions displayed.')
-  #   end
-  # end
-  
-  # def actions_up
-  #   render :update do |page|
-  #     page.blind_box_parts(@box,'controls',:up)
-  #     page.delay(0.5) { page["boxid_#{@box.id}_controls"].remove }
-  #     page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-  #     page.make_msg('good','Box actions hidden.')
-  #   end
-  # end
-  
   def toggle_collapse
     @box.toggle(:collapsed).save!
-    render_json_data(@box.collapsed?)
+    render_json_data(@box.collapsed?.to_s)
   end
   
   def sort

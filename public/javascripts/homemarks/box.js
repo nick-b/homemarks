@@ -44,7 +44,6 @@ var Box = Class.create(HomeMarksApp,{
     this.sortable = this.box.up('div.dragable_columns')
     this.header = this.box.down('div.box_header');
     this.insides = this.box.down('div.inside');
-    this.controls = this.insides.down('div.box_controls');
     this.list = this.insides.down('ul.sortablelist');
     this.id = parseInt(this.box.id.sub('box_',''));
     $super();
@@ -52,10 +51,24 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   toggleActions: function(event) {
-    // When showing:
-    // this.actions.addClassName('box_action_down');
-    // When hiding:
-    // this.actions.removeClassName('box_action_down');
+    event.stop()
+    var downClass = 'box_action_down';
+    var blindOptions = { duration:0.35 };
+    if (this.actions.hasClassName(downClass)) {
+      this.controls.blindUp(blindOptions);
+      this.flash('good','Box actions hidden.');
+    } else {
+      if (this.collapsed()) {
+        this.insertControlsHTML(true);
+        this.doAjaxRequest(this.title);
+        this.insides.blindDown(blindOptions);
+      } else {
+        this.insertControlsHTML();
+        this.controls.blindDown(blindOptions);
+      };
+      this.flash('good','Box actions displayed.');
+    };
+    this.actions.toggleClassName(downClass);
   },
   
   editLinks: function(event) {
@@ -67,9 +80,15 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   insertControlsHTML: function(display) {
-    this.insides.insert({top:this._controlsHTML(display)});
+    if (!this.controls) {
+      this.insides.insert({top:this._controlsHTML(display)});
+      this.controls = this.insides.down('div.box_controls');
+      this._initAllControls();
+    };
+    
   },
   
+  collapsed: function() { return !this.insides.visible() },
   
   completeToggleCollapse: function(request) {
     var shown = request.responseJSON;
@@ -143,15 +162,15 @@ var Box = Class.create(HomeMarksApp,{
     // :with => "'title='+escape(value)"
   },
   
-  _initPrefActions: function() {
+  _initPrefAction: function() {
      this.actions = this.header.down('span.box_action');
+     this.actions.observe('click',this.toggleActions.bindAsEventListener(this));
   },
   
   _initBoxEvents: function() {
     this._buildBoxSortables();
     this._initToggleCollapse();
-    // this._initAllControls();
-    // this._initPrefActions();
+    this._initPrefAction();
   }
   
 });

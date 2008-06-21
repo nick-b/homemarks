@@ -13,10 +13,6 @@ class BoxesController < ApplicationController
   def destroy
     @box.destroy
     head :ok
-    # render :update do |page|
-    #   page[@boxdiv].visual_effect :fade, { :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"} }
-    #   page.delay(1) { page[@boxdiv].remove }
-    # end
   end
   
   # def change_color
@@ -67,51 +63,5 @@ class BoxesController < ApplicationController
   
   
 end
-  
-  
 
-  
-
-# def actions_down
-#   @box = @user.boxes.find(params[:id])
-#   if params[:collapsed] == "true"
-#     @box.collapsed = false ; @box.save!
-#   end
-#   render :update do |page|
-#     page.blind_box_parts(@box,'inside',:down) if params[:collapsed] == "true"
-#     page.insert_html :top, "boxid_#{@box.id}_inside", {:partial => 'controls', :locals => {:box => @box}}
-#     page.delay(0.5) { page.blind_box_parts(@box,'controls',:down) }
-#     page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'up')
-#   end
-# end
-
-# def actions_up
-#   @box = @user.boxes.find(params[:id])
-#   render :update do |page|
-#     page.blind_box_parts(@box,'controls',:up)
-#     page.delay(0.5) { page["boxid_#{@box.id}_controls"].remove }
-#     page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-#   end
-# end
-
-# def collapse
-#   @box = @user.boxes.find(params[:id], :select => "boxes.id, boxes.collapsed")
-#   case @box.collapsed?
-#   when true
-#     @box.collapsed = false
-#     render :update do |page|
-#       page.blind_box_parts(@box,'inside',:down)
-#       page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-#     end
-#   when false
-#     @box.collapsed = true
-#     render :update do |page|
-#       page.blind_box_parts(@box,'inside',:up)
-#       page.select("div#boxid_#{@box.id}_controls").each { |div| page.delay(0.5){div.remove} }
-#       page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
-#     end
-#   end
-#   @box.save!
-# end
-  
 

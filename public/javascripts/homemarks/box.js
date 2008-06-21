@@ -46,7 +46,7 @@ var Box = Class.create(HomeMarksApp,{
     this.insides = this.box.down('div.inside');
     this.list = this.insides.down('ul.sortablelist');
     this.id = parseInt(this.box.id.sub('box_',''));
-    this.blindOptions = { duration:0.35 };
+    this.effectOptions = { duration:0.35 };
     this.downClass = 'box_action_down';
     $super();
     this._initBoxEvents();
@@ -58,16 +58,16 @@ var Box = Class.create(HomeMarksApp,{
   toggleActions: function(event) {
     event.stop()
     if (this.actions.hasClassName(this.downClass)) {
-      this.controls.blindUp(this.blindOptions);
+      this.controls.blindUp(this.effectOptions);
       this.flash('good','Box actions hidden.');
     } else {
       if (this.collapsed()) {
         this.insertControlsHTML(true);
         this.doAjaxRequest(this.title);
-        this.insides.blindDown(this.blindOptions);
+        this.insides.blindDown(this.effectOptions);
       } else {
         this.insertControlsHTML();
-        this.controls.blindDown(this.blindOptions);
+        this.controls.blindDown(this.effectOptions);
       };
       this.flash('good','Box actions displayed.');
     };
@@ -94,14 +94,22 @@ var Box = Class.create(HomeMarksApp,{
   completeToggleCollapse: function(request) {
     var shown = request.responseJSON;
     if (shown) {
-      this.insides.blindUp(this.blindOptions);
+      this.insides.blindUp(this.effectOptions);
       this.actions.removeClassName(this.downClass);
       setTimeout(function(){ this.controls.hide(); }.bind(this),0500);
       this.flash('good','Box collapsed.')
     } else {
-      this.insides.blindDown(this.blindOptions);
+      this.insides.blindDown(this.effectOptions);
       this.flash('good','Box uncollapsed.')
     };
+  },
+  
+  completeDestroyBox: function(request) {
+    this.box.fade({duration:0.35});
+    setTimeout(function(){ 
+      this.box.remove();
+      SortableUtils.resetSortableLastValue(this.sortable);
+    }.bind(this),0500);
   },
   
   _controlsHTML: function(display) {
@@ -147,11 +155,11 @@ var Box = Class.create(HomeMarksApp,{
   
   _initAllControls: function() {
     /* Destroy Box */
-    // this.destroyBox = this.controls.down('span.box_delete');
-    // this.destroyBox.confirmation = 'Are you sure? Deleting a BOX will also delete all the bookmarks within it.';
-    // this.destroyBox.action = '/boxes/' + this.id;
-    // this.destroyBox.method = 'delete';
-    // this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
+    this.destroyButton = this.controls.down('span.box_delete');
+    this.destroyButton.confirmation = 'Are you sure? Deleting a BOX will also delete all the bookmarks within it.';
+    this.destroyButton.action = '/boxes/' + this.id;
+    this.destroyButton.method = 'delete';
+    this.createAjaxObserver(this.destroyButton,this.completeDestroyBox);
     /* Edit Box */
     // this.editBox = this.controls.down('span.box_edit');
     /* Update Title */

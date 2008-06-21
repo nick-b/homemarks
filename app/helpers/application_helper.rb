@@ -135,48 +135,11 @@ module ApplicationHelper
                      :confirm => 'Are you sure? This will permanently delete all bookmarks in your trash.' )
   end
   
-  
-  
-  
-  
-  
 
   
   def bookmark_list_item
     %q|<li id="<%= box_type %>bmark_<%= bmark.id %>" class="dragable_bmarks clearfix <%= box_type %>"><span class="bmrk_handle">&nbsp;</span><span class="boxlink"><a href="<%= h(bmark.url) %>"><%= h(bmark.name) %></a></span></li>|
   end
-  
-
-  
-
-  
-  
-  
-
-
-  
-
-  
-  
-
-  
-
-  
-  
-  
-  def blind_box_parts(box, node, direction)
-    case
-      when direction == :up
-        page["boxid_#{box.id}_#{node}"].visual_effect :blind_up, { :duration => 0.35, :queue => {:position => 'end', :scope => "boxid_#{box.id}"} }
-      when direction == :down
-        page["boxid_#{box.id}_#{node}"].visual_effect :blind_down, { :duration => 0.35, :queue => {:position => 'end', :scope => "boxid_#{box.id}"} }
-    end
-  end
-  
-  def blind_new_box(box)
-    page["boxid_#{box.id}"].visual_effect :blind_down, { :duration => 0.35, :queue => {:position => 'end', :scope => "boxid_#{box.id}"} }
-  end
-  
   
   
   def render_bookmarklet

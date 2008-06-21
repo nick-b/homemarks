@@ -40,13 +40,11 @@ var Box = Class.create({
   
   initialize: function(box) {
     this.box = box;
-    
-    // The nodes I know I need in the box.
     this.header = this.box.down('div.box_header');
     this.insides = this.box.down('div.inside');
     this.controls = this.insides.down('div.box_controls');
     this.list = this.insides.down('ul.sortablelist');
-    // if (!Boxes.include(this.box)) { Boxes.push(this.box); };
+    if (!Boxes.include(this.box)) { Boxes.push(this.box); };
   },
   
   toggleActions: function(event) {
@@ -66,7 +64,9 @@ var Box = Class.create({
   
   controlHTML: function() {
     var controlContent = [ SPAN({className:'box_delete'}), SPAN({className:'box_edit'}) ];
-    controlContent.concat(Box.colors.map(function(color){ return SPAN({className:'box_swatch swatch_'+color}) }));
+    Box.colors.each(function(color){ 
+      controlContent.push( SPAN({className:'box_swatch swatch_'+color}) );
+    });
     controlContent.push(INPUT({className:'box_input',type:'text',value:'Rename Me...',maxlength:'64'}));
     return DIV({className:'box_controls clearfix',style:'display:none;'},controlContent);
   },

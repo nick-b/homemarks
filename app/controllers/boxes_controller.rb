@@ -56,6 +56,28 @@ class BoxesController < ApplicationController
   #   end
   # end
   
+  # def collapse
+  #   @box = @user.boxes.find(params[:id], :select => "boxes.id, boxes.collapsed")
+  #   case @box.collapsed?
+  #   when true
+  #     @box.collapsed = false
+  #     render :update do |page|
+  #       page.blind_box_parts(@box,'inside',:down)
+  #       page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
+  #       page.make_msg('good','Box uncollapsed.')
+  #     end
+  #   when false
+  #     @box.collapsed = true
+  #     render :update do |page|
+  #       page.blind_box_parts(@box,'inside',:up)
+  #       page.select("div#boxid_#{@box.id}_controls").each { |div| page.delay(0.5){div.remove} }
+  #       page.replace "boxid_#{@box.id}_action_lame", link_to_remote_for_box_actions(@box,'down')
+  #       page.make_msg('good','Box collapsed.')
+  #     end
+  #   end
+  #   @box.save!
+  # end
+  
   def sort
     @box = @user.boxes.find(params[:box_id])
     @column = @user.columns.find(params[:col_id])

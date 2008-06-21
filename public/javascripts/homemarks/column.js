@@ -52,7 +52,7 @@ var Column = Class.create(HomeMarksApp,{
   
   completeCreateBox: function(request) {
     var id = request.responseJSON;
-    new BoxBuilder(this.column,id);
+    new BoxBuilder(this,id);
     this.flash('good','New box created.');
   },
   
@@ -89,20 +89,20 @@ var Column = Class.create(HomeMarksApp,{
     this.destroyCtl.confirmation = 'Are you sure? Deleting a COLUMN will also delete all the boxes and bookmarks within it.';
     this.destroyCtl.action = '/columns/' + this.id;
     this.destroyCtl.method = 'delete';
+    this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
   },
   
   _initCreateBoxCtl: function() {
     this.createBoxCtl = this.controls.down('span.ctl_add');
     this.createBoxCtl.action = '/boxes';
     this.createBoxCtl.parameters = $H({column_id:this.id});
+    this.createAjaxObserver(this.createBoxCtl,this.completeCreateBox);
   },
   
   _initColumnEvents: function() {
     this._buildColumnSortables();
     this._initDestroyCtl();
     this._initCreateBoxCtl();
-    this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
-    this.createAjaxObserver(this.createBoxCtl,this.completeCreateBox);
   }
   
 });

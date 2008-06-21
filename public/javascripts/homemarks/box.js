@@ -3,35 +3,35 @@ var Boxes = $A();
 
 var BoxBuilder = Class.create(HomeMarksApp,{
   
-  initialize: function($super,id) { $super(); this.build(id); },
+  initialize: function($super,columnObj,id) { 
+    $super();
+    this.build(columnObj,id);
+  },
   
-  build: function(column,id) {
-    
+  build: function(columnObj,id) {
     var boxId = 'box_'+ id;
-    var sortable = $('col_wrapper');
-    var colHTML = DIV({id:colId,className:'dragable_columns'},[
-      SPAN({className:'column_ctl'},[
-        SPAN({className:'ctl_close'},''),
-        SPAN({className:'ctl_handle'},''),
-        SPAN({className:'ctl_add'},'')
+    var sortable = columnObj.column;
+    var boxHTML = DIV({id:boxId,className:'dragable_boxes',style:'display:none;'},[
+      DIV({className:'box'},[
+        DIV({className:'box_header clearfix'},[
+          SPAN({className:'box_action'}),
+          SPAN({className:'box_title'},[
+            SPAN({className:'box_handle'}),
+            SPAN({className:'box_titletext'},'Rename Me...')
+          ])
+        ]),
+        DIV({className:'line'}),
+        DIV({className:'inside'},[
+          UL({className:'sortablelist'})
+        ])
       ])
     ]);
-    sortable.insert({top:colHTML});
-    var column = sortable.down('div.dragable_columns')
-    var columnObject = new Column(column);
-    Columns.push(columnObject);
-    column.pulsate({duration:0.75});
-    SortableUtils.createSortableMember(sortable,column);
-    
-    
-    // render :update do |page|
-    //   page.insert_html :after, "column_#{@col.id}_ctl", {:partial => 'new_box', :locals => {:box => @box}}
-    //   page["boxid_#{@box.id}_controls"].show
-    //   page.create_bookmark_sortables(@user)
-    //   page.reorder_then_create_box_sortables(@col,@user)
-    //   page.create_column_sortable
-    //   page.blind_new_box(@box)
-    // end
+    columnObj.controls.insert({after:boxHTML});
+    var box = sortable.down('div.dragable_boxes');
+    var boxObject = new Box(box);
+    Boxes.push(boxObject);
+    box.blindDown({duration:0.35});
+    // SortableUtils.createSortableMember(sortable,box);
   }
   
 });
@@ -42,15 +42,11 @@ var Box = Class.create({
     this.box = box;
     
     // The nodes I know I need in the box.
-    
     this.header = this.box.down('div.box_header');
     this.insides = this.box.down('div.inside');
     this.controls = this.insides.down('div.box_controls');
     this.list = this.insides.down('ul.sortablelist');
-    
     // if (!Boxes.include(this.box)) { Boxes.push(this.box); };
-    // this.action = this.box.down('span.box_action');
-    // this.title = this.box.down('.box_title a');
   },
   
   toggleActions: function(event) {
@@ -66,6 +62,13 @@ var Box = Class.create({
   
   changeColor: function() {
     // $('boxid_#{box.id}_style').classNames().set('box #{swatch}')
+  },
+  
+  controlHTML: function() {
+    var controlContent = [ SPAN({className:'box_delete'}), SPAN({className:'box_edit'}) ];
+    controlContent.concat(Box.colors.map(function(color){ return SPAN({className:'box_swatch swatch_'+color}) }));
+    controlContent.push(INPUT({className:'box_input',type:'text',value:'Rename Me...',maxlength:'64'}));
+    return DIV({className:'box_controls clearfix',style:'display:none;'},controlContent);
   },
   
   _buildBoxSortables: function() {
@@ -96,6 +99,10 @@ var Box = Class.create({
   _initToggleActions: function() {
     this.actions = this.header.down('span.box_action');
     
+  },
+  
+  _initToggleCollapse: function() {
+    this.title = this.header.down('span.box_titletext');
   },
   
   _initDestroyBox: function() {

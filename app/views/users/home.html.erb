@@ -4,23 +4,25 @@
   <div id="col_wrapper">
     
     <% current_user.columns.each do |col| %>
+    
     <div id="col_<%= col.id %>" class="dragable_columns">
       <span class="column_ctl">
         <span class="ctl_close"></span>
         <span class="ctl_handle"></span>
         <span class="ctl_add"></span>
       </span>
+      
       <% col.boxes.each do |box| %>
       <div id="box_<%= box.id %>" class="dragable_boxes">
       <div class="box <%= box.style %>">
         <div class="box_header clearfix">
           <span class="box_action"></span>
           <span class="box_title">
-            <span class="box_handle"></span><!-- with wrapped <a> ? -->
+            <span class="box_handle"></span>
             <span class="box_titletext"><%= h(box.title) %></span><!-- remove <span> for an <a> ? -->
           </span>
         </div>
-        <div class="line">&nbsp;</div>
+        <div class="line"></div>
         <div class="inside" style="display:<%= box.collapsed? ? 'none' : 'block' %>;">
           <ul class="sortablelist">
             <% box.bookmarks.each do |bmark| -%>
@@ -31,7 +33,9 @@
       </div>
       </div>
       <% end %>
+      
     </div>
+    
     <% end %>
     
     <div id="welcome_box" class="center" style="display:<%= current_user.columns.blank? ? 'block' : 'none' %>;">

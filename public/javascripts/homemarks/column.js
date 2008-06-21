@@ -29,10 +29,9 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
 var Column = Class.create(HomeMarksApp,{
   
   initialize: function($super,column) {
-    this.sortable = $('col_wrapper');
     this.column = $(column);
-    this.col_id = this.column.id;
-    this.id = parseInt(this.col_id.sub('col_',''));
+    this.sortable = $('col_wrapper');
+    this.id = parseInt(this.column.id.sub('col_',''));
     $super();
     this.controls = this.column.down('span.column_ctl');
     this._initColumnEvents();

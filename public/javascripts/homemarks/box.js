@@ -36,15 +36,18 @@ var BoxBuilder = Class.create(HomeMarksApp,{
   
 });
 
-var Box = Class.create({
+var Box = Class.create(HomeMarksApp,{
   
-  initialize: function(box) {
-    this.box = box;
+  initialize: function($super,box) {
+    this.box = $(box);
+    this.sortable = this.box.up('div.dragable_columns')
     this.header = this.box.down('div.box_header');
     this.insides = this.box.down('div.inside');
     this.controls = this.insides.down('div.box_controls');
     this.list = this.insides.down('ul.sortablelist');
-    if (!Boxes.include(this.box)) { Boxes.push(this.box); };
+    this.id = parseInt(this.box.id.sub('box_',''));
+    $super();
+    this._initBoxEvents();
   },
   
   toggleActions: function(event) {
@@ -72,7 +75,8 @@ var Box = Class.create({
   },
   
   _buildBoxSortables: function() {
-    if (!Boxes.sorted) {
+    if (!Boxes.sorted) { Boxes.sorted = $H() };
+    if (!Boxes.sorted[this.sortable.id]) {
       this.sortable.action = '/boxes/sort';
       this.sortable.parameters = this.columnSortParams;
       this.sortable.method = 'put';
@@ -87,7 +91,7 @@ var Box = Class.create({
         dropOnEmpty:  true, 
         onUpdate: this.startAjaxRequest.bindAsEventListener(this,this.completeColumnSort), 
       });
-      Boxes.sorted = true;
+      Boxes.sorted[this.sortable.id] = true;
     };
   },
   
@@ -110,6 +114,7 @@ var Box = Class.create({
     this.destroyBox.confirmation = 'Are you sure? Deleting a BOX will also delete all the bookmarks within it.';
     this.destroyBox.action = '/boxes/' + this.id;
     this.destroyBox.method = 'delete';
+    this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
   },
   
   _initEditBox: function() {
@@ -125,32 +130,33 @@ var Box = Class.create({
     // :with => "'title='+escape(value)"
   },
   
-  // _initCreateBoxCtl: function() {
-  //   this.createBoxCtl = this.controls.down('span.ctl_add');
-  //   this.createBoxCtl.action = '/boxes';
-  //   this.createBoxCtl.parameters = $H({column_id:this.id});
-  // },
+  _initCreateBoxCtl: function() {
+    // this.createBoxCtl = this.controls.down('span.ctl_add');
+    // this.createBoxCtl.action = '/boxes';
+    // this.createBoxCtl.parameters = $H({column_id:this.id});
+    // this.createAjaxObserver(this.createBoxCtl,this.completeCreateBox);
+  },
   
   _initBoxEvents: function() {
-    // this._buildBoxSortables();
+    this._buildBoxSortables();
     // this._initDestroyCtl();
     // this._initCreateBoxCtl();
-    // this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
-    // this.createAjaxObserver(this.createBoxCtl,this.completeCreateBox);
   }
   
 });
 
-Box.colors = $w( 'white     timberwolf    black' +
-                 'aqua      sky_blue      cerulian' +
-                 'melon     salmon        red' +
-                 'limeade   spring_green  yellow_green' +
-                 'lavender  wistera       violet' +
-                 'postit    yellow        orange' +
-                 'bisque    apricot       raw_sienna' );
+
+Box.colors = $A([ 'white',      'aqua',     'melon',  'limeade',      'lavender', 'postit', 'bisque',
+                  'timberwolf', 'sky_blue', 'salmon', 'spring_green', 'wistera',  'yellow', 'apricot',
+                  'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' ]);
+
 
 document.observe('dom:loaded', function(){
-  // $$('div.dragable_boxes').each(function(box){ new Box(box); });
+  $$('div.dragable_boxes').each(function(box){ 
+    var boxObject = new Box(box);
+    Boxes.push(boxObject);
+  });
 });
+
 
 

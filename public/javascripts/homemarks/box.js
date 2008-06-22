@@ -77,10 +77,6 @@ var Box = Class.create(HomeMarksApp,{
     
   },
   
-  changeColor: function() {
-    // $('boxid_#{box.id}_style').classNames().set('box #{swatch}')
-  },
-  
   insertControlsHTML: function(display) {
     if (!this.controls) {
       this.insides.insert({top:this._controlsHTML(display)});
@@ -88,6 +84,16 @@ var Box = Class.create(HomeMarksApp,{
       this._initAllControls();
     };
     
+  },
+  
+  beforeChangeColor: function(element) {
+    var color = this._getColorFromSwatch(element);
+    var newClassName = 'box ' + color;
+    this.box.down('div.box').className = newClassName;
+  },
+  
+  completeChangeColor: function(request) {
+    this.flash('good','Box color updated.');
   },
   
   completeToggleCollapse: function(request) {
@@ -104,7 +110,10 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   completeDestroyBox: function(request) {
+    Boxes = Boxes.without(this);
+    SortableUtils.destroySortableMember(this.sortable,this.box);
     this.box.fade({duration:0.35});
+    this.flash('good','Box deleted.');
     setTimeout(function(){ 
       this.box.remove();
       SortableUtils.resetSortableLastValue(this.sortable);
@@ -134,7 +143,7 @@ var Box = Class.create(HomeMarksApp,{
         containment:  this.sortable.id, // :containment => current_user.column_containment_array,
         constraint:   false, 
         dropOnEmpty:  true, 
-        onUpdate: this.startAjaxRequest.bindAsEventListener(this,this.completeColumnSort), 
+        onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeColumnSort}), 
       });
       Boxes.sorted[this.sortable.id] = true;
     };
@@ -149,7 +158,7 @@ var Box = Class.create(HomeMarksApp,{
     this.title = this.header.down('span.box_titletext');
     this.title.action = '/boxes/' + this.id + '/toggle_collapse';
     this.title.method = 'put';
-    this.createAjaxObserver(this.title,this.completeToggleCollapse);
+    this.createAjaxObserver(this.title,{onComplete:this.completeToggleCollapse});
   },
   
   _initAllControls: function() {
@@ -158,11 +167,16 @@ var Box = Class.create(HomeMarksApp,{
     this.destroyButton.confirmation = 'Are you sure? Deleting a BOX will also delete all the bookmarks within it.';
     this.destroyButton.action = '/boxes/' + this.id;
     this.destroyButton.method = 'delete';
-    this.createAjaxObserver(this.destroyButton,this.completeDestroyBox);
+    this.createAjaxObserver(this.destroyButton,{onComplete:this.completeDestroyBox});
     /* Edit Box */
     // this.editBox = this.controls.down('span.box_edit');
     /* Change Colors */
-    // WOW
+    this.controls.select('span.box_swatch').each(function(swatch){
+      swatch.action = '/boxes/' + this.id + '/colorize';
+      swatch.parameters = $H({color:this._getColorFromSwatch(swatch)});
+      swatch.method = 'put';
+      this.createAjaxObserver(swatch,{before:this.beforeChangeColor,onComplete:this.completeChangeColor});
+    }.bind(this));
     /* Update Title */
     // observe_field
     // "boxid_#{box.id}_input_title",
@@ -170,6 +184,12 @@ var Box = Class.create(HomeMarksApp,{
     // :update => "boxid_#{box.id}_title", 
     // :url => change_title_url(:id => box.id), 
     // :with => "'title='+escape(value)"
+  },
+  
+  _getColorFromSwatch: function(swatch) {
+    var classes = $w(swatch.className);
+    var colorClass = classes.detect(function(c){ return c.startsWith('swatch_') });
+    return colorClass.sub('swatch_','');
   },
   
   _initPrefAction: function() {

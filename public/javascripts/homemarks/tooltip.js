@@ -42,17 +42,17 @@ var Tooltip = Class.create(HomeMarksApp,{
     this.a.tt_effect = new Effect.Fade(this.tooltipId,{duration:0.2});
   },
   
-  _initEvents: function() {
-    if (this.toolButton.id == 'button_new_column') { 
-      this.toolButton.action = this.a.href;
-      this.createAjaxObserver(this.toolButton,this._completeNewColumn); 
-    };
-  },
-  
-  _completeNewColumn: function(request) {
+  completeNewColumn: function(request) {
     var id = request.responseJSON;
     new ColumnBuilder(id);
     this.flash('good','New column created.');
+  },
+  
+  _initEvents: function() {
+    if (this.toolButton.id == 'button_new_column') { 
+      this.toolButton.action = this.a.href;
+      this.createAjaxObserver(this.toolButton,{onComplete:this.completeNewColumn}); 
+    };
   }
   
 });

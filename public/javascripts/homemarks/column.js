@@ -77,7 +77,7 @@ var Column = Class.create(HomeMarksApp,{
         containment:  this.sortable.id,
         constraint:   false, 
         dropOnEmpty:  true, 
-        onUpdate: this.startAjaxRequest.bindAsEventListener(this,this.completeColumnSort), 
+        onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeColumnSort}), 
       });
       Columns.sorted = true;
     };
@@ -88,14 +88,14 @@ var Column = Class.create(HomeMarksApp,{
     this.destroyCtl.confirmation = 'Are you sure? Deleting a COLUMN will also delete all the boxes and bookmarks within it.';
     this.destroyCtl.action = '/columns/' + this.id;
     this.destroyCtl.method = 'delete';
-    this.createAjaxObserver(this.destroyCtl,this.completeDestroyColumn);
+    this.createAjaxObserver(this.destroyCtl,{onComplete:this.completeDestroyColumn});
   },
   
   _initCreateBoxCtl: function() {
     this.createBoxCtl = this.controls.down('span.ctl_add');
     this.createBoxCtl.action = '/boxes';
     this.createBoxCtl.parameters = $H({column_id:this.id});
-    this.createAjaxObserver(this.createBoxCtl,this.completeCreateBox);
+    this.createAjaxObserver(this.createBoxCtl,{onComplete:this.completeCreateBox});
   },
   
   _initColumnEvents: function() {

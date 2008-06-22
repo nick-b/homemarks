@@ -15,12 +15,10 @@ class BoxesController < ApplicationController
     head :ok
   end
   
-  # def change_color
-  #   @box = @user.boxes.find(params[:id], :select => "boxes.id, boxes.style")
-  #   @box.style = params[:color]
-  #   @box.save!
-  #   render :nothing => true
-  # end
+  def colorize
+    @box.update_attributes! :style => params[:color]
+    head :ok
+  end
   
   # def change_title
   #   @box = @user.boxes.find(params[:id], :select => "boxes.id, boxes.title")

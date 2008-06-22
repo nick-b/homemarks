@@ -28,26 +28,34 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
     if (this.flashEffect) { clearTimeout(this.flashEffect); };
   },
   
-  createAjaxObserver: function(element,finishMethod) {
-    element.observe('click',this.startAjaxRequest.bindAsEventListener(this,finishMethod));
+  defaultAjaxOptions: function() {
+    return {};
   },
   
-  startAjaxRequest: function(event,finishMethod) {
+  createAjaxObserver: function(element) {
+    var options = Object.extend(this.defaultAjaxOptions(), arguments[1] || {});
+    element.observe('click',this.startAjaxRequest.bindAsEventListener(this,options));
+  },
+  
+  startAjaxRequest: function(event) {
+    var options = Object.extend(this.defaultAjaxOptions(), arguments[1] || {});
     if (event instanceof Event) { var elmnt = event.element(); event.stop(); } 
     else { var elmnt = event; }; /* Sortable callbacks drop element as first arg */
     elmnt.blur();
-    if (elmnt.confirmation) { if (confirm(elmnt.confirmation)) { this.doAjaxRequest(elmnt,finishMethod); }; }
-    else { this.doAjaxRequest(elmnt,finishMethod); };
+    if (elmnt.confirmation) { if (confirm(elmnt.confirmation)) { this.doAjaxRequest(elmnt,options); }; }
+    else { this.doAjaxRequest(elmnt,options); };
   },
   
-  doAjaxRequest: function(elmnt,finishMethod) {
+  doAjaxRequest: function(elmnt) {
+    var options = Object.extend(this.defaultAjaxOptions(), arguments[1] || {});
+    if (options.before) { options.before.call(this,elmnt) };
     this.loading.show();
     var parameters = (elmnt.parameters && elmnt.parameters instanceof Function) ? elmnt.parameters.call(this) : elmnt.parameters || $H()
     var method = elmnt.method || 'post';
     new Ajax.Request(elmnt.action,{
       onComplete: function(request){
         this.completeAjaxRequest(request);
-        if (finishMethod) { finishMethod.call(this,request) };
+        if (options.onComplete) { options.onComplete.call(this,request) };
       }.bind(this),
       parameters: parameters.merge(authParams),
       method: method

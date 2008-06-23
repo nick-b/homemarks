@@ -19,19 +19,23 @@ class ColumnTest < ActiveSupport::TestCase
 
   end
   
-  context 'While testing columns association for bob' do
-    
-    setup { @columns = @bob.columns }
-    
-    should 'be ordered by position' do
-      assert_equal [1,2,3], @columns.map(&:position)
+  context 'Testing model behavior' do
+
+    should 'have a BOX_COLORS frozen constant' do
+      assert Box::BOX_COLORS
+      assert Box::BOX_COLORS.frozen?
     end
     
-    should 'destroy columns when user is destroyed' do
-      doomed_column_diff = 0 - @columns.size
-      assert_difference 'Column.count', doomed_column_diff do
-        @bob.destroy
-      end
+    should 'call delete_all_associations after destroy' do
+      column = @bob.columns.find(:first)
+      column.expects(:delete_all_associations).once
+      column.destroy
+    end
+    
+    should 'destroy boxes and bookmarks before column destroyed' do
+      @bob.columns.each(&:destroy)
+      assert_equal 0, Box.count
+      assert_equal 0, Bookmark.count
     end
     
   end

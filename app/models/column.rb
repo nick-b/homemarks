@@ -7,16 +7,16 @@ class Column < ActiveRecord::Base
   validates_presence_of   :user_id, :position
   attr_protected          :user_id, :position
   
-  # before_destroy :delete_all_associations
+  before_destroy :delete_all_associations
   
   
   protected
   
-  # TODO: CASCADE DELETE: Verify Me.
-  # def delete_all_associations
-  #   Bookmark.delete_all :box_id => box_ids
-  #   Box.delete_all :column_id => id
-  # end
+  def delete_all_associations
+    Bookmark.delete_all :box_id => boxes.map(&:id)
+    Box.delete_all :column_id => id
+  end
   
   
 end
+

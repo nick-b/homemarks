@@ -8,10 +8,9 @@ class Box < ActiveRecord::Base
   acts_as_list  :scope => :column_id
   has_many      :bookmarks, :order => :position
   
-  validates_inclusion_of  :style, :in => BOX_COLORS, :allow_nil => true, :if => Proc.new { |box| box.attribute_present? :style }
-  validates_length_of     :title, :within => 0..64, :on => :save, :if => Proc.new { |box| box.attribute_present? :title }
-  validates_presence_of   :column_id, :if => Proc.new { |box| box.attribute_present? :column_id }
-  validates_presence_of   :position, :if => Proc.new { |box| box.attribute_present? :position }
+  validates_inclusion_of  :style, :in => BOX_COLORS, :allow_nil => true, :allow_blank => true
+  validates_length_of     :title, :within => 0..64, :on => :save, :allow_nil => true, :allow_blank => true
+  validates_presence_of   :column_id
   
   attr_protected          :column_id, :position
   
@@ -21,7 +20,6 @@ class Box < ActiveRecord::Base
   
   private
   
-  # TODO: CASCADE DELETE: Verify Me.
   def delete_all_associations
     Bookmark.delete_all :box_id => id
   end

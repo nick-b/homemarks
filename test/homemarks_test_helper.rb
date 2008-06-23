@@ -3,6 +3,7 @@ module HomemarksTestHelper
   def self.included(klass)
     klass.class_eval do
       include ActionControllerAssertions
+      extend  ActiveRecordAssertions::ClassMethods
       include ActiveRecordAssertions
       include DomAssertions
       include SiteAssertions
@@ -44,6 +45,26 @@ module HomemarksTestHelper
   end
   
   module ActiveRecordAssertions
+    
+    module ClassMethods
+
+      def should_allow_nil_and_blank_for(*attrs)
+        klass = model_class
+        attrs.each do |a|
+          should "allow NIL for #{a}" do
+            assert object = klass.find(:first), "Can not find first #{klass}"
+            object.send("#{a}=",nil)
+            assert object.save
+          end
+          should "allow BLANK for #{a}" do
+            assert object = klass.find(:first), "Can not find first #{klass}"
+            object.send("#{a}=",'')
+            assert object.save
+          end
+        end
+      end
+
+    end
     
     def assert_valid(obj)
       assert obj.valid?, "Expected [#{obj.class}] to be valid. Errors: #{inspect_errors(obj)}"

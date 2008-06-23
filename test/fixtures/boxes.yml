@@ -1,7 +1,30 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+bob_col1_box1:
+  column: bob_col1
+  title: Colum 1 Box 1
+  style: 
+  collapsed: false
+  position: 1
+
+bob_col2_box1:
+  column: bob_col2
+  title: Colum 2 Box 1
+  style: 
+  collapsed: false
+  position: 1
+
+bob_col3_box1:
+  column: bob_col3
+  title: Colum 3 Box 1
+  style: 
+  collapsed: true
+  position: 1
+
+bob_col3_box2:
+  column: bob_col3
+  title: Colum 3 Box 2
+  style: 
+  collapsed: false
+  position: 2
+
+

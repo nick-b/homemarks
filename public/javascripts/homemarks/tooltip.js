@@ -45,6 +45,7 @@ var Tooltip = Class.create(HomeMarksApp,{
   completeNewColumn: function(request) {
     var id = request.responseJSON;
     new ColumnBuilder(id);
+    SortableUtils.updateContainment('column');
     this.flash('good','New column created.');
   },
   

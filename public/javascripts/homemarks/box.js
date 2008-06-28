@@ -137,10 +137,10 @@ var Box = Class.create(HomeMarksApp,{
       Sortable.create(this.sortable, {
         handle:       'box_handle', 
         tag:          'div', 
-        only:         'dragable_boxes', 
+        // only:         'dragable_boxes', 
         accept:       'dragable_boxes',
         hoverclass:   'column_hover',
-        containment:  this.sortable.id, // :containment => current_user.column_containment_array,
+        containment:  Box.containment(), 
         constraint:   false, 
         dropOnEmpty:  true, 
         onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeColumnSort}), 
@@ -211,6 +211,10 @@ Box.colors = $A([
   'timberwolf', 'sky_blue', 'salmon', 'spring_green', 'wistera',  'yellow', 'apricot',
   'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' 
 ]);
+
+Box.containment = function() {
+  return $$('.dragable_columns');
+},
 
 
 document.observe('dom:loaded', function(){

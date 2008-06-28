@@ -41,6 +41,10 @@ var Column = Class.create(HomeMarksApp,{
     return Boxes.findAll(function(box){ return box.sortable == this.column }.bind(this));
   },
   
+  empty: function() {
+    return Object.isUndefined(this.column.down('div.dragable_boxes'));
+  },
+  
   completeDestroyColumn: function() {
     Columns = Columns.without(this);
     SortableUtils.destroySortableMember(this.sortable,this.column);

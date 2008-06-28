@@ -1,6 +1,27 @@
 
 var SortableUtils = {
   
+  // doomed = $('col_101');
+  // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.containment.include(doomed) });
+  // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.accept == 'draggable_boxes' });
+  // sortables.each(function(sortable){
+  //   sortable.containment = Box.containment();
+  // });
+  
+  // doomed = $('col_101');
+  // var drops = Droppables.drops.findAll(function(obj){ return obj.containment.include(doomed) });
+  // var drops = Droppables.drops.findAll(function(drop){ return drop.containment.include(Columns[0].column) });
+  // drops.each(function(drop){
+  //   drop._containers = Box.containment();
+  //   drop.containment = Box.containment();
+  // });
+  
+  // Draggables.drags
+  // (no containment that I could find)
+  
+  
+  
+  
   // dragObserver = SortableUtils.getDragObserver($('col_wrapper'))
   
   // >>> dragObserver.lastValue
@@ -81,6 +102,58 @@ var SortableUtils = {
     options.droppables.push(member);
   },
   
+  resetSortableLastValue: function(element) {
+    SortableUtils.getDragObserver(element).onStart();
+  },
+  
+  sortablesArray: function() {
+    var results = [];
+    for (var property in Sortable.sortables) {
+      var value = Sortable.sortables[property];
+      results.push(value);
+    };
+    return results;
+  },
+  
+  updateContainment: function(sortableType) {
+    switch (sortableType) { 
+      case 'column': 
+        var accept = 'dragable_boxes';
+        var containment = Box.containment();
+        var firstDrop = Columns[0].column;
+        break;
+      case 'box': 
+        var accept = 'draggable_boxes';
+        var containment = Box.containment();
+        var firstDrop = Columns[0].column;
+        break; 
+    };
+    SortableUtils.sortablesArray().each(function(sortable){ 
+      if (sortable.accept == accept) { sortable.containment = containment; };
+    });
+    Droppables.drops.each(function(drop){
+      if (drop.containment.include(firstDrop)) {
+        drop._containers = containment;
+        drop.containment = containment;
+      };
+    }); 
+  },
+  
+  // doomed = $('col_101');
+  // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.containment.include(doomed) });
+  // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.accept == 'draggable_boxes' });
+  // sortables.each(function(sortable){
+  //   sortable.containment = Box.containment();
+  // });
+  
+  // doomed = $('col_101');
+  // var drops = Droppables.drops.findAll(function(obj){ return obj.containment.include(doomed) });
+  // var drops = Droppables.drops.findAll(function(drop){ return drop.containment.include(Columns[0].column) });
+  // drops.each(function(drop){
+  //   drop._containers = Box.containment();
+  //   drop.containment = Box.containment();
+  // });
+  
   destroySortableMember: function(parent,member) {
     // Cherry pick from Sortable.destroy to accomodate only a droppable of the sortable.
     var sortable = Sortable.sortables[parent.id];
@@ -91,10 +164,6 @@ var SortableUtils = {
     var draggable = sortable.draggables.find(function(d){ return d.element == member });
     draggable.destroy();
     sortable.draggables = sortable.draggables.without(draggable);
-  },
-  
-  resetSortableLastValue: function(element) {
-    SortableUtils.getDragObserver(element).onStart();
   }
   
 };

@@ -106,8 +106,12 @@ module ActiveRecord
         
         # Insert the item at the given position in the new scope. Both values required.
         def insert_at_new_scope_and_position(new_scope, new_position)
-          max_position = acts_as_list_class.maximum(position_column, :conditions => scope_condition)
-          raise PositionError if (new_position > max_position+1)
+          new_scope = new_scope.to_i
+          new_position = new_position.to_i
+          max_position = acts_as_list_class.maximum(position_column, :conditions => {scope_column => new_scope})
+          if (new_position > max_position+1)
+            raise(PositionError,"New position '#{new_position}' is larger than max position '#{max_position+1}'.") 
+          end
           acts_as_list_class.transaction do
             remove_from_list
             update_attribute scope_column, new_scope

@@ -212,6 +212,16 @@ class ListTest < Test::Unit::TestCase
     assert_equal [8, 7, 6, 5, 3], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
   end
   
+  def test_insert_at_new_scope_and_position_to_much_bigger_scope_list
+    (1..8).each { |counter| ListMixin.create! :pos => counter, :parent_id => 420 }
+    assert_equal [4, 3, 2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)
+    assert_equal [12, 11, 10, 9, 8, 7, 6, 5], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
+    moving = ListMixin.find(3)
+    moving.insert_at_new_scope_and_position(420,9)
+    assert_equal [4, 2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)
+    assert_equal [12, 11, 10, 9, 8, 7, 6, 5, 3], ListMixin.find(:all, :conditions => {:parent_id => 420}, :order => 'pos').map(&:id)
+  end
+  
   def test_insert_at_new_scope_and_position_position_error
     (1..4).each { |counter| ListMixin.create! :pos => counter, :parent_id => 420 }
     assert_equal [4, 3, 2, 1], ListMixin.find(:all, :conditions => {:parent_id => 5}, :order => 'pos').map(&:id)

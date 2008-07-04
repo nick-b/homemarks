@@ -651,7 +651,7 @@ var Sortable = {
     }, arguments[1] || { });
 
     // clear any old sortable with same element
-    this.destroy(element);
+    if (Sortable.sortables[element.id]) { this.destroy(element); };
 
     // build options for the draggables
     var options_for_draggable = {

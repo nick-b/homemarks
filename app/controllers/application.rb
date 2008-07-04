@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   end
   
   def ignore_lost_sortable_requests
-    head :see_other if lost_sortable?
+    head :multi_status if lost_sortable?
   end
   
   

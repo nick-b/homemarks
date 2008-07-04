@@ -21,7 +21,7 @@ module HomemarksTestHelper
         klass = model_class
         should 'ignore lost sortable requests' do
           get :index, :lost_sortable => 'true'
-          assert_response :see_other
+          assert_response :multi_status
         end
       end
 

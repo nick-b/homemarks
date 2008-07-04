@@ -33,11 +33,11 @@ class BoxesController < ApplicationController
   end
   
   def sort
-    @box = @user.boxes.find(params[:box_id])
-    @column = @user.columns.find(params[:col_id])
+    
+    # @column = current_user.columns.find(params[:col_id])
     Box.transaction do
-      @box.insert_at(params[:box_position]) if internal_sort?
-      @box.insert_at_new_scope_and_position(@column.id, params[:box_position]) if !internal_sort?
+      @box.insert_at(params[:position]) #if internal_sort?
+      # @box.insert_at_new_scope_and_position(@column.id, params[:box_position]) if !internal_sort?
     end
     head :ok
   end

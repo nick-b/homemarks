@@ -41,7 +41,7 @@ var Box = Class.create(HomeMarksApp,{
   
   initialize: function($super,box) {
     this.box = $(box);
-    this.sortable = this.box.up('div.dragable_columns')
+    this.sortable = this.box.up('div.dragable_columns');
     this.header = this.box.down('div.box_header');
     this.insides = this.box.down('div.inside');
     this.list = this.insides.down('ul.sortablelist');
@@ -129,24 +129,7 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   _buildBoxSortables: function() {
-    if (!Boxes.sorted) { Boxes.sorted = $H() };
-    if (!Boxes.sorted[this.sortable.id]) {
-      this.sortable.action = '/boxes/sort';
-      this.sortable.parameters = this.columnSortParams;
-      this.sortable.method = 'put';
-      Sortable.create(this.sortable, {
-        handle:       'box_handle', 
-        tag:          'div', 
-        // only:         'dragable_boxes', 
-        accept:       'dragable_boxes',
-        hoverclass:   'column_hover',
-        containment:  Box.containment(), 
-        constraint:   false, 
-        dropOnEmpty:  true, 
-        onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeColumnSort}), 
-      });
-      Boxes.sorted[this.sortable.id] = true;
-    };
+    
   },
   
   // LOADING A LAME SPAN (for toggle actions and toggle insides)
@@ -212,8 +195,9 @@ Box.colors = $A([
   'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' 
 ]);
 
+
 Box.containment = function() {
-  return $$('.dragable_columns');
+  return $$('div.dragable_columns');
 },
 
 

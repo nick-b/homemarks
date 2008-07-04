@@ -5,6 +5,7 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
     this.loading = $('loading');
     this.welcome = $('welcome_box');
     this.modal = new HomeMarksModal();
+    this.pageSortable = $('col_wrapper');
   },
   
   flash: function(mood,message) {

@@ -8,7 +8,7 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
   build: function(id) {
     if (this.welcome.visible()) { this.welcome.hide(); };
     var colId = 'col_'+ id;
-    var sortable = $('col_wrapper');
+    var sortable = this.pageSortable;
     var colHTML = DIV({id:colId,className:'dragable_columns'},[
       SPAN({className:'column_ctl'},[
         SPAN({className:'ctl_close'},''),
@@ -29,10 +29,10 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
 var Column = Class.create(HomeMarksApp,{
   
   initialize: function($super,column) {
-    this.column = $(column);
-    this.sortable = $('col_wrapper');
-    this.id = parseInt(this.column.id.sub('col_',''));
     $super();
+    this.column = $(column);
+    this.sortable = this.pageSortable;
+    this.id = parseInt(this.column.id.sub('col_',''));
     this.controls = this.column.down('span.column_ctl');
     this._initColumnEvents();
   },
@@ -63,31 +63,33 @@ var Column = Class.create(HomeMarksApp,{
     this.flash('good','New box created.');
   },
   
-  columnSortParams: function() {
-    return SortableUtils.getSortParams(this.sortable);
+  boxSortParams: function() {
+    return SortableUtils.getSortParams(this.column);
   },
   
-  completeColumnSort: function() {
-    this.flash('good','Columns sorted.');
-    SortableUtils.resetSortableLastValue(this.sortable);
+  completeBoxSort: function() {
+    this.flash('good','Boxes sorted.');
+    SortableUtils.resetSortableLastValue(this.column);
   },
   
-  
-  _buildColumnSortables: function() {
-    if (!Columns.sorted) {
-      this.sortable.action = '/columns/sort';
-      this.sortable.parameters = this.columnSortParams;
-      this.sortable.method = 'put';
-      Sortable.create(this.sortable, {
-        handle:       'ctl_handle', 
+  _buildColumnSortable: function() {
+    if (!Column.sorted) { Column.sorted = $H() };
+    if (!Column.sorted[this.id]) {
+      this.column.action = '/boxes/sort';
+      this.column.parameters = this.boxSortParams;
+      this.column.method = 'put';
+      Sortable.create(this.column, {
+        handle:       'box_handle', 
         tag:          'div', 
-        accept:       'dragable_columns', 
-        containment:  this.sortable.id,
+        // only:         'dragable_boxes', 
+        accept:       'dragable_boxes',
+        hoverclass:   'column_hover',
+        containment:  Box.containment(), 
         constraint:   false, 
         dropOnEmpty:  true, 
-        onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeColumnSort}), 
+        onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBoxSort}), 
       });
-      Columns.sorted = true;
+      Column.sorted[this.id] = true;
     };
   },
   
@@ -107,7 +109,7 @@ var Column = Class.create(HomeMarksApp,{
   },
   
   _initColumnEvents: function() {
-    this._buildColumnSortables();
+    // this._buildColumnSortable();
     this._initDestroyCtl();
     this._initCreateBoxCtl();
   }

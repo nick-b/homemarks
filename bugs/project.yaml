@@ -4,5 +4,13 @@ version: "0.3"
 components: 
 - !ditz.rubyforge.org,2008-03-06/component 
   name: homemarks_core
-releases: []
-
+releases: 
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "2.0"
+  status: :unreleased
+  release_time: 
+  log_events: 
+  - - 2008-07-04 18:01:39.046009 Z
+    - Ken Collins <ken@metaskills.net>
+    - created
+    - HomeMarks 2.0 for Rails 2.1 and above.

@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ColumnsControllerTest < ActionController::TestCase
   
+  should_ignore_lost_sortable_requests
   should_require_login :create  => {:method => :post}, 
                        :destroy => {:method => :delete, :params => {:id => 1}}, 
                        :sort    => {:method => :put}

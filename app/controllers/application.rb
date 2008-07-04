@@ -19,8 +19,17 @@ class ApplicationController < ActionController::Base
     render :json => data, :status => status, :content_type => 'application/json'
   end
   
+  def internal_sort?
+    params[:internal_sort] == 'true'
+  end
   
+  def lost_sortable?
+    params[:lost_sortable] == 'true'
+  end
   
+  def ignore_lost_sortable_requests
+    head :see_other if lost_sortable?
+  end
   
   
   

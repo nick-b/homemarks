@@ -3,7 +3,6 @@ module HomemarksTestHelper
   def self.included(klass)
     klass.class_eval do
       include ActionControllerAssertions
-      extend  ActiveRecordAssertions::ClassMethods
       include ActiveRecordAssertions
       include DomAssertions
       include SiteAssertions
@@ -11,6 +10,22 @@ module HomemarksTestHelper
   end
   
   module ActionControllerAssertions
+    
+    def self.included(klass)
+      klass.send :extend, ClassMethods
+    end
+    
+    module ClassMethods
+
+      def should_ignore_lost_sortable_requests
+        klass = model_class
+        should 'ignore lost sortable requests' do
+          get :index, :lost_sortable => 'true'
+          assert_response :see_other
+        end
+      end
+
+    end
     
     [:good,:bad,:indif].each do |mood|
       define_method "assert_#{mood}_flash" do |contents|
@@ -45,6 +60,10 @@ module HomemarksTestHelper
   end
   
   module ActiveRecordAssertions
+    
+    def self.included(klass)
+      klass.send :extend, ClassMethods
+    end
     
     module ClassMethods
 

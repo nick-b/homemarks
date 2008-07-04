@@ -17,7 +17,7 @@ var ColumnBuilder = Class.create(HomeMarksApp,{
       ])
     ]);
     sortable.insert({top:colHTML});
-    var column = sortable.down('div.dragable_columns')
+    var column = sortable.down('div.dragable_columns');
     var columnObject = new Column(column);
     Columns.push(columnObject);
     column.pulsate({duration:0.75});
@@ -72,25 +72,20 @@ var Column = Class.create(HomeMarksApp,{
     SortableUtils.resetSortableLastValue(this.column);
   },
   
-  _buildColumnSortable: function() {
-    if (!Column.sorted) { Column.sorted = $H() };
-    if (!Column.sorted[this.id]) {
-      this.column.action = '/boxes/sort';
-      this.column.parameters = this.boxSortParams;
-      this.column.method = 'put';
-      Sortable.create(this.column, {
-        handle:       'box_handle', 
-        tag:          'div', 
-        // only:         'dragable_boxes', 
-        accept:       'dragable_boxes',
-        hoverclass:   'column_hover',
-        containment:  Box.containment(), 
-        constraint:   false, 
-        dropOnEmpty:  true, 
-        onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBoxSort}), 
-      });
-      Column.sorted[this.id] = true;
-    };
+  _buildBoxesSortable: function() {
+    this.column.action = '/boxes/sort';
+    this.column.parameters = this.boxSortParams;
+    this.column.method = 'put';
+    Sortable.create(this.column, {
+      handle:       'box_handle', 
+      tag:          'div', 
+      accept:       'dragable_boxes',
+      hoverclass:   'column_hover',
+      containment:  Box.containment(), 
+      constraint:   false, 
+      dropOnEmpty:  true, 
+      onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBoxSort}), 
+    });
   },
   
   _initDestroyCtl: function() {
@@ -109,7 +104,7 @@ var Column = Class.create(HomeMarksApp,{
   },
   
   _initColumnEvents: function() {
-    // this._buildColumnSortable();
+    this._buildBoxesSortable();
     this._initDestroyCtl();
     this._initCreateBoxCtl();
   }

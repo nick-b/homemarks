@@ -71,6 +71,7 @@ var SortableUtils = {
     SortableUtils.createDraggableForSortable(sortable,member);
     SortableUtils.createDroppableForSortable(sortable,member);
     SortableUtils.resetSortableLastValue(sortable);
+    SortableUtils.updateContainment(member);
   },
   
   createDraggableForSortable: function(sortable,member) {
@@ -115,18 +116,16 @@ var SortableUtils = {
     return results;
   },
   
-  updateContainment: function(sortableType) {
-    switch (sortableType) { 
-      case 'column': 
-        var accept = 'dragable_boxes';
-        var containment = Box.containment();
-        var firstDrop = Columns[0].column;
-        break;
-      case 'box': 
-        var accept = 'draggable_boxes';
-        var containment = Box.containment();
-        var firstDrop = Columns[0].column;
-        break; 
+  updateContainment: function(newMember) {
+    if (newMember.hasClassName('dragable_columns')) {
+      var accept = 'dragable_boxes';
+      var containment = Box.containment();
+      var firstDrop = Columns[0].column;
+    } 
+    else {
+      var accept = 'draggable_boxes';
+      var containment = Box.containment();
+      var firstDrop = Columns[0].column;
     };
     SortableUtils.sortablesArray().each(function(sortable){ 
       if (sortable.accept == accept) { sortable.containment = containment; };
@@ -138,6 +137,9 @@ var SortableUtils = {
       };
     }); 
   },
+  
+  // SortableUtils.updateContainment(Columns[3])
+  // SortableUtils.sortablesArray().each(function(sortable){ if (sortable.accept == 'dragable_boxes') { console.log(sortable); console.log(sortable.containment); }; });
   
   // doomed = $('col_101');
   // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.containment.include(doomed) });

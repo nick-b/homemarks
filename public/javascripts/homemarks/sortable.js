@@ -42,29 +42,43 @@ var SortableUtils = {
   getOldNewSort: function(element) {
     var dragObserver = SortableUtils.getDragObserver(element);
     var oldSort = dragObserver.lastValue.toQueryParams()[element.id+'[]'];
+    if (oldSort == undefined) { var oldSort = $A(); };
+    if (!(oldSort instanceof Array)) { var oldSort = $A([oldSort]); };
     var newSort = Sortable.sequence(element.id);
     return {old:oldSort,now:newSort};
   },
   
-  getSortParams: function(element) {
+  getSortParams: function(sortable) {
+    var element = sortable.box || sortable.column || sortable.sortable;
     var sort = SortableUtils.getOldNewSort(element);
-    // Doing the work to find which and where the droppable was moved to.
-    if (sort.old.length == sort.now.length) { /* Find the change within the sortable */
+    // Find the change within the sortable
+    if (sort.old.length == sort.now.length) { 
       sort.old.each(function(id,index) {
         if (id != sort.now[index]) { 
-          /* Check to see if the droppable was moved down */
-          if (sort.old[index+1] == sort.now[index]) { drop_id = id; drop_position = sort.now.indexOf(id)+1; };
-          /* Check to see if the droppable was moved up */
-          if (sort.old[index] == sort.now[index+1]) { drop_id = sort.now[index]; drop_position = index+1; };
+          /* Check to see if the draggable was moved down */
+          if (sort.old[index+1] == sort.now[index]) { drag_id = id; drag_position = sort.now.indexOf(id)+1; };
+          /* Check to see if the draggable was moved up */
+          if (sort.old[index] == sort.now[index+1]) { drag_id = sort.now[index]; drag_position = index+1; };
           throw $break;
         };
       });
-      var params = { id:parseInt(drop_id), position:parseInt(drop_position) };
-      return $H(params);
+      var params = { id:drag_id, position:drag_position, internal_sort:true };
     }
+    // Find the new or lost draggable
     else { 
-      return false; 
-    }
+      /* A lost draggable is ignored by the server */
+      if (sort.old.length > sort.now.length) {
+        var params = { lost_sortable:true };
+      } 
+      /* Find the first new draggable id and position, it will be one gained */
+      else {
+        sort.now.each(function(id,index) {
+          if (id != sort.old[index]) { drag_id = id; drag_position = index+1; throw $break; };
+        });
+        var params = { id:drag_id, position:drag_position, gained_id:sortable.id };
+      };
+    };
+    return $H(params);
   },
   
   createSortableMember: function(sortable,member) {
@@ -117,7 +131,11 @@ var SortableUtils = {
   },
   
   updateContainment: function(newMember) {
-    if (newMember.hasClassName('dragable_columns')) {
+    var classes = $w(newMember.className);
+    var newColumn = classes.include('dragable_columns');
+    var newBox = classes.include('draggable_boxes');
+    if (!newColumn || !newBox) { return false };
+    if (newColumn) {
       var accept = 'dragable_boxes';
       var containment = Box.containment();
       var firstDrop = Columns[0].column;

@@ -12,7 +12,7 @@ var Page = Class.create(HomeMarksApp,{
   },
   
   columnSortParams: function() {
-    return SortableUtils.getSortParams(this.sortable);
+    return SortableUtils.getSortParams(this);
   },
   
   completeColumnSort: function() {

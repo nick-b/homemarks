@@ -1,6 +1,7 @@
 class BoxesController < ApplicationController  
   
-  before_filter :find_box, :except => :create
+  prepend_before_filter :ignore_lost_sortable_requests
+  before_filter         :find_box, :except => :create
   # after_filter :expire_user_home_cache, :except => [ :actions_down, :actions_up ]
   # after_filter :expire_action_boxes, :only => [ :new ]
   
@@ -20,11 +21,10 @@ class BoxesController < ApplicationController
     head :ok
   end
   
+  # TODO: Remove ERB::Util include in application.rb
   # def change_title
-  #   @box = @user.boxes.find(params[:id], :select => "boxes.id, boxes.title")
-  #   @box.title = params[:title]
-  #   @box.save!
-  #   render :text => h(@box.title)
+  #   @box.update_attributes! :title => params[:title]
+  #   render_json_data(@box.title)
   # end
   
   def toggle_collapse
@@ -33,11 +33,11 @@ class BoxesController < ApplicationController
   end
   
   def sort
-    
-    # @column = current_user.columns.find(params[:col_id])
-    Box.transaction do
-      @box.insert_at(params[:position]) #if internal_sort?
-      # @box.insert_at_new_scope_and_position(@column.id, params[:box_position]) if !internal_sort?
+    if internal_sort?
+      @box.insert_at(params[:position])
+    else
+      @column = current_user.columns.find(params[:gained_id])
+      @box.insert_at_new_scope_and_position(@column.id, params[:position])
     end
     head :ok
   end
@@ -48,16 +48,6 @@ class BoxesController < ApplicationController
   def find_box
     @box = current_user.boxes.find(params[:id])
   end
-  
-  # def internal_sort?
-  #   return true if (params[:internal_sort] == 'true')
-  #   return false if (params[:internal_sort] == 'false')
-  # end
-  # 
-  # def lost_box?
-  #   return true if (params[:lost_box] == 'true')
-  #   return false if (params[:lost_box] == 'false')
-  # end
   
   
 end

@@ -64,7 +64,7 @@ var Column = Class.create(HomeMarksApp,{
   },
   
   boxSortParams: function() {
-    return SortableUtils.getSortParams(this.column);
+    return SortableUtils.getSortParams(this);
   },
   
   completeBoxSort: function() {

@@ -16,6 +16,8 @@ class ApplicationController < ActionController::Base
   end
   
   def render_json_data(data,status=:ok)
+    data = data.to_json if data.is_a?(String)
+    data = data.to_s if data.is_a?(TrueClass) || data.is_a?(FalseClass)
     render :json => data, :status => status, :content_type => 'application/json'
   end
   

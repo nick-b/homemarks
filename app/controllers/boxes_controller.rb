@@ -21,15 +21,14 @@ class BoxesController < ApplicationController
     head :ok
   end
   
-  # TODO: Remove ERB::Util include in application.rb
-  # def change_title
-  #   @box.update_attributes! :title => params[:title]
-  #   render_json_data(@box.title)
-  # end
+  def change_title
+    @box.update_attributes! :title => params[:title]
+    render_json_data(@box.title)
+  end
   
   def toggle_collapse
     @box.toggle(:collapsed).save!
-    render_json_data(@box.collapsed?.to_s)
+    render_json_data(@box.collapsed?)
   end
   
   def sort

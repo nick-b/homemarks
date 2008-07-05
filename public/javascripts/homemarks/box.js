@@ -123,11 +123,31 @@ var Box = Class.create(HomeMarksApp,{
     }.bind(this),0500);
   },
   
+  currentTitle: function() {
+    return this.title.innerHTML;
+  },
+  
+  startUpdateTitle: function(event) {
+    var action = '/boxes/' + this.id + '/change_title';
+    var parameters = $H({ title:$F(this.title_input) });
+    new Ajax.Request(action,{
+      onComplete: function(request){ this.completeUpdateTitle(request) }.bind(this),
+      parameters: parameters.merge(authParams),
+      method: 'put'
+    });
+  },
+  
+  completeUpdateTitle: function(request) {
+    var newTitle = request.responseJSON;
+    this.title.update(newTitle.escapeHTML());
+  },
+  
   _controlsHTML: function(display) {
+    var currentTitle = this.currentTitle();
     var displayStyle = (display) ? 'block' : 'none';
     var controlContent = [ SPAN({className:'box_delete'}), SPAN({className:'box_edit'}) ];
     Box.colors.each(function(color){ controlContent.push(SPAN({className:'box_swatch swatch_'+color})); });
-    controlContent.push(INPUT({className:'box_input',type:'text',value:'Rename Me...',maxlength:'64'}));
+    controlContent.push(INPUT({className:'box_input',type:'text',value:currentTitle,maxlength:'64'}));
     return DIV({className:'box_controls clearfix',style:'display:'+displayStyle},controlContent);
   },
   
@@ -159,12 +179,8 @@ var Box = Class.create(HomeMarksApp,{
       this.createAjaxObserver(swatch,{before:this.beforeChangeColor,onComplete:this.completeChangeColor});
     }.bind(this));
     /* Update Title */
-    // observe_field
-    // "boxid_#{box.id}_input_title",
-    // :frequency => 0.4, 
-    // :update => "boxid_#{box.id}_title", 
-    // :url => change_title_url(:id => box.id), 
-    // :with => "'title='+escape(value)"
+    this.title_input = this.controls.down('input.box_input');
+    new Field.Observer(this.title_input, 0.4, this.startUpdateTitle.bind(this));
   },
   
   _getColorFromSwatch: function(swatch) {

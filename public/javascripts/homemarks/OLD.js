@@ -9,46 +9,6 @@ function actionAreaHelper(event) { if (event.charCode == 96) {toggleActionArea('
 
 
 
-/*  Custom sortable serialize params Box#sort
- * ----------------------------------------------------------------------------------------------------------------- */
-
-function findDroppedBoxInfo(obj) {
-  col_sortable_id = obj.element.id;
-  col_sortable_id_num = col_sortable_id.gsub(/col_/i,'');
-  col_empty = obj.lastValue.length == 0 ? true : false ;
-  col_lastvalues = $A(obj.lastValue.gsub(/(col_\d+)\[\]=/i,'').split('&'));
-  col_sortable_seq = $A(Sortable.sequence(col_sortable_id));
-  if ((col_lastvalues.length == col_sortable_seq.length) && !col_empty) { // Find the box info within the sortable.
-    col_internal_sort = true; col_lost_box = false;
-    col_lastvalues.each(function(v,i) {
-      if (v != col_sortable_seq[i]) {
-        /* Check to see if the box was moved down */
-        if (col_lastvalues[i+1] == col_sortable_seq[i]) { box_id=v; box_position=col_sortable_seq.indexOf(v)+1; };
-        /* Check to see if the box was moved up */
-        if (col_lastvalues[i] == col_sortable_seq[i+1]) { box_id=col_sortable_seq[i]; box_position=i+1; };
-        throw $break;
-      };
-    });
-  }
-  else { // Find the new or lost box info.
-    col_internal_sort = false;
-    col_lost_box = col_lastvalues.length > col_sortable_seq.length ? true : false ;
-    /* Column's with a lost box is ignored by the server. */
-    if (col_lost_box == true) { box_id = 'na' ; box_position = 'na' ; }
-    /* Column with no boxes now gaining one. */
-    else if (col_empty) { box_id = col_sortable_seq[0] ; box_position = 1 ; }
-    else {
-      col_long_array =  col_lastvalues.length > col_sortable_seq.length ? col_lastvalues : col_sortable_seq ;
-      col_short_array =  col_lastvalues.length < col_sortable_seq.length ? col_lastvalues : col_sortable_seq ;
-      col_long_array.each(function(v,i) {
-        if (v != col_short_array[i]) { box_id=v; box_position=i+1; throw $break; };
-      });
-    }
-  }
-  return 'internal_sort='+col_internal_sort+'&lost_box='+col_lost_box+'&col_id='+col_sortable_id_num+'&box_id='+box_id+'&box_position='+box_position
-}
-
-
 
 /*  Custom sortable serialize params Bookmark#sort
  * ----------------------------------------------------------------------------------------------------------------- */

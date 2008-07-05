@@ -55,16 +55,19 @@ var Box = Class.create(HomeMarksApp,{
   collapsed: function() { return !this.insides.visible() },
   
   toggleActions: function(event) {
-    event.stop()
+    event.stop();
     if (this.actions.hasClassName(this.downClass)) {
       this.controls.blindUp(this.effectOptions);
       this.flash('good','Box actions hidden.');
-    } else {
-      if (this.collapsed()) {
-        this.insertControlsHTML(true);
+    } 
+    else {
+      if (this.collapsed()) { 
         this.doAjaxRequest(this.title);
+        this.insertControlsHTML(true);
+        this.controls.show();
         this.insides.blindDown(this.effectOptions);
-      } else {
+      }
+      else { 
         this.insertControlsHTML();
         this.controls.blindDown(this.effectOptions);
       };
@@ -101,7 +104,7 @@ var Box = Class.create(HomeMarksApp,{
     if (shown) {
       this.insides.blindUp(this.effectOptions);
       this.actions.removeClassName(this.downClass);
-      setTimeout(function(){ this.controls.hide(); }.bind(this),0500);
+      setTimeout(function(){ if (this.controls) {this.controls.hide()}; }.bind(this),0500);
       this.flash('good','Box collapsed.')
     } else {
       this.insides.blindDown(this.effectOptions);
@@ -131,11 +134,6 @@ var Box = Class.create(HomeMarksApp,{
   _buildBoxSortables: function() {
     
   },
-  
-  // LOADING A LAME SPAN (for toggle actions and toggle insides)
-  // if (direction == 'down') { spanclass = 'box_action box_action_down' }
-  // if (direction == 'up') { spanclass = 'box_action' }
-  // Element.replace('boxid_'+boxid+'_action_alink', '<span class="'+spanclass+'" id="boxid_'+boxid+'_action_lame"></span>')
   
   _initToggleCollapse: function() {
     this.title = this.header.down('span.box_titletext');

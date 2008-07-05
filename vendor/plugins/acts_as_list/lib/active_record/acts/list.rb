@@ -108,9 +108,9 @@ module ActiveRecord
         def insert_at_new_scope_and_position(new_scope, new_position)
           new_scope = new_scope.to_i
           new_position = new_position.to_i
-          max_position = acts_as_list_class.maximum(position_column, :conditions => {scope_column => new_scope})
-          if (new_position > max_position+1)
-            raise(PositionError,"New position '#{new_position}' is larger than max position '#{max_position+1}'.") 
+          max_position = acts_as_list_class.maximum(position_column, :conditions => {scope_column => new_scope}).to_i + 1
+          if (new_position > max_position)
+            raise(PositionError,"New position '#{new_position}' is larger than max position '#{max_position}'.")
           end
           acts_as_list_class.transaction do
             remove_from_list

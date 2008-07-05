@@ -10,7 +10,7 @@ class BoxTest < ActiveSupport::TestCase
   should_have_many  :bookmarks
   should_require_attributes       :column_id
   should_protect_attributes       :column_id, :position
-  should_allow_values_for         :style, *Box::BOX_COLORS
+  should_allow_values_for         :style, *Box::COLORS
   should_not_allow_values_for     :style, 'foo', 'bar', :message => /not included/
   should_ensure_length_in_range   :title, 0..64
   should_allow_nil_and_blank_for  :style, :title
@@ -27,9 +27,9 @@ class BoxTest < ActiveSupport::TestCase
     
     setup { @box = @bob.boxes.find(:first) }
 
-    should 'have a BOX_COLORS frozen constant' do
-      assert Box::BOX_COLORS
-      assert Box::BOX_COLORS.frozen?
+    should 'have a COLORS frozen constant' do
+      assert Box::COLORS
+      assert Box::COLORS.frozen?
     end
     
     should 'call delete_all_associations after destroy' do

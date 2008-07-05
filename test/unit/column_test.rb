@@ -20,11 +20,6 @@ class ColumnTest < ActiveSupport::TestCase
   end
   
   context 'Testing model behavior' do
-
-    should 'have a BOX_COLORS frozen constant' do
-      assert Box::BOX_COLORS
-      assert Box::BOX_COLORS.frozen?
-    end
     
     should 'call delete_all_associations after destroy' do
       column = @bob.columns.find(:first)

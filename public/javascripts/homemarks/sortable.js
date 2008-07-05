@@ -1,40 +1,6 @@
 
 var SortableUtils = {
   
-  // doomed = $('col_101');
-  // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.containment.include(doomed) });
-  // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.accept == 'draggable_boxes' });
-  // sortables.each(function(sortable){
-  //   sortable.containment = Box.containment();
-  // });
-  
-  // doomed = $('col_101');
-  // var drops = Droppables.drops.findAll(function(obj){ return obj.containment.include(doomed) });
-  // var drops = Droppables.drops.findAll(function(drop){ return drop.containment.include(Columns[0].column) });
-  // drops.each(function(drop){
-  //   drop._containers = Box.containment();
-  //   drop.containment = Box.containment();
-  // });
-  
-  // Draggables.drags
-  // (no containment that I could find)
-  
-  
-  
-  
-  // dragObserver = SortableUtils.getDragObserver($('col_wrapper'))
-  
-  // >>> dragObserver.lastValue
-  // "col_wrapper[]=88&col_wrapper[]=87"
-  
-  // MUST ADD ONE??? Draggables.add(element)
-  // sortable = Sortable.sortables['col_wrapper']
-  // >>> sortable.droppables
-  // [div#col_wrapper, div#col_88.dragable_columns, div#col_87.dragable_columns]
-  
-  // >>> sortable.draggables
-  // [Object element=div#col_88.dragable_columns, Object element=div#col_87.dragable_columns]
-  
   getDragObserver: function(element) {
     return Draggables.observers.find(function(d){ return d.element == element });
   },
@@ -155,24 +121,6 @@ var SortableUtils = {
       };
     }); 
   },
-  
-  // SortableUtils.updateContainment(Columns[3])
-  // SortableUtils.sortablesArray().each(function(sortable){ if (sortable.accept == 'dragable_boxes') { console.log(sortable); console.log(sortable.containment); }; });
-  
-  // doomed = $('col_101');
-  // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.containment.include(doomed) });
-  // var sortables = Sortable.sortables.findAll(function(sortable){ return sortable.accept == 'draggable_boxes' });
-  // sortables.each(function(sortable){
-  //   sortable.containment = Box.containment();
-  // });
-  
-  // doomed = $('col_101');
-  // var drops = Droppables.drops.findAll(function(obj){ return obj.containment.include(doomed) });
-  // var drops = Droppables.drops.findAll(function(drop){ return drop.containment.include(Columns[0].column) });
-  // drops.each(function(drop){
-  //   drop._containers = Box.containment();
-  //   drop.containment = Box.containment();
-  // });
   
   destroySortableMember: function(parent,member) {
     // Cherry pick from Sortable.destroy to accomodate only a droppable of the sortable.

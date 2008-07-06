@@ -6,7 +6,7 @@ class Box < ActiveRecord::Base
     
   belongs_to    :column
   acts_as_list  :scope => :column_id
-  has_many      :bookmarks, :order => :position
+  has_many      :bookmarks, :order => 'position'
   
   validates_inclusion_of  :style, :in => COLORS, :allow_nil => true, :allow_blank => true
   validates_length_of     :title, :within => 0..64, :on => :save, :allow_nil => true, :allow_blank => true

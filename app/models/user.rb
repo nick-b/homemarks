@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   
   has_one   :inbox
   has_one   :trashbox
-  has_many  :columns, :order => :position
+  has_many  :columns, :order => 'position'
   has_many  :boxes, :through => :columns, :order => 'columns.position, boxes.position'
   has_many  :support_requests
   

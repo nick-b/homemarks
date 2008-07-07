@@ -9,13 +9,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080623024211) do
+ActiveRecord::Schema.define(:version => 20080707002249) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "box_id",                     :null => false
     t.string   "url",        :limit => 1024, :null => false
     t.string   "name",                       :null => false
-    t.datetime "visited_at"
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -55,7 +54,6 @@ ActiveRecord::Schema.define(:version => 20080623024211) do
     t.string   "url",        :limit => 1024, :null => false
     t.string   "name",                       :null => false
     t.datetime "created_at",                 :null => false
-    t.datetime "visited_at"
     t.integer  "position"
   end
 
@@ -81,7 +79,6 @@ ActiveRecord::Schema.define(:version => 20080623024211) do
     t.string   "url",         :limit => 1024, :null => false
     t.string   "name",                        :null => false
     t.datetime "created_at",                  :null => false
-    t.datetime "visited_at"
     t.integer  "position"
   end
 

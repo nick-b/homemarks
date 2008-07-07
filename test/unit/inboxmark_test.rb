@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class InboxmarkTest < ActiveSupport::TestCase
   
   should_belong_to  :inbox
-  should_protect_attributes :inbox_id, :position, :created_at, :visited_at
+  should_protect_attributes :inbox_id, :position, :created_at
   
   
   def setup

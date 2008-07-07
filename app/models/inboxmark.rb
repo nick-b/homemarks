@@ -7,7 +7,7 @@ class Inboxmark < ActiveRecord::Base
   validates_length_of     :url, :maximum => 1024
   validates_length_of     :name, :maximum => 255
   
-  attr_protected          :inbox_id, :position, :created_at, :visited_at
+  attr_protected          :inbox_id, :position, :created_at
   
   
   

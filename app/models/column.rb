@@ -13,7 +13,7 @@ class Column < ActiveRecord::Base
   protected
   
   def delete_all_associations
-    Bookmark.delete_all :box_id => boxes.map(&:id)
+    Bookmark.delete_all :box_id => boxes
     Box.delete_all :column_id => id
   end
   

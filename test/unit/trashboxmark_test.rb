@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TrashboxmarkTest < ActiveSupport::TestCase
   
   should_belong_to  :trashbox
-  should_protect_attributes :trashbox_id, :position, :created_at, :visited_at
+  should_protect_attributes :trashbox_id, :position, :created_at
   
   
   def setup

@@ -144,7 +144,6 @@ class BookmarkController < ApplicationController
   def convert_bookmark
     @new_bookmark = @box.bookmarks.build(@bookmark.attributes.reject{|k,v|k=="#{@bookmark_scope}_id"})
     @new_bookmark.created_at = @bookmark.created_at
-    @new_bookmark.visited_at = @bookmark.visited_at
     @new_bookmark.save!
     @bookmark.destroy
     @new_bookmark.insert_at(params[:bmark_position]) if params[:bmark_position]

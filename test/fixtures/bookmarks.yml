@@ -1,7 +1,26 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+bob_col1_box1_bmark1:
+  box: bob_col1_box1
+  url: "www.apple.com"
+  name: "Apple"
+  position: 1
+
+bob_col1_box1_bmark2:
+  box: bob_col1_box1
+  url: "www.tuaw.com"
+  name: "TUAW"
+  position: 2
+
+bob_col3_box1_bmark1:
+  box: bob_col3_box1
+  url: www.reddit.com
+  name: Reddit
+  position: 1
+
+bob_col3_box1_bmark2:
+  box: bob_col3_box1
+  url: www.rubyflow.com
+  name: Rubyflow
+  position: 2
+
+

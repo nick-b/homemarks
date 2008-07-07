@@ -124,8 +124,6 @@ class User < ActiveRecord::Base
     inbox.destroy
     trashbox.destroy
     columns.each(&:destroy)
-    # TODO: CASCADE DELETE: Verify Me.
-    # boxes and bookmarks
   end
   
   

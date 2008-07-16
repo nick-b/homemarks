@@ -1,20 +1,28 @@
 class BookmarkController < ApplicationController
   
   prepend_before_filter :ignore_lost_sortable_requests
-  # before_filter         :find_box, :except => :create
+  before_filter         :find_bookmark, :except => :create
+  # TODO [DEMO] Controller filters
   # after_filter :expire_user_home_cache, :only => [ :new_in_box, :save_links ]
   # after_filter :expire_correct_fragment, :only => [ :sort, :trash ]
   
   
+  def create
+    box = current_user.boxes.find(params[:box_id])
+    @bookmark = box.bookmarks.create!(params[:bookmark])
+    render_json_data(@bookmark.id)
+  end
+  
+  
+  
+  
   def new_in_box
-    # TODO: Revisit this quick code and UI needs, double check after_filter cache expire.
     @box = @user.boxes.find(params[:id])
     @box.bookmarks.create
     render :update do |page|
       page.replace_html 'bookmark_edit_table', :partial => 'bookmark_row', :collection => @box.bookmarks
     end
   end
-  
   
   def edit_links
     @box = @user.boxes.find(params[:id])
@@ -25,7 +33,7 @@ class BookmarkController < ApplicationController
     end
   end
   
-  def save_links    
+  def save_links
     @box = @user.boxes.find(params[:id])
     @boomarks = @box.bookmarks
     Bookmark.transaction do
@@ -43,7 +51,6 @@ class BookmarkController < ApplicationController
       page.<< "Event.observe(document, 'keypress', actionAreaHelper);"
     end
   end
-  
   
   def sort
     find_dopped_on_box
@@ -68,7 +75,6 @@ class BookmarkController < ApplicationController
       page.update_new_trashboxmark_ui_elements_and_message if @trashbox_sort
     end
   end
-  
   
   def trash
     find_deleted_bookmark
@@ -95,6 +101,14 @@ class BookmarkController < ApplicationController
   
   
   private
+  
+  def find_bookmark
+    @bookmark = current_user.boxes.bookmark(params[:id])
+  end
+  
+  
+  
+  
   
   def find_sorted_bookmark
     @bookmark = Bookmark.find_via_users_boxes(@user,params[:bmark_id]) if (params[:bmark_scope] == 'box')

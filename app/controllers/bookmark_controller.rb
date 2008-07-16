@@ -1,9 +1,9 @@
 class BookmarkController < ApplicationController
   
-  verify :xhr => true, :add_flash => {:bad => 'Invalid request method.'}, :redirect_to => :myhome_url
-  prepend_before_filter :do_nothing_on_lost_bookmark_sort
-  after_filter :expire_user_home_cache, :only => [ :new_in_box, :save_links ]
-  after_filter :expire_correct_fragment, :only => [ :sort, :trash ]
+  prepend_before_filter :ignore_lost_sortable_requests
+  # before_filter         :find_box, :except => :create
+  # after_filter :expire_user_home_cache, :only => [ :new_in_box, :save_links ]
+  # after_filter :expire_correct_fragment, :only => [ :sort, :trash ]
   
   
   def new_in_box
@@ -96,16 +96,6 @@ class BookmarkController < ApplicationController
   
   private
   
-  def internal_sort?
-    return true if (params[:internal_sort] == 'true')
-    return false if (params[:internal_sort] == 'false')
-  end
-  
-  def lost_bookmark?
-    return true if (params[:lost_bmark] == 'true')
-    return false if (params[:lost_bmark] == 'false')
-  end
-  
   def find_sorted_bookmark
     @bookmark = Bookmark.find_via_users_boxes(@user,params[:bmark_id]) if (params[:bmark_scope] == 'box')
     @bookmark = @user.inbox.bookmarks.find(params[:bmark_id]) if (params[:bmark_scope] == 'inbox')
@@ -152,12 +142,6 @@ class BookmarkController < ApplicationController
   
   def find_new_bookmark_scope
     @new_bookmark_scope = case @new_bookmark ; when Bookmark : 'box' ; when Inboxmark : 'inbox' ; when Trashboxmark : 'trashbox' ; end
-  end
-  
-  def do_nothing_on_lost_bookmark_sort
-    if (params[:action] == 'sort') and lost_bookmark?
-      render :nothing => true
-    end
   end
   
   def expire_correct_fragment

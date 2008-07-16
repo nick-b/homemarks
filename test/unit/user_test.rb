@@ -7,7 +7,10 @@ class UserTest < ActiveSupport::TestCase
   should_have_many :columns, :support_requests
   should_have_many :boxes, :through => :columns
   
-
+  def setup
+    @user = users(:bob)
+  end
+  
   context 'While testing fixture data and factory methods' do
 
     should 'be able to create a basic user' do
@@ -75,10 +78,6 @@ class UserTest < ActiveSupport::TestCase
   
   context 'While testing class methods' do
     
-    setup do
-      @user = users(:bob)
-    end
-    
     should 'be able to find conflicting emails' do
       email = 'email@exists.com'
       create_user :email => email
@@ -103,10 +102,6 @@ class UserTest < ActiveSupport::TestCase
   end
   
   context 'While updating attributes for an existing user' do
-
-    setup do
-      @user = users(:bob)
-    end
 
     should 'reset password' do
       @user.update_attributes(:password => 'new_password', :password_confirmation => 'new_password')
@@ -157,6 +152,23 @@ class UserTest < ActiveSupport::TestCase
     
   end
   
+  context 'While testing boxes association extension' do
+    
+    setup { @bookmark = bookmarks(:bob_col3_box1_bmark1) }
+    
+    should 'find a bookmark using id' do
+      found_bookmark = @user.boxes.bookmark(@bookmark.id)
+      assert_equal @bookmark, found_bookmark
+    end
+    
+    should 'raise not found error for other bookmark' do
+      bookmark = Bookmark.new :name => 'Foo', :url => 'Bar'
+      bookmark.box_id = 420
+      bookmark.save!
+      assert_raise(ActiveRecord::RecordNotFound) { @user.boxes.bookmark(bookmark.id) }
+    end
+
+  end
   
     
   

@@ -3,7 +3,9 @@ class User < ActiveRecord::Base
   has_one   :inbox
   has_one   :trashbox
   has_many  :columns, :order => 'position'
-  has_many  :boxes, :through => :columns, :order => 'columns.position, boxes.position'
+  has_many  :boxes, :through => :columns, :order => 'columns.position, boxes.position' do
+    def bookmark(id) ; Bookmark.find id, :conditions => {:box_id => all.map(&:id)} ; end
+  end
   has_many  :support_requests
   
   validates_presence_of     :email

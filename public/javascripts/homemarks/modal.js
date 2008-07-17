@@ -61,7 +61,7 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
   updateContent: function(content) {
     this.topShadow.setStyle({width:this.dimensions().topWidth+'px'});
     this.contentWrap.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
-    this.contentWrap.addClassName(this.color);
+    this.contentWrap.className = this.color;
     this.content.update(content);
     this.center();
   },

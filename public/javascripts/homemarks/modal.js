@@ -24,6 +24,7 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
             DIV({id:'modal_html'},[
               DIV({id:'modal_content'}),
               DIV({id:'modal_buttons',className:'clearfix'},[
+                DIV({id:'modal_button_save',style:'display:none;'}),
                 DIV({id:'modal_button_cancel',style:'display:none;'})
               ])
             ]),

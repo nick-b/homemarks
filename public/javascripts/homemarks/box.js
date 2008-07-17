@@ -41,6 +41,7 @@ var Box = Class.create(HomeMarksApp,{
   
   initialize: function($super,box) {
     this.box = $(box);
+    this.div = this.box.down('div.box');
     this.sortable = this.box.up('div.dragable_columns');
     this.header = this.box.down('div.box_header');
     this.insides = this.box.down('div.inside');
@@ -77,7 +78,18 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   editLinks: function(event) {
-    
+    var editHTML = DIV([
+      IMG({src:'/stylesheets/images/modal/command_new-bookmark2.png',alt:'New Bookmark',className:'modal_command_new'}),
+      H3(this.currentTitle()),
+      FORM({action:'/bookmarks/update',id:'modal_form'},[
+        DIV({id:'bookmark_scroll'},[
+          TABLE({id:'bookmark_edit_table',border:'0'},[
+            // <%= render :partial => 'bookmark_row', :collection => @box.bookmarks %>
+          ])
+        ])
+      ])
+    ]);
+    this.modal.show(editHTML,{contentFor:'box',color:this.currentColor()});
   },
   
   insertControlsHTML: function(display) {
@@ -86,13 +98,12 @@ var Box = Class.create(HomeMarksApp,{
       this.controls = this.insides.down('div.box_controls');
       this._initAllControls();
     };
-    
   },
   
   beforeChangeColor: function(element) {
     var color = this._getColorFromSwatch(element);
     var newClassName = 'box ' + color;
-    this.box.down('div.box').className = newClassName;
+    this.div.className = newClassName;
   },
   
   completeChangeColor: function(request) {
@@ -125,6 +136,11 @@ var Box = Class.create(HomeMarksApp,{
   
   currentTitle: function() {
     return this.title.innerHTML;
+  },
+  
+  currentColor: function() {
+    var classNames = $w(this.div.className);
+    if (classNames.size() > 1) { return classNames.last() } else { return 'timberwolf' };
   },
   
   startUpdateTitle: function(event) {
@@ -170,7 +186,8 @@ var Box = Class.create(HomeMarksApp,{
     this.destroyButton.method = 'delete';
     this.createAjaxObserver(this.destroyButton,{onComplete:this.completeDestroyBox});
     /* Edit Box */
-    // this.editBox = this.controls.down('span.box_edit');
+    this.editBox = this.controls.down('span.box_edit');
+    this.editBox.observe('click',this.editLinks.bindAsEventListener(this));
     /* Change Colors */
     this.controls.select('span.box_swatch').each(function(swatch){
       swatch.action = '/boxes/' + this.id + '/colorize';

@@ -95,12 +95,6 @@ module ApplicationHelper
                   :with => 'findDroppedBookmarkInfo(this)'
   end
   
-  def link_to_remote_for_bookmark_new(box)
-    link_to_remote( image_tag('/stylesheets/images/modal/command_new-bookmark2.png', :alt => 'New Bookmark', :class => 'modal_command_new'),
-                    :url => '',
-                    :before => 'this.blur()' )
-  end
-  
   def link_to_remote_for_actionarea_inbox
     link_to_remote( content_tag('span', '', :id => 'legend_inbox' ), 
                    {:url => '',

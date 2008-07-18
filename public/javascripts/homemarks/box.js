@@ -42,7 +42,6 @@ var Box = Class.create(HomeMarksApp,{
   initialize: function($super,box) {
     this.box = $(box);
     this.div = this.box.down('div.box');
-    this.sortable = this.box.up('div.dragable_columns');
     this.header = this.box.down('div.box_header');
     this.insides = this.box.down('div.inside');
     this.list = this.insides.down('ul.sortablelist');
@@ -51,6 +50,10 @@ var Box = Class.create(HomeMarksApp,{
     this.downClass = 'box_action_down';
     $super();
     this._initBoxEvents();
+  },
+  
+  sortable: function() {
+    return this.box.up('div.dragable_columns');
   },
   
   collapsed: function() { return !this.insides.visible() },
@@ -92,6 +95,10 @@ var Box = Class.create(HomeMarksApp,{
     this.modal.show(editHTML,{contentFor:'box',color:this.currentColor()});
   },
   
+  bookmarks: function() {
+    return Bookmarks.findAll(function(bookmark){ return bookmark.sortable() == this.box }.bind(this));
+  },
+  
   insertControlsHTML: function(display) {
     if (!this.controls) {
       this.insides.insert({top:this._controlsHTML(display)});
@@ -125,12 +132,12 @@ var Box = Class.create(HomeMarksApp,{
   
   completeDestroyBox: function(request) {
     Boxes = Boxes.without(this);
-    SortableUtils.destroySortableMember(this.sortable,this.box);
+    SortableUtils.destroySortableMember(this.sortable(),this.box);
     this.box.fade({duration:0.35});
     this.flash('good','Box deleted.');
     setTimeout(function(){ 
       this.box.remove();
-      SortableUtils.resetSortableLastValue(this.sortable);
+      SortableUtils.resetSortableLastValue(this.sortable());
     }.bind(this),0500);
   },
   
@@ -229,7 +236,7 @@ Box.colors = $A([
 
 Box.containment = function() {
   return $$('div.dragable_columns');
-},
+};
 
 
 document.observe('dom:loaded', function(){

@@ -132,7 +132,6 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
     this.cancelButton = $('modal_button_cancel');
     this.cancelButton.observe('click',this.hide.bindAsEventListener(this))
     this.saveButton = $('modal_button_save');
-    this.saveButton.observe('click',this.hide.bindAsEventListener(this))
     this.allButtons = $A([this.cancelButton,this.saveButton]);
   }
   

@@ -131,9 +131,6 @@ module ApplicationHelper
   
 
   
-  def bookmark_list_item
-    %q|<li id="<%= box_type %>bmark_<%= bmark.id %>" class="dragable_bmarks clearfix <%= box_type %>"><span class="bmrk_handle">&nbsp;</span><span class="boxlink"><a href="<%= h(bmark.url) %>"><%= h(bmark.name) %></a></span></li>|
-  end
   
   
   def render_bookmarklet

@@ -84,11 +84,12 @@ var Box = Class.create(HomeMarksApp,{
     var editHTML = DIV([
       IMG({src:'/stylesheets/images/modal/command_new-bookmark2.png',alt:'New Bookmark',className:'modal_command_new'}),
       H3(this.currentTitle()),
+      TABLE({id:'bookmark_header_table',border:'0'},[
+        TR([TD({id:'bookmark_header_name'},'Name:'),TD({id:'bookmark_header_url'},'Location:')])
+      ]),
       FORM({action:'/bookmarks/update',id:'modal_form'},[
         DIV({id:'bookmark_scroll'},[
-          TABLE({id:'bookmark_edit_table',border:'0'},[
-            // <%= render :partial => 'bookmark_row', :collection => @box.bookmarks %>
-          ])
+          TABLE({id:'bookmark_edit_table',border:'0'},this.bookmarkRows())
         ])
       ])
     ]);
@@ -97,6 +98,16 @@ var Box = Class.create(HomeMarksApp,{
   
   bookmarks: function() {
     return Bookmarks.findAll(function(bookmark){ return bookmark.sortable() == this.box }.bind(this));
+  },
+  
+  bookmarkRows: function() {
+    return this.bookmarks().map(function(bookmark){
+      var id = bookmark.id;
+      return TR({className:'bookmark_row'},[
+        TD([INPUT({name:'bookmark_row['+id+'][name]',value:bookmark.name,className:'bookmark_name_field',type:'text',size:'20'})]),
+        TD([INPUT({name:'bookmark_row['+id+'][name]',value:bookmark.url,className:'bookmark_url_field',type:'text',size:'55'})])
+      ]);
+    })
   },
   
   insertControlsHTML: function(display) {

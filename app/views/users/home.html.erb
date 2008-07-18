@@ -26,7 +26,10 @@
         <div class="inside" style="display:<%= box.collapsed? ? 'none' : 'block' %>;">
           <ul class="sortablelist">
             <% box.bookmarks.each do |bmark| -%>
-              <%= render :inline => bookmark_list_item, :locals => {:bmark => bmark, :box_type => 'box'} %>
+              <li id="boxbmark_<%= bmark.id %>" class="dragable_bmarks clearfix box">
+                <span class="bmrk_handle">&nbsp;</span>
+                <span class="boxlink"><a href="<%= h(bmark.url) %>"><%= h(bmark.name) %></a></span>
+              </li>
             <% end %>
           </ul>
         </div>

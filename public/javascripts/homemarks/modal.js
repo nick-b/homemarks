@@ -71,7 +71,7 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
     this.allButtons.invoke('hide');
     switch (this.contentFor) { 
       case 'misc'     : $A([this.cancelButton]).invoke('show'); break;
-      case 'box'      : $A([]); break; 
+      case 'box'      : $A([this.cancelButton,this.saveButton]).invoke('show'); break; 
       case 'bookmark' : $A([]); break; 
     }
   },
@@ -131,7 +131,9 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
   initButtons: function() {
     this.cancelButton = $('modal_button_cancel');
     this.cancelButton.observe('click',this.hide.bindAsEventListener(this))
-    this.allButtons = $A([this.cancelButton]);
+    this.saveButton = $('modal_button_save');
+    this.saveButton.observe('click',this.hide.bindAsEventListener(this))
+    this.allButtons = $A([this.cancelButton,this.saveButton]);
   }
   
   // goHere: function() {

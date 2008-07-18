@@ -93,7 +93,7 @@ var Box = Class.create(HomeMarksApp,{
         ])
       ])
     ]);
-    this.modal.show(editHTML,{contentFor:'box',color:this.currentColor()});
+    Modal.show(editHTML,{contentFor:'box',color:this.currentColor()});
   },
   
   bookmarks: function() {

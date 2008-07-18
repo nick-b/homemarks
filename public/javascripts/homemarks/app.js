@@ -4,7 +4,6 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
   initialize: function() {
     this.loading = $('loading');
     this.welcome = $('welcome_box');
-    this.modal = new HomeMarksModal();
     this.pageSortable = $('col_wrapper');
   },
   
@@ -69,7 +68,5 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
   },
   
 });
-
-
 
 

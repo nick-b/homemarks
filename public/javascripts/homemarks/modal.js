@@ -143,7 +143,7 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
 
 
 document.observe('dom:loaded', function(){
-  Modal = new HomeMarksModal();
+  HomeMarksModal = new HomeMarksModal();
 });
 
 

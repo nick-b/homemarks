@@ -93,13 +93,13 @@ var Box = Class.create(HomeMarksApp,{
         ])
       ])
     ]);
-    Modal.show(editHTML,{contentFor:'box',color:this.currentColor()});
+    HomeMarksModal.show(editHTML,{contentFor:'box',color:this.currentColor()});
     this._initEditLinksEvents();
   },
   
   saveEditLinks: function() {
     
-    Modal.hide();
+    HomeMarksModal.hide();
   },
   
   bookmarks: function() {
@@ -256,7 +256,7 @@ var Box = Class.create(HomeMarksApp,{
     this.editTable = this.editModal.down('#bookmark_edit_table');
     this.buildBookmark = this.editModal.down('img.modal_command_new');
     this.buildBookmark.observe('click',this.insertBookmarkRow.bindAsEventListener(this))
-    Modal.saveButton.observe('click',this.saveEditLinks.bindAsEventListener(this))
+    HomeMarksModal.saveButton.observe('click',this.saveEditLinks.bindAsEventListener(this))
   },
   
   _initBoxEvents: function() {

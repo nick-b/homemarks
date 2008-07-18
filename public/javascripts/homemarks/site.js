@@ -29,7 +29,7 @@ var HomeMarksSite = Class.create(HomeMarksBase,{
   
   flashModal: function(mood,html) {
     var moodColor = this.flashMoodColors.get(mood);
-    Modal.show(html,{color:moodColor});
+    HomeMarksModal.show(html,{color:moodColor});
   },
   
   toggleAjaxFormBlind: function(event) {

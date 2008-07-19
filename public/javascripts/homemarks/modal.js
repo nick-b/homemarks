@@ -1,5 +1,5 @@
 
-var HomeMarksModal = Class.create(HomeMarksBase,{
+var HomeMarksModalClass = Class.create(HomeMarksBase,{
   
   initialize: function() {
     this.build();
@@ -51,11 +51,20 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
     // if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
   },
   
-  hide: function(boxid) {
+  startHide: function() {
     this.toggleObservers('off');
+    this.toggleProgress('on');
+    this.toggleModal('off');
+  },
+  
+  completeHide: function() {
     this.toggleProgress('off');
     this.toggleMask('off');
-    this.toggleModal('off');
+  },
+  
+  hide: function() {
+    this.startHide();
+    this.completeHide();
     // document.observe('keypress', actionAreaHelper);
   },
 
@@ -143,7 +152,7 @@ var HomeMarksModal = Class.create(HomeMarksBase,{
 
 
 document.observe('dom:loaded', function(){
-  HomeMarksModal = new HomeMarksModal();
+  HomeMarksModal = new HomeMarksModalClass();
 });
 
 

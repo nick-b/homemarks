@@ -103,12 +103,12 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   startEditBox: function() {
-    
+    HomeMarksModal.startHide();
   },
   
-  completeEditBox: function() {
-    
-    // HomeMarksModal.hide();
+  completeEditBox: function(request) {
+    var bookmarkData = request.responseJSON;
+    HomeMarksModal.completeHide();
   },
   
   bookmarks: function() {

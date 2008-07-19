@@ -17,7 +17,7 @@ class BookmarksController < ApplicationController
     @box = current_user.boxes.find(params[:box_id])
     @box.bookmarks.each { |bm| bm.update_attributes!(params[:bookmarks][bm.id.to_s]) }
     @box.bookmarks.create(params[:new_bookmarks].values) if params[:new_bookmarks]
-    head :ok
+    render_json_data(@box.bookmarks)
   end
   
   

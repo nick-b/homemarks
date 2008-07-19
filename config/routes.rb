@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources   :columns,   :collection => { :sort => :put }
   map.resources   :boxes,     :collection => { :sort => :put }, 
                               :member     => { :toggle_collapse => :put, :colorize => :put, :change_title => :put }
-  map.resources   :bookmarks, :collection => { :sort => :put },
+  map.resources   :bookmarks, :collection => { :sort => :put, :update_box => :put },
                               :member     => { :foo => :put }
   
   map.myhome    'myhome', :controller => 'users', :action => 'home', :conditions => {:method => :get}

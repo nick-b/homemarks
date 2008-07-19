@@ -1,7 +1,7 @@
-class BookmarkController < ApplicationController
+class BookmarksController < ApplicationController
   
   prepend_before_filter :ignore_lost_sortable_requests
-  before_filter         :find_bookmark, :except => :create
+  before_filter         :find_bookmark, :except => [ :create, :update_box ]
   # TODO [DEMO] Controller filters
   # after_filter :expire_user_home_cache, :only => [ :new_in_box, :save_links ]
   # after_filter :expire_correct_fragment, :only => [ :sort, :trash ]
@@ -13,44 +13,14 @@ class BookmarkController < ApplicationController
     render_json_data(@bookmark.id)
   end
   
-  
-  
-  
-  def new_in_box
-    @box = @user.boxes.find(params[:id])
-    @box.bookmarks.create
-    render :update do |page|
-      page.replace_html 'bookmark_edit_table', :partial => 'bookmark_row', :collection => @box.bookmarks
-    end
+  def update_box
+    @box = current_user.boxes.find(params[:box_id])
+    @box.bookmarks.each { |bm| bm.update_attributes!(params[:bookmarks][bm.id.to_s]) }
+    @box.bookmarks.create(params[:new_bookmarks].values) if params[:new_bookmarks]
+    head :ok
   end
   
-  def edit_links
-    @box = @user.boxes.find(params[:id])
-    render :update do |page|
-      page.replace_html 'modal_html_rel-wrapper', :partial => 'edit_links'
-      page.hide :modal_progress
-      page.visual_effect :slide_down, 'modal_html_rel-wrapper', :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"}
-    end
-  end
   
-  def save_links
-    @box = @user.boxes.find(params[:id])
-    @boomarks = @box.bookmarks
-    Bookmark.transaction do
-      @boomarks.each do |bookmark|
-        bookmark.name = params[:bookmark_row][bookmark.id.to_s][:name]
-        bookmark.url = params[:bookmark_row][bookmark.id.to_s][:url]
-        bookmark.save!
-      end
-    end
-    render :update do |page|
-      page.replace_html "boxid_list_#{@box.id}", :partial => 'bookmark_list', :locals => {:box => @box, :box_type => 'box'}
-      page.create_bookmark_sortables_code(@user,@box)
-      page.<< "destroyModalMask(#{@box.id});"
-      page.visual_effect :pulsate, "boxid_list_#{@box.id}", :duration => 1.0, :queue => {:position => 'end', :scope => "boxid_#{@box.id}"}
-      page.<< "Event.observe(document, 'keypress', actionAreaHelper);"
-    end
-  end
   
   def sort
     find_dopped_on_box

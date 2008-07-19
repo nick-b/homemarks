@@ -87,7 +87,7 @@ var Box = Class.create(HomeMarksApp,{
       TABLE({id:'bookmark_header_table',border:'0'},[
         TR([TD({id:'bookmark_header_name'},'Name:'),TD({id:'bookmark_header_url'},'Location:')])
       ]),
-      FORM({action:'/bookmarks/update',id:'modal_form'},[
+      FORM({action:'/bookmarks/update_box',id:'modal_form'},[
         DIV({id:'bookmark_scroll'},[
           TABLE({id:'bookmark_edit_table',border:'0'},this.bookmarkRows())
         ])
@@ -97,9 +97,18 @@ var Box = Class.create(HomeMarksApp,{
     this._initEditLinksEvents();
   },
   
-  saveEditLinks: function() {
+  serializeEditForm: function() {
+    var formParms = $H(this.editForm.serialize(true));
+    return formParms.merge({box_id:this.id});
+  },
+  
+  startEditBox: function() {
     
-    HomeMarksModal.hide();
+  },
+  
+  completeEditBox: function() {
+    
+    // HomeMarksModal.hide();
   },
   
   bookmarks: function() {
@@ -107,24 +116,28 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   insertBookmarkRow: function() {
+    if (this.editTable.newBookmarkIndex) { this.editTable.newBookmarkIndex = this.editTable.newBookmarkIndex+1 } 
+    else { this.editTable.newBookmarkIndex = 1 };
     var newRow = this.buildBookmarkRow();
     this.editTable.insert({top:newRow});
   },
   
   buildBookmarkRow: function(bookmark) {
     if (bookmark) {
+      var bmUrl = bookmark.url, bmName = bookmark.name;
       var namePrefix = 'bookmarks['+bookmark.id+']';
-      var bmName = bookmark.name;
-      var bmUrl = bookmark.url;
+      var nameName = namePrefix + '[name]';
+      var nameUrl = namePrefix + '[url]';
     } 
     else {
-      var namePrefix = 'new_bookmarks[]';
-      var bmName = '';
-      var bmUrl = '';
+      var bmUrl = '', bmName = '';
+      var namePrefix = 'new_bookmarks['+this.editTable.newBookmarkIndex+']';
+      var nameName = namePrefix + '[name]';
+      var nameUrl = namePrefix + '[url]';
     };
     return TR({className:'bookmark_row'},[
-      TD([INPUT({name:namePrefix+'[name]', value:bmName, className:'bookmark_name_field', type:'text', size:'20'})]),
-      TD([INPUT({name:namePrefix+'[url]', value:bmUrl, className:'bookmark_url_field', type:'text', size:'55'})])
+      TD([INPUT({name:nameName, value:bmName, className:'bookmark_name_field', type:'text', size:'20'})]),
+      TD([INPUT({name:nameUrl, value:bmUrl, className:'bookmark_url_field', type:'text', size:'55'})])
     ]);
   },
   
@@ -254,9 +267,13 @@ var Box = Class.create(HomeMarksApp,{
   _initEditLinksEvents: function() {
     this.editModal = $('edit_links');
     this.editTable = this.editModal.down('#bookmark_edit_table');
+    this.editForm = this.editModal.down('#modal_form');
     this.buildBookmark = this.editModal.down('img.modal_command_new');
-    this.buildBookmark.observe('click',this.insertBookmarkRow.bindAsEventListener(this))
-    HomeMarksModal.saveButton.observe('click',this.saveEditLinks.bindAsEventListener(this))
+    this.buildBookmark.observe('click',this.insertBookmarkRow.bindAsEventListener(this));
+    HomeMarksModal.saveButton.action = this.editForm.action;
+    HomeMarksModal.saveButton.parameters = this.serializeEditForm;
+    HomeMarksModal.saveButton.method = 'put';
+    this.createAjaxObserver(HomeMarksModal.saveButton,{before:this.startEditBox,onComplete:this.completeEditBox});
   },
   
   _initBoxEvents: function() {

@@ -50,7 +50,7 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
     var options = Object.extend(this.defaultAjaxOptions(), arguments[1] || {});
     if (options.before) { options.before.call(this,elmnt) };
     this.loading.show();
-    var parameters = (elmnt.parameters && elmnt.parameters instanceof Function) ? elmnt.parameters.call(this) : elmnt.parameters || $H()
+    var parameters = (elmnt.parameters && elmnt.parameters instanceof Function) ? $H(elmnt.parameters.call(this)) : elmnt.parameters || $H()
     var method = elmnt.method || 'post';
     new Ajax.Request(elmnt.action,{
       onComplete: function(request){

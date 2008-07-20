@@ -177,13 +177,14 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   completeDestroyBox: function(request) {
+    var sortable = this.sortable()
     Boxes = Boxes.without(this);
     SortableUtils.destroySortableMember(this.sortable(),this.box);
-    this.box.fade({duration:0.35});
     this.flash('good','Box deleted.');
+    this.box.fade({duration:0.35});
     setTimeout(function(){ 
       this.box.remove();
-      SortableUtils.resetSortableLastValue(this.sortable());
+      SortableUtils.resetSortableLastValue(sortable);
     }.bind(this),0500);
   },
   

@@ -107,9 +107,9 @@ var SortableUtils = {
       var firstDrop = Columns[0].column;
     } 
     else {
-      var accept = 'draggable_boxes';
-      var containment = Box.containment();
-      var firstDrop = Columns[0].column;
+      var accept = 'dragable_bmarks';
+      var containment = Bookmark.containment();
+      var firstDrop = Boxes[0].list;
     };
     SortableUtils.sortablesArray().each(function(sortable){ 
       if (sortable.accept == accept) { sortable.containment = containment; };

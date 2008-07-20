@@ -87,7 +87,7 @@ var Box = Class.create(HomeMarksApp,{
       TABLE({id:'bookmark_header_table',border:'0'},[
         TR([TD({id:'bookmark_header_name'},'Name:'),TD({id:'bookmark_header_url'},'Location:')])
       ]),
-      FORM({action:'/bookmarks/update_box',id:'modal_form'},[
+      FORM({action:'/boxes/'+this.id+'/bookmarks',id:'modal_form'},[
         DIV({id:'bookmark_scroll'},[
           TABLE({id:'bookmark_edit_table',border:'0'},this.bookmarkRows())
         ])

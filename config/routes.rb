@@ -10,8 +10,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resource    :trashbox
   map.resources   :columns,   :collection => { :sort => :put }
   map.resources   :boxes,     :collection => { :sort => :put }, 
-                              :member     => { :toggle_collapse => :put, :colorize => :put, :change_title => :put }
-  map.resources   :bookmarks, :collection => { :sort => :put, :update_box => :put },
+                              :member     => { :toggle_collapse => :put, :colorize => :put, :change_title => :put, :bookmarks => :put }
+  map.resources   :bookmarks, :collection => { :sort => :put },
                               :member     => { :foo => :put }
   
   map.myhome    'myhome', :controller => 'users', :action => 'home', :conditions => {:method => :get}

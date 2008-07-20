@@ -1,7 +1,7 @@
 class BookmarksController < ApplicationController
   
   prepend_before_filter :ignore_lost_sortable_requests
-  before_filter         :find_bookmark, :except => [ :create, :update_box ]
+  before_filter         :find_bookmark, :except => [ :create ]
   # TODO [DEMO] Controller filters
   # after_filter :expire_user_home_cache, :only => [ :new_in_box, :save_links ]
   # after_filter :expire_correct_fragment, :only => [ :sort, :trash ]
@@ -11,17 +11,6 @@ class BookmarksController < ApplicationController
     box = current_user.boxes.find(params[:box_id])
     @bookmark = box.bookmarks.create!(params[:bookmark])
     render_json_data(@bookmark.id)
-  end
-  
-  def update_box
-    @box = current_user.boxes.find(params[:box_id])
-    @new_bookmarks = params[:new_bookmarks] ? @box.bookmarks.create(params[:new_bookmarks].values) : []
-    @box.bookmarks.each do |bm| 
-      @updated_bookmarks ||= []
-      bm.attributes = params[:bookmarks][bm.id.to_s]
-      @updated_bookmarks << bm and bm.save! if bm.changed?
-    end
-    render_json_data({:new_bookmarks => @new_bookmarks, :updated_bookmarks => @updated_bookmarks})
   end
   
   def sort

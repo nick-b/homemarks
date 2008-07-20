@@ -108,7 +108,16 @@ var Box = Class.create(HomeMarksApp,{
   
   completeEditBox: function(request) {
     var bookmarkData = request.responseJSON;
+    var bookmarks = this.bookmarks();
+    bookmarkData.updated_bookmarks.each(function(upData){
+      bookmark = bookmarks.detect(function(bm){ return bm.id == upData.bookmark.id });
+      bookmark.update(upData.bookmark);
+    }.bind(this));
+    bookmarkData.new_bookmarks.each(function(newData){
+      new BookmarkBuilder(this,newData.bookmark);
+    }.bind(this));
     HomeMarksModal.completeHide();
+    this.flash('good','Bookmarks updated.');
   },
   
   bookmarks: function() {
@@ -136,7 +145,7 @@ var Box = Class.create(HomeMarksApp,{
       var nameUrl = namePrefix + '[url]';
     };
     return TR({className:'bookmark_row'},[
-      TD([INPUT({name:nameName, value:bmName, className:'bookmark_name_field', type:'text', size:'20'})]),
+      TD([INPUT({name:nameName, value:bmName.unescapeHTML(), className:'bookmark_name_field', type:'text', size:'20'})]),
       TD([INPUT({name:nameUrl, value:bmUrl, className:'bookmark_url_field', type:'text', size:'55'})])
     ]);
   },

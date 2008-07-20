@@ -15,9 +15,13 @@ class BookmarksController < ApplicationController
   
   def update_box
     @box = current_user.boxes.find(params[:box_id])
-    @box.bookmarks.each { |bm| bm.update_attributes!(params[:bookmarks][bm.id.to_s]) }
-    @box.bookmarks.create(params[:new_bookmarks].values) if params[:new_bookmarks]
-    render_json_data(@box.bookmarks)
+    @new_bookmarks = params[:new_bookmarks] ? @box.bookmarks.create(params[:new_bookmarks].values) : []
+    @box.bookmarks.each do |bm| 
+      @updated_bookmarks ||= []
+      bm.attributes = params[:bookmarks][bm.id.to_s]
+      @updated_bookmarks << bm and bm.save! if bm.changed?
+    end
+    render_json_data({:new_bookmarks => @new_bookmarks, :updated_bookmarks => @updated_bookmarks})
   end
   
   def sort

@@ -3,36 +3,23 @@ var Bookmarks = $A();
 
 var BookmarkBuilder = Class.create(HomeMarksApp,{
   
-  initialize: function($super,boxObj,id) { 
+  initialize: function($super,boxObj,newData) { 
     $super();
-    this.build(boxObj,id);
+    this.build(boxObj,newData);
   },
   
-  build: function(boxObj,id) {
-    var bookmarkId = 'bmark_'+ id;
-    // var sortable = boxObj.column;
-    // var boxHTML = DIV({id:boxId,className:'dragable_boxes',style:'display:none;'},[
-    //   DIV({className:'box'},[
-    //     DIV({className:'box_header clearfix'},[
-    //       SPAN({className:'box_action box_action_down'}),
-    //       SPAN({className:'box_title'},[
-    //         SPAN({className:'box_handle'}),
-    //         SPAN({className:'box_titletext'},'Rename Me...')
-    //       ])
-    //     ]),
-    //     DIV({className:'line'}),
-    //     DIV({className:'inside'},[
-    //       UL({className:'sortablelist'})
-    //     ])
-    //   ])
-    // ]);
-    // boxObj.controls.insert({after:boxHTML});
-    // var box = sortable.down('div.dragable_boxes');
-    // var boxObject = new Box(box);
-    // Boxes.push(boxObject);
-    // boxObject.insertControlsHTML(true);
-    // box.blindDown({duration:0.35});
-    // SortableUtils.createSortableMember(sortable,box);
+  build: function(boxObj,newData) {
+    var bookmarkId = 'bmark_'+ newData.id;
+    var sortable = boxObj.list;
+    var bookmarkHTML = LI({id:bookmarkId,className:'dragable_bmarks clearfix'},[
+      SPAN({className:'bmrk_handle'},''),
+      SPAN({className:'boxlink'},[A({href:newData.url},newData.name.escapeHTML())])
+    ]);
+    sortable.insert({top:bookmarkHTML});
+    var bookmark = sortable.down('li.dragable_bmarks');
+    var bookmarkObject = new Bookmark(bookmark);
+    Bookmarks.push(bookmarkObject);
+    SortableUtils.createSortableMember(sortable,bookmark);
   }
   
 });
@@ -51,6 +38,11 @@ var Bookmark = Class.create(HomeMarksApp,{
   
   sortable: function() {
     return this.bookmark.up('div.dragable_boxes');
+  },
+  
+  update: function(newData) {
+    this.link.update(newData.name.escapeHTML());
+    this.link.writeAttribute({href:newData.url});
   },
   
   _initBookmarkEvents: function() {

@@ -22,7 +22,7 @@ var BoxBuilder = Class.create(HomeMarksApp,{
         ]),
         DIV({className:'line'}),
         DIV({className:'inside'},[
-          UL({id:'bmrklist_'+boxId,className:'sortablelist'})
+          UL({id:'bmrklist_'+id,className:'sortablelist'})
         ])
       ])
     ]);

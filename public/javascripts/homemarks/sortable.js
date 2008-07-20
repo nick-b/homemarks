@@ -100,7 +100,7 @@ var SortableUtils = {
     var classes = $w(newMember.className);
     var newColumn = classes.include('dragable_columns');
     var newBox = classes.include('draggable_boxes');
-    if (!newColumn || !newBox) { return false };
+    if (!newColumn && !newBox) { return false };
     if (newColumn) {
       var accept = 'dragable_boxes';
       var containment = Box.containment();

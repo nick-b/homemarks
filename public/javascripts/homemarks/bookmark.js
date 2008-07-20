@@ -9,7 +9,7 @@ var BookmarkBuilder = Class.create(HomeMarksApp,{
   },
   
   build: function(boxObj,id) {
-    var bookmarkId = 'boxbmark_'+ id;
+    var bookmarkId = 'bmark_'+ id;
     // var sortable = boxObj.column;
     // var boxHTML = DIV({id:boxId,className:'dragable_boxes',style:'display:none;'},[
     //   DIV({className:'box'},[
@@ -41,7 +41,7 @@ var Bookmark = Class.create(HomeMarksApp,{
   
   initialize: function($super,bookmark) {
     this.bookmark = $(bookmark);
-    this.id = parseInt(this.bookmark.id.sub('boxbmark_',''));
+    this.id = parseInt(this.bookmark.id.sub('bmark_',''));
     this.link = this.bookmark.down('a');
     this.name = this.link.innerHTML;
     this.url = this.link.readAttribute('href');
@@ -60,9 +60,9 @@ var Bookmark = Class.create(HomeMarksApp,{
 });
 
 
-// Bookmark.containment = function() {
-//   return $$('div.dragable_columns');
-// };
+Bookmark.containment = function() {
+  return $$('ul.sortablelist');
+};
 
 
 document.observe('dom:loaded', function(){

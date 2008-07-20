@@ -72,28 +72,7 @@ module ApplicationHelper
   
   
   
-  def create_bookmark_sortables
-    current_user.boxes.each do |box|
-      page.create_bookmark_sortables_code(box)
-    end
-  end
   
-  def create_bookmark_sortables_code(box)
-    sortable_id = case box
-                  when Box : "boxid_list_#{box.id}"
-                  when Inbox : 'inbox_list'
-                  when Trashbox : 'trashbox_list'
-                  end
-    page.sortable sortable_id,
-                  :accept => 'dragable_bmarks',
-                  :handle => 'bmrk_handle',
-                  :containment => current_user.box_containment_array,
-                  :constraint => false,
-                  :dropOnEmpty => true,
-                  :url => { :controller => 'bookmark', :action => 'sort' },
-                  :before => 'globalLoadingBehavior()',
-                  :with => 'findDroppedBookmarkInfo(this)'
-  end
   
   def link_to_remote_for_actionarea_inbox
     link_to_remote( content_tag('span', '', :id => 'legend_inbox' ), 

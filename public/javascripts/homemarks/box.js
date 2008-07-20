@@ -22,7 +22,7 @@ var BoxBuilder = Class.create(HomeMarksApp,{
         ]),
         DIV({className:'line'}),
         DIV({className:'inside'},[
-          UL({className:'sortablelist'})
+          UL({id:'bmrklist_'+boxId,className:'sortablelist'})
         ])
       ])
     ]);
@@ -211,6 +211,15 @@ var Box = Class.create(HomeMarksApp,{
     this.title.update(newTitle.escapeHTML());
   },
   
+  completeBookmarkSort: function() {
+    this.flash('good','Bookmarks sorted.');
+    SortableUtils.resetSortableLastValue(this.column);
+  },
+  
+  bookmarkSortParams: function() {
+    return SortableUtils.getSortParams(this);
+  },
+  
   _controlsHTML: function(display) {
     var currentTitle = this.currentTitle();
     var displayStyle = (display) ? 'block' : 'none';
@@ -220,8 +229,22 @@ var Box = Class.create(HomeMarksApp,{
     return DIV({className:'box_controls clearfix',style:'display:'+displayStyle},controlContent);
   },
   
-  _buildBoxSortables: function() {
-    
+  _buildBookmarksSortables: function() {
+    // when Box : "boxid_list_#{box.id}"
+    // when Inbox : 'inbox_list'
+    // when Trashbox : 'trashbox_list'
+    this.list.action = '/bookmarks/sort';
+    this.list.parameters = this.bookmarkSortParams;
+    this.list.method = 'put';
+    Sortable.create(this.list, {
+      handle:       'bmrk_handle', 
+      tag:          'li', 
+      accept:       'dragable_bmarks', 
+      containment:  Bookmark.containment(), 
+      constraint:   false, 
+      dropOnEmpty:  true, 
+      onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBookmarkSort}), 
+    });
   },
   
   _initToggleCollapse: function() {
@@ -277,7 +300,7 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   _initBoxEvents: function() {
-    this._buildBoxSortables();
+    this._buildBookmarksSortables();
     this._initToggleCollapse();
     this._initPrefAction();
   }

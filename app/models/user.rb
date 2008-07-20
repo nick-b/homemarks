@@ -73,14 +73,6 @@ class User < ActiveRecord::Base
   
   BoxesForOptionGroup = Struct.new(:boxes, :col_name)
   
-  def column_containment_array
-    @column_array ||= self.columns.collect {|col| "col_#{col.id}"}
-  end
-  
-  def box_containment_array
-    @box_array ||= self.boxes.find(:all).collect{|box|"boxid_list_#{box.id}"}.push('inbox_list','trashbox_list')
-  end
-  
   def boxes_for_option_group
     collection = []
     collection << BoxesForOptionGroup.new([Inbox::InboxForOptionGroup.new('inbox','My Inbox')], "INBOX")

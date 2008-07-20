@@ -15,7 +15,7 @@ var SortableUtils = {
   },
   
   getSortParams: function(sortable) {
-    var element = sortable.box || sortable.column || sortable.sortable;
+    var element = sortable.list || sortable.box || sortable.column || sortable.sortable;
     var sort = SortableUtils.getOldNewSort(element);
     // Find the change within the sortable
     if (sort.old.length == sort.now.length) { 

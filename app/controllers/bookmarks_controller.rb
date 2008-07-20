@@ -20,30 +20,29 @@ class BookmarksController < ApplicationController
     render_json_data(@box.bookmarks)
   end
   
-  
-  
   def sort
-    find_dopped_on_box
-    find_sorted_bookmark
-    Bookmark.transaction do
-      if internal_sort?
-        @bookmark.insert_at(params[:bmark_position])
-      else
-        if @box_sort
-          convert_bookmark if !@boxmark
-          @bookmark.insert_at_new_scope_and_position(@box.id, params[:bmark_position]) if @boxmark
-        elsif @inbox_sort || @trashbox_sort
-          convert_bookmark
-        end
-      end
-    end
-    render :update do |page|
-      if @new_bookmark
-        page.replace "#{@bookmark_scope}bmark_#{params[:bmark_id]}", :inline => page.bookmark_list_item, :locals => {:bmark => @new_bookmark, :box_type => @new_bookmark_scope}
-        page.create_bookmark_sortables_code(@user,@box)
-      end
-      page.update_new_trashboxmark_ui_elements_and_message if @trashbox_sort
-    end
+    head :ok
+    # find_dopped_on_box
+    # find_sorted_bookmark
+    # Bookmark.transaction do
+    #   if internal_sort?
+    #     @bookmark.insert_at(params[:bmark_position])
+    #   else
+    #     if @box_sort
+    #       convert_bookmark if !@boxmark
+    #       @bookmark.insert_at_new_scope_and_position(@box.id, params[:bmark_position]) if @boxmark
+    #     elsif @inbox_sort || @trashbox_sort
+    #       convert_bookmark
+    #     end
+    #   end
+    # end
+    # render :update do |page|
+    #   if @new_bookmark
+    #     page.replace "#{@bookmark_scope}bmark_#{params[:bmark_id]}", :inline => page.bookmark_list_item, :locals => {:bmark => @new_bookmark, :box_type => @new_bookmark_scope}
+    #     page.create_bookmark_sortables_code(@user,@box)
+    #   end
+    #   page.update_new_trashboxmark_ui_elements_and_message if @trashbox_sort
+    # end
   end
   
   def trash

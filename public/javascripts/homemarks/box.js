@@ -98,8 +98,7 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   serializeEditForm: function() {
-    var formParms = $H(this.editForm.serialize(true));
-    return formParms.merge({box_id:this.id});
+    return $H(this.editForm.serialize(true));
   },
   
   startEditBox: function() {

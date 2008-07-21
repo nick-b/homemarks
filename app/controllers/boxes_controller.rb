@@ -44,11 +44,11 @@ class BoxesController < ApplicationController
   
   def bookmarks
     @new_bookmarks = params[:new_bookmarks] ? @box.bookmarks.create(params[:new_bookmarks].values) : []
+    @updated_bookmarks = []
     @box.bookmarks.each do |bm| 
-      @updated_bookmarks ||= []
       bm.attributes = params[:bookmarks][bm.id.to_s]
       @updated_bookmarks << bm and bm.save! if bm.changed?
-    end
+    end unless params[:bookmarks].blank?
     render_json_data({:new_bookmarks => @new_bookmarks, :updated_bookmarks => @updated_bookmarks})
   end
   

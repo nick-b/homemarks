@@ -7,7 +7,7 @@ class Bookmark < ActiveRecord::Base
   validates_length_of     :url, :maximum => 1024
   validates_length_of     :name, :maximum => 255
   
-  attr_protected          :box_id, :position, :created_at
+  attr_protected          :owner_id, :owner_type, :position, :created_at
   
   
   

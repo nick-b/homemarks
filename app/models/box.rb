@@ -5,7 +5,7 @@ class Box < ActiveRecord::Base
              'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' ].freeze
     
   belongs_to    :column
-  acts_as_list  :scope => :column_id
+  acts_as_list  :scope => %q|owner_id = #{owner_id} AND owner_type = '#{self.class.name}'|
   has_many      :bookmarks, :order => 'position'
   
   validates_inclusion_of  :style, :in => COLORS, :allow_nil => true, :allow_blank => true

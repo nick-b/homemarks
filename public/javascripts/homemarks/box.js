@@ -239,6 +239,7 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   _buildBookmarksSortables: function() {
+    // TODO: Make this box type aware.
     // when Box : "boxid_list_#{box.id}"
     // when Inbox : 'inbox_list'
     // when Trashbox : 'trashbox_list'

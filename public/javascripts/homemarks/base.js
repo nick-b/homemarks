@@ -29,6 +29,8 @@ var HomeMarksBase = {
   
   scroll: function() { return document.viewport.getScrollOffsets(); },
   
+  viewSize: function() { return document.viewport.getDimensions(); },
+  
   pageSize: function() { 
     var xScroll, yScroll;
     if (window.innerHeight && window.scrollMaxY) {	

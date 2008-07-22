@@ -5,10 +5,10 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
     this.loading = $('loading');
     this.welcome = $('welcome_box');
     this.pageSortable = $('col_wrapper');
+    this.hud = $('hud');
   },
   
   flash: function(mood,message) {
-    this.hud = $('hud');
     this.messageArea = $('message_wrapper');
     this.resetFlash();
     this.resetFlashEffect();

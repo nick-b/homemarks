@@ -80,42 +80,6 @@ function sortableHasClass(sortable_id, css_class) {
 /*  Action Area Specific Functions
  * ----------------------------------------------------------------------------------------------------------------- */
 
-function getActionAreaVars() {
-  hud = $('hud');
-  actionBar = $('action_bar');
-  actionArea = $('action_area');
-  actionAreaShim = $('action_area_shim');
-  pageSize = WindowUtilities.getPageSize();
-}
-
-function toggleActionArea(action_box) {
-  getActionAreaVars();
-  setActionAreaHeigth();
-  if (Element.hasClassName(actionBar,'barout')) {
-    if (forceTrashbox(action_box)) { forceTrashboxLoad() }
-    else {
-      actionAreaShim.hide();
-      actionBar.classNames().set('');
-      hud.setStyle({marginLeft:'28px'});
-      Event.stopObserving(window, 'resize', setActionAreaHeigth);
-      Event.stopObserving(window, 'scroll', setActionAreaHeigth);      
-    }
-  }
-  else {
-    actionAreaShim.show();
-    actionAreaShim.setStyle({height:pageSize.pageHeight+'px'});
-    actionArea.setStyle({height:pageSize.windowHeight+'px'});
-    actionBar.classNames().set('barout');
-    hud.setStyle({marginLeft:'9px'})
-    Event.observe(window, 'resize', setActionAreaHeigth);
-    Event.observe(window, 'scroll', setActionAreaHeigth);
-    if (getFieldsetFlag()=='') {
-      if (action_box=='inbox') {inboxLoad()}
-      else if (action_box=='trashbox') {trashboxLoad();}
-    }
-    else if (forceTrashbox(action_box)) { forceTrashboxLoad() }
-  }
-}
 
 function forceTrashbox(action_box) {
   if ((getFieldsetFlag()!='legend_trash') && (action_box=='trashbox')) { return true; } else { return false };
@@ -136,12 +100,6 @@ function inboxLoad() {
   setFieldsetFlag('legend_inbox');
   $('legend_inbox').classNames().set('fld_on');
   new Ajax.Request('/actionarea/inbox', {asynchronous:true, evalScripts:true});
-}
-
-function setActionAreaHeigth(event) {
-  getActionAreaVars();
-  actionAreaShim.setStyle({height:pageSize.pageHeight+'px'});
-  actionArea.setStyle({height:pageSize.windowHeight+'px'});
 }
 
 function setFieldsetFlag(ulid) {

@@ -29,6 +29,12 @@ class TrashboxTest < ActiveSupport::TestCase
       end
     end
     
+    should 'destroy bookmarks along with itself' do
+      assert_difference 'Bookmark.count', -2 do
+        @trashbox.destroy
+      end
+    end
+    
     should 'return true when there are no bookmarks' do
       assert !@trashbox.empty?
       @trashbox.bookmarks.each(&:destroy)

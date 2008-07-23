@@ -28,6 +28,12 @@ class InboxTest < ActiveSupport::TestCase
         @bob.destroy
       end
     end
+    
+    should 'destroy bookmarks along with itself' do
+      assert_difference 'Bookmark.count', -3 do
+        @inbox.destroy
+      end
+    end
 
   end
   

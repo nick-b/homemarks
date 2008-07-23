@@ -79,13 +79,13 @@ module ActiveRecord
             end
             
             def scope_column
-              '#{options[:scope].to_s}'
+              '#{options[:scope_column] || options[:scope]}'.to_sym
             end
 
             #{scope_condition_method}
             
-            before_validation_on_create  :add_to_list_top, :set_new_to_list_top
-            before_destroy               :remove_from_list
+            before_create     :add_to_list_top, :set_new_to_list_top
+            before_destroy    :remove_from_list
             
           EOV
         end

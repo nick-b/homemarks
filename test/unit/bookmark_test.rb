@@ -6,9 +6,9 @@ class BookmarkTest < ActiveSupport::TestCase
     @bob = users(:bob)
   end
   
-  should_belong_to  :box
-  should_require_attributes       :box_id
-  should_protect_attributes       :box_id, :position, :created_at
+  should_belong_to  :owner
+  should_require_attributes       :owner_id, :owner_type
+  should_protect_attributes       :owner_id, :owner_type, :position, :created_at
   should_ensure_length_in_range   :url, 0..1024
   should_ensure_length_in_range   :name, 0..255
   

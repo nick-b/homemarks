@@ -12,7 +12,7 @@ class ToPolymorphicBookmarks < ActiveRecord::Migration
       rename_column :bookmarks, :box_id, :owner_id
       add_column    :bookmarks, :owner_type, :string, :limit => 48
       add_index     :bookmarks, [:owner_id, :owner_type], :name => 'indx_bookmarks_polyowner'
-      Bookmark.update_all, %|owner_type = 'Box'|
+      Bookmark.update_all %|owner_type = 'Box'|
     end
     
     say_with_time 'Convert Inboxmarks to polymorphic bookmarks' do

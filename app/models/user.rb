@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_one   :trashbox
   has_many  :columns, :order => 'position'
   has_many  :boxes, :through => :columns, :order => 'columns.position, boxes.position' do
-    def bookmark(id) ; Bookmark.find id, :conditions => {:box_id => all.map(&:id)} ; end
+    def bookmark(id) ; Bookmark.find id, :conditions => {:owner_id => all.map(&:id), :owner_type => 'Box'} ; end
   end
   has_many  :support_requests
   

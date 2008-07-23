@@ -5,8 +5,8 @@ class Box < ActiveRecord::Base
              'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' ].freeze
     
   belongs_to    :column
-  acts_as_list  :scope => %q|owner_id = #{owner_id} AND owner_type = '#{self.class.name}'|
-  has_many      :bookmarks, :order => 'position'
+  acts_as_list  :scope => :column_id
+  has_many      :bookmarks, :as => :owner, :order => 'position'
   
   validates_inclusion_of  :style, :in => COLORS, :allow_nil => true, :allow_blank => true
   validates_length_of     :title, :within => 0..64, :on => :save, :allow_nil => true, :allow_blank => true
@@ -21,7 +21,7 @@ class Box < ActiveRecord::Base
   private
   
   def delete_all_associations
-    Bookmark.delete_all :box_id => id
+    Bookmark.delete_all :owner_id => id, :owner_type => 'Box'
   end
   
   

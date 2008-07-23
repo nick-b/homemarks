@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'rubygems'
-gem 'activerecord', '>= 2.0.2' # TODO: Chage me to 2.1
+gem 'activerecord', '>= 2.1'
 require 'active_record'
 require 'active_support'
 

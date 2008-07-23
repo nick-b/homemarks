@@ -1,26 +1,60 @@
 
 bob_col1_box1_bmark1:
-  box: bob_col1_box1
+  owner: bob_col1_box1 (Box)
   url: "www.apple.com"
   name: "Apple"
-  position: 1
+  position: 1 
 
 bob_col1_box1_bmark2:
-  box: bob_col1_box1
+  owner: bob_col1_box1 (Box)
   url: "www.tuaw.com"
   name: "TUAW"
   position: 2
 
 bob_col3_box1_bmark1:
-  box: bob_col3_box1
+  owner: bob_col3_box1 (Box)
   url: www.reddit.com
   name: Reddit
   position: 1
 
 bob_col3_box1_bmark2:
-  box: bob_col3_box1
+  owner: bob_col3_box1 (Box)
   url: www.rubyflow.com
   name: Rubyflow
   position: 2
+
+
+
+bob_ibmark1:
+  owner: bob_ibox (Inbox)
+  position: 1
+  url: http://www.apple.com/
+  name: Apple
+
+bob_ibmark2:
+  owner: bob_ibox (Inbox)
+  position: 2
+  url: http://www.google.com/
+  name: Google
+
+bob_ibmark3:
+  owner: bob_ibox (Inbox)
+  position: 3
+  url: http://www.rubyonrails.org/
+  name: RoR
+
+
+
+bob_tbmark1:
+  owner: bob_tbox (Trashbox)
+  position: 1
+  url: http://www.php.net/
+  name: PHP
+
+bob_tbmark2:
+  owner: bob_tbox (Trashbox)
+  position: 2
+  url: http://www.java.com/en/
+  name: Java
 
 

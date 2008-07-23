@@ -9,19 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080707002249) do
+ActiveRecord::Schema.define(:version => 20080722185940) do
 
   create_table "bookmarks", :force => true do |t|
-    t.integer  "box_id",                     :null => false
+    t.integer  "owner_id",                   :null => false
     t.string   "url",        :limit => 1024, :null => false
     t.string   "name",                       :null => false
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "owner_type", :limit => 48
   end
 
+  add_index "bookmarks", ["owner_id", "owner_type"], :name => "indx_bookmarks_polyowner"
   add_index "bookmarks", ["id"], :name => "indx_bookmarks_id"
-  add_index "bookmarks", ["box_id"], :name => "indx_bookmarks_box_id"
 
   create_table "boxes", :force => true do |t|
     t.integer "column_id",                                           :null => false
@@ -49,17 +50,6 @@ ActiveRecord::Schema.define(:version => 20080707002249) do
   add_index "inboxes", ["id"], :name => "indx_inboxes_id"
   add_index "inboxes", ["user_id"], :name => "indx_inboxes_user_id"
 
-  create_table "inboxmarks", :force => true do |t|
-    t.integer  "inbox_id",                   :null => false
-    t.string   "url",        :limit => 1024, :null => false
-    t.string   "name",                       :null => false
-    t.datetime "created_at",                 :null => false
-    t.integer  "position"
-  end
-
-  add_index "inboxmarks", ["id"], :name => "indx_inboxmarks_id"
-  add_index "inboxmarks", ["inbox_id"], :name => "indx_inboxmarks_inbox_id"
-
   create_table "support_requests", :force => true do |t|
     t.string  "problem",                :null => false
     t.string  "details", :limit => 510, :null => false
@@ -73,17 +63,6 @@ ActiveRecord::Schema.define(:version => 20080707002249) do
 
   add_index "trashboxes", ["id"], :name => "indx_trashboxes_id"
   add_index "trashboxes", ["user_id"], :name => "indx_trashboxes_user_id"
-
-  create_table "trashboxmarks", :force => true do |t|
-    t.integer  "trashbox_id",                 :null => false
-    t.string   "url",         :limit => 1024, :null => false
-    t.string   "name",                        :null => false
-    t.datetime "created_at",                  :null => false
-    t.integer  "position"
-  end
-
-  add_index "trashboxmarks", ["id"], :name => "indx_trashmarks_id"
-  add_index "trashboxmarks", ["trashbox_id"], :name => "indx_trashmarks_trashbox_id"
 
   create_table "users", :force => true do |t|
     t.string   "crypted_password", :limit => 40, :default => "",    :null => false
@@ -100,8 +79,8 @@ ActiveRecord::Schema.define(:version => 20080707002249) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["email", "crypted_password"], :name => "indx_users_email_crypted_password"
   add_index "users", ["uuid"], :name => "indx_users_uuid", :unique => true
   add_index "users", ["email"], :name => "indx_users_email", :unique => true
+  add_index "users", ["email", "crypted_password"], :name => "indx_users_email_crypted_password"
 
 end

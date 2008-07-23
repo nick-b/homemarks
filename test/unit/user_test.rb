@@ -163,7 +163,8 @@ class UserTest < ActiveSupport::TestCase
     
     should 'raise not found error for other bookmark' do
       bookmark = Bookmark.new :name => 'Foo', :url => 'Bar'
-      bookmark.box_id = 420
+      bookmark.owner_id = 420
+      bookmark.owner_type = 'Box'
       bookmark.save!
       assert_raise(ActiveRecord::RecordNotFound) { @user.boxes.bookmark(bookmark.id) }
     end

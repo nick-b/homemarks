@@ -27,10 +27,16 @@ class ColumnTest < ActiveSupport::TestCase
       column.destroy
     end
     
-    should 'destroy boxes and bookmarks before column destroyed' do
-      @bob.columns.each(&:destroy)
-      assert_equal 0, Box.count
-      assert_equal 0, Bookmark.count
+    should 'destroy boxes before column destroyed' do
+      assert_difference 'Box.count', -4 do
+        @bob.columns.each(&:destroy)
+      end
+    end
+    
+    should 'destroy bookmarks before column destroyed' do
+      assert_difference 'Bookmark.count', -4 do
+        @bob.columns.each(&:destroy)
+      end
     end
     
   end

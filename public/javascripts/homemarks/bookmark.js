@@ -3,14 +3,14 @@ var Bookmarks = $A();
 
 var BookmarkBuilder = Class.create(HomeMarksApp,{
   
-  initialize: function($super,boxObj,newData) { 
+  initialize: function($super,listElement,newData) { 
     $super();
-    this.build(boxObj,newData);
+    this.build(listElement,newData);
   },
   
-  build: function(boxObj,newData) {
+  build: function(listElement,newData) {
     var bookmarkId = 'bmark_'+ newData.id;
-    var sortable = boxObj.list;
+    var sortable = listElement;
     var bookmarkHTML = LI({id:bookmarkId,className:'dragable_bmarks clearfix'},[
       SPAN({className:'bmrk_handle'},''),
       SPAN({className:'boxlink'},[A({href:newData.url},newData.name.escapeHTML())])

@@ -6,8 +6,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resource    :session,   :member => { :jumpin => :get, :forgot_password => :post }
   
   map.resources   :users,     :member => { :undelete => :get }
-  map.resource    :inbox
-  map.resource    :trashbox
+  map.resource    :inbox,     :member => { :bookmarks => :get }
+  map.resource    :trashbox,  :member => { :bookmarks => :get }
   map.resources   :columns,   :collection => { :sort => :put }
   map.resources   :boxes,     :collection => { :sort => :put }, 
                               :member     => { :toggle_collapse => :put, :colorize => :put, :change_title => :put, :bookmarks => :put }

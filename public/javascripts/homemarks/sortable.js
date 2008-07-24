@@ -15,8 +15,7 @@ var SortableUtils = {
   },
   
   getSortParams: function(sortable) {
-    var element = sortable.list || sortable.box || sortable.column || sortable.sortable;
-    var sort = SortableUtils.getOldNewSort(element);
+    var sort = SortableUtils.getOldNewSort(sortable.sortableElement());
     // Find the change within the sortable
     if (sort.old.length == sort.now.length) { 
       sort.old.each(function(id,index) {
@@ -41,7 +40,7 @@ var SortableUtils = {
         sort.now.each(function(id,index) {
           if (id != sort.old[index]) { drag_id = id; drag_position = index+1; throw $break; };
         });
-        var params = { id:drag_id, position:drag_position, gained_id:sortable.id };
+        var params = { id:drag_id, position:drag_position, gained_id:sortable.id, type:sortable.type };
       };
     };
     return $H(params);

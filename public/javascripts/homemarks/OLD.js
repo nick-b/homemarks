@@ -121,7 +121,6 @@ function loadingActionArea(obj) {
   switch (currentFieldsetFlag) { 
     case 'legend_inbox' : hidelist = 'inbox_list' ; break;
     case 'legend_trash' : hidelist = 'trashbox_list' ; break;
-    case 'legend_search' : hidelist = 'searchbox_list' ; break;
   }
   setFieldsetFlag(clicked.id);
   clicked.classNames().set('fld_on');

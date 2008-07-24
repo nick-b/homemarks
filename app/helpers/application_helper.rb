@@ -74,21 +74,7 @@ module ApplicationHelper
   
   
   
-  def link_to_remote_for_actionarea_inbox
-    link_to_remote( content_tag('span', '', :id => 'legend_inbox' ), 
-                   {:url => '',
-                    :condition => 'isActionAreaDisplayed(this)',
-                    :before => "loadingActionArea(this)"},
-                    :id => 'legend_inbox_link')
-  end
   
-  def link_to_remote_for_actionarea_trashbox
-    link_to_remote( content_tag('span', '', :id => 'legend_trash' ), 
-                   {:url => '',
-                    :condition => 'isActionAreaDisplayed(this)',
-                    :before => "loadingActionArea(this)"},
-                    :id => 'legend_trash_link')
-  end
   
   def complete_action_area(box_list)
     page['fieldset_progress_wrap'].visual_effect :blind_up, { :duration => 0.35 }

@@ -113,7 +113,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
       bookmark.update(upData.bookmark);
     }.bind(this));
     bookmarkData.new_bookmarks.each(function(newData){
-      new BookmarkBuilder(this.list,newData.bookmark);
+      new BookmarkBuilder(this.sortableElement(),newData.bookmark);
     }.bind(this));
     HomeMarksModal.completeHide();
     this.flash('good','Bookmarks updated.');
@@ -282,7 +282,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
   },
   
   _initBoxEvents: function() {
-    this._buildBookmarksSortables(this.list);
+    this._buildBookmarksSortables();
     this._initToggleCollapse();
     this._initPrefAction();
   }

@@ -37,8 +37,12 @@ var Column = Class.create(HomeMarksApp,{
     this._initColumnEvents();
   },
   
+  sortableElement: function() {
+    return this.column;
+  },
+  
   boxes: function() {
-    return Boxes.findAll(function(box){ return box.sortable == this.column }.bind(this));
+    return Boxes.findAll(function(box){ return box.sortable == this.sortableElement() }.bind(this));
   },
   
   empty: function() {
@@ -47,7 +51,7 @@ var Column = Class.create(HomeMarksApp,{
   
   completeDestroyColumn: function() {
     Columns = Columns.without(this);
-    SortableUtils.destroySortableMember(this.sortable,this.column);
+    SortableUtils.destroySortableMember(this.sortable,this.sortableElement());
     this.flash('good','Column deleted.');
     this.column.fade({duration:0.25});
     setTimeout(function(){
@@ -69,14 +73,14 @@ var Column = Class.create(HomeMarksApp,{
   
   completeBoxSort: function() {
     this.flash('good','Boxes sorted.');
-    SortableUtils.resetSortableLastValue(this.column);
+    SortableUtils.resetSortableLastValue(this.sortableElement());
   },
   
   _buildBoxesSortable: function() {
-    this.column.action = '/boxes/sort';
-    this.column.parameters = this.boxSortParams;
-    this.column.method = 'put';
-    Sortable.create(this.column, {
+    this.sortableElement().action = '/boxes/sort';
+    this.sortableElement().parameters = this.boxSortParams;
+    this.sortableElement().method = 'put';
+    Sortable.create(this.sortableElement(), {
       handle:       'box_handle', 
       tag:          'div', 
       accept:       'dragable_boxes',

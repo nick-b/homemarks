@@ -5,20 +5,23 @@ var BookmarkSortableUtils = {
   
   completeBookmarkSort: function() {
     this.flash('good','Bookmarks sorted.');
-    var sortableElement = this.trashboxList || this.inboxList || this.list;
-    SortableUtils.resetSortableLastValue(sortableElement);
+    SortableUtils.resetSortableLastValue(this.sortableElement());
+  },
+  
+  sortableElement: function() {
+    return this.trashboxList || this.inboxList || this.list;
   },
   
   bookmarkSortParams: function() {
     return SortableUtils.getSortParams(this);
   },
   
-  _buildBookmarksSortables: function(sortableElement) {
+  _buildBookmarksSortables: function() {
     // TODO: Make this box type aware.
-    sortableElement.action = '/bookmarks/sort';
-    sortableElement.parameters = this.bookmarkSortParams;
-    sortableElement.method = 'put';
-    Sortable.create(sortableElement, {
+    this.sortableElement().action = '/bookmarks/sort';
+    this.sortableElement().parameters = this.bookmarkSortParams;
+    this.sortableElement().method = 'put';
+    Sortable.create(this.sortableElement(), {
       handle:       'bmrk_handle', 
       tag:          'li', 
       accept:       'dragable_bmarks', 

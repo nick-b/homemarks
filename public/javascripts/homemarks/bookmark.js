@@ -1,6 +1,36 @@
 
 var Bookmarks = $A();
 
+var BookmarkSortableUtils = {
+  
+  completeBookmarkSort: function() {
+    this.flash('good','Bookmarks sorted.');
+    var sortableElement = this.trashboxList || this.inboxList || this.list;
+    SortableUtils.resetSortableLastValue(sortableElement);
+  },
+  
+  bookmarkSortParams: function() {
+    return SortableUtils.getSortParams(this);
+  },
+  
+  _buildBookmarksSortables: function(sortableElement) {
+    // TODO: Make this box type aware.
+    sortableElement.action = '/bookmarks/sort';
+    sortableElement.parameters = this.bookmarkSortParams;
+    sortableElement.method = 'put';
+    Sortable.create(sortableElement, {
+      handle:       'bmrk_handle', 
+      tag:          'li', 
+      accept:       'dragable_bmarks', 
+      containment:  Bookmark.containment(), 
+      constraint:   false, 
+      dropOnEmpty:  true, 
+      onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBookmarkSort}), 
+    });
+  }
+  
+};
+
 var BookmarkBuilder = Class.create(HomeMarksApp,{
   
   initialize: function($super,listElement,newData) { 

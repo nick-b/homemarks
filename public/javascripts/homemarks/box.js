@@ -37,7 +37,7 @@ var BoxBuilder = Class.create(HomeMarksApp,{
   
 });
 
-var Box = Class.create(HomeMarksApp,{
+var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
   
   initialize: function($super,box) {
     this.box = $(box);
@@ -220,15 +220,6 @@ var Box = Class.create(HomeMarksApp,{
     this.title.update(newTitle.escapeHTML());
   },
   
-  completeBookmarkSort: function() {
-    this.flash('good','Bookmarks sorted.');
-    SortableUtils.resetSortableLastValue(this.list);
-  },
-  
-  bookmarkSortParams: function() {
-    return SortableUtils.getSortParams(this);
-  },
-  
   _controlsHTML: function(display) {
     var currentTitle = this.currentTitle();
     var displayStyle = (display) ? 'block' : 'none';
@@ -236,25 +227,6 @@ var Box = Class.create(HomeMarksApp,{
     Box.colors.each(function(color){ controlContent.push(SPAN({className:'box_swatch swatch_'+color})); });
     controlContent.push(INPUT({className:'box_input',type:'text',value:currentTitle,maxlength:'64'}));
     return DIV({className:'box_controls clearfix',style:'display:'+displayStyle},controlContent);
-  },
-  
-  _buildBookmarksSortables: function() {
-    // TODO: Make this box type aware.
-    // when Box : "boxid_list_#{box.id}"
-    // when Inbox : 'inbox_list'
-    // when Trashbox : 'trashbox_list'
-    this.list.action = '/bookmarks/sort';
-    this.list.parameters = this.bookmarkSortParams;
-    this.list.method = 'put';
-    Sortable.create(this.list, {
-      handle:       'bmrk_handle', 
-      tag:          'li', 
-      accept:       'dragable_bmarks', 
-      containment:  Bookmark.containment(), 
-      constraint:   false, 
-      dropOnEmpty:  true, 
-      onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBookmarkSort}), 
-    });
   },
   
   _initToggleCollapse: function() {
@@ -310,7 +282,7 @@ var Box = Class.create(HomeMarksApp,{
   },
   
   _initBoxEvents: function() {
-    this._buildBookmarksSortables();
+    this._buildBookmarksSortables(this.list);
     this._initToggleCollapse();
     this._initPrefAction();
   }

@@ -10,7 +10,7 @@ var BoxBuilder = Class.create(HomeMarksApp,{
   
   build: function(columnObj,id) {
     var boxId = 'box_'+ id;
-    var sortable = columnObj.column;
+    var sortable = columnObj.sortableElement();
     var boxHTML = DIV({id:boxId,className:'dragable_boxes',style:'display:none;'},[
       DIV({className:'box'},[
         DIV({className:'box_header clearfix'},[
@@ -40,6 +40,7 @@ var BoxBuilder = Class.create(HomeMarksApp,{
 var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
   
   initialize: function($super,box) {
+    this.class = 'Box';
     this.box = $(box);
     this.div = this.box.down('div.box');
     this.header = this.box.down('div.box_header');
@@ -52,7 +53,11 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
     this._initBoxEvents();
   },
   
-  sortable: function() {
+  sortableElement: function() {
+    return this.box;
+  },
+  
+  sortableParent: function() {
     return this.box.up('div.dragable_columns');
   },
   
@@ -119,10 +124,6 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
     this.flash('good','Bookmarks updated.');
   },
   
-  bookmarks: function() {
-    return Bookmarks.findAll(function(bookmark){ return bookmark.sortable() == this.box }.bind(this));
-  },
-  
   insertBookmarkRow: function() {
     if (this.editTable.newBookmarkIndex) { this.editTable.newBookmarkIndex = this.editTable.newBookmarkIndex+1 } 
     else { this.editTable.newBookmarkIndex = 1 };
@@ -184,16 +185,19 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
     };
   },
   
-  completeDestroyBox: function(request) {
-    var sortable = this.sortable()
+  completeDestroyBox: function(request,cascadeDelete) {
+    var sortableParent = this.sortableParent();
+    var sortableElement = this.sortableElement();
     Boxes = Boxes.without(this);
-    SortableUtils.destroySortableMember(this.sortable(),this.box);
-    this.flash('good','Box deleted.');
-    this.box.fade({duration:0.35});
-    setTimeout(function(){ 
-      this.box.remove();
-      SortableUtils.resetSortableLastValue(sortable);
-    }.bind(this),0500);
+    SortableUtils.destroySortableMember(sortableParent,sortableElement);
+    if (!cascadeDelete) {
+      this.flash('good','Box deleted.');
+      sortableElement.fade({duration:0.35});
+      setTimeout(function(){ 
+        sortableElement.remove();
+        SortableUtils.resetSortableLastValue(sortableParent);
+      }.bind(this),0500);
+    };
   },
   
   currentTitle: function() {

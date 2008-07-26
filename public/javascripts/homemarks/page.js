@@ -128,6 +128,7 @@ var Page = Class.create(HomeMarksApp,{
     Sortable.create(this.sortable, {
       handle:       'ctl_handle', 
       tag:          'div', 
+      only:         'dragable_columns',
       accept:       'dragable_columns', 
       containment:  this.sortable.id,
       constraint:   false, 

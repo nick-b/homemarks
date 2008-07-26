@@ -31,7 +31,6 @@ var Column = Class.create(HomeMarksApp,{
   initialize: function($super,column) {
     $super();
     this.column = $(column);
-    this.sortable = this.pageSortable;
     this.id = parseInt(this.column.id.sub('col_',''));
     this.controls = this.column.down('span.column_ctl');
     this._initColumnEvents();
@@ -41,8 +40,12 @@ var Column = Class.create(HomeMarksApp,{
     return this.column;
   },
   
+  sortableParent: function() {
+    return this.pageSortable;
+  },
+  
   boxes: function() {
-    return Boxes.findAll(function(box){ return box.sortable == this.sortableElement() }.bind(this));
+    return Boxes.findAll(function(box){ return box.sortableParent() == this.sortableElement() }.bind(this));
   },
   
   empty: function() {
@@ -50,14 +53,17 @@ var Column = Class.create(HomeMarksApp,{
   },
   
   completeDestroyColumn: function() {
+    var sortableParent = this.sortableParent();
+    var sortableElement = this.sortableElement();
+    this.boxes().invoke('completeDestroyBox',null,true);
     Columns = Columns.without(this);
-    SortableUtils.destroySortableMember(this.sortable,this.sortableElement());
+    SortableUtils.destroySortableMember(sortableParent,sortableElement);
     this.flash('good','Column deleted.');
-    this.column.fade({duration:0.25});
+    sortableElement.fade({duration:0.25});
     setTimeout(function(){
-      this.column.remove();
+      sortableElement.remove();
       if (!Columns.first()) { this.welcome.show(); };
-      SortableUtils.resetSortableLastValue(this.sortable);
+      SortableUtils.resetSortableLastValue(sortableParent);
     }.bind(this),0350);
   },
   

@@ -142,6 +142,7 @@ var SortableUtils = {
     var draggable = sortable.draggables.find(function(d){ return d.element == member });
     draggable.destroy();
     sortable.draggables = sortable.draggables.without(draggable);
+    delete Sortable.sortables[member.id];
   }
   
 };

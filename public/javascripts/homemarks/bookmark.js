@@ -8,12 +8,16 @@ var BookmarkSortableUtils = {
     SortableUtils.resetSortableLastValue(this.sortableElement());
   },
   
-  sortableElement: function() {
-    return this.trashboxList || this.inboxList || this.list;
-  },
+  // sortableElement: function() {
+  //   return this.trashboxList || this.inboxList || this.list;
+  // },
   
   bookmarkSortParams: function() {
     return SortableUtils.getSortParams(this);
+  },
+  
+  bookmarks: function() {
+    return Bookmarks.findAll(function(bm){ return bm.sortableParent() == this.sortableElement() }.bind(this));
   },
   
   _buildBookmarksSortables: function() {
@@ -69,8 +73,8 @@ var Bookmark = Class.create(HomeMarksApp,{
     this._initBookmarkEvents();
   },
   
-  sortable: function() {
-    return this.bookmark.up('div.dragable_boxes');
+  sortableParent: function() {
+    return this.bookmark.up('ul#inbox_list') || this.bookmark.up('ul#trashbox_list') || this.bookmark.up('ul.sortablelist');
   },
   
   update: function(newData) {

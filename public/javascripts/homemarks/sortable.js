@@ -1,6 +1,17 @@
 
 var SortableUtils = {
   
+  debug: function() {
+    for (var key in Sortable.sortables) { 
+      console.group('Sortable.sortables[',key,']');
+      console.log("Containment: %o",Sortable.sortables[key].containment);
+      console.log("Draggables:  %o",Sortable.sortables[key].draggables);
+      console.log("Droppables:  %o",Sortable.sortables[key].droppables);
+      console.log("LastValue:   %o",this.getDragObserver(Sortable.sortables[key].element).lastValue);
+      console.groupEnd()
+    };
+  },
+  
   getDragObserver: function(element) {
     return Draggables.observers.find(function(d){ return d.element == element });
   },
@@ -40,7 +51,7 @@ var SortableUtils = {
         sort.now.each(function(id,index) {
           if (id != sort.old[index]) { drag_id = id; drag_position = index+1; throw $break; };
         });
-        var params = { id:drag_id, position:drag_position, gained_id:sortable.id, type:sortable.type };
+        var params = { id:drag_id, position:drag_position, gained_id:sortable.id, type:sortable.class };
       };
     };
     return $H(params);

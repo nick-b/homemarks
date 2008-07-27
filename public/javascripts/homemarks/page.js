@@ -11,8 +11,6 @@ var Page = Class.create(HomeMarksApp,{
     this.legendInbox = $('legend_inbox');
     this.legendTrashbox = $('legend_trash');
     this.fieldsetProgress = $('fieldset_progress_wrap');
-    this.inboxList = $('inbox_list');
-    this.trashboxList = $('trashbox_list');
     this._initPageEvents();
   },
   
@@ -30,7 +28,7 @@ var Page = Class.create(HomeMarksApp,{
   
   completeColumnSort: function() {
     this.flash('good','Columns sorted.');
-    SortableUtils.resetSortableLastValue(this.sortable);
+    SortableUtils.resetSortableLastValue(this.sortableElement());
   },
   
   
@@ -68,39 +66,6 @@ var Page = Class.create(HomeMarksApp,{
   
   
   
-  
-  showInbox: function() {
-    this.setField(this.legendInbox);
-    this.loadInbox();
-    this.showFieldsetProgress();
-    this.hideFieldsetProgress();
-    this.inboxList.blindUp({duration: 0.35});
-  },
-  
-  loadInbox: function() {
-    if (this.inboxList.loaded) { return true };
-    var request = new Ajax.Request('/inbox/bookmarks',{asynchronous:false,method:'get'});
-    var bookmarkData = request.transport.responseText.evalJSON();
-    bookmarkData.each(function(bm){
-      new BookmarkBuilder(this.inboxList,bm.bookmark);
-    }.bind(this));
-    this.inboxList.loaded = true;
-  },
-  
-  showTrashbox: function() {
-    this.setField(this.legendTrashbox);
-    this.loadTrashbox();
-    this.showFieldsetProgress();
-    this.trashboxList.blindUp({duration: 0.35});
-  },
-  
-  loadTrashbox: function() {
-    if (this.trashboxList.loaded) { return true };
-    var request = new Ajax.Request('/trashbox/bookmarks',{asynchronous:false,method:'get'});
-    var bookmarks = request.transport.responseText.evalJSON();
-    this.trashboxList.loaded = true;
-  },
-  
   showFieldsetProgress: function() {
     if (!this.fieldsetProgress.visible()) { this.fieldsetProgress.blindDown({duration: 0.35}); };
   },
@@ -122,54 +87,26 @@ var Page = Class.create(HomeMarksApp,{
   
   
   _buildColumnsSortable: function() {
-    this.sortable.action = '/columns/sort';
-    this.sortable.parameters = this.columnSortParams;
-    this.sortable.method = 'put';
-    Sortable.create(this.sortable, {
+    this.sortableElement().action = '/columns/sort';
+    this.sortableElement().parameters = this.columnSortParams;
+    this.sortableElement().method = 'put';
+    Sortable.create(this.sortableElement(), {
       handle:       'ctl_handle', 
       tag:          'div', 
       only:         'dragable_columns',
       accept:       'dragable_columns', 
-      containment:  this.sortable.id,
+      containment:  this.sortableElement().id,
       constraint:   false, 
       dropOnEmpty:  true, 
       onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeColumnSort}), 
     });
   },
   
-  
-  
-  completeBookmarkSort: function() {
-    this.flash('good','Bookmarks sorted.');
-    SortableUtils.resetSortableLastValue(this.list);
-  },
-  
-  bookmarkSortParams: function() {
-    return SortableUtils.getSortParams(this);
-  },
-  
-  _buildInboxSortable: function() {
-    // TODO: Make this box type aware.
-    this.inboxList.action = '/bookmarks/sort';
-    this.inboxList.parameters = this.bookmarkSortParams;
-    this.inboxList.method = 'put';
-    Sortable.create(this.list, {
-      handle:       'bmrk_handle', 
-      tag:          'li', 
-      accept:       'dragable_bmarks', 
-      containment:  Bookmark.containment(), 
-      constraint:   false, 
-      dropOnEmpty:  true, 
-      onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBookmarkSort}), 
-    });
-  },
-  
   _initPageEvents: function() {
     this._buildColumnsSortable();
-    // this._buildInboxSortable();
-    this.actionBar.observe('click',this.toggleActionArea.bindAsEventListener(this));
-    this.legendInbox.observe('click',this.showInbox.bindAsEventListener(this));
-    this.legendTrashbox.observe('click',this.showTrashbox.bindAsEventListener(this));
+    // this.actionBar.observe('click',this.toggleActionArea.bindAsEventListener(this));
+    // this.legendInbox.observe('click',this.showInbox.bindAsEventListener(this));
+    // this.legendTrashbox.observe('click',this.showTrashbox.bindAsEventListener(this));
   }
   
 });

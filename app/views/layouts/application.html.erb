@@ -11,7 +11,8 @@
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
   <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor' %>
   <%= javascript_include_tag 'homemarks/base','homemarks/sortable','homemarks/app','homemarks/modal','homemarks/tooltip',
-                             'homemarks/bookmark','homemarks/box','homemarks/column','homemarks/page', :cache => 'homemarks_app' %>
+                             'homemarks/bookmark','homemarks/box','homemarks/column','homemarks/page','homemarks/inbox',
+                             'homemarks/trashbox', :cache => 'homemarks_app' %>
   <script type="text/javascript">
     <%= auth_params_js_var %>
     Builder.dump();

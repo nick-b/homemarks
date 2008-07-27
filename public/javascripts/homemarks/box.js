@@ -195,7 +195,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
       sortableElement.fade({duration:0.35});
       setTimeout(function(){ 
         sortableElement.remove();
-        SortableUtils.resetSortableLastValue(sortableParent);
+        SortableUtils.destroySortableMemberPostDOM(sortableParent,sortableElement);
       }.bind(this),0500);
     };
   },
@@ -286,7 +286,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableUtils,{
   },
   
   _initBoxEvents: function() {
-    this._buildBookmarksSortables();
+    // this._buildBookmarksSortables();
     this._initToggleCollapse();
     this._initPrefAction();
   }

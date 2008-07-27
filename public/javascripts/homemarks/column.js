@@ -52,7 +52,7 @@ var Column = Class.create(HomeMarksApp,{
     return Object.isUndefined(this.column.down('div.dragable_boxes'));
   },
   
-  completeDestroyColumn: function() {
+  completeDestroyColumn: function(request,cascadeDelete) {
     var sortableParent = this.sortableParent();
     var sortableElement = this.sortableElement();
     this.boxes().invoke('completeDestroyBox',null,true);
@@ -63,7 +63,7 @@ var Column = Class.create(HomeMarksApp,{
     setTimeout(function(){
       sortableElement.remove();
       if (!Columns.first()) { this.welcome.show(); };
-      SortableUtils.resetSortableLastValue(sortableParent);
+      SortableUtils.destroySortableMemberPostDOM(sortableParent,sortableElement);
     }.bind(this),0350);
   },
   

@@ -143,6 +143,11 @@ var SortableUtils = {
     draggable.destroy();
     sortable.draggables = sortable.draggables.without(draggable);
     delete Sortable.sortables[member.id];
+  },
+  
+  destroySortableMemberPostDOM: function(parent,member) {
+    SortableUtils.updateContainment(member);
+    SortableUtils.resetSortableLastValue(parent);
   }
   
 };

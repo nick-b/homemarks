@@ -13,7 +13,7 @@ var BookmarkSortableMixins = {
   },
   
   bookmarkSortParams: function() {
-    return SortableUtils.getSortParams(this);
+    return SortableUtils.getSortParams(this).merge({type:this.class});
   },
   
   bookmarks: function() {
@@ -21,7 +21,6 @@ var BookmarkSortableMixins = {
   },
   
   _buildBookmarksSortables: function() {
-    // TODO: Make this box type aware.
     var sortableList = this.sortableList();
     sortableList.action = '/bookmarks/sort';
     sortableList.parameters = this.bookmarkSortParams;

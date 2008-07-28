@@ -45,7 +45,7 @@ var Column = Class.create(HomeMarksApp,{
   },
   
   boxes: function() {
-    return Boxes.findAll(function(box){ return box.sortableParent() == this.sortableElement() }.bind(this));
+    return Boxes.findAll(function(box){ return box.sortableParent() == this.sortableElement() },this);
   },
   
   empty: function() {

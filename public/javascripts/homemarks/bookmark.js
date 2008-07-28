@@ -1,31 +1,32 @@
 
 var Bookmarks = $A();
 
-var BookmarkSortableUtils = {
+var BookmarkSortableMixins = {
+  
+  sortableList: function() {
+    return this.box.down('ul.sortablelist');
+  },
   
   completeBookmarkSort: function() {
     this.flash('good','Bookmarks sorted.');
-    SortableUtils.resetSortableLastValue(this.sortableElement());
+    SortableUtils.resetSortableLastValue(this.sortableList());
   },
-  
-  // sortableElement: function() {
-  //   return this.trashboxList || this.inboxList || this.list;
-  // },
   
   bookmarkSortParams: function() {
     return SortableUtils.getSortParams(this);
   },
   
   bookmarks: function() {
-    return Bookmarks.findAll(function(bm){ return bm.sortableParent() == this.sortableElement() }.bind(this));
+    return Bookmarks.findAll(function(bm){ return bm.sortableParent() == this.box },this);
   },
   
   _buildBookmarksSortables: function() {
     // TODO: Make this box type aware.
-    this.sortableElement().action = '/bookmarks/sort';
-    this.sortableElement().parameters = this.bookmarkSortParams;
-    this.sortableElement().method = 'put';
-    Sortable.create(this.sortableElement(), {
+    var sortableList = this.sortableList();
+    sortableList.action = '/bookmarks/sort';
+    sortableList.parameters = this.bookmarkSortParams;
+    sortableList.method = 'put';
+    Sortable.create(sortableList, {
       handle:       'bmrk_handle', 
       tag:          'li', 
       accept:       'dragable_bmarks', 
@@ -40,14 +41,14 @@ var BookmarkSortableUtils = {
 
 var BookmarkBuilder = Class.create(HomeMarksApp,{
   
-  initialize: function($super,listElement,newData) { 
+  initialize: function($super,boxObject,newData) { 
     $super();
-    this.build(listElement,newData);
+    this.build(boxObject,newData);
   },
   
-  build: function(listElement,newData) {
+  build: function(boxObject,newData) {
     var bookmarkId = 'bmark_'+ newData.id;
-    var sortable = listElement;
+    var sortable = boxObject.sortableList();
     var bookmarkHTML = LI({id:bookmarkId,className:'dragable_bmarks clearfix'},[
       SPAN({className:'bmrk_handle'},''),
       SPAN({className:'boxlink'},[A({href:newData.url},newData.name.escapeHTML())])
@@ -73,8 +74,12 @@ var Bookmark = Class.create(HomeMarksApp,{
     this._initBookmarkEvents();
   },
   
+  sortableElement: function() {
+    return this.bookmark;
+  },
+  
   sortableParent: function() {
-    return this.bookmark.up('ul#inbox_list') || this.bookmark.up('ul#trashbox_list') || this.bookmark.up('ul.sortablelist');
+    return this.bookmark.up('div#inbox') || this.bookmark.up('div#trashbox') || this.bookmark.up('div.dragable_boxes');
   },
   
   update: function(newData) {

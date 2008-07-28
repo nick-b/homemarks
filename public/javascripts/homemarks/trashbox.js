@@ -1,10 +1,10 @@
 
-var Trashbox = Class.create(HomeMarksApp,BookmarkSortableUtils,{
+var Trashbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   initialize: function($super) { 
     $super();
     this.class = 'Trashbox';
-    this.trashboxList = $('trashbox_list');
+    this.box = $('trashbox_list');
     this._initTrashboxEvents();
   },
   

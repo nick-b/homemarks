@@ -1,10 +1,10 @@
 
-var Inbox = Class.create(HomeMarksApp,BookmarkSortableUtils,{
+var Inbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   initialize: function($super) { 
     $super();
     this.class = 'Inbox';
-    this.inboxList = $('inbox_list');
+    this.box = $('inbox_list');
     this._initInboxEvents();
   },
   

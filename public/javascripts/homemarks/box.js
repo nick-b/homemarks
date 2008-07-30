@@ -282,7 +282,8 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     HomeMarksModal.saveButton.action = this.editForm.action;
     HomeMarksModal.saveButton.parameters = this.serializeEditForm;
     HomeMarksModal.saveButton.method = 'put';
-    this.createAjaxObserver(HomeMarksModal.saveButton,{before:this.startEditBox,onComplete:this.completeEditBox});
+    if (HomeMarksModal.saveButtonObserver) { HomeMarksModal.saveButton.stopObserving('click',HomeMarksModal.saveButtonObserver); };
+    HomeMarksModal.saveButtonObserver = this.createAjaxObserver(HomeMarksModal.saveButton,{before:this.startEditBox,onComplete:this.completeEditBox});
   },
   
   _initBoxEvents: function() {

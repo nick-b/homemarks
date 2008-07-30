@@ -34,7 +34,9 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
   
   createAjaxObserver: function(element) {
     var options = Object.extend(this.defaultAjaxOptions(), arguments[1] || {});
-    element.observe('click',this.startAjaxRequest.bindAsEventListener(this,options));
+    var ajaxObserver = this.startAjaxRequest.bindAsEventListener(this,options);
+    Event.observe(element,'click',ajaxObserver);
+    return ajaxObserver;
   },
   
   startAjaxRequest: function(event) {

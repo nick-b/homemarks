@@ -104,7 +104,7 @@ var Page = Class.create(HomeMarksApp,{
   
   _initPageEvents: function() {
     this._buildColumnsSortable();
-    // this.actionBar.observe('click',this.toggleActionArea.bindAsEventListener(this));
+    this.actionBar.observe('click',this.toggleActionArea.bindAsEventListener(this));
     // this.legendInbox.observe('click',this.showInbox.bindAsEventListener(this));
     // this.legendTrashbox.observe('click',this.showTrashbox.bindAsEventListener(this));
   }

@@ -136,12 +136,12 @@ var SortableUtils = {
   },
   
   destroySortableMember: function(parent,member) {
-    // Cherry pick from Sortable.destroy to accomodate only a droppable of the sortable.
+    /* Cherry pick from Sortable.destroy to accomodate only a droppable of the sortable. */
     var sortable = Sortable.sortables[parent.id];
-    // Killing droppables and refs.
+    /* Killing droppables and refs. */
     sortable.droppables = sortable.droppables.without(member);
     Droppables.remove(member);
-    // Killing draggables and refs.
+    /* Killing draggables and refs. */
     var draggable = sortable.draggables.find(function(d){ return d.element == member });
     draggable.destroy();
     sortable.draggables = sortable.draggables.without(draggable);

@@ -133,7 +133,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   buildBookmarkRow: function(bookmark) {
     if (bookmark) {
-      var bmUrl = bookmark.url, bmName = bookmark.name;
+      var bmUrl = bookmark.url(), bmName = bookmark.name();
       var namePrefix = 'bookmarks['+bookmark.id+']';
       var nameName = namePrefix + '[name]';
       var nameUrl = namePrefix + '[url]';

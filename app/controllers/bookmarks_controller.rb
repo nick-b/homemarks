@@ -11,11 +11,11 @@ class BookmarksController < ApplicationController
     render_json_data(@bookmark)
   end
   
-  def create
-    box = current_user.boxes.find(params[:box_id])
-    @bookmark = box.bookmarks.create!(params[:bookmark])
-    render_json_data(@bookmark.id)
-  end
+  # def create
+  #   box = current_user.boxes.find(params[:box_id])
+  #   @bookmark = box.bookmarks.create!(params[:bookmark])
+  #   render_json_data(@bookmark.id)
+  # end
   
   def sort
     if internal_sort?
@@ -28,25 +28,7 @@ class BookmarksController < ApplicationController
   end
   
   def trash
-    find_deleted_bookmark
-    if @trashboxmark
-      @bookmark.destroy
-      @trashempty = @user.trashbox.empty?
-    else
-      Trashboxmark.transaction do
-        @box = @user.trashbox
-        convert_bookmark
-      end
-    end
-    render :update do |page| 
-      if @trashboxmark
-        page.remove_all_trashboxmark_ui_elements_and_message(@trashempty)
-      else
-        page.insert_html :top, "trashbox_list", :inline => page.bookmark_list_item, :locals => {:bmark => @new_bookmark, :box_type => @new_bookmark_scope}
-        page.create_bookmark_sortables_code(@user,@box)
-        page.update_new_trashboxmark_ui_elements_and_message
-      end
-    end
+    head :ok
   end
   
   

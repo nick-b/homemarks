@@ -86,7 +86,7 @@ var Page = Class.create(HomeMarksApp,{
   
   doTrash: function(element) {
     var bookmark = Bookmarks.find(function(bm){ return bm.bookmark.id == element.id });
-    bookmark.destroy();
+    bookmark.trash();
   },
   
   _buildColumnsSortable: function() {

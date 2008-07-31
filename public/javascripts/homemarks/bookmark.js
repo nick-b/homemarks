@@ -99,15 +99,19 @@ var Bookmark = Class.create(HomeMarksApp,{
     return this.link.readAttribute('href');
   },
   
+  defaultParameters: function() {
+    return $H({ type: this.type() });
+  },
+  
   update: function(newData) {
     this.link.update(newData.name.escapeHTML());
     this.link.writeAttribute({href:newData.url});
   },
   
-  destroy: function() {
-    this.bookmark.action = '/bookmarks/'+this.id;
-    this.bookmark.method = 'delete';
-    this.bookmark.parameters = $H({type:this.type()});
+  trash: function() {
+    this.bookmark.action = '/bookmarks/' + this.id + '/trash';
+    this.bookmark.method = 'put';
+    this.bookmark.parameters = this.defaultParameters();
     this.doAjaxRequest(this.bookmark,{
       before: function(){ this.destroySortableElement() }.bind(this),
       onComplete: function(){ this.moveToTrash() }.bind(this)
@@ -131,7 +135,8 @@ var Bookmark = Class.create(HomeMarksApp,{
   },
   
   _initBookmarkEvents: function() {
-    
+    /* Setting up the trash function */
+
   }
   
 });

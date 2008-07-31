@@ -7,6 +7,10 @@ class BookmarksController < ApplicationController
   # after_filter :expire_correct_fragment, :only => [ :sort, :trash ]
   
   
+  def show
+    render_json_data(@bookmark)
+  end
+  
   def create
     box = current_user.boxes.find(params[:box_id])
     @bookmark = box.bookmarks.create!(params[:bookmark])
@@ -50,7 +54,11 @@ class BookmarksController < ApplicationController
   private
   
   def find_bookmark
-    @bookmark = current_user.boxes.bookmark(params[:id])
+    @bookmark = case params[:type]
+    when 'Box' : current_user.boxes.bookmark(params[:id])
+    when 'Inbox' : current_user.inbox.bookmarks.find(params[:id])
+    when 'Trashbox' : current_user.trashbox.bookmarks.find(params[:id])
+    end
   end
   
   

@@ -12,7 +12,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources   :boxes,     :collection => { :sort => :put }, 
                               :member     => { :toggle_collapse => :put, :colorize => :put, :change_title => :put, :bookmarks => :put }
   map.resources   :bookmarks, :collection => { :sort => :put },
-                              :member     => { :foo => :put }
+                              :member     => { :trash => :put }
   
   map.myhome    'myhome', :controller => 'users', :action => 'home', :conditions => {:method => :get}
   map.site      ':page',  :controller => 'site',  :action => 'show'

@@ -4,7 +4,7 @@ var Inbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   initialize: function($super) { 
     $super();
     this.class = 'Inbox';
-    this.box = $('inbox_list');
+    this.box = $('inbox');
     this._initInboxEvents();
   },
   

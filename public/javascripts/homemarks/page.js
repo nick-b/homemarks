@@ -112,15 +112,6 @@ var Page = Class.create(HomeMarksApp,{
       hoverclass: 'trash_droppable', 
       onDrop: this.doTrash
     }); 
-    
-    // Droppables.add("trashcan",{
-    //   accept:'dragable_bmarks', 
-    //   hoverclass:'trash_droppable', 
-    //   onDrop:function(element){element.remove(); new Ajax.Request('http://www.homemarks.com/bookmark/trash', {asynchronous:true, evalScripts:true, onLoading:function(request){globalLoadingBehavior()}, 
-    //   parameters:'id=' + encodeURIComponent(element.id)})}
-    // })
-    
-    
   },
   
   _initPageEvents: function() {

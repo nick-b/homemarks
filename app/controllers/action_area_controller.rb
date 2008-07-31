@@ -1,3 +1,4 @@
+# TODO: Kill this controller.
 class ActionAreaController < ApplicationController
   
   verify :xhr => true, :add_flash => {:bad => 'Invalid request method.'}, :redirect_to => :myhome_url

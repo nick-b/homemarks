@@ -83,6 +83,14 @@ var Bookmark = Class.create(HomeMarksApp,{
     return this.bookmark.up('ul.sortablelist');
   },
   
+  box: function() {
+    return Boxes.find(function(box){ return box.box == this.sortableParent() },this);
+  },
+  
+  type: function() {
+    return this.box().class;
+  },
+  
   name: function() {
     return this.link.innerHTML;
   },
@@ -99,22 +107,27 @@ var Bookmark = Class.create(HomeMarksApp,{
   destroy: function() {
     this.bookmark.action = '/bookmarks/'+this.id;
     this.bookmark.method = 'delete';
-    this.bookmark.parameters = $H({type:this.class});
+    this.bookmark.parameters = $H({type:this.type()});
     this.doAjaxRequest(this.bookmark,{
-      before: function(){ this.bookmark.remove() }.bind(this),
-      onComplete: function(){ this.destroySortableBookmark() }.bind(this)
+      before: function(){ this.destroySortableElement() }.bind(this),
+      onComplete: function(){ this.moveToTrash() }.bind(this)
     });
   },
   
   destroySortableElement: function(request,cascadeDelete) {
-    var sortableParent = this.sortableList();
+    var sortableList = this.sortableList();
     var sortableElement = this.sortableElement();
     Bookmarks = Bookmarks.without(this);
-    SortableUtils.destroySortableMember(sortableParent,sortableElement);
+    SortableUtils.destroySortableMember(sortableList,sortableElement);
     if (!cascadeDelete) {
+      this.flash('good','Bookmark trashed.');
       sortableElement.remove();
-      SortableUtils.destroySortableMemberPostDOM(sortableParent,sortableElement);
+      SortableUtils.destroySortableMemberPostDOM(sortableList,sortableElement);
     };
+  },
+  
+  moveToTrash: function() {
+    
   },
   
   _initBookmarkEvents: function() {

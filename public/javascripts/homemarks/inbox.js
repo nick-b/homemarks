@@ -1,15 +1,12 @@
 
-var Inbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
+var InboxClass = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   initialize: function($super) { 
     $super();
     this.class = 'Inbox';
     this.box = $('inbox');
+    this.id = parseInt(this.sortableList().id.sub('inbox_list_',''));
     this._initInboxEvents();
-  },
-  
-  sortableChild: function() {
-    return this.inboxList;
   },
   
   
@@ -35,7 +32,7 @@ var Inbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   
   _initInboxEvents: function() {
-    this._buildBookmarksSortables();
+    // this._buildBookmarksSortables();
     
   }
   
@@ -43,6 +40,6 @@ var Inbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
 
 
 document.observe('dom:loaded', function(){
-  
+  Inbox = new InboxClass;
 });
 

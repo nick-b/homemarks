@@ -1,15 +1,12 @@
 
-var Trashbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
+var TrashboxClass = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   initialize: function($super) { 
     $super();
     this.class = 'Trashbox';
     this.box = $('trashbox');
+    this.id = parseInt(this.sortableList().id.sub('trashbox_list_',''));
     this._initTrashboxEvents();
-  },
-  
-  sortableChild: function() {
-    return this.trashboxList;
   },
   
   
@@ -31,7 +28,7 @@ var Trashbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   
   _initTrashboxEvents: function() {
-    this._buildBookmarksSortables();
+    // this._buildBookmarksSortables();
     
   }
   
@@ -39,6 +36,6 @@ var Trashbox = Class.create(HomeMarksApp,BookmarkSortableMixins,{
 
 
 document.observe('dom:loaded', function(){
-  
+  Trashbox = new TrashboxClass;
 });
 

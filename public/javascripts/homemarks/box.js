@@ -188,6 +188,8 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   completeDestroyBox: function(request,cascadeDelete) {
     var sortableParent = this.sortableParent();
     var sortableElement = this.sortableElement();
+    this.bookmarks().invoke('destroySortableElement',null,true);
+    SortableUtils.destroySortableSubparent(this.sortableList());
     Boxes = Boxes.without(this);
     SortableUtils.destroySortableMember(sortableParent,sortableElement);
     if (!cascadeDelete) {

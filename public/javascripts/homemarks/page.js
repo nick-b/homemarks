@@ -11,6 +11,7 @@ var Page = Class.create(HomeMarksApp,{
     this.legendInbox = $('legend_inbox');
     this.legendTrashbox = $('legend_trash');
     this.fieldsetProgress = $('fieldset_progress_wrap');
+    this.trashcan = $('trashcan');
     this._initPageEvents();
   },
   
@@ -83,8 +84,10 @@ var Page = Class.create(HomeMarksApp,{
     element.open = true;
   },
   
-  
-  
+  doTrash: function(element) {
+    var bookmark = Bookmarks.find(function(bm){ return bm.bookmark.id == element.id });
+    bookmark.destroy();
+  },
   
   _buildColumnsSortable: function() {
     this.sortableElement().action = '/columns/sort';
@@ -102,8 +105,27 @@ var Page = Class.create(HomeMarksApp,{
     });
   },
   
+  _buildTrashboxEvents: function() {
+    this.trashcan.observe('click',this.toggleActionArea.bindAsEventListener(this));
+    Droppables.add(this.trashcan,{
+      accept: 'dragable_bmarks', 
+      hoverclass: 'trash_droppable', 
+      onDrop: this.doTrash
+    }); 
+    
+    // Droppables.add("trashcan",{
+    //   accept:'dragable_bmarks', 
+    //   hoverclass:'trash_droppable', 
+    //   onDrop:function(element){element.remove(); new Ajax.Request('http://www.homemarks.com/bookmark/trash', {asynchronous:true, evalScripts:true, onLoading:function(request){globalLoadingBehavior()}, 
+    //   parameters:'id=' + encodeURIComponent(element.id)})}
+    // })
+    
+    
+  },
+  
   _initPageEvents: function() {
     this._buildColumnsSortable();
+    this._buildTrashboxEvents();
     this.actionBar.observe('click',this.toggleActionArea.bindAsEventListener(this));
     // this.legendInbox.observe('click',this.showInbox.bindAsEventListener(this));
     // this.legendTrashbox.observe('click',this.showTrashbox.bindAsEventListener(this));

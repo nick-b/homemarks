@@ -12,6 +12,14 @@ var SortableUtils = {
     };
   },
   
+  dropDebug: function() {
+    Droppables.drops.each(function(drop,index){
+      console.group('Droppables.drops[',index,']');
+      console.dir(drop);
+      console.groupEnd()
+    })
+  },
+  
   getDragObserver: function(element) {
     return Draggables.observers.find(function(d){ return d.element == element });
   },
@@ -128,7 +136,7 @@ var SortableUtils = {
       if (sortable.accept == accept) { sortable.containment = containment; };
     });
     Droppables.drops.each(function(drop){
-      if (drop.containment.include(firstDrop)) {
+      if (drop.containment && drop.containment.include(firstDrop)) {
         drop._containers = containment;
         drop.containment = containment;
       };
@@ -146,6 +154,15 @@ var SortableUtils = {
     draggable.destroy();
     sortable.draggables = sortable.draggables.without(draggable);
     delete Sortable.sortables[member.id];
+  },
+  
+  destroySortableSubparent: function(subparent) {
+    /* Cherry pick from Sortable.destroy to accomodate an empty bookmark sortable parent. */
+    var sortable = Sortable.sortables[subparent.id];
+    /* Killing droppables and refs. */
+    sortable.droppables = sortable.droppables.without(subparent);
+    Droppables.remove(subparent);
+    delete Sortable.sortables[subparent.id];
   },
   
   destroySortableMemberPostDOM: function(parent,member) {

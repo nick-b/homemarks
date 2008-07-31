@@ -79,6 +79,10 @@ var Bookmark = Class.create(HomeMarksApp,{
     return this.bookmark.up('div#inbox') || this.bookmark.up('div#trashbox') || this.bookmark.up('div.dragable_boxes');
   },
   
+  sortableList: function() {
+    return this.bookmark.up('ul.sortablelist');
+  },
+  
   name: function() {
     return this.link.innerHTML;
   },
@@ -90,6 +94,27 @@ var Bookmark = Class.create(HomeMarksApp,{
   update: function(newData) {
     this.link.update(newData.name.escapeHTML());
     this.link.writeAttribute({href:newData.url});
+  },
+  
+  destroy: function() {
+    this.bookmark.action = '/bookmarks/'+this.id;
+    this.bookmark.method = 'delete';
+    this.bookmark.parameters = $H({type:this.class});
+    this.doAjaxRequest(this.bookmark,{
+      before: function(){ this.bookmark.remove() }.bind(this),
+      onComplete: function(){ this.destroySortableBookmark() }.bind(this)
+    });
+  },
+  
+  destroySortableElement: function(request,cascadeDelete) {
+    var sortableParent = this.sortableList();
+    var sortableElement = this.sortableElement();
+    Bookmarks = Bookmarks.without(this);
+    SortableUtils.destroySortableMember(sortableParent,sortableElement);
+    if (!cascadeDelete) {
+      sortableElement.remove();
+      SortableUtils.destroySortableMemberPostDOM(sortableParent,sortableElement);
+    };
   },
   
   _initBookmarkEvents: function() {

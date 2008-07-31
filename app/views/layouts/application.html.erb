@@ -60,7 +60,6 @@
     </div> -->
     <%# end %>
     <div id="button_box">
-      <%# TODO: Make column AJAX link %>
       <%= app_nav_for 'Create a new column.', 'button_new_column', columns_url %>
       <%= app_nav_for 'My HomeMarklet. Click to learn more.', 'button_bookmarklet', render_bookmarklet, :xtra_content => '<span style="display:none;">HomeMarklet</span>' %>
       <%= app_nav_for 'My account preferences.', 'button_prefs', edit_user_path(current_user) %>
@@ -75,10 +74,7 @@
   
   <%= yield %>
   
-  <!-- <div id="trashcan" class="<%# current_user.trashbox.empty? ? 'trash_empty' : 'trash_full' %>" onclick="toggleActionArea('trashbox');"></div> -->
-  <%# drop_receiving_element 'trashcan', :url => '', 
-      :accept => 'dragable_bmarks', :hoverclass => 'trash_droppable', 
-      :before => "element.remove()", :loading => 'globalLoadingBehavior()' %>
-      
+  <div id="trashcan" class="<%= current_user.trashbox.empty? ? 'trash_empty' : 'trash_full' %>"></div>
+  
 </body>
 </html>

@@ -39,8 +39,12 @@ var Page = Class.create(HomeMarksApp,{
     this.actionArea.setStyle({height:this.viewSize().height+'px'});
   },
   
+  actionAreaHelper: function(event) { 
+    if (event.keyCode == Event.KEY_ESC) { Page.obj.toggleActionArea() }; 
+  },
+  
   toggleActionArea: function(event) {
-    var openInbox = event.element() == this.actionBar;
+    var openInbox = (event == undefined) || (event.element() == this.actionBar);
     this.setActionAreaHeigth();
     if (!this.actionBar.hasClassName('barout')) {
       this.actionAreaShim.show();
@@ -49,8 +53,7 @@ var Page = Class.create(HomeMarksApp,{
       this.actionAreaObserver = this.setActionAreaHeigth.bindAsEventListener(this);
       Event.observe(window, 'resize', this.actionAreaObserver);
       Event.observe(window, 'scroll', this.actionAreaObserver);
-      if (openInbox) { this.showInbox() }
-      else if (false) {  };
+      if (openInbox) { Inbox.open(); } else { Trashbox.open(); };
     }
     else {
       // if (forceTrashbox(action_box)) { forceTrashboxLoad() }
@@ -64,6 +67,8 @@ var Page = Class.create(HomeMarksApp,{
       // }
     }
   },
+  
+  
   
   
   
@@ -83,6 +88,11 @@ var Page = Class.create(HomeMarksApp,{
     element.className = 'fld_on';
     element.open = true;
   },
+  
+  
+  
+  
+  
   
   doTrash: function(element) {
     var bookmark = Bookmarks.find(function(bm){ return bm.bookmark.id == element.id });
@@ -105,7 +115,7 @@ var Page = Class.create(HomeMarksApp,{
     });
   },
   
-  _buildTrashboxEvents: function() {
+  _buildTrashcanEvents: function() {
     this.trashcan.observe('click',this.toggleActionArea.bindAsEventListener(this));
     Droppables.add(this.trashcan,{
       accept: 'dragable_bmarks', 
@@ -116,8 +126,11 @@ var Page = Class.create(HomeMarksApp,{
   
   _initPageEvents: function() {
     this._buildColumnsSortable();
-    this._buildTrashboxEvents();
+    this._buildTrashcanEvents();
+    Event.observe(document,'keydown',this.actionAreaHelper);
     this.actionBar.observe('click',this.toggleActionArea.bindAsEventListener(this));
+    
+    
     // this.legendInbox.observe('click',this.showInbox.bindAsEventListener(this));
     // this.legendTrashbox.observe('click',this.showTrashbox.bindAsEventListener(this));
   }

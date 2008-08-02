@@ -135,8 +135,7 @@ var Bookmark = Class.create(HomeMarksApp,{
   },
   
   _initBookmarkEvents: function() {
-    /* Setting up the trash function */
-
+    
   }
   
 });

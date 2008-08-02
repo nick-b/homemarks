@@ -11,7 +11,7 @@ var InboxClass = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   
   
-  showInbox: function() {
+  open: function() {
     this.setField(this.legendInbox);
     this.loadInbox();
     this.showFieldsetProgress();

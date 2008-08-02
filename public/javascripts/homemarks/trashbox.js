@@ -11,7 +11,7 @@ var TrashboxClass = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   
   
-  showTrashbox: function() {
+  open: function() {
     this.setField(this.legendTrashbox);
     this.loadTrashbox();
     this.showFieldsetProgress();

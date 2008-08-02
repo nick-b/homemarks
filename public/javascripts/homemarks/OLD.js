@@ -1,14 +1,5 @@
 
 
-/*  General Application Wide Functions
- * ----------------------------------------------------------------------------------------------------------------- */
-
-Event.observe(document, 'keypress', actionAreaHelper);
-function actionAreaHelper(event) { if (event.charCode == 96) {toggleActionArea('inbox')}; };
-
-
-
-
 
 /*  Custom sortable serialize params Bookmark#sort
  * ----------------------------------------------------------------------------------------------------------------- */

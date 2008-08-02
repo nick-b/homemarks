@@ -17,6 +17,10 @@ class Box < ActiveRecord::Base
   before_destroy :delete_all_associations
   
   
+  def user
+    column.user
+  end
+  
   
   private
   

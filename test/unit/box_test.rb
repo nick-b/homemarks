@@ -2,10 +2,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class BoxTest < ActiveSupport::TestCase
   
-  def setup
-    @bob = users(:bob)
-  end
-  
   should_belong_to  :column
   should_have_many  :bookmarks
   should_require_attributes       :column_id
@@ -15,6 +11,12 @@ class BoxTest < ActiveSupport::TestCase
   should_ensure_length_in_range   :title, 0..64
   should_allow_nil_and_blank_for  :style, :title
   
+  
+  def setup
+    @bob = users(:bob)
+    @box = @bob.boxes.first
+  end
+  
   context 'Testing fixture data and factory methods' do
   
     should 'have 4 boxes' do
@@ -23,10 +25,8 @@ class BoxTest < ActiveSupport::TestCase
   
   end
   
-  context 'Testing model behavior' do
+  context 'Testing class behavior' do
     
-    setup { @box = @bob.boxes.find(:first) }
-
     should 'have a COLORS frozen constant' do
       assert Box::COLORS
       assert Box::COLORS.frozen?
@@ -48,6 +48,16 @@ class BoxTest < ActiveSupport::TestCase
     end
 
   end
+  
+  context 'Testing instance behavior' do
+
+    should 'access its user thru column' do
+      assert @box.respond_to?(:user)
+      assert_equal @bob, @box.user
+    end
+
+  end
+  
   
   
   

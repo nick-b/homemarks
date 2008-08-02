@@ -75,6 +75,12 @@ class BookmarkTest < ActiveSupport::TestCase
       assert !@trbm.inbox?
     end
     
+    should 'all have acces to their user' do
+      assert_equal @bob, @bm.user
+      assert_equal @bob, @inbm.user
+      assert_equal @bob, @trbm.user
+    end
+    
     context 'for #to_box method' do
       
       setup do
@@ -94,17 +100,23 @@ class BookmarkTest < ActiveSupport::TestCase
       end
       
       should 'be able to convert owner' do
-        @bm1.to_box('Inbox')
+        @bm1.to_box(:inbox)
         assert @bm1.inbox?
       end
       
       should 'remove bookmark from current list into new one' do
-        @bm1.to_box('Trashbox')
+        @bm1.to_box(:trashbox)
         assert @bm1.trashbox?
         assert_equal 1, @bm1.position, 'should be moved to first in trash box list'
         assert_equal 1, @bm2.reload.position, 'last box bookmark should now be in first position'
         assert_equal 2, @tm1.reload.position, 'first trash bookmark should have moved to second'
-        # assert_equal 3, @tm2.reload.position, 'first trash bookmark should have moved to second'
+        assert_equal 3, @tm2.reload.position, 'second trash bookmark should have moved to third'
+      end
+      
+      should 'have a #trash! method that calls #to_box with :trashbox arg' do
+        assert @bm1.respond_to?(:trash!)
+        @bm1.expects(:to_box).with(:trashbox)
+        @bm1.trash!
       end
 
     end

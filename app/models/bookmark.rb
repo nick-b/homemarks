@@ -19,32 +19,29 @@ class Bookmark < ActiveRecord::Base
     end
   end
   
-  def to_box(box)
+  def user
+    @user ||= owner.user
+  end
+  
+  def to_box(type_or_id,position=nil)
+    box = case type_or_id
+          when :inbox : user.inbox
+          when :trashbox : user.trashbox
+          else user.boxes.find(type_or_id)
+          end
     self.class.transaction do
       remove_from_list
       self.owner = box
-      
       increment_positions_on_all_items
       assume_top_position
-      # increment_positions_on_all_items
-    end unless trashbox?
-  end
-  
-  def user
-    
+    end 
   end
   
   def trash!
-    to_box(self)
+    to_box(:trashbox) unless trashbox?
   end
   
   
   
 end
 
-
-# bx = Box.first
-# bm = bx.bookmarks.first
-# 
-# bm.remove_from_list
-# bm.owner_type = 'Trashbox'

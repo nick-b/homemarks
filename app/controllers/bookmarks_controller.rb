@@ -28,6 +28,7 @@ class BookmarksController < ApplicationController
   end
   
   def trash
+    @bookmark.trash!
     head :ok
   end
   

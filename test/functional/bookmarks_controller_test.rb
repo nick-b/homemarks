@@ -32,6 +32,19 @@ class BookmarksControllerTest < ActionController::TestCase
     
   end
   
+  context 'The TRASH action' do
+
+    setup do
+      # { :_method => "put", :type => "Box", :id => "109" }
+    end
+
+    should 'description' do
+      
+    end
+
+  end
+  
+  
   
   protected
   

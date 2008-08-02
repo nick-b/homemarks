@@ -1,5 +1,33 @@
 
-var Page = Class.create(HomeMarksApp,{
+var ActionBoxMixins = {
+  
+  initActionAreaMixins: function() {
+    this.fieldset = $('fieldset_legend');
+    this.legendInbox = $('legend_inbox');
+    this.legendTrashbox = $('legend_trash');
+    this.fieldsetProgress = $('fieldset_progress_wrap');
+  },
+  
+  showFieldsetProgress: function() {
+    if (!this.fieldsetProgress.visible()) { this.fieldsetProgress.blindDown({duration: 0.35}); };
+  },
+  
+  hideFieldsetProgress: function() {
+    this.fieldsetProgress.blindUp({duration: 0.35});
+  },
+  
+  setField: function(element) {
+    $A([this.legendInbox,this.legendTrashbox]).each(function(legend){
+      legend.className = '';
+      legend.open = false;
+    });
+    element.className = 'fld_on';
+    element.open = true;
+  }
+  
+};
+
+var PageClass = Class.create(HomeMarksApp,{
   
   initialize: function($super) { 
     $super();
@@ -7,10 +35,6 @@ var Page = Class.create(HomeMarksApp,{
     this.actionBar = $('action_bar');
     this.actionArea = $('action_area');
     this.actionAreaShim = $('action_area_shim');
-    this.fieldset = $('fieldset_legend');
-    this.legendInbox = $('legend_inbox');
-    this.legendTrashbox = $('legend_trash');
-    this.fieldsetProgress = $('fieldset_progress_wrap');
     this.trashcan = $('trashcan');
     this._initPageEvents();
   },
@@ -34,13 +58,14 @@ var Page = Class.create(HomeMarksApp,{
   
   
   
+  
   setActionAreaHeigth: function (event) {
     this.actionAreaShim.setStyle({height:this.pageSize().height+'px'});
     this.actionArea.setStyle({height:this.viewSize().height+'px'});
   },
   
   actionAreaHelper: function(event) { 
-    if (event.keyCode == Event.KEY_ESC) { Page.obj.toggleActionArea() }; 
+    if (event.keyCode == Event.KEY_ESC) { Page.toggleActionArea() }; 
   },
   
   toggleActionArea: function(event) {
@@ -67,29 +92,6 @@ var Page = Class.create(HomeMarksApp,{
       // }
     }
   },
-  
-  
-  
-  
-  
-  showFieldsetProgress: function() {
-    if (!this.fieldsetProgress.visible()) { this.fieldsetProgress.blindDown({duration: 0.35}); };
-  },
-  
-  hideFieldsetProgress: function() {
-    this.fieldsetProgress.blindUp({duration: 0.35});
-  },
-  
-  setField: function(element) {
-    $A([this.legendInbox,this.legendTrashbox]).each(function(legend){
-      legend.className = '';
-      legend.open = false;
-    });
-    element.className = 'fld_on';
-    element.open = true;
-  },
-  
-  
   
   
   
@@ -129,16 +131,12 @@ var Page = Class.create(HomeMarksApp,{
     this._buildTrashcanEvents();
     Event.observe(document,'keydown',this.actionAreaHelper);
     this.actionBar.observe('click',this.toggleActionArea.bindAsEventListener(this));
-    
-    
-    // this.legendInbox.observe('click',this.showInbox.bindAsEventListener(this));
-    // this.legendTrashbox.observe('click',this.showTrashbox.bindAsEventListener(this));
   }
   
 });
 
 
 document.observe('dom:loaded', function(){
-  Page.obj = new Page();
+  Page = new PageClass();
 });
 

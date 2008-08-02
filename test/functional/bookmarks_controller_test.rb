@@ -34,12 +34,12 @@ class BookmarksControllerTest < ActionController::TestCase
   
   context 'The TRASH action' do
 
-    setup do
-      # { :_method => "put", :type => "Box", :id => "109" }
-    end
-
-    should 'description' do
-      
+    should 'move normal bookmark to trash and return head :ok' do
+      xhr :put, :trash, :type => @box_bookmark.owner_type, :id => @box_bookmark.id
+      assert_response :ok
+      @box_bookmark.reload
+      assert @box_bookmark.trashbox?
+      assert_equal 1, @box_bookmark.position
     end
 
   end

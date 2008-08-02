@@ -12,14 +12,14 @@ var InboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMixin
   
   open: function() {
     this.setField(this.legendInbox);
-    this.loadInbox();
-    this.showFieldsetProgress();
+    this.load();
     this.hideFieldsetProgress();
     this.sortableList().blindUp({duration: 0.35});
   },
   
-  loadInbox: function() {
+  load: function() {
     if (this.sortableList().loaded) { return true };
+    this.showFieldsetProgress();
     var request = new Ajax.Request('/inbox/bookmarks',{asynchronous:false,method:'get'});
     var bookmarkData = request.transport.responseText.evalJSON();
     bookmarkData.each(function(bm){

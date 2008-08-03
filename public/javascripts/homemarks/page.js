@@ -75,9 +75,6 @@ var PageClass = Class.create(HomeMarksApp,{
     SortableUtils.resetSortableLastValue(this.sortableElement());
   },
   
-  
-  
-  
   setActionAreaHeigth: function (event) {
     this.actionAreaShim.setStyle({height:this.pageSize().height+'px'});
     this.actionArea.setStyle({height:this.viewSize().height+'px'});
@@ -100,20 +97,19 @@ var PageClass = Class.create(HomeMarksApp,{
       if (openInbox) { Inbox.open(); } else { Trashbox.open(); };
     }
     else {
-      // if (forceTrashbox(action_box)) { forceTrashboxLoad() }
-      // if (false) {  }
-      // else {
+      if (!openInbox && this.actionArea.down('ul.inbox_list').visible()) { 
+        Trashbox.open();
+        return;
+      }
+      else {
         this.actionAreaShim.hide();
         this.actionBar.className = '';
         this.hud.setStyle({marginLeft:'28px'});
         Event.stopObserving(window, 'resize', this.actionAreaObserver);
         Event.stopObserving(window, 'scroll', this.actionAreaObserver);
-      // }
+      };
     }
   },
-  
-  
-  
   
   doTrash: function(element) {
     var bookmark = Bookmarks.find(function(bm){ return bm.bookmark.id == element.id });

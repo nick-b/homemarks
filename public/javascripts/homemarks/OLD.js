@@ -68,63 +68,7 @@ function sortableHasClass(sortable_id, css_class) {
 
 
 
-/*  Action Area Specific Functions
- * ----------------------------------------------------------------------------------------------------------------- */
 
-
-function forceTrashbox(action_box) {
-  if ((getFieldsetFlag()!='legend_trash') && (action_box=='trashbox')) { return true; } else { return false };
-}
-
-function forceTrashboxLoad() {
-  loadingActionArea($('legend_trash_link'));
-  new Ajax.Request('/actionarea/trashbox', {asynchronous:true, evalScripts:true});
-}
-
-function trashboxLoad() {
-  setFieldsetFlag('legend_trash');
-  $('legend_trash').classNames().set('fld_on');
-  new Ajax.Request('/actionarea/trashbox', {asynchronous:true, evalScripts:true});
-}
-
-function inboxLoad() {
-  setFieldsetFlag('legend_inbox');
-  $('legend_inbox').classNames().set('fld_on');
-  new Ajax.Request('/actionarea/inbox', {asynchronous:true, evalScripts:true});
-}
-
-function setFieldsetFlag(ulid) {
-  $('fieldset_legend').classNames().set(ulid);
-}
-
-function getFieldsetFlag() {
-  return $('fieldset_legend').classNames().toString();
-}
-
-function isActionAreaDisplayed(obj) {
-  if (obj.childNodes[0].hasClassName('fld_on')) return false ;
-  return true;
-}
-
-function loadingActionArea(obj) {
-  clicked = obj.childNodes[0];
-  currentFieldsetFlag = getFieldsetFlag();
-  switch (currentFieldsetFlag) { 
-    case 'legend_inbox' : hidelist = 'inbox_list' ; break;
-    case 'legend_trash' : hidelist = 'trashbox_list' ; break;
-  }
-  setFieldsetFlag(clicked.id);
-  clicked.classNames().set('fld_on');
-  $(currentFieldsetFlag).classNames().set('');
-  if (clicked.id != 'legend_trash') {$('trashbox_emptytrash_box').hide()};
-  $('fieldset_progress_wrap').visualEffect('blind_down',{duration: 0.35});
-  $(hidelist).visualEffect('blind_up',{duration: 0.35});
-}
-
-function showOrHideEmptyTrashBox() {
-  emptyTrashBox = $('trashbox_emptytrash_box');
-  if ( (Element.hasClassName('trashcan','trash_full')) && (getFieldsetFlag()=='legend_trash') ) {emptyTrashBox.show();} else {emptyTrashBox.hide();};
-}
 
 
 

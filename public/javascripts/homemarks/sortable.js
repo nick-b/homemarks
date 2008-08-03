@@ -120,7 +120,7 @@ var SortableUtils = {
   updateContainment: function(newMember) {
     var classes = $w(newMember.className);
     var newColumn = classes.include('dragable_columns');
-    var newBox = classes.include('draggable_boxes');
+    var newBox = classes.include('dragable_boxes');
     if (!newColumn && !newBox) { return false };
     if (newColumn) {
       var accept = 'dragable_boxes';

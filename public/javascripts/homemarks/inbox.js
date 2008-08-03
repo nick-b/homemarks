@@ -28,7 +28,7 @@ var InboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMixin
   
   _initInboxEvents: function() {
     this._buildBookmarksSortables();
-    // this.legendInbox.observe('click',this.showInbox.bindAsEventListener(this));
+    this.legendInbox.observe('click',this.open.bindAsEventListener(this));
   }
   
 });

@@ -76,22 +76,12 @@ module ApplicationHelper
   
   
   
-  def complete_action_area(box_list)
-    page['fieldset_progress_wrap'].visual_effect :blind_up, { :duration => 0.35 }
-    page[box_list].visual_effect :blind_down, { :duration => 0.35 }
-  end
-  
   def update_new_trashboxmark_ui_elements_and_message
     page.<< "$('trashcan').classNames().set('trash_full'); showOrHideEmptyTrashBox();"
   end
   
   def remove_all_trashboxmark_ui_elements_and_message(trashempty)
     page.<< "$('trashcan').classNames().set('trash_empty'); showOrHideEmptyTrashBox();" if trashempty
-  end
-  
-  def empty_trash_function
-    remote_function( :url => '',
-                     :confirm => 'Are you sure? This will permanently delete all bookmarks in your trash.' )
   end
   
 

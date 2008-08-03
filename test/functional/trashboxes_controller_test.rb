@@ -10,10 +10,10 @@ class TrashboxesControllerTest < ActionController::TestCase
     @tbm = @trashbox.bookmarks.create :name => 'Test', :url => 'test.com'
   end
   
-  context 'While testing the BOOKMARKS action' do
+  context 'Testing the BOOKMARKS action' do
 
     should 'GET a json representation of bookmarks' do
-      get :bookmarks
+      xhr :get, :bookmarks
       assert_response :success
       bm_data = decode_json_response
       assert_instance_of Array, bm_data, 'should be a collection of bookmark data'
@@ -23,6 +23,18 @@ class TrashboxesControllerTest < ActionController::TestCase
     end
     
   end
+  
+  context 'Testing the DESTROY action' do
+
+    should 'delete all bookmarks in trashbox' do
+      assert !@trashbox.empty?
+      xhr :delete, :destroy
+      assert_response :success
+      assert @trashbox.empty?
+    end
+
+  end
+  
   
   
   

@@ -9,6 +9,8 @@ var ActionBoxMixins = {
     this.fieldsetArea = $('fieldset_middle');
     this.inboxList = this.fieldsetArea.down('ul.inbox_list');
     this.trashboxList = this.fieldsetArea.down('ul.trashbox_list');
+    this.emptyTrashButtonWrap = $('trashbox_emptytrash_box');
+    this.emptyTrashButton = $('trashbox_emptytrash_button');
   },
   
   showFieldsetProgress: function() {
@@ -22,6 +24,7 @@ var ActionBoxMixins = {
   hideProgressAndShowList: function(list) {
     this.hideFieldsetProgress();
     if (!list.visible()) { list.blindDown({duration: 0.35}); };
+    if (list == this.trashboxList) { this.emptyTrashButtonWrap.show() } else { this.emptyTrashButtonWrap.hide() };
   },
   
   setField: function(element) {

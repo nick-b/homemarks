@@ -29,6 +29,17 @@ var TrashboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMi
   _initTrashboxEvents: function() {
     this._buildBookmarksSortables();
     this.legendTrashbox.observe('click',this.open.bindAsEventListener(this));
+    this._initEmptyTrash();
+  },
+  
+  _initEmptyTrash: function() {
+    this.emptyTrashButton.action = '/trashbox';
+    this.emptyTrashButton.method = 'delete';
+    this.createAjaxObserver(this.emptyTrashButton,{onComplete:this.completeEmptyTrash});
+  },
+  
+  completeEmptyTrash: function() {
+    
   }
   
 });

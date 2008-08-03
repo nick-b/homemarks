@@ -1,11 +1,14 @@
 
 var ActionBoxMixins = {
   
-  initActionAreaMixins: function() {
+  superActionAreaMixins: function() {
     this.fieldset = $('fieldset_legend');
     this.legendInbox = $('legend_inbox');
     this.legendTrashbox = $('legend_trash');
     this.fieldsetProgress = $('fieldset_progress_wrap');
+    this.fieldsetArea = $('fieldset_middle');
+    this.inboxList = this.fieldsetArea.down('ul.inbox_list');
+    this.trashboxList = this.fieldsetArea.down('ul.trashbox_list');
   },
   
   showFieldsetProgress: function() {
@@ -13,16 +16,29 @@ var ActionBoxMixins = {
   },
   
   hideFieldsetProgress: function() {
-    this.fieldsetProgress.blindUp({duration: 0.35});
+    if (this.fieldsetProgress.visible()) { this.fieldsetProgress.blindUp({duration: 0.35}); };
+  },
+  
+  hideProgressAndShowList: function(list) {
+    this.hideFieldsetProgress();
+    if (!list.visible()) { list.blindDown({duration: 0.35}); };
   },
   
   setField: function(element) {
-    $A([this.legendInbox,this.legendTrashbox]).each(function(legend){
-      legend.className = '';
-      legend.open = false;
-    });
+    $A([this.legendInbox,this.legendTrashbox]).each(function(legend){ legend.className = ''; });
     element.className = 'fld_on';
-    element.open = true;
+    if (element == this.legendInbox) {
+      this.trashboxList.hide();
+      if (!this.inboxList.loaded) { this.showFieldsetProgress(); };
+      this.inboxList.show();
+      this.inboxList.open = true;
+    }
+    else {
+      this.inboxList.hide();
+      if (!this.trashboxList.loaded) { this.showFieldsetProgress(); };
+      this.trashboxList.show();
+      this.trashboxList.open = true;
+    };
   }
   
 };

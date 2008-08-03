@@ -3,29 +3,27 @@ var InboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMixin
   
   initialize: function($super) { 
     $super();
+    this.superActionAreaMixins();
     this.class = 'Inbox';
     this.box = $('inbox');
-    this.id = parseInt(this.sortableList().id.sub('inbox_list_',''));
-    this.initActionAreaMixins();
+    this.id = parseInt(this.inboxList.id.sub('inbox_list_',''));
     this._initInboxEvents();
   },
   
   open: function() {
     this.setField(this.legendInbox);
     this.load();
-    this.hideFieldsetProgress();
-    this.sortableList().blindUp({duration: 0.35});
+    this.hideProgressAndShowList(this.inboxList);
   },
   
   load: function() {
-    if (this.sortableList().loaded) { return true };
-    this.showFieldsetProgress();
+    if (this.inboxList.loaded) { return true };
     var request = new Ajax.Request('/inbox/bookmarks',{asynchronous:false,method:'get'});
     var bookmarkData = request.transport.responseText.evalJSON();
     bookmarkData.each(function(bm){
       new BookmarkBuilder(this,bm.bookmark);
     }.bind(this));
-    this.sortableList().loaded = true;
+    this.inboxList.loaded = true;
   },
   
   _initInboxEvents: function() {

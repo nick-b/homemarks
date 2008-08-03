@@ -32,8 +32,8 @@
         </div>
         <div id="fieldset_middle">
           <div id="fieldset_progress_wrap"><div id="fieldset_progress"></div></div>
-          <div id="inbox"><ul id="inbox_list_<%= current_user.inbox.id %>" class="sortablelist" style="display:none;"></ul></div>
-          <div id="trashbox"><ul id="trashbox_list_<%= current_user.trashbox.id %>" class="sortablelist" style="display:none;"></ul></div>
+          <div id="inbox"><ul id="inbox_list_<%= current_user.inbox.id %>" class="sortablelist inbox_list" style="display:none;"></ul></div>
+          <div id="trashbox"><ul id="trashbox_list_<%= current_user.trashbox.id %>" class="sortablelist trashbox_list" style="display:none;"></ul></div>
           <div id="trashbox_emptytrash_box" class="clearfix" style="display:none;">
             <span id="trashbox_emptytrash_button" onclick="<%# empty_trash_function %>">&nbsp;</span>
           </div>

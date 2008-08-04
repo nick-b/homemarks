@@ -17,7 +17,24 @@ var SortableUtils = {
       console.group('Droppables.drops[',index,']');
       console.dir(drop);
       console.groupEnd()
-    })
+    });
+  },
+  
+  dragDebug: function() {
+    Draggables.drags.each(function(drag,index){
+      console.group('Draggables.drags[',index,']');
+      console.log("element:   %o",drag.element);
+      console.log("handle:    %o",drag.handle);
+      console.log("options:   %o",drag.options);
+      console.log("dragging:  %o",drag.dragging);
+      console.groupEnd()
+    });
+    Draggables.observers.each(function(ob,index){
+      console.group('Draggables.observers[',index,']');
+      console.log("element:   %o",ob.element);
+      console.log("lastValue: %o",ob.lastValue);
+      console.groupEnd()
+    });
   },
   
   getDragObserver: function(element) {
@@ -153,6 +170,7 @@ var SortableUtils = {
     var draggable = sortable.draggables.find(function(d){ return d.element == member });
     draggable.destroy();
     sortable.draggables = sortable.draggables.without(draggable);
+    /* Now remove the Sortable key */
     delete Sortable.sortables[member.id];
   },
   
@@ -162,6 +180,10 @@ var SortableUtils = {
     /* Killing droppables and refs. */
     sortable.droppables = sortable.droppables.without(subparent);
     Droppables.remove(subparent);
+    /* Make sure to kill the Draggables.observer */
+    var dragObserver = Draggables.observers.find(function(o){ return o.element == subparent });
+    Draggables.observers = Draggables.observers.without(dragObserver);
+    /* Now remove the Sortable key */
     delete Sortable.sortables[subparent.id];
   },
   

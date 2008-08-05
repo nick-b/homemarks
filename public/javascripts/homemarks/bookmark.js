@@ -73,7 +73,6 @@ var Bookmark = Class.create(HomeMarksApp,{
     this.id = parseInt(this.bookmark.id.sub('bmark_',''));
     this.link = this.bookmark.down('a');
     $super();
-    this._initBookmarkEvents();
   },
   
   sortableElement: function() {
@@ -147,10 +146,6 @@ var Bookmark = Class.create(HomeMarksApp,{
       var newData = Object.extend({ id: this.id, url: this.url, name: this.name });
       new BookmarkBuilder(Trashbox,newData);
     };
-  },
-  
-  _initBookmarkEvents: function() {
-    
   }
   
 });

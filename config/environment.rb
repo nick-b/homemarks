@@ -32,6 +32,7 @@ ActionMailer::Base.delivery_method = :sendmail
 #   :password => "" 
 # }
 
+# TODO: [DEMO]
 if RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
   require 'utilities/copy_user'
 end

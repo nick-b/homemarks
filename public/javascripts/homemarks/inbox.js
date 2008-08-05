@@ -36,5 +36,6 @@ var InboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMixin
 
 document.observe('dom:loaded', function(){
   Inbox = new InboxClass;
+  Boxes.push(Inbox);
 });
 

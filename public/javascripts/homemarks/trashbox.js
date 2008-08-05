@@ -47,5 +47,6 @@ var TrashboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMi
 
 document.observe('dom:loaded', function(){
   Trashbox = new TrashboxClass;
+  Boxes.push(Trashbox);
 });
 

@@ -41,10 +41,6 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 #site_wrapper th.label       { width:190px; text-align:right; font-size:13px; }
 #site_wrapper td.value input { padding:3px; font-size:13px; }
 
-/* FIXME: Remove these. */
-#site_wrapper .value_buts    { float:left; }
-#site_wrapper .value_loads   { float:left; margin: 3px 0 0 6px; }
-
 #site_links               { font: normal normal normal 15px/22px "Trebuchet MS", sans-serif ; position:absolute; top:19px; right:17px; }
 #site_links img           { vertical-align:top; margin-left:5px; margin-right:3px; }
 #site_links a, 

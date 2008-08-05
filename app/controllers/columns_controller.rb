@@ -2,7 +2,7 @@ class ColumnsController < ApplicationController
   
   prepend_before_filter :ignore_lost_sortable_requests
   before_filter         :find_column, :except => :create
-  # TODO User cache
+  # TODO: [UserCache]
   # after_filter        :expire_user_home_cache
   
   

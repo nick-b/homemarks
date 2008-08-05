@@ -50,6 +50,7 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  # TODO: [DEMO]
   def nil_demo_account
     if session[:demo] == true
       session[:user] = nil
@@ -57,6 +58,7 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  # TODO: [DEMO]
   def control_demo_user
     if session[:demo] == true
       if request.get?

@@ -116,7 +116,7 @@ class BookmarkTest < ActiveSupport::TestCase
       should 'move INBOX bookmark to 2rd position in box' do
         bm = @im2
         to_box = @bm1.owner
-        bm.to_box(to_box.id,2)
+        bm.to_box(to_box,2)
         assert bm.box?
         assert_equal 2, @im3.reload.position, 'should be moved to second inbox position'
         assert_equal 1, @bm1.reload.position

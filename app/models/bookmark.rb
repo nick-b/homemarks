@@ -23,11 +23,11 @@ class Bookmark < ActiveRecord::Base
     @user ||= owner.user
   end
   
-  def to_box(type_or_id,position=nil)
-    box = case type_or_id
+  def to_box(type_or_box,position=nil)
+    box = case type_or_box
           when :inbox : user.inbox
           when :trashbox : user.trashbox
-          else user.boxes.find(type_or_id)
+          else user.boxes.find(type_or_box)
           end
     self.class.transaction do
       remove_from_list

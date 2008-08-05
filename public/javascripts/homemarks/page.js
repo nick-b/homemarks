@@ -116,6 +116,14 @@ var PageClass = Class.create(HomeMarksApp,{
     bookmark.trash();
   },
   
+  trashFull: function() {
+    this.trashcan.className = 'trash_full';
+  },
+  
+  trashEmpty: function() {
+    this.trashcan.className = 'trash_empty';
+  },
+  
   _buildColumnsSortable: function() {
     this.sortableElement().action = '/columns/sort';
     this.sortableElement().parameters = this.columnSortParams;

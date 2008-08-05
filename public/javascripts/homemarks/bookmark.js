@@ -134,13 +134,19 @@ var Bookmark = Class.create(HomeMarksApp,{
     SortableUtils.destroySortableMember(sortableList,sortableElement);
     if (!cascadeDelete) {
       this.flash('good','Bookmark trashed.');
+      this.url = this.url();
+      this.name = this.name();
       sortableElement.remove();
       SortableUtils.destroySortableMemberPostDOM(sortableList,sortableElement);
     };
   },
   
   moveToTrash: function() {
-    
+    Page.trashFull();
+    if (Trashbox.trashboxList.loaded) {
+      var newData = Object.extend({ id: this.id, url: this.url, name: this.name });
+      new BookmarkBuilder(Trashbox,newData);
+    };
   },
   
   _initBookmarkEvents: function() {

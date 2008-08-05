@@ -142,23 +142,14 @@ a.header_message:active   { color:#ff5200; }
 .tooltip_message      { margin:0px; padding:0px; color:#000; font: normal normal normal 11px Helvetica, sans-serif; }
 .tooltip_right        { position:absolute; height:100%; width:10px; top:0; right:0; left:auto; background: url('images/page/tooltip_right.png') no-repeat 0 0; }
 
-#tt_new_column        { right:207px; }
-#tt_bookmarklet       { right:172px; }
-#tt_prefs             { right:140px; }
-#tt_help              { right:107px; }
-#tt_home              { right:78px; }
-#tt_bug               { right:45px; }
-#tt_logout            { right:16px; }
-
-/* If the tipsy was active, use these, 20px width + 4px + 4px for each left and right margin */
-/*#tt_new_column        { right:235px; }
+#tt_new_column        { right:235px; }
 #tt_bookmarklet       { right:200px; }
 #tt_prefs             { right:168px; }
 #tt_help              { right:135px; }
 #tt_home              { right:106px; }
 #tt_beer              { right:76px; }
 #tt_bug               { right:45px; }
-#tt_logout            { right:16px; }*/
+#tt_logout            { right:16px; }
 
 
 

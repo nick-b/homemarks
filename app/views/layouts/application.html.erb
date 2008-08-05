@@ -65,8 +65,7 @@
       <%= app_nav_for 'My account preferences.', 'button_prefs', edit_user_path(current_user) %>
       <%= app_nav_for 'Documentation & Help', 'button_help', site_path('help') %>
       <%= app_nav_for 'Site homepage.', 'button_home', root_path %>
-      <%# TODO: Make this (tipsy) link go to something. %>
-      <%# app_nav_for 'Feeling tipsy?', 'button_beer', '#' %>
+      <%= app_nav_for 'Feeling tipsy?', 'button_beer', 'http://pledgie.org/campaigns/998' %>
       <%= app_nav_for 'Report any issues.', 'button_bug', new_support_request_path(:show_form => true) %>
       <%= app_nav_for 'Log out.', 'button_logout', session_path %>
     </div>

@@ -1,9 +1,0 @@
-
-<% cache(user_inbox_cache) do -%>
-  <%= render :partial => 'bookmark/bookmark_list', :locals => {:box => @inbox, :box_type => 'inbox'} %>
-  <script type="text/javascript">
-    //<![CDATA[
-    <%= render(:update) {|page| page.create_bookmark_sortables_code(@user,@inbox)} %>
-    //]]>
-  </script>
-<% end -%>

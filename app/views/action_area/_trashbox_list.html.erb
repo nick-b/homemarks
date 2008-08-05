@@ -1,9 +1,0 @@
-
-<% cache(user_trashbox_cache) do -%>
-  <%= render :partial => 'bookmark/bookmark_list', :locals => {:box => @trashbox, :box_type => 'trashbox'} %>
-  <script type="text/javascript">
-    //<![CDATA[
-    <%= render(:update) {|page| page.create_bookmark_sortables_code(@user,@trashbox)} %>
-    //]]>
-  </script>
-<% end -%>

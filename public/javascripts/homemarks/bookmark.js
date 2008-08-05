@@ -13,7 +13,12 @@ var BookmarkSortableMixins = {
   },
   
   bookmarkSortParams: function() {
-    return SortableUtils.getSortParams(this).merge({type:this.class});
+    var params = SortableUtils.getSortParams(this);
+    if (params.get('gained_id')) {
+      var bookmark = Bookmarks.find(function(bm){ return bm.id == params.get('id') });
+      params.set('old_type',bookmark.oldType);
+    };
+    return params.merge({type:this.class});
   },
   
   bookmarks: function() {
@@ -32,7 +37,7 @@ var BookmarkSortableMixins = {
       containment:  Bookmark.containment(), 
       constraint:   false, 
       dropOnEmpty:  true, 
-      onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBookmarkSort}), 
+      onUpdate: this.startAjaxRequest.bindAsEventListener(this,{onComplete:this.completeBookmarkSort})
     });
   }
   
@@ -118,6 +123,10 @@ var Bookmark = Class.create(HomeMarksApp,{
     });
   },
   
+  stashCurrentType: function() {
+    this.oldType = this.type();
+  },
+  
   destroySortableElement: function(request,cascadeDelete) {
     var sortableList = this.sortableList();
     var sortableElement = this.sortableElement();
@@ -145,12 +154,19 @@ Bookmark.containment = function() {
   return $$('ul.sortablelist');
 };
 
+Bookmark.onStartObserver = function(callbackName,draggable,event) {
+  if (draggable.element.hasClassName('dragable_bmarks')) {
+    var bookmark = Bookmarks.find(function(bm){ return bm.bookmark == draggable.element });
+    bookmark.stashCurrentType();
+  };
+};
 
 document.observe('dom:loaded', function(){
   $$('li.dragable_bmarks').each(function(bookmark){ 
     var bookmarkObject = new Bookmark(bookmark);
     Bookmarks.push(bookmarkObject);
   });
+  Draggables.addObserver({ onStart: Bookmark.onStartObserver });
 });
 
 

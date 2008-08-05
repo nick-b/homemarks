@@ -25,6 +25,10 @@ class ApplicationController < ActionController::Base
     params[:internal_sort] == 'true'
   end
   
+  def gained_sort?
+    !params[:gained_id].blank?
+  end
+  
   def lost_sortable?
     params[:lost_sortable] == 'true'
   end

@@ -1,5 +1,6 @@
 module ApplicationHelper  
   
+  # TODO: [UserCache]
   include CacheMasters::UrlPaths
   
   def title(title)
@@ -26,67 +27,6 @@ module ApplicationHelper
       %|var authParams = $H({#{request_forgery_protection_token}:#{form_authenticity_token.inspect}});|
     end
   end
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  def update_new_trashboxmark_ui_elements_and_message
-    page.<< "$('trashcan').classNames().set('trash_full'); showOrHideEmptyTrashBox();"
-  end
-  
-  def remove_all_trashboxmark_ui_elements_and_message(trashempty)
-    page.<< "$('trashcan').classNames().set('trash_empty'); showOrHideEmptyTrashBox();" if trashempty
-  end
-  
-
-  
-  
   
   def render_bookmarklet
     js = render :partial => 'bookmarklet/bookmarklet'

@@ -32,8 +32,12 @@ class Bookmark < ActiveRecord::Base
     self.class.transaction do
       remove_from_list
       self.owner = box
-      increment_positions_on_all_items
-      assume_top_position
+      if position
+        insert_at_position(position.to_i)
+      else
+        increment_positions_on_all_items
+        assume_top_position
+      end
     end 
   end
   

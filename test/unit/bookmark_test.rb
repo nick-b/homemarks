@@ -59,7 +59,7 @@ class BookmarkTest < ActiveSupport::TestCase
     
     should 'have query methods for owner types' do
       Bookmark::OWNER_TYPES.each do |type|
-        assert @bm.respond_to? "#{type.downcase}?"
+        assert @bm.respond_to?("#{type.downcase}?")
       end
     end
     
@@ -104,13 +104,24 @@ class BookmarkTest < ActiveSupport::TestCase
         assert @bm1.inbox?
       end
       
-      should 'remove bookmark from current list into new one' do
+      should 'move BOX bookmark to trash at 1st position' do
         @bm1.to_box(:trashbox)
         assert @bm1.trashbox?
         assert_equal 1, @bm1.position, 'should be moved to first in trash box list'
         assert_equal 1, @bm2.reload.position, 'last box bookmark should now be in first position'
         assert_equal 2, @tm1.reload.position, 'first trash bookmark should have moved to second'
         assert_equal 3, @tm2.reload.position, 'second trash bookmark should have moved to third'
+      end
+      
+      should 'move INBOX bookmark to 2rd position in box' do
+        bm = @im2
+        to_box = @bm1.owner
+        bm.to_box(to_box.id,2)
+        assert bm.box?
+        assert_equal 2, @im3.reload.position, 'should be moved to second inbox position'
+        assert_equal 1, @bm1.reload.position
+        assert_equal 2, bm.reload.position
+        assert_equal 3, @bm2.reload.position
       end
       
       should 'have a #trash! method that calls #to_box with :trashbox arg' do

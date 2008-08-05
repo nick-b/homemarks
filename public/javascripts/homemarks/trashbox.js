@@ -39,7 +39,9 @@ var TrashboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMi
   },
   
   completeEmptyTrash: function() {
-    
+    this.flash('good','Trash emptied.');
+    this.bookmarks().invoke('destroySortableElement');
+    Page.trashEmpty();
   }
   
 });

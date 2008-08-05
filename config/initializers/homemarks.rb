@@ -2,7 +2,6 @@
 # Simple configuration class.
 # -----------------------------------------------------------------------
 class HmConfig
-  JSMIN_TARGETS = ['prototype','effects','bookmarklet']
   @@property = {
     :app => {
       :email_from           => 'ken@homemarks.com',
@@ -29,8 +28,4 @@ UUID.state_file = File.join(RAILS_ROOT, "tmp", "uuid.state")
 UUID.setup unless File.exists?(UUID.state_file)
 UUID.config :state_file => UUID.state_file, :logger => RAILS_DEFAULT_LOGGER
 
-
-# Setting up streamlined js files for use with the bookmarklet code.
-# -----------------------------------------------------------------------
-HmConfig::JSMIN_TARGETS.each { |target| JsMin.optimize("#{target}.js") }
 

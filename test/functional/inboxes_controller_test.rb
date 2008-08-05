@@ -22,6 +22,15 @@ class InboxesControllerTest < ActionController::TestCase
       assert_equal @ibm.url, bm_data.first['bookmark']['url']
     end
     
+    should 'be ordered' do
+      @ibm2 = @inbox.bookmarks.create :name => 'Test1', :url => 'test1.com'
+      get :bookmarks
+      assert_response :success
+      bm_data = decode_json_response
+      assert_equal @ibm2.name, bm_data[0]['bookmark']['name']
+      assert_equal @ibm.name, bm_data[1]['bookmark']['name']
+    end
+    
   end
   
   

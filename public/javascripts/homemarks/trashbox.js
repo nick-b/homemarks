@@ -20,7 +20,7 @@ var TrashboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMi
     if (this.trashboxList.loaded) { return true };
     var request = new Ajax.Request('/trashbox/bookmarks',{asynchronous:false,method:'get'});
     var bookmarkData = request.transport.responseText.evalJSON();
-    bookmarkData.each(function(bm){
+    bookmarkData.reverse().each(function(bm){
       new BookmarkBuilder(this,bm.bookmark);
     }.bind(this));
     this.trashboxList.loaded = true;

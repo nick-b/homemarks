@@ -20,7 +20,7 @@ var InboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMixin
     if (this.inboxList.loaded) { return true };
     var request = new Ajax.Request('/inbox/bookmarks',{asynchronous:false,method:'get'});
     var bookmarkData = request.transport.responseText.evalJSON();
-    bookmarkData.each(function(bm){
+    bookmarkData.reverse().each(function(bm){
       new BookmarkBuilder(this,bm.bookmark);
     }.bind(this));
     this.inboxList.loaded = true;

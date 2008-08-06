@@ -3,18 +3,11 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
 -------------------------------------------
 
 * Use Google JS calls for prototype and scriptaculous
-* http://svn.rubyonrails.org/rails/plugins/exception_notification/README
 * Create sitewide JS browser check (happy message)
 * Confirm all HmConfig settings.
-* New features to stuff in
-  http://weblog.rubyonrails.org/2008/4/1/a-taste-of-what-s-coming-in-rails-2-1
-  http://mad.ly/2008/04/09/rails-21-time-zone-support-an-overview/
-
 * Create a bootstrap rake task that asks for a username/pass and sets up initial data.
-* Always make sure JS is latest.
-* Bootstrap task
   - Update secret forgery stuff
-* Add list of Rails 2.X features
+* Write about
   - Developed to SQLite, I run mysql in production.
   - TESTS TESTS TESTS
   - Foxy Fixtures
@@ -24,24 +17,13 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
   - Restful authentication.
 
 
-* HasManyAssociation callbacks.
-  has_many :foo :before_add => do, :after_add => do, :before_remove => do, :after_remove => do, 
-  callbacks = %w(before_add after_add before_remove after_remove)
-  callbacks.each do |callback_name|
-    full_callback_name = "#{callback_name}_for_#{association_name}"
-
 
 
 Some Miscellaneous Notes:
 ------------------------------------------------------------------
 
-  * Requires Rails 2.1
-  * Uses JavaScript Libraries
-    - Prototype 1.6.0.1
-    - Scriptaculous 1.8.1
   * Plugins Installed
-    - Shoulda => https://svn.thoughtbot.com/plugins/shoulda/tags/rel-4.0.1/
-  
+    - Shoulda => https://svn.thoughtbot.com/plugins/shoulda/tags/rel-4.0.1/  
   
   * There is a configuration class in environment.rb. It is used 
     alot throughout the app. Some things may beed to be set there 

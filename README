@@ -1,10 +1,7 @@
 
-http://weblog.rubyonrails.com/2008/6/1/rails-2-1-time-zones-dirty-caching-gem-dependencies-caching-etc
-
 NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
 -------------------------------------------
 
-* Make cookie store remember 1 year
 * config.cache_store = :memory_store
 * config cache_template_extensions deprecated
 * Use Google JS calls for prototype and scriptaculous
@@ -25,7 +22,6 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
 * Bootstrap task
   - Update secret forgery stuff
 * Add list of Rails 2.X features
-  - Cookie Session Store
   - Developed to SQLite, I run mysql in production.
   - TESTS TESTS TESTS
   - Foxy Fixtures
@@ -43,7 +39,7 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
 
 
 
-Copyright (c) 2007 Action Moniker LLC., http://www.actionmoniker.com/
+Copyright (c) 2008 Action Moniker LLC., http://www.actionmoniker.com/
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

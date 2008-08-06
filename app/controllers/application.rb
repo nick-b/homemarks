@@ -1,11 +1,13 @@
 class ApplicationController < ActionController::Base
   
-  include ERB::Util, AuthenticatedSystem, RenderInvalidRecord
+  include ERB::Util, AuthenticatedSystem, RenderInvalidRecord, CacheMasters::ControllerMethods
   
   protect_from_forgery
   
   layout        :site_or_application_layout
   session       :session_expires => 120.days.from_now
+  cache_sweeper :app_sweeper
+  
   before_filter :login_required
   
   

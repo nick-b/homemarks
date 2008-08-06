@@ -11,6 +11,7 @@ require 'digest/sha1'
 
 Rails::Initializer.run do |config|
   config.frameworks  -= [ :active_resource ]
+  config.load_paths  += [ "#{RAILS_ROOT}/app/sweepers" ]
   config.plugins      = [ :acts_as_list, :shoulda ]
   config.action_controller.session = {
     :session_key      => '_myhomemarks_session',

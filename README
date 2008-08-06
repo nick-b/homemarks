@@ -2,10 +2,7 @@
 NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
 -------------------------------------------
 
-* config.cache_store = :memory_store
 * Use Google JS calls for prototype and scriptaculous
-* Make modal and flash global?
-* Use sweepers instead of cache masters
 * http://svn.rubyonrails.org/rails/plugins/exception_notification/README
 * Create sitewide JS browser check (happy message)
 * Confirm all HmConfig settings.

@@ -1,6 +1,5 @@
 module ApplicationHelper  
   
-  # TODO: [UserCache]
   include CacheMasters::UrlPaths
   
   def title(title)

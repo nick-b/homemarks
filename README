@@ -3,7 +3,6 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
 -------------------------------------------
 
 * config.cache_store = :memory_store
-* config cache_template_extensions deprecated
 * Use Google JS calls for prototype and scriptaculous
 * Make modal and flash global?
 * Use sweepers instead of cache masters

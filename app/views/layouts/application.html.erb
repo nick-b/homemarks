@@ -53,12 +53,7 @@
         <%= content_tag(:span, flash_mood, :id => 'message') if flash_mood %>
       </div>
     </div>
-    <%# TODO: [DEMO] %>
-    <%# if session[:demo] %>
-    <!-- <div id="header_message_box">
-      <%# link_to "Quit demo'in around and join HomeMarks...", signup_url, :class => 'header_message' %>
-    </div> -->
-    <%# end %>
+    
     <div id="button_box">
       <%= app_nav_for 'Create a new column.', 'button_new_column', columns_url %>
       <%= app_nav_for 'My HomeMarklet. Click to learn more.', 'button_bookmarklet', render_bookmarklet, :xtra_content => '<span style="display:none;">HomeMarklet</span>' %>

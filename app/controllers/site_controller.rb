@@ -7,8 +7,7 @@ class SiteController < ApplicationController
   
   
   def index
-    # TODO [DEMO] 
-    # @demojumpurl = jumpin_url(:user_id => HmConfig.demo[:id], :token => HmConfig.demo[:token], :redirect => 'myhome')
+    render
   end
   
   def show

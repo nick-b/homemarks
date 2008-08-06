@@ -17,8 +17,6 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
   - Restful authentication.
 
 
-
-
 Some Miscellaneous Notes:
 ------------------------------------------------------------------
 
@@ -40,4 +38,3 @@ Some Miscellaneous Notes:
     env RAILS_ENV=production /pathtoyourapp/current/script/runner DemoUser.reset
     
   * Comments welcome: ken@actionmoniker.com
-

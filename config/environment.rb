@@ -26,17 +26,6 @@ end
 
 
 ActionMailer::Base.delivery_method = :sendmail
-# ActionMailer::Base.smtp_settings = { 
-#   :address => "mail.foobar.com", 
-#   :domain => "server.foobar.com",
-#   :authentication => :login, 
-#   :user_name => "", 
-#   :password => "" 
-# }
 
-# TODO: [DEMO]
-if RAILS_ENV == 'test' || ENV['SKIPTHIS'] == 'true'
-  require 'utilities/copy_user'
-end
 
 

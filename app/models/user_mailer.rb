@@ -23,12 +23,6 @@ class UserMailer < ActionMailer::Base
     @body['days'] = HmConfig.app[:delayed_delete_days]
   end
   
-  # TODO: [ADMIN] Delete mail notification
-  # def delete(user)
-  #   setup_email(user)
-  #   @subject += 'Deleted account permanently'
-  # end
-  
   
   protected
   

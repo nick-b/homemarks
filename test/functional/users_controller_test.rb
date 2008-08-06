@@ -6,7 +6,7 @@ class UsersControllerTest < ActionController::TestCase
     @bob = users(:bob)
   end
   
-  context 'While testing the new action' do
+  context 'Testing the NEW action' do
     
     should 'get the page with success' do
       get :new
@@ -32,7 +32,7 @@ class UsersControllerTest < ActionController::TestCase
     
   end
   
-  context 'While testing the create action' do
+  context 'Testing the CREATE action' do
     
     should 'signup' do
       xhr_signup
@@ -57,7 +57,7 @@ class UsersControllerTest < ActionController::TestCase
     
   end
   
-  context 'While testing the edit action' do
+  context 'Testing the EDIT action' do
     
     setup { login_as(:bob) }
     
@@ -81,7 +81,7 @@ class UsersControllerTest < ActionController::TestCase
 
   end
   
-  context 'While testing the update action' do
+  context 'Testing the UPDATE action' do
     
     setup { login_as(:bob) }
     
@@ -113,7 +113,7 @@ class UsersControllerTest < ActionController::TestCase
     
   end
   
-  context 'While testing the destroy action' do
+  context 'Testing the DESTROY action' do
     
     setup { login_as(:bob) }
     
@@ -132,7 +132,7 @@ class UsersControllerTest < ActionController::TestCase
     
   end
   
-  context 'While testing the undelete action' do
+  context 'Testing the UNDELETE action' do
 
     should 'redirect when already logged in' do
       login_as(:bob)
@@ -155,7 +155,7 @@ class UsersControllerTest < ActionController::TestCase
 
   end
   
-  context 'While testing the myhome action' do
+  context 'Testing the MYHOME action' do
   
     should 'get page with intro content for new user' do
       newuser = login_as(:newuser)

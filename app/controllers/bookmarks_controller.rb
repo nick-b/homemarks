@@ -2,9 +2,6 @@ class BookmarksController < ApplicationController
   
   prepend_before_filter :ignore_lost_sortable_requests
   before_filter         :find_bookmark
-  # TODO [DEMO] Controller filters
-  # after_filter :expire_user_home_cache, :only => [ :new_in_box, :save_links ]
-  # after_filter :expire_correct_fragment, :only => [ :sort, :trash ]
   
   
   def show

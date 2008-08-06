@@ -7,7 +7,7 @@ class HmConfig
     :app => {
       :email_from           => 'ken@homemarks.com',
       :admin_email          => 'ken@homemarks.com',
-      :host                 => 'homemarks.com',
+      :host                 => 'dev.homemarks.com',
       :delayed_delete_days  => 3
     },
     :demo => {

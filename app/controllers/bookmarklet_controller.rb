@@ -1,27 +1,28 @@
 class BookmarkletController < ApplicationController
 
-  skip_before_filter :login_required, :find_user_object
-  before_filter :redirect_if_self_referal, :only => [ :setup ]
-  before_filter :redirect_if_no_referer, :find_user_by_uuid, :only => [ :setup, :save, :nonhtml ]
-  after_filter :expire_correct_fragment, :only => [ :save ]
+  skip_before_filter :login_required
+  
+  before_filter :redirect_if_self_referal, :only => [ :new ]
+  before_filter :redirect_if_no_referer, :find_user_by_uuid
   
   
-  def setup
+  def new
     render :update do |page|
-      # Setting the styles of various DIVs in the bookmarklet code.
-      page.<< "Element.setStyle('modal_html_ap-wrapper',{position:'fixed',top:'0',left:'0',zIndex:'999999'});"
-      page.<< "Element.setStyle('modalmask',{position:'absolute',top:'0',left:'0',zIndex:'999998',width:'100%',height:'100%',textAlign:'center',backgroundColor:'#000',opacity:'0.9'});"
-      page.<< "$('modalmask').style.setProperty('-moz-opacity','0.9',null);"
-      page.<< "Element.setStyle('modal_progress',{position:'relative',width:'100px',height:'130px',margin:'0 auto',cursor:'pointer',backgroundImage:'url(#{HmConfig.app[:host]}javascripts/modal_assets/progress_invert.gif)'});"
-      page.<< "Event.observe('modal_progress','click', goHere, false);"
-      # Miscellaneous JavaScript calls to mimic a box's edit links modal.
-      page.remove :loadinghomemarks
-      page.<< "setupModal();"
-      page.show :modal_progress
-      page.replace_html 'modal_html_ap-wrapper', :partial => 'form'
-      page.<< "$('hm_bookmark_name').value = document.title;"
-      page.hide :modal_progress
-      page.visual_effect :slide_down, 'modal_html_rel-wrapper', :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_bookmarklet"}
+      page.alert 'Foo'
+      # # Setting the styles of various DIVs in the bookmarklet code.
+      # page.<< "Element.setStyle('modal_html_ap-wrapper',{position:'fixed',top:'0',left:'0',zIndex:'999999'});"
+      # page.<< "Element.setStyle('modalmask',{position:'absolute',top:'0',left:'0',zIndex:'999998',width:'100%',height:'100%',textAlign:'center',backgroundColor:'#000',opacity:'0.9'});"
+      # page.<< "$('modalmask').style.setProperty('-moz-opacity','0.9',null);"
+      # page.<< "Element.setStyle('modal_progress',{position:'relative',width:'100px',height:'130px',margin:'0 auto',cursor:'pointer',backgroundImage:'url(#{HmConfig.app[:host]}javascripts/modal_assets/progress_invert.gif)'});"
+      # page.<< "Event.observe('modal_progress','click', goHere, false);"
+      # # Miscellaneous JavaScript calls to mimic a box's edit links modal.
+      # page.remove :loadinghomemarks
+      # page.<< "setupModal();"
+      # page.show :modal_progress
+      # page.replace_html 'modal_html_ap-wrapper', :partial => 'form'
+      # page.<< "$('hm_bookmark_name').value = document.title;"
+      # page.hide :modal_progress
+      # page.visual_effect :slide_down, 'modal_html_rel-wrapper', :duration => 0.4, :queue => {:position => 'end', :scope => "boxid_bookmarklet"}
     end
   end
   
@@ -81,10 +82,6 @@ class BookmarkletController < ApplicationController
   
   def find_box_type
     @box_type = case @box ; when Box : 'box' ; when Inbox : 'inbox' ; end
-  end
-  
-  def expire_correct_fragment
-    expire_by_box_type(@box_type) 
   end
   
   

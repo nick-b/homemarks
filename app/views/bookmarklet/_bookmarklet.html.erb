@@ -4,7 +4,7 @@ javascript:
     var notHTML=/(pdf|gif|jpg|jpeg|png|css|js|mov)$/i;
     if(notHTML.test(location.href)){
       location.href='<%# nonhtml_url(:only_path => false, :uuid => @user.uuid) %>';
-      return
+      return;
     };
     var d,n1,a,h,ac,l,ls,ss,m,ms,mp,mps,f,pjs,ejs,appjs,rjs;
     var d=document;
@@ -29,7 +29,7 @@ javascript:
     ss=d.createElement('link');
     ss.rel='stylesheet';
     ss.type='text/css';
-    ss.href='<%= HmConfig.app[:host] %>stylesheets/bookmarklet.css';
+    ss.href='http://<%= HmConfig.app[:host] %>/stylesheets/bookmarklet.css';
     ac(ss);
     m=d.createElement('div');
     m.id='modalmask';
@@ -46,20 +46,20 @@ javascript:
     a(f);
     pjs=d.createElement('script');
     pjs.type='text/javascript';
-    pjs.src='<%= HmConfig.app[:host] %>/javascripts/prototype_min.js';
+    pjs.src='http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js';
     a(pjs);
     ejs=d.createElement('script');
     ejs.type='text/javascript';
-    ejs.src='<%= HmConfig.app[:host] %>/javascripts/effects_min.js';
+    ejs.src='http://ajax.googleapis.com/ajax/libs/scriptaculous/1.8.1/scriptaculous.js';
     a(ejs);
     appjs=d.createElement('script');
     appjs.type='text/javascript';
-    appjs.src='<%= HmConfig.app[:host] %>/javascripts/bookmarklet_min.js';
+    appjs.src='http://<%= HmConfig.app[:host] %>/javascripts/homemarks/app.js';
     a(appjs);
     rjs=d.createElement('script');
     rjs.type='text/javascript';
-    rjs.src='<%# setup_form_url(:only_path => false, :uuid => @user.uuid) %>';
+    rjs.src='<%= new_bookmarklet_url(:only_path => false, :uuid => current_user.uuid) %>';
     a(rjs);
     })
-    ();  
+    ();
 </script>

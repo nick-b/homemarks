@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.root :controller => 'site'
   
+  map.resource    :bookmarklet
   map.resources   :support_requests
   map.resource    :session,   :member => { :jumpin => :get, :forgot_password => :post }
   

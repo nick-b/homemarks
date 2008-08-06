@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   layout        :site_or_application_layout
+  session       :session_expires => 120.days.from_now
   before_filter :login_required
   
   

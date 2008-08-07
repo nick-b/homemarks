@@ -27,6 +27,16 @@ module ApplicationHelper
     end
   end
   
+  def javascript_vendor_tags
+    javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor'
+  end
+  
+  def javascript_application_tags
+    javascript_include_tag 'homemarks/base','homemarks/sortable','homemarks/app','homemarks/modal','homemarks/tooltip',
+                           'homemarks/bookmark','homemarks/box','homemarks/column','homemarks/page','homemarks/inbox',
+                           'homemarks/trashbox', :cache => 'homemarks_app'
+  end
+  
   def render_bookmarklet
     js = render :partial => 'bookmarklet/bookmarklet'
     js.gsub!('<script>','')

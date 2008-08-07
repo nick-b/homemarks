@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" href="/favicon.png" />
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
-  <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor' %>
+  <%= javascript_vendor_tags %>
   <%= javascript_include_tag 'homemarks/base','homemarks/site','homemarks/modal', :cache => 'homemarks_site' %>
   <script type="text/javascript">
     document.observe('dom:loaded', function(){

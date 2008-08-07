@@ -6,4 +6,5 @@ db/*.sqlite3
 doc/api
 doc/app
 log/*
+public/javascripts/homemarks_core.js
 

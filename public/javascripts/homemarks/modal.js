@@ -47,6 +47,7 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     if (options.showProgress) { this.toggleProgress('on') };
     this.toggleObservers('on');
     this.toggleModal('on');
+    // TODO: Account for action area.
     // document.stopObserving('keypress', actionAreaHelper);
     // if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
   },
@@ -65,6 +66,7 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
   hide: function() {
     this.startHide();
     this.completeHide();
+    // TODO: Account for action area.
     // document.observe('keypress', actionAreaHelper);
   },
 
@@ -144,6 +146,7 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     this.allButtons = $A([this.cancelButton,this.saveButton]);
   }
   
+  // TODO: Account for action area.
   // goHere: function() {
   //   window.location.reload();
   // }

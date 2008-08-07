@@ -28,13 +28,24 @@ module ApplicationHelper
   end
   
   def javascript_vendor_tags
-    javascript_include_tag 'prototype', 'effects', 'dragdrop', 'builder', :cache => 'homemarks_vendor'
+    javascript_include_tag 'prototype','effects','dragdrop','builder', :cache => 'homemarks_vendor'
   end
   
   def javascript_application_tags
     javascript_include_tag 'homemarks/base','homemarks/sortable','homemarks/app','homemarks/modal','homemarks/tooltip',
                            'homemarks/bookmark','homemarks/box','homemarks/column','homemarks/page','homemarks/inbox',
                            'homemarks/trashbox', :cache => 'homemarks_app'
+  end
+  
+  def javascript_core_tags
+    do_caching = ActionController::Base.perform_caching
+    cache = 'homemarks_core'
+    file = File.join(ActionView::Helpers::AssetTagHelper::JAVASCRIPTS_DIR, cache)
+    ActionController::Base.perform_caching = true
+    File.delete(file) if do_caching
+    javascript_include_tag 'homemarks/base','homemarks/modal', :cache => 'homemarks_core'
+  ensure
+    ActionController::Base.perform_caching = do_caching
   end
   
   def render_bookmarklet

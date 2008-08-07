@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SiteControllerTest < ActionController::TestCase
   
   
-  context 'While testing the site root' do
+  context 'Testing the SITE root' do
     
     should 'recognize route' do
       assert_generates('/',{:controller => 'site',:action => 'index'})
@@ -20,10 +20,15 @@ class SiteControllerTest < ActionController::TestCase
       assert_site_page_success :title => 'Welcome to HomeMarks'
     end
     
+    should 'cache the javascripts/homemarks_core.js even in dev/test mode' do
+      get :index
+      assert File.exist?("#{Rails.root}/public/javascripts/homemarks_core.js")
+    end
+    
   end
   
   
-  context 'While testing other static pages' do
+  context 'Testing other STATIC pages' do
     
     should 'get pages with basic content assertions' do
       assert_show_site_page_success 'help', :title => 'Documentation & Help'

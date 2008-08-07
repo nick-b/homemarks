@@ -10,7 +10,8 @@
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= stylesheet_link_tag 'utility_styles', :media => 'all' %>
   <%= javascript_vendor_tags %>
-  <%= javascript_include_tag 'homemarks/base','homemarks/site','homemarks/modal', :cache => 'homemarks_site' %>
+  <%= javascript_core_tags %>
+  <%= javascript_include_tag 'homemarks/site' %>
   <script type="text/javascript">
     document.observe('dom:loaded', function(){
       HmSite = new HomeMarksSite();

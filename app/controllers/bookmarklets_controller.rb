@@ -4,7 +4,7 @@ class BookmarkletsController < ApplicationController
   
   before_filter :redirect_if_no_referer,   :except => [ :create ]
   before_filter :redirect_if_self_referal, :only   => [ :new ]
-  before_filter :find_user_by_uuid
+  before_filter :auth_by_uuid
   
   
   def new
@@ -55,9 +55,20 @@ class BookmarkletsController < ApplicationController
   
   def redirect_if_self_referal
     if request.referer.include?(HmConfig.app[:host])
-      render(:update) { |page| page << "window.location='#{site_path('help',:anchor => 'homemarklet')}'"} 
+      render(:update) { |page| page.redirect_to site_url('help',:anchor => 'homemarklet') } 
     end
   end
+  
+  def auth_by_uuid
+    unless self.current_user = User.find_by_uuid(params[:uuid])
+      if action_name =~ /nonhtml|create/
+        redirect_to root_url
+      else
+        render(:update) { |page| page.redirect_to root_url } 
+      end
+    end
+  end
+  
   
   
   
@@ -69,19 +80,6 @@ class BookmarkletsController < ApplicationController
   
   def redirect_to_bookmark_url
     render(:update) {|page| page.<< "#{redirect_function(@bookmark_url)}"}
-  end
-  
-  def find_user_by_uuid
-    @user = User.find_by_uuid(params[:uuid])
-    if @user.blank?
-      divid = case params[:action] ; when 'setup' : 'loadinghomemarks' ; when 'save' : 'savehomemarks_form_wrapper' ; when 'nonhtml' : '' ; end
-      message = case params[:action] ; when 'setup' : 'Make bookmark modal failed.' ; when 'save' : 'Save bookmark failed.' ; when 'nonhtml' : 'Make non-HTML bookmark failed.' ; end
-      return redirect_to(request.referer) if (params[:action]=='nonhtml')
-      render :update do |page|
-        page.replace_html divid, 'ERROR: Refreshing Page Now!'
-        page.delay(1.5) { page.redirect_to request.referer }
-      end
-    end
   end
   
   def setup_bookmark_url_instance_vars_and_box_object

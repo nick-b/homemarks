@@ -1,6 +1,38 @@
-#modal_button_cancel { float:right; width:84px; height:26px; margin:1px; background: url('http://homemarks/stylesheets/images/modal/button_cancel.png') no-repeat -85px 0 ; }
-#modal_button_cancel:hover { background-position: -170px 0 ; }
-#modal_button_cancel:active { background-position: 0 0 ; }
-#modal_button_save { float:right; width:84px; height:26px; margin:1px; background: url('http://homemarks/stylesheets/images/modal/button_save_link.png') no-repeat -85px 0 ; }
-#modal_button_save:hover { background-position: -170px 0 ; }
-#modal_button_save:active { background-position: 0 0 ; }
+
+/*---    Modal Overlay & Misc Progress Styles    ---*/
+
+#modalmask         { position: absolute; top:0; left:0; z-index:200; width:100%; height:100%; text-align:center;
+                     background-color:#000; filter:alpha(opacity=90); -moz-opacity:0.9; opacity:0.9; }
+#modal_progress,
+#fieldset_progress { position:relative; width:100px; height:130px; margin: 0 auto;
+                     background-image: url('http://dev.homemarks.com/javascripts/modal_assets/progress_invert.gif'); cursor:pointer; }
+#fieldset_progress { background-image: url('http://dev.homemarks.com/stylesheets/images/page/progress.gif'); }
+
+
+/*---    Modal Box Styles    ---*/
+
+#modal_html_ap-wrapper  { position:fixed; top:0; left:0; z-index:205; }
+#modal_html_rel-wrapper { position:relative; }
+#modal_html_border      { position:relative; border: 1px solid #666; border-top: 0 none; }
+#modal_html_top         { position:absolute; top:0; left:0; 
+                          height:9px; background: url('/javascripts/modal_assets/modal_top.png') repeat-x; z-index:210; }
+#modal_html             { position: relative; padding:17px; border: 8px solid #333; border-top: 0 none; color:black!important;
+                          background: #fff url('http://dev.homemarks.com/stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left; }
+
+#modal_html.white,    #modal_html.timberwolf,   #modal_html.black           { background-image: url('http://dev.homemarks.com/stylesheets/images/modal/bg_grey.jpg') ; }
+#modal_html.aqua,     #modal_html.sky_blue,     #modal_html.cerulian        { background-image: url('http://dev.homemarks.com/stylesheets/images/modal/bg_blue.jpg') ; }
+#modal_html.melon,    #modal_html.salmon,       #modal_html.red             { background-image: url('http://dev.homemarks.com/stylesheets/images/modal/bg_red.jpg') ; }
+#modal_html.limeade,  #modal_html.spring_green, #modal_html.yellow_green    { background-image: url('http://dev.homemarks.com/stylesheets/images/modal/bg_green.jpg') ; }
+#modal_html.lavender, #modal_html.wistera,      #modal_html.violet          { background-image: url('http://dev.homemarks.com/stylesheets/images/modal/bg_purple.jpg') ; }
+#modal_html.postit,   #modal_html.yellow,       #modal_html.orange          { background-image: url('http://dev.homemarks.com/stylesheets/images/modal/bg_orange.jpg') ; }
+#modal_html.bisque,   #modal_html.apricot,      #modal_html.raw_sienna      { background-image: url('http://dev.homemarks.com/stylesheets/images/modal/bg_orange.jpg') ; }
+
+#modal_buttons                { margin: 5px 0 0 0; }
+#modal_button_cancel          { cursor:pointer; float:right; width:84px; height:26px; margin:1px; background: url('http://dev.homemarks.com/stylesheets/images/modal/button_cancel.png') no-repeat -85px 0 ; }
+#modal_button_cancel:hover    { background-position: -170px 0 ; }
+#modal_button_cancel:active   { background-position: 0 0 ; }
+#modal_button_save            { cursor:pointer; float:right; width:84px; height:26px; margin:1px; background: url('http://dev.homemarks.com/stylesheets/images/modal/button_save_link.png') no-repeat -85px 0 ; }
+#modal_button_save:hover      { background-position: -170px 0 ; }
+#modal_button_save:active     { background-position: 0 0 ; }
+
+

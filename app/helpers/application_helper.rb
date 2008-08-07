@@ -27,6 +27,10 @@ module ApplicationHelper
     end
   end
   
+  def stylesheet_tags
+    stylesheet_link_tag 'application','bookmarklet','utility_styles', :cache => 'homemarks_styles'
+  end
+  
   def javascript_vendor_tags
     javascript_include_tag 'prototype','effects','dragdrop','builder', :cache => 'homemarks_vendor'
   end

@@ -31,7 +31,7 @@ class BookmarkletsController < ApplicationController
   def nonhtml
     # @bookmark_url = request.referer
     # @nonhtml = true
-    # render :partial => 'form', :layout => 'nonhtml'
+    render :layout => 'bookmarklet'
   end
   
   def create
@@ -44,7 +44,7 @@ class BookmarkletsController < ApplicationController
     # end
   end
   
-
+  
   
   
   

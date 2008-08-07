@@ -9,7 +9,8 @@ class BookmarkletsController < ApplicationController
   
   def new
     render :update do |page|
-      page.alert 'Foo'
+      # page.<< "alert($('gbar').getWidth());"
+      
       # # Setting the styles of various DIVs in the bookmarklet code.
       # page.<< "Element.setStyle('modal_html_ap-wrapper',{position:'fixed',top:'0',left:'0',zIndex:'999999'});"
       # page.<< "Element.setStyle('modalmask',{position:'absolute',top:'0',left:'0',zIndex:'999998',width:'100%',height:'100%',textAlign:'center',backgroundColor:'#000',opacity:'0.9'});"

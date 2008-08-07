@@ -26,6 +26,12 @@ class BookmarkletController < ApplicationController
     end
   end
   
+  def nonhtml
+    @bookmark_url = request.referer
+    @nonhtml = true
+    render :partial => 'form', :layout => 'nonhtml'
+  end
+  
   def save
     setup_bookmark_url_instance_vars_and_box_object
     @box.bookmarks.create :name => params[:bookmark][:name], :url => @bookmark_url
@@ -36,11 +42,7 @@ class BookmarkletController < ApplicationController
     end
   end
   
-  def nonhtml
-    @bookmark_url = request.referer
-    @nonhtml = true
-    render :partial => 'form', :layout => 'nonhtml'
-  end
+
   
   
   

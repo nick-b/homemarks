@@ -7,6 +7,7 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
 * Confirm all HmConfig settings.
 * Create a bootstrap rake task that asks for a username/pass and sets up initial data.
   - Update secret forgery stuff
+* Pulsate from box edit.
 * Write about
   - Developed to SQLite, I run mysql in production.
   - TESTS TESTS TESTS

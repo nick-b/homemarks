@@ -1,9 +1,10 @@
-class BookmarkletController < ApplicationController
+class BookmarkletsController < ApplicationController
 
   skip_before_filter :login_required
   
-  before_filter :redirect_if_self_referal, :only => [ :new ]
-  before_filter :redirect_if_no_referer, :find_user_by_uuid
+  before_filter :redirect_if_no_referer,   :except => [ :create ]
+  before_filter :redirect_if_self_referal, :only   => [ :new ]
+  before_filter :find_user_by_uuid
   
   
   def new
@@ -27,19 +28,19 @@ class BookmarkletController < ApplicationController
   end
   
   def nonhtml
-    @bookmark_url = request.referer
-    @nonhtml = true
-    render :partial => 'form', :layout => 'nonhtml'
+    # @bookmark_url = request.referer
+    # @nonhtml = true
+    # render :partial => 'form', :layout => 'nonhtml'
   end
   
-  def save
-    setup_bookmark_url_instance_vars_and_box_object
-    @box.bookmarks.create :name => params[:bookmark][:name], :url => @bookmark_url
-    return redirect_to_bookmark_url if @nonhtml_url
-    render :update do |page|
-      page.<< "destroyModalMask()"
-      page.delay(1) {page.remove 'modal_html_ap-wrapper'}
-    end
+  def create
+    # setup_bookmark_url_instance_vars_and_box_object
+    # @box.bookmarks.create :name => params[:bookmark][:name], :url => @bookmark_url
+    # return redirect_to_bookmark_url if @nonhtml_url
+    # render :update do |page|
+    #   page.<< "destroyModalMask()"
+    #   page.delay(1) {page.remove 'modal_html_ap-wrapper'}
+    # end
   end
   
 
@@ -48,16 +49,26 @@ class BookmarkletController < ApplicationController
   
   protected
   
-  def redirect_to_bookmark_url
-    render(:update) {|page| page.<< "#{redirect_function(@bookmark_url)}"}
-  end
-  
   def redirect_if_no_referer
-    redirect_to index_url if !request.referer
+    redirect_to root_url unless request.referer
   end
   
   def redirect_if_self_referal
-    render(:update) {|page| page.<< "#{redirect_function(site_path('help')(:anchor => 'homemarklet'))}"} if request.referer.to_s.match "^#{HmConfig.app[:host]}"
+    if request.referer.include?(HmConfig.app[:host])
+      render(:update) { |page| page << "window.location='#{site_path('help',:anchor => 'homemarklet')}'"} 
+    end
+  end
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  def redirect_to_bookmark_url
+    render(:update) {|page| page.<< "#{redirect_function(@bookmark_url)}"}
   end
   
   def find_user_by_uuid

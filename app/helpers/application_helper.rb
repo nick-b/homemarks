@@ -42,12 +42,17 @@ module ApplicationHelper
   end
   
   def javascript_core_tags
-    do_caching = ActionController::Base.perform_caching
     cache = 'homemarks_core'
-    file = File.join(ActionView::Helpers::AssetTagHelper::JAVASCRIPTS_DIR, cache)
-    ActionController::Base.perform_caching = true
-    File.delete(file) if do_caching
-    javascript_include_tag 'homemarks/base','homemarks/modal', :cache => 'homemarks_core'
+    do_caching = ActionController::Base.perform_caching
+    if Rails.env == 'development'
+      file = File.join(Rails.root,'public','javascripts',"#{cache}.js")
+      File.delete(file) if File.exist?(file)
+      ActionController::Base.perform_caching = true
+      ['@@stylesheet_expansions','@@javascript_expansions','@@file_exist_cache'].each do |mivar|
+        ActionView::Helpers::AssetTagHelper.module_eval("#{mivar} = {}")
+      end
+    end
+    javascript_include_tag 'homemarks/base','homemarks/modal', :cache => cache
   ensure
     ActionController::Base.perform_caching = do_caching
   end

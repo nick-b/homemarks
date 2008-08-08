@@ -9,7 +9,10 @@ class BookmarkletsController < ApplicationController
   
   def new
     render :update do |page|
-      # page.<< "alert($('gbar').getWidth());"
+      page << "alert($('gbar').getWidth());"
+      
+      # page << "HomeMarksModal = new HomeMarksModalClass();"
+      # page << "HomeMarksModal.show('',{contentFor:'bookmark',showProgress:true});"
       
       # # Setting the styles of various DIVs in the bookmarklet code.
       # page.<< "Element.setStyle('modal_html_ap-wrapper',{position:'fixed',top:'0',left:'0',zIndex:'999999'});"

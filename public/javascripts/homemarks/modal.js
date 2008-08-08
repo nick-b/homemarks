@@ -15,26 +15,24 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
   },
   
   build: function() {
-    if (!$('modalmask')) {
-      var body = $$('body').first();
-      var maskHTML = DIV({id:'modalmask',style:'display:none;'},[DIV({id:'modal_progress',style:'display:none;',onclick:'location.reload();'})]);
-      var modalHTML = DIV({id:'modal_html_ap-wrapper'},[
-        DIV({id:'modal_html_rel-wrapper',style:'display:none;'},[
-          DIV({id:'modal_html_border'},[
-            DIV({id:'modal_html'},[
-              DIV({id:'modal_content'}),
-              DIV({id:'modal_buttons',className:'clearfix'},[
-                DIV({id:'modal_button_save',style:'display:none;'}),
-                DIV({id:'modal_button_cancel',style:'display:none;'})
-              ])
-            ]),
+    var body = $$('body').first();
+    var maskHTML = DIV({id:'modalmask',style:'display:none;'},[DIV({id:'modal_progress',style:'display:none;',onclick:'location.reload();'})]);
+    var modalHTML = DIV({id:'modal_html_ap-wrapper'},[
+      DIV({id:'modal_html_rel-wrapper',style:'display:none;'},[
+        DIV({id:'modal_html_border'},[
+          DIV({id:'modal_html'},[
+            DIV({id:'modal_content'}),
+            DIV({id:'modal_buttons',className:'clearfix'},[
+              DIV({id:'modal_button_save',style:'display:none;'}),
+              DIV({id:'modal_button_cancel',style:'display:none;'})
+            ])
           ]),
-          DIV({id:'modal_html_top'})
-        ])]
-      );
-      body.insert({top:modalHTML});
-      body.insert({top:maskHTML});
-    };
+        ]),
+        DIV({id:'modal_html_top'})
+      ])]
+    );
+    body.insert({top:modalHTML});
+    body.insert({top:maskHTML});
   },
   
   show: function(content) {

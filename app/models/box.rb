@@ -1,5 +1,7 @@
 class Box < ActiveRecord::Base
-
+  
+  OptGroup = Struct.new(:boxes,:col_name)
+  
   COLORS = [ 'white',      'aqua',     'melon',  'limeade',      'lavender', 'postit', 'bisque',
              'timberwolf', 'sky_blue', 'salmon', 'spring_green', 'wistera',  'yellow', 'apricot',
              'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' ].freeze

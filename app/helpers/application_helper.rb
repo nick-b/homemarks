@@ -53,7 +53,7 @@ module ApplicationHelper
   end
   
   def render_bookmarklet
-    js = render :partial => 'bookmarklet/bookmarklet'
+    js = render :partial => 'bookmarklets/bookmarklet'
     js.gsub!('<script>','')
     js.gsub!('</script>','')
     js.gsub!(/ {2,}/,'')
@@ -63,7 +63,7 @@ module ApplicationHelper
   end
   
   def render_bookmarklet_save_button
-    js = render :partial => 'bookmarklet/add_button'
+    js = render :partial => 'bookmarklets/add_button'
     js.gsub!('<script>','')
     js.gsub!('</script>','')
     js.gsub!(/ {2,}/,'')

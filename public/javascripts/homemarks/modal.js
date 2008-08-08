@@ -83,7 +83,7 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     switch (this.contentFor) { 
       case 'misc'     : $A([this.cancelButton]).invoke('show'); break;
       case 'box'      : $A([this.cancelButton,this.saveButton]).invoke('show'); break; 
-      case 'bookmark' : $A([]); break; 
+      case 'bookmark' : $A([this.cancelButton,this.saveButton]).invoke('show'); break; 
     }
   },
   

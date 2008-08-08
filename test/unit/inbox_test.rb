@@ -11,7 +11,7 @@ class InboxTest < ActiveSupport::TestCase
     @bob = users(:bob)
   end
   
-  context 'While testing fixture data and factory methods' do
+  context 'Testing fixture data and factory methods' do
     
     should 'have an inbox' do
       assert @bob.inbox
@@ -19,7 +19,7 @@ class InboxTest < ActiveSupport::TestCase
     
   end
   
-  context 'While testing inbox association for bob' do
+  context 'Testing inbox association for bob' do
     
     setup { @inbox = @bob.inbox }
     
@@ -37,6 +37,25 @@ class InboxTest < ActiveSupport::TestCase
 
   end
   
+  context 'Testing optgroup construction' do
+
+    should 'have an OptGroup constant for a new struct responding to :id and :title' do
+      assert defined?(Inbox::OptGroup), 'should have Inbox::OptGroup defined'
+      optgroup = Inbox::OptGroup.new
+      assert_instance_of Inbox::OptGroup, optgroup
+      assert optgroup.respond_to?(:id)
+      assert optgroup.respond_to?(:title)
+    end
+    
+    should 'build an box optgroup with inbox suitable for all users' do
+      optgroup = Inbox.optgroup
+      assert_equal 'INBOX', optgroup.col_name
+      assert_equal 1, optgroup.boxes.size, 'should have one Inbox::OptGroup object'
+      assert_equal 'inbox', optgroup.boxes.first.id
+      assert_equal 'My Inbox', optgroup.boxes.first.title
+    end
+
+  end
   
   
 

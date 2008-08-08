@@ -46,6 +46,12 @@ class BoxTest < ActiveSupport::TestCase
         assert_raise(ActiveRecord::RecordNotFound) { Bookmark.find(bm_id) }
       end
     end
+    
+    should 'have an OptGroup struct that responds to :id and :title' do
+      optgroup = Box::OptGroup.new
+      assert optgroup.respond_to?(:boxes)
+      assert optgroup.respond_to?(:col_name)
+    end
 
   end
   

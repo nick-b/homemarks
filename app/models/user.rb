@@ -68,23 +68,11 @@ class User < ActiveRecord::Base
     save!
   end
   
-  
-  # FIXME: Test and/or move me.
-  
-  BoxesForOptionGroup = Struct.new(:boxes, :col_name)
-  
-  def boxes_for_option_group
-    collection = []
-    collection << BoxesForOptionGroup.new([Inbox::InboxForOptionGroup.new('inbox','My Inbox')], "INBOX")
-    self.columns.each do |col|
-      boxes = col.boxes
-      collection << BoxesForOptionGroup.new(boxes, "Column #{col.position}")
-    end
-    collection
+  def box_optgroups
+    columns.map do |column| 
+      Box::OptGroup.new(column.boxes,"Column #{column.position}")
+    end.unshift(Inbox.optgroup)
   end
-  
-  
-  
   
   
   protected

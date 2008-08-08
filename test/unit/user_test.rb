@@ -11,7 +11,7 @@ class UserTest < ActiveSupport::TestCase
     @user = users(:bob)
   end
   
-  context 'While testing fixture data and factory methods' do
+  context 'Testing fixture data and factory methods' do
 
     should 'be able to create a basic user' do
       assert_difference 'User.count' do
@@ -22,7 +22,7 @@ class UserTest < ActiveSupport::TestCase
 
   end
   
-  context 'While creating a user with VALID attributes' do
+  context 'Creating a user with VALID attributes' do
     
     setup do
       @user = create_user
@@ -60,7 +60,7 @@ class UserTest < ActiveSupport::TestCase
     
   end
   
-  context 'While creating a user with INVALID attributes' do
+  context 'Creating a user with INVALID attributes' do
 
     should 'require a valid email' do
       user = create_user :email => 'foo.com'
@@ -76,7 +76,7 @@ class UserTest < ActiveSupport::TestCase
 
   end
   
-  context 'While testing class methods' do
+  context 'Testing class methods' do
     
     should 'be able to find conflicting emails' do
       email = 'email@exists.com'
@@ -101,7 +101,7 @@ class UserTest < ActiveSupport::TestCase
 
   end
   
-  context 'While updating attributes for an existing user' do
+  context 'Updating attributes for an existing user' do
 
     should 'reset password' do
       @user.update_attributes(:password => 'new_password', :password_confirmation => 'new_password')
@@ -152,7 +152,7 @@ class UserTest < ActiveSupport::TestCase
     
   end
   
-  context 'While testing boxes association extension' do
+  context 'Testing boxes association extension' do
     
     setup { @bookmark = bookmarks(:bob_col3_box1_bmark1) }
     
@@ -171,6 +171,31 @@ class UserTest < ActiveSupport::TestCase
 
   end
   
+  context 'Testing box optgroups generation' do
     
+    setup { @optgroups = @user.box_optgroups }
+
+    should 'have optgroup objects for each column plus one inbox' do
+      assert_equal @user.columns.count+1, @optgroups.size
+    end
+    
+    should 'have inbox first' do
+      assert_equal 'INBOX', @optgroups.first.col_name
+      assert_equal 1, @optgroups.first.boxes.size, 'should be one inbox'
+    end
+    
+    should 'have box object each to users ordered columns' do
+      @user.columns.each_with_index do |column,cindex|
+        true_cindex = cindex + 1 # To account for inbox
+        assert_equal column.boxes.size, @optgroups[true_cindex].boxes.size
+        column.boxes.each_with_index do |box,bindex|
+          assert_equal box, @optgroups[true_cindex].boxes[bindex]
+        end
+      end
+    end
+
+  end
+  
+  
   
 end

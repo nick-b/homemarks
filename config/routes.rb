@@ -3,8 +3,9 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'site'
   
   map.resources   :support_requests
-  map.resource    :session,     :member => { :jumpin => :get, :forgot_password => :post }
-  map.resource    :bookmarklet, :new    => { :nonhtml => :get }
+  map.resource    :session,     :member     => { :jumpin => :get, :forgot_password => :post }
+  map.resource    :bookmarklet, :new        => { :nonhtml => :get },
+                                :collection => { :bookmark => :get }
   
   map.resources   :users,       :member     => { :undelete => :get }
   map.resource    :inbox,       :member     => { :bookmarks => :get }

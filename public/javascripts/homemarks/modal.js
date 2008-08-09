@@ -50,6 +50,26 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     // if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
   },
   
+  showBookmarkModal: function() {
+    this.bmLoading = $('loadinghomemarks');
+    this.bmForm = $('savehomemarks_form');
+    this.bmName = $('savehomemarks_name');
+    this.bmLoading.remove();
+    this.bmName.value = document.title;
+    this.bmForm.observe('submit',this.saveBookmarkModal.bindAsEventListener(this));
+    this.saveButton.observe('click',this.saveBookmarkModal.bindAsEventListener(this));
+    this.show(null,{contentFor:'bookmark',showProgress:true});
+  },
+  
+  saveBookmarkModal: function() {
+    var rjsCreate = document.createElement('script');
+    rjsCreate.type = 'text/javascript';
+    rjsCreate.src = this.bmForm.action + '&' + this.bmForm.serialize();
+    this.bmForm.disable();
+    document.body.appendChild(rjsCreate);
+    return false;
+  },
+  
   startHide: function() {
     this.toggleObservers('off');
     this.toggleProgress('on');
@@ -72,7 +92,7 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     this.topShadow.setStyle({width:this.dimensions().topWidth+'px'});
     this.contentWrap.setStyle({width:this.dimensions().contentWidth, height:this.dimensions().contentHeight});
     this.contentWrap.className = this.color;
-    this.content.update(content);
+    if (content) { this.content.update(content); };
     this.center();
   },
   

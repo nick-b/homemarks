@@ -48,8 +48,8 @@ module ApplicationHelper
       file = File.join(Rails.root,'public','javascripts',"#{cache}.js")
       File.delete(file) if File.exist?(file)
       ActionController::Base.perform_caching = true
-      ['@@stylesheet_expansions','@@javascript_expansions','@@file_exist_cache'].each do |mivar|
-        ActionView::Helpers::AssetTagHelper.module_eval("#{mivar} = {}")
+      ['stylesheet_expansions','javascript_expansions','file_exist_cache'].each do |mivar|
+        ActionView::Helpers::AssetTagHelper.module_eval("@@#{mivar} = {}")
       end
     end
     javascript_include_tag 'homemarks/base','homemarks/modal', :cache => cache

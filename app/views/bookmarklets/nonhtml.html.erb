@@ -1,22 +1,2 @@
   
-<div style="margin:0 auto; width:260px;" id="savehomemarks_form_wrapper">
-  
-  <div style="margin-bottom:8px; color:#000; font-size:14px; font-family:'Lucida Grande',Tahoma,sans-serif;">
-    Type a name for the bookmark, <br />and choose where to keep it.
-  </div>
-  
-  <%# form_tag( save_link_url(:only_path => false, :uuid => @user.uuid), {:id => 'savehomemarks_form'} ) do %>
-    <div>
-      <%# hidden_field_tag 'bookmark[url]', (@nonhtml ? @bookmark_url : 'from_referer'), :id => 'hm_bookmark_url' %>
-      <%# text_field_tag 'bookmark[name]', nil, :id => 'hm_bookmark_name', :style => "width:100%; margin-bottom:3px; font-size:14px; font-family:'Lucida Grande',Tahoma,sans-serif;" %>
-      <%# select_tag 'box[id]', option_groups_from_collection_for_select(current_user.box_optgroups, :boxes, :col_name, :id, :title), :id => 'hm_bookmark_box_select', :style => "width:100%;" %>            
-    </div>
-    <div style="text-align:right;margin-top:12px;">
-      <span id="modal_button_save"><input type="image" src="<%# HmConfig.app[:host] %>stylesheets/images/page/nil.png" id="hm_modal_submit" onclick="<%# render_bookmarklet_save_button %>" style="width:84px;height:26px;" /></span>
-      <span id="modal_button_cancel" onclick="<%# @nonhtml ? "location.href = '#{@bookmark_url}'" : 'destroyModal();' %>"></span>
-    </div>
-  <%# end %>
-  
-</div>
-
 

@@ -1,0 +1,16 @@
+<div id="savehomemarks_form_wrapper">
+  
+  <div id="savehomemarks_msg">
+    Type a name for the bookmark, <br />and choose where to keep it.
+  </div>
+  
+  <form id="savehomemarks_form" method="post" action="<%= bookmark_bookmarklet_url(:uuid => current_user.uuid) %>">
+    <div>
+      <%= hidden_field_tag 'url', @bookmark_url || 'from_referer' %>
+      <%= text_field_tag 'name', nil, :id => 'savehomemarks_name' %>
+      <%= select_tag 'box_id', option_groups_from_collection_for_select(current_user.box_optgroups, :boxes, :col_name, :id, :title), :id => 'savehomemarks_select' %>
+    </div>
+    <%# TODO: @bookmark_url ? "location.href = '#{@bookmark_url}'" : 'destroyModal();' %>
+  </form>
+  
+</div>

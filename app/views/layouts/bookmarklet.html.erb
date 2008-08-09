@@ -13,14 +13,12 @@
   <script type="text/javascript">
     <%= auth_params_js_var %>
     Builder.dump();
-    document.observe('dom:loaded', function(){
-      HomeMarksModal.show('',{contentFor:'bookmark'});
-    });
   </script>
 </head>
 <body>
   
-  
+  <%= yield %>
   
 </body>
 </html>
+

@@ -50,15 +50,17 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     // if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
   },
   
-  showBookmarkModal: function() {
+  showBookmarkModal: function(content) {
+    this.show(content,{contentFor:'bookmark',showProgress:true});
     this.bmLoading = $('loadinghomemarks');
     this.bmForm = $('savehomemarks_form');
     this.bmName = $('savehomemarks_name');
-    this.bmLoading.remove();
-    this.bmName.value = document.title;
+    if (this.bmLoading) { 
+      this.bmLoading.remove();
+      this.bmName.value = document.title;
+    };
     this.bmForm.observe('submit',this.saveBookmarkModal.bindAsEventListener(this));
     this.saveButton.observe('click',this.saveBookmarkModal.bindAsEventListener(this));
-    this.show(null,{contentFor:'bookmark',showProgress:true});
   },
   
   saveBookmarkModal: function() {
@@ -84,6 +86,11 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
   hide: function() {
     this.startHide();
     this.completeHide();
+    if (this.contentFor == 'bookmark' && !this.bmLoading) {
+      setTimeout(function(){ 
+        window.location.href = $('savehomemarks_url').value;
+      },0650);
+    };
     // TODO: Account for action area.
     // document.observe('keypress', actionAreaHelper);
   },
@@ -164,10 +171,6 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     this.allButtons = $A([this.cancelButton,this.saveButton]);
   }
   
-  // TODO: Account for action area.
-  // goHere: function() {
-  //   window.location.reload();
-  // }
   
 });
 

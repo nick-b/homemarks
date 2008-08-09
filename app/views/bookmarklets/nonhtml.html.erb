@@ -1,2 +1,13 @@
-  
+
+<div id="savehomemarks_nonhtml_partial" style="display:none;">
+  <%= render :partial => 'form' %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  document.observe('dom:loaded', function(){
+    var bookmarkFormHTML = $('savehomemarks_form_wrapper').cloneNode(true);
+    $('savehomemarks_nonhtml_partial').remove();
+    HomeMarksModal.showBookmarkModal(bookmarkFormHTML);
+  });
+</script>
 

@@ -18,7 +18,7 @@ class BookmarkletsController < ApplicationController
   
   def nonhtml
     @bookmark_url = request.referer
-    render :partial => 'form', :layout => 'bookmarklet'
+    render :layout => 'bookmarklet'
   end
   
   def bookmark

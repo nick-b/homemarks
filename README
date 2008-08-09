@@ -2,7 +2,6 @@
 NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
 -------------------------------------------
 
-* Create sitewide JS browser check (happy message)
 * Create a bootstrap rake task that asks for a username/pass and sets up initial data.
   - Update secret forgery stuff
   - Find and replace all hosts <dev.homemarks.com>
@@ -24,19 +23,5 @@ Some Miscellaneous Notes:
 
   * Plugins Installed
     - Shoulda => https://svn.thoughtbot.com/plugins/shoulda/tags/rel-4.0.1/  
-  
-  * There is a configuration class in environment.rb. It is used 
-    alot throughout the app. Some things may beed to be set there 
-    on first install.
-  
-  * The app makes pretty decent (filesystem) use of fragment 
-    cachine. The store can be changed to a (db) store. Please 
-    take a look at the cache_masters.rb file.
-  
-  * The application includes a utility script in lib/utilities. 
-    An example of a use in production would be to scrip this with 
-    cron or launchd:
-    
-    env RAILS_ENV=production /pathtoyourapp/current/script/runner DemoUser.reset
-    
-  * Comments welcome: ken@actionmoniker.com
+
+

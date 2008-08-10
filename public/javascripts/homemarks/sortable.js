@@ -142,7 +142,7 @@ var SortableUtils = {
     if (newColumn) {
       var accept = 'dragable_boxes';
       var containment = Box.containment();
-      var firstDrop = Columns[0].column;
+      var firstDrop = (Columns.size() == 0) ? null : Columns[0].column;
     } 
     else {
       var accept = 'dragable_bmarks';

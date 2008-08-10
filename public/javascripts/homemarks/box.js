@@ -151,6 +151,14 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     ]);
   },
   
+  bookmarks: function() {
+    var domBookmarks = this.sortableList().adjacent('li.dragable_bmarks');
+    var bookmarkObjects = domBookmarks.collect(function(dbm){
+      return Bookmarks.detect(function(bm){ return dbm == bm.bookmark })
+    });
+    return bookmarkObjects;
+  },
+  
   bookmarkRows: function() {
     return this.bookmarks().map(function(bookmark){ return this.buildBookmarkRow(bookmark); }.bind(this));
   },

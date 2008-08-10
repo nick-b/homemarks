@@ -45,14 +45,14 @@ var Column = Class.create(HomeMarksApp,{
   },
   
   boxes: function() {
-    return Boxes.findAll(function(box){ return box.sortableParent() == this.sortableElement() },this);
+    return Box.boxes().findAll(function(box){ return box.sortableParent() == this.sortableElement() },this);
   },
   
   empty: function() {
     return Object.isUndefined(this.column.down('div.dragable_boxes'));
   },
   
-  completeDestroyColumn: function(request,cascadeDelete) {
+  completeDestroyColumn: function(request) {
     var sortableParent = this.sortableParent();
     var sortableElement = this.sortableElement();
     this.boxes().invoke('completeDestroyBox',null,true);

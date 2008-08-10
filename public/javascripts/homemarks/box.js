@@ -303,9 +303,12 @@ Box.colors = $A([
   'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' 
 ]);
 
-
 Box.containment = function() {
   return $$('div.dragable_columns');
+};
+
+Box.boxes = function() {
+  return Boxes.findAll(function(box){ return box.class == 'Box' });
 };
 
 

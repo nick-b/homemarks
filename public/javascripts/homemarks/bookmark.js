@@ -132,7 +132,7 @@ var Bookmark = Class.create(HomeMarksApp,{
     Bookmarks = Bookmarks.without(this);
     SortableUtils.destroySortableMember(sortableList,sortableElement);
     if (!cascadeDelete) {
-      this.flash('good','Bookmark trashed.');
+      this.flash('good','Bookmarks trashed.');
       this.url = this.url();
       this.name = this.name();
       sortableElement.remove();

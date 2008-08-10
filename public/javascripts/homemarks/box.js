@@ -121,6 +121,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
       new BookmarkBuilder(this,newData.bookmark);
     }.bind(this));
     HomeMarksModal.completeHide();
+    setTimeout(function() { this.sortableList().pulsate({duration:0.75}); }.bind(this),0750);
     this.flash('good','Bookmarks updated.');
   },
   

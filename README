@@ -7,8 +7,7 @@ NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
   - Update secret forgery stuff
   - Find and replace all hosts <dev.homemarks.com>
   - Update relevent HmConfig settings
-* Change ESC to ~ for action area.
-* Pulsate from box edit.
+* Fix multiple box edits (not sorted correctly in modal)
 * Write about
   - Developed to SQLite, I run mysql in production.
   - TESTS TESTS TESTS

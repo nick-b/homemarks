@@ -94,8 +94,8 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 #welcome_box a:active      { color:#fdbe1a; }
 
 #welcome_box      { margin: 80px auto; }
-#welcome_header   { font: normal normal 48px/48px "Trebuchet MS", Georgia, serif; }
-#welcome_message  { width:50%; margin: 10px auto; color:#fff; font: 15px/18px "Lucida Grande", "Helvetica", sans-serif ; }
+#welcome_header   { text-align:center; font: normal normal 48px/48px "Trebuchet MS", Georgia, serif; }
+#welcome_message  { margin: 10px auto; text-align:center; color:#fff; font: 15px/18px "Lucida Grande", "Helvetica", sans-serif ; }
 
 
 

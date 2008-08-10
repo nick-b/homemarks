@@ -81,7 +81,7 @@ var PageClass = Class.create(HomeMarksApp,{
   },
   
   actionAreaHelper: function(event) { 
-    if (event.keyCode == Event.KEY_ESC) { Page.toggleActionArea() }; 
+    if (event.keyCode == 192) { Page.toggleActionArea() }; 
   },
   
   toggleActionArea: function(event) {

@@ -41,14 +41,15 @@
     
     <% end %>
     
-    <div id="welcome_box" class="center" style="display:<%= current_user.columns.blank? ? 'block' : 'none' %>;">
+    <div id="welcome_box" style="display:<%= current_user.columns.blank? ? 'block' : 'none' %>;">
       <div id="welcome_header" class="site_yellow">
         Welcome to your <br />
         HomeMarks start page.
       </div>
       <div id="welcome_message">
-        Get started by creating your first column, then new boxes within it. If you are unsure how to do this, please take a 
-        moment to read over the <%= link_to 'documentation and help', site_path('help') %> section.
+        Get started by creating your first column, then new boxes within it. If you <br />
+        are unsure how to do this, please take a moment to read over the <br />
+        <%= link_to 'documentation and help', site_path('help') %> section.
       </div>
     </div>
   

@@ -79,6 +79,7 @@ var SortableUtils = {
         sort.now.each(function(id,index) {
           if (id != sort.old[index]) { drag_id = id; drag_position = index+1; throw $break; };
         });
+        Page.gainedSortable = sortable.sortableElement();
         var params = { id:drag_id, position:drag_position, gained_id:sortable.id };
       };
     };
@@ -123,6 +124,20 @@ var SortableUtils = {
   
   resetSortableLastValue: function(element) {
     SortableUtils.getDragObserver(element).onStart();
+  },
+  
+  updateSortablesDragAndDrops: function(element) {
+    if (Page.gainedSortable == element) {
+      var thisSortable = Sortable.sortables[element.id];
+      var oldSortable = $H(Sortable.sortables).detect(function(kv){ return $A(kv[1].droppables).include(Page.draggedElement); }).last();
+      var dragObj = $A(oldSortable.draggables).detect(function(drag){ return Page.draggedElement == drag.element; });
+      /* Remove draggedElement and dragObj from oldSortable */
+      oldSortable.droppables = oldSortable.droppables.without(Page.draggedElement);
+      oldSortable.draggables = oldSortable.draggables.without(dragObj);
+      /* Adding draggedElement and dragObj to thisSortable */
+      thisSortable.droppables.push(Page.draggedElement);
+      thisSortable.draggables.push(dragObj);
+    };
   },
   
   sortablesArray: function() {

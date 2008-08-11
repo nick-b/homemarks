@@ -159,7 +159,13 @@ var PageClass = Class.create(HomeMarksApp,{
 });
 
 
+PageClass.onStartObserver = function(callbackName,draggable,event) {
+  Page.draggedElement = draggable.element;
+};
+
+
 document.observe('dom:loaded', function(){
   Page = new PageClass();
+  Draggables.addObserver({ onStart: PageClass.onStartObserver });
 });
 

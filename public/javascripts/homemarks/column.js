@@ -80,6 +80,7 @@ var Column = Class.create(HomeMarksApp,{
   completeBoxSort: function() {
     this.flash('good','Boxes sorted.');
     SortableUtils.resetSortableLastValue(this.sortableElement());
+    SortableUtils.updateSortablesDragAndDrops(this.sortableElement());
   },
   
   _buildBoxesSortable: function() {

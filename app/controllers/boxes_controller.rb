@@ -40,7 +40,7 @@ class BoxesController < ApplicationController
   end
   
   def bookmarks
-    @new_bookmarks = params[:new_bookmarks] ? @box.bookmarks.create(params[:new_bookmarks].values) : []
+    @new_bookmarks = params[:new_bookmarks] ? @box.bookmarks.create(ordered_new_bookmarks_param_values) : []
     @updated_bookmarks = []
     @box.bookmarks.each do |bm| 
       bm.attributes = params[:bookmarks][bm.id.to_s]
@@ -54,6 +54,10 @@ class BoxesController < ApplicationController
   
   def find_box
     @box = current_user.boxes.find(params[:id])
+  end
+  
+  def ordered_new_bookmarks_param_values
+    (1..params[:new_bookmarks].size).map(&:to_s).map { |i| params[:new_bookmarks][i] }
   end
   
   

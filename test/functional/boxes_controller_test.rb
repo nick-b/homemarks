@@ -140,7 +140,7 @@ class BoxesControllerTest < ActionController::TestCase
       xhr :put, :bookmarks, :id => @box.id, :bookmarks => {
         '1038124156' => {:name => @bm1.name, :url => @bm1.url}, 
         '1038124157' => {:name => @bm2.name, :url => @bm2.url} }, 
-        :new_bookmarks => {1 => {:name => new_bm_name, :url => new_bm_url}}
+        :new_bookmarks => {'1' => {:name => new_bm_name, :url => new_bm_url}}
       assert_json_response
       assert jr = decode_json_response
       assert_equal [], jr['updated_bookmarks']

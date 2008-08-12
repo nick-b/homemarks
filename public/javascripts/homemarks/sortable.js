@@ -79,7 +79,6 @@ var SortableUtils = {
         sort.now.each(function(id,index) {
           if (id != sort.old[index]) { drag_id = id; drag_position = index+1; throw $break; };
         });
-        Page.gainedSortable = sortable.sortableElement();
         var params = { id:drag_id, position:drag_position, gained_id:sortable.id };
       };
     };
@@ -162,7 +161,7 @@ var SortableUtils = {
     else {
       var accept = 'dragable_bmarks';
       var containment = Bookmark.containment();
-      var firstDrop = Boxes[0].list;
+      var firstDrop = Inbox.sortableList();
     };
     SortableUtils.sortablesArray().each(function(sortable){ 
       if (sortable.accept == accept) { sortable.containment = containment; };
@@ -185,6 +184,9 @@ var SortableUtils = {
     var draggable = sortable.draggables.find(function(d){ return d.element == member });
     draggable.destroy();
     sortable.draggables = sortable.draggables.without(draggable);
+    /* Make sure to kill the Draggables.observer */
+    var dragObserver = Draggables.observers.find(function(o){ return o.element == member });
+    Draggables.observers = Draggables.observers.without(dragObserver);
     /* Now remove the Sortable key */
     delete Sortable.sortables[member.id];
   },

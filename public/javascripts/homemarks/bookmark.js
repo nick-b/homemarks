@@ -10,13 +10,16 @@ var BookmarkSortableMixins = {
   completeBookmarkSort: function() {
     this.flash('good','Bookmarks sorted.');
     SortableUtils.resetSortableLastValue(this.sortableList());
+    SortableUtils.updateSortablesDragAndDrops(this.sortableList());
   },
   
   bookmarkSortParams: function() {
     var params = SortableUtils.getSortParams(this);
-    if (params.get('gained_id')) {
+    var gainedId = params.get('gained_id');
+    if (gainedId) {
       var bookmark = Bookmarks.find(function(bm){ return bm.id == params.get('id') });
       params.set('old_type',bookmark.oldType);
+      Page.gainedSortable = this.sortableList();
     };
     return params.merge({type:this.class});
   },

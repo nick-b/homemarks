@@ -5,8 +5,9 @@ namespace :app do
     say "Bootstrapping HomeMarks..."
     puts
     say "1) Create your database.yml config file."
-    say "2) Load the database schema."
-    say "3) Setup the application database."
+    say "2) Create your SQLite databases."
+    say "3) Load the database schema."
+    say "4) Create your local HomeMarks account."
     puts
     %w(database_config database_schema app_specific finished).each do |task|
       Rake::Task["app:#{task}"].invoke
@@ -18,41 +19,43 @@ namespace :app do
     db_config = File.readlink(db_config) if File.symlink?(db_config)
     if File.exist?(db_config)
       say "It looks like you already have a database.yml file."
-      @restart = agree("Would you like to CLEAR it and start over? [y/n]")
-    end
-    unless !@restart && File.exist?(db_config)
+      say "You should probablly configure things from here on out!"
+      raise "Cancelled!"
+    else
       cp 'config/database.sample.yml', db_config
-      say "I have copied database.sample.yml over. It is configured to use SQLite."
+      say "STEP #1) I have copied database.sample.yml over."
     end
     puts
   end
 
   task :database_schema do
-    unless agree("Now it's time to load the database schema. \nAll of your data will be OVERWRITTEN. Are you sure you wish to continue? [y/n]")
-      raise "Cancelled"
+    say "=" * 80
+    say "Now it's time to load the database schema."
+    say "All of your data will be OVERWRITTEN."
+    say "=" * 80
+    unless agree("Are you sure you wish to continue? [y/n]")
+      raise "Cancelled!"
     end
     puts
-    mkdir_p File.join(RAILS_ROOT, 'log')
     Rake::Task['environment'].invoke
     begin
-      say "Attempting to reset the database."
-      
-      
-      # silence_warnings { RAILS_ENV = 'development' }
-      # Rake::Task['db:reset'].invoke
-      # silence_warnings { RAILS_ENV = 'production' }
-      # Rake::Task['db:reset'].invoke
-    rescue
-      say "rake db:reset failed, you should look into that."
-      puts $!.inspect
-      say "If this doesn't work, create your database manually and re-run this app:bootstrap task."
-      say "At any rate, I'm going to attempt to load the schema."
+      say "STEP #2) Attempting to create the SQLite databases."
+      puts
+      Rake::Task['db:create:all'].invoke
+      puts
+      say "STEP #3) Loading the schema into both development and production DBs."
+      puts
+      silence_warnings { RAILS_ENV = 'development' }
       Rake::Task['db:schema:load'].invoke
+      silence_warnings { RAILS_ENV = 'production' }
+      Rake::Task['db:schema:load'].invoke
+    rescue
+      say "Something went wrong. You should look into that."
+      puts $!.inspect
     end
-    Rake::Task["tmp:create"].invoke
     puts
   end
-
+  
   task :app_specific do
     # rake secret
   end

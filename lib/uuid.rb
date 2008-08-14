@@ -263,11 +263,12 @@ module UUID
   # installation directory (typically the GEM's lib).
   def self.setup
     if File.exist? state_file
-      puts "#{PACKAGE}: Found an existing UUID state file: #{state_file}"
+      # puts "#{PACKAGE}: Found an existing UUID state file: #{state_file}"
     else
-      puts "#{PACKAGE}: No UUID state file found, attempting to create one for you:"
+      # puts "#{PACKAGE}: No UUID state file found, attempting to create one for you:"
       # Run ifconfig for UNIX, or ipconfig for Windows.
       config = ""
+      
       Kernel.open "|ifconfig" do |input|
         input.each_line { |line| config << line }
       end rescue nil
@@ -277,17 +278,17 @@ module UUID
 
       addresses = config.scan(IFCONFIG_PATTERN).collect { |addr| addr[1..-2] }
       if addresses.empty?
-        puts "Could not find any IEEE 802 NIC MAC addresses for this machine."
-        puts "You need to create the uuid.state file manually."
+        # puts "Could not find any IEEE 802 NIC MAC addresses for this machine."
+        # puts "You need to create the uuid.state file manually."
       else
-        puts "Found the following IEEE 802 NIC MAC addresses on your computer:"
-        addresses.each { |addr| puts "  #{addr}" }
-        puts "Selecting the first address #{addresses[0]} for use in your UUID state file."
+        # puts "Found the following IEEE 802 NIC MAC addresses on your computer:"
+        # addresses.each { |addr| puts "  #{addr}" }
+        # puts "Selecting the first address #{addresses[0]} for use in your UUID state file."
         File.open state_file, "w" do |output|
           output.puts "mac_addr: #{addresses[0]}"
           output.puts format("sequence: \"0x%04x\"", rand(0x10000))
         end
-        puts "Created a new UUID state file: #{state_file}"
+        # puts "Created a new UUID state file: #{state_file}"
       end
     end
     state_file

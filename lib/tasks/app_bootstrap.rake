@@ -1,20 +1,43 @@
+
 namespace :app do
   
   task :bootstrap => :setup do
     Debugger.start
-    say "Bootstrapping HomeMarks..."
     puts
-    say "1) Create your database.yml config file."
-    say "2) Create your SQLite databases."
-    say "3) Load the database schema."
-    say "4) Create your local HomeMarks account."
+    say "Bootstrapping HomeMarks. The following will happen:"
     puts
-    %w(database_config database_schema app_specific finished).each do |task|
+    say "  1) Gather app specific information."
+    say "  2) Create your database.yml config file."
+    say "  3) Initialize and configuring the application."
+    say "  4) Create your SQLite3 databases with full schema."
+    say "  5) Create your HomeMarks account."
+    puts
+    say "WARNING: THESE TASKS WILL DESTROY EXISTING DATA!!!!"
+    unless agree("Are you sure you wish to continue? [y/n]")
+      raise "Cancelled!"
+    end
+    puts
+    ['gather_info','copy_dbyml','init_app','setup_databases','create_user','finished'].each do |task|
       Rake::Task["app:#{task}"].invoke
     end
   end
-
-  task :database_config do
+  
+  task :gather_info do
+    say "STEP #1) Enter application specific information:"
+    say "         The host/port is very important for some app resources. It is suggested that"
+    say "         you use a FQDN with real DNS or something that is setup in your hosts file."
+    puts
+    @app_host       = ask("         What host/port to use:  ") { |q| q.default = 'localhost:3000' }
+    @user_email     = ask("           Email for HomeMarks:  ") { |q| q.validate = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i }
+    @user_password  = ask("        Password for HomeMarks:  ") { |q| q.echo = "x" ; q.validate = /^.{4,40}$/i }
+    @user_password2 = ask("              Confirm password:  ") { |q| q.echo = "x" }
+    unless @user_password == @user_password2
+      raise "Passwords do not match!"
+    end
+    puts
+  end
+  
+  task :copy_dbyml do
     db_config = "config/database.yml"
     db_config = File.readlink(db_config) if File.symlink?(db_config)
     if File.exist?(db_config)
@@ -23,32 +46,39 @@ namespace :app do
       raise "Cancelled!"
     else
       cp 'config/database.sample.yml', db_config
-      say "STEP #1) I have copied database.sample.yml over."
+      say "STEP #2) The database.yml from sample has been copied over."
     end
     puts
   end
-
-  task :database_schema do
-    say "=" * 80
-    say "Now it's time to load the database schema."
-    say "All of your data will be OVERWRITTEN."
-    say "=" * 80
-    unless agree("Are you sure you wish to continue? [y/n]")
-      raise "Cancelled!"
-    end
-    puts
+  
+  task :init_app do
+    say "STEP #3) Initialize and configuring the application."
+    init_file = 'config/preinitializer.rb'
+    init_file_data = File.read(init_file)
+    css_file = 'public/stylesheets/bookmarklet.css'
+    css_file_data = File.read(css_file)
+    say "         Generating new secret for cookie store into HmConfig..."
+    secret = Rails::SecretKeyGenerator.new('HomeMarks').generate_secret
+    init_file_data.sub! '___pleasechangeme___', secret
+    say "         Updating HmConfig and CSS configuration info..."
+    init_file_data.sub! 'dev.homemarks.com', @app_host
+    css_file_data.sub!  'dev.homemarks.com', @app_host
+    init_file_data.sub! 'ken@homemarks.com', @user_email
+    File.open(init_file,'w') { |f| f.write(init_file_data) }
+    File.open(css_file,'w')  { |f| f.write(css_file_data) }
+    say "         Creating UUID state file..."
     Rake::Task['environment'].invoke
+    puts
+  end
+  
+  task :setup_databases do
     begin
-      say "STEP #2) Attempting to create the SQLite databases."
-      puts
-      Rake::Task['db:create:all'].invoke
-      puts
-      say "STEP #3) Loading the schema into both development and production DBs."
-      puts
-      silence_warnings { RAILS_ENV = 'development' }
-      Rake::Task['db:schema:load'].invoke
-      silence_warnings { RAILS_ENV = 'production' }
-      Rake::Task['db:schema:load'].invoke
+      say "STEP #4) Creating your SQLite3 databases with full schema."
+      ActiveRecord::Schema.verbose = false
+      ['test','production','development'].each do |env|
+        ActiveRecord::Base.establish_connection(env)
+        load 'db/schema.rb'
+      end
     rescue
       say "Something went wrong. You should look into that."
       puts $!.inspect
@@ -56,18 +86,21 @@ namespace :app do
     puts
   end
   
-  task :app_specific do
-    # rake secret
-  end
-
-  task :finished do
-    say '=' * 80
+  task :create_user do
+    say "STEP #5) Creating HomeMarks user for <#{@user_email}>."
+    User.create! :email => @user_email, :password => @user_password, :password_confirmation => @user_password2
     puts
-    say "Your HomeMarks app is ready to roll."
-    say "Now start the application with your server of choice and get bookmarking!"
-    Rake::Task["db:test:clone"].invoke
   end
-
+  
+  task :finished do
+    puts
+    say '=' * 75
+    say "Your HomeMarks installatino is ready to roll."
+    say "Now start the application with your server of choice and get bookmarking!"
+    say '=' * 75
+    puts
+  end
+  
   task :setup do
     require 'rubygems'
     gem 'highline'
@@ -77,7 +110,6 @@ namespace :app do
     require 'highline'
     require 'forwardable'
     @terminal = HighLine.new
-    @restart  = false
     class << self
       extend Forwardable
       def_delegators :@terminal, :agree, :ask, :choose, :say

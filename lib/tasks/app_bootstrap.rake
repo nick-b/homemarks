@@ -61,9 +61,9 @@ namespace :app do
     secret = Rails::SecretKeyGenerator.new('HomeMarks').generate_secret
     init_file_data.sub! '___pleasechangeme___', secret
     say "         Updating HmConfig and CSS configuration info..."
-    init_file_data.sub! 'dev.homemarks.com', @app_host
-    css_file_data.sub!  'dev.homemarks.com', @app_host
-    init_file_data.sub! 'ken@homemarks.com', @user_email
+    init_file_data.gsub! 'dev.homemarks.com', @app_host
+    css_file_data.gsub!  'dev.homemarks.com', @app_host
+    init_file_data.gsub! 'ken@homemarks.com', @user_email
     File.open(init_file,'w') { |f| f.write(init_file_data) }
     File.open(css_file,'w')  { |f| f.write(css_file_data) }
     say "         Creating UUID state file..."
@@ -95,7 +95,8 @@ namespace :app do
   task :finished do
     puts
     say '=' * 75
-    say "Your HomeMarks installatino is ready to roll."
+    say "Your HomeMarks installatino is ready to roll at:"
+    say "http://#{@app_host}/myhome"
     say "Now start the application with your server of choice and get bookmarking!"
     say '=' * 75
     puts

@@ -272,10 +272,10 @@ module UUID
       Kernel.open "|ifconfig" do |input|
         input.each_line { |line| config << line }
       end rescue nil
-      Kernel.open "|ipconfig /all" do |input|
-        input.each_line { |line| config << line }
-      end rescue nil
-
+      # Kernel.open "|ipconfig /all" do |input|
+      #   input.each_line { |line| config << line }
+      # end rescue nil
+      
       addresses = config.scan(IFCONFIG_PATTERN).collect { |addr| addr[1..-2] }
       if addresses.empty?
         # puts "Could not find any IEEE 802 NIC MAC addresses for this machine."

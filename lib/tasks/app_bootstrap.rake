@@ -88,9 +88,13 @@ namespace :app do
   
   task :create_user do
     say "STEP #5) Creating HomeMarks user for <#{@user_email}>."
-    @user = User.new :email => @user_email, :password => @user_password, :password_confirmation => @user_password2
-    @user.verified = true
-    @user.save!
+    ['development','production'].each do |env|
+      ActiveRecord::Base.establish_connection(env)
+      @user = User.new :email => @user_email, :password => @user_password, :password_confirmation => @user_password2
+      @user.verified = true
+      @user.deleted = false
+      @user.save!
+    end
     puts
   end
   

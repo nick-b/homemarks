@@ -91,9 +91,9 @@ namespace :app do
     ['development','production'].each do |env|
       ActiveRecord::Base.establish_connection(env)
       @user = User.new :email => @user_email, :password => @user_password, :password_confirmation => @user_password2
-      @user.verified = true
       @user.deleted = false
       @user.save!
+      @user.update_attribute :verified, true
     end
     puts
   end
@@ -102,7 +102,9 @@ namespace :app do
     puts
     say '=' * 75
     say "Your HomeMarks installation is ready. Please use this authenticated url"
-    say "to automatically log you in."
+    say "to automatically log you in. You can use either the development or"
+    say "production environment. Production is recommended for cache support."
+    puts
     say "http://#{@app_host}/session/jumpin?token=#{@user.security_token}"
     say '=' * 75
     puts

@@ -27,7 +27,7 @@ namespace :app do
     say "         The host/port is very important for some app resources. It is suggested that"
     say "         you use a FQDN with real DNS or something that is setup in your hosts file."
     puts
-    @app_host       = ask("         What host/port to use:  ") { |q| q.default = 'localhost:3000' }
+    @app_host       = ask("         What host/port to use:  ") { |q| q.default = '0.0.0.0:3000' }
     @user_email     = ask("           Email for HomeMarks:  ") { |q| q.validate = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i }
     @user_password  = ask("        Password for HomeMarks:  ") { |q| q.echo = "x" ; q.validate = /^.{4,40}$/i }
     @user_password2 = ask("              Confirm password:  ") { |q| q.echo = "x" }

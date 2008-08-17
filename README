@@ -1,28 +1,41 @@
 
-NOTE: I AM STARTING A REWRITE FOR RAILS 2.1
--------------------------------------------
+== HomeMarks: Simple Bookmark Start Page
 
-rake app:bootstrap
+A simple application that allows you to create your own customized HTML start 
+by creating and sorting Columns, Boxes, and Bookmarks. The application even has 
+a JavaScript bookmarklet that can be used to create bookmarks from any 
+destination.
 
-* Test BookmarkletController & Test Bookmarklet link.
-* Create a bootstrap rake task that asks for a username/pass and sets up initial data.
-  - Update secret forgery stuff
-  - Find and replace all hosts <dev.homemarks.com>
-  - Update relevent HmConfig settings
-* Write about
-  - Developed to SQLite, I run mysql in production.
-  - TESTS TESTS TESTS
-  - Foxy Fixtures
-  - Unobtrusive Javascript (death to tagsoup)
-  - JavaScript Rewrite
-  - Restful routes.
-  - Restful authentication.
+HomeMarks was built by using the Ruby on Rails framework with a heavy emphasis 
+on object oriented JavaScript and AJAX, using both the Prototype and Scriptacoulous 
+JavaScript libraries. It was made by me, Ken Collins, as my first pet project while 
+learning the Rails framework (pre 1.0) and has now been rewritten from the ground 
+up for the release of Rails 2.1. I hope that you find it useful.
 
 
-Some Miscellaneous Notes:
-------------------------------------------------------------------
+=== INSTALLATION
 
-  * Plugins Installed
-    - Shoulda => https://svn.thoughtbot.com/plugins/shoulda/tags/rel-4.0.1/  
+Simply download and/or clone the repository and run the app:bootstrap task.
 
+    $ rake app:bootstrap
+
+The rake task assumes that you will be running HomeMarks from your own local
+computer. The databases will use SQLite3 (rails default) and the following 
+information is requested.
+
+* The host and port you will use locally to access the app.
+* Email and password. Used to create your HomeMarks account.
+
+It is suggested that you setup a named host in your host file vs using the 
+script/server default of 0.0.0.0:3000.
+
+
+=== Running Tests
+
+HomeMarks uses the shoulda testing plugin by Thoughtbot. The git repository is 
+already tracking shoulda as a submodule. Simply do the following from the root 
+of your HomeMarks checkout:
+
+    $ git submodule init
+    $ git submodule update
 

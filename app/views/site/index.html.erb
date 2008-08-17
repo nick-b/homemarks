@@ -14,6 +14,7 @@
   can be customized with a title of your choosing or colored to match the theme and nature of the bookmarks within them. 
   Bookmarks can be dragged from Box to Box, sorted or easily deleted.
 </p>
+<br />
 
 <p>
   The most important part of any bookmarking system is the bookmarking tool. The HomeMarklet (our bookmarklet) allows you 
@@ -29,11 +30,24 @@
 
 <p>
   <%= image_tag 'railslogo.png', :class => 'floatl', :style => 'margin: 2px 15px 0 5px;' %>
-  HomeMarks was built by using the <a href="http://rubyonrails.org/">Ruby on Rails</a> framework with a heavy emphasis on 
-  object oriented JavaScript and AJAX, using both the Prototype and Scriptacoulous JavaScript libraries. It was made by me, 
-  <a href="http://www.metaskills.net/colophon">Ken Collins</a>, as my first pet project while learning the Rails framework 
-  (pre 1.0) and has now been rewritten from the ground up for the release of Rails 2.1. I hope that you find it useful. 
+  HomeMarks was built using the <%= link_to 'Ruby on Rails', 'http://rubyonrails.org/' %> framework with a heavy emphasis on object 
+  oriented JavaScript to make AJAX requests to a RESTful back-end. Unlike most Rails 
+  applications it does not use any inline JavaScript helpers nor does it rely on RJS 
+  (Remote JavaScript) for dynamic page updates. Instead it is nearly 100% unobtrusive 
+  JavaScript which uses simple HEAD or JSON responses to communicate to the objects on 
+  the page. This has yielded very slim controller code which is decoupled from the 
+  views and easily testable in isolation at a functional level.
 </p>
+<br />
+
+<p>
+  I invite you to not only download and use the application but to also explore the 
+  code and tests to see if this implementation is something you might be interested in. 
+  HomeMarks was made by me, <%= link_to 'Ken Collins', 'http://www.metaskills.net/colophon' %>, as my first pet project while learning the 
+  Rails framework (pre 1.0) and has now been rewritten from the ground up using the 
+  methods outlined above for the release of Rails 2.1. I hope that you find it useful.
+</p>
+<br />
 
 <p>
   HomeMarks is not only a <a href="http://homemarks.com/">free web service</a>, but it is also free to download and run on your 
@@ -41,6 +55,7 @@
   Github account</a> or using the direct Github tarball link below. I always appreciate feedback, so if you would like, please 
   contact me using.
 </p>
+<br />
 
 <div id="site_download" class="center mt20">
   <a href="http://github.com/metaskills/homemarks/tarball/master">

@@ -1,16 +1,24 @@
 
 == HomeMarks: Simple Bookmark Start Page
 
-A simple application that allows you to create your own customized HTML start 
-by creating and sorting Columns, Boxes, and Bookmarks. The application even has 
-a JavaScript bookmarklet that can be used to create bookmarks from any 
-destination.
+A simple application that allows you to create your own customized HTML start pages
+by creating and sorting Columns, Boxes, and Bookmarks. The application even has a 
+JavaScript bookmarklet that can be used to create bookmarks from most browser 
+destinations.
 
-HomeMarks was built by using the Ruby on Rails framework with a heavy emphasis 
-on object oriented JavaScript and AJAX, using both the Prototype and Scriptacoulous 
-JavaScript libraries. It was made by me, Ken Collins, as my first pet project while 
-learning the Rails framework (pre 1.0) and has now been rewritten from the ground 
-up for the release of Rails 2.1. I hope that you find it useful.
+HomeMarks was built using the Ruby on Rails framework with a heavy emphasis on object 
+oriented JavaScript to make AJAX requests to a RESTful back-end. Unlike most Rails 
+applications it does not use any inline JavaScript helpers nor does it rely on RJS 
+(Remote JavaScript) for dynamic page updates. Instead it is nearly 100% unobtrusive 
+JavaScript which uses simple HEAD or JSON responses to communicate to the objects on 
+the page. This has yielded very slim controller code which is decoupled from the 
+views and easily testable in isolation at a functional level.
+
+I invite you to not only download and use the application but to also explore the 
+code and tests to see if this implementation is something you might be interested in. 
+HomeMarks was made by me, Ken Collins, as my first pet project while learning the 
+Rails framework (pre 1.0) and has now been rewritten from the ground up using the 
+methods outlined above for the release of Rails 2.1. I hope that you find it useful.
 
 
 === INSTALLATION

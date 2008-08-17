@@ -88,16 +88,18 @@ namespace :app do
   
   task :create_user do
     say "STEP #5) Creating HomeMarks user for <#{@user_email}>."
-    User.create! :email => @user_email, :password => @user_password, :password_confirmation => @user_password2
+    @user = User.new :email => @user_email, :password => @user_password, :password_confirmation => @user_password2
+    @user.verified = true
+    @user.save!
     puts
   end
   
   task :finished do
     puts
     say '=' * 75
-    say "Your HomeMarks installatino is ready to roll at:"
-    say "http://#{@app_host}/myhome"
-    say "Now start the application with your server of choice and get bookmarking!"
+    say "Your HomeMarks installation is ready. Please use this authenticated url"
+    say "to automatically log you in."
+    say "http://#{@app_host}/session/jumpin?token=#{@user.security_token}"
     say '=' * 75
     puts
   end

@@ -59,7 +59,7 @@ namespace :app do
     css_file_data = File.read(css_file)
     say "         Generating new secret for cookie store into HmConfig..."
     secret = Rails::SecretKeyGenerator.new('HomeMarks').generate_secret
-    init_file_data.sub! '___pleasechangeme___', secret
+    init_file_data.sub! 'edd44bca0fe498336609eaf80054c2122259e0', secret
     say "         Updating HmConfig and CSS configuration info..."
     init_file_data.gsub! 'dev.homemarks.com', @app_host
     css_file_data.gsub!  'dev.homemarks.com', @app_host

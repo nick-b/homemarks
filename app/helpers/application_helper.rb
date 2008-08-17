@@ -44,7 +44,7 @@ module ApplicationHelper
   def javascript_core_tags
     cache = 'homemarks_core'
     do_caching = ActionController::Base.perform_caching
-    if Rails.env == 'development'
+    if Rails.env =~ /development|test/
       file = File.join(Rails.root,'public','javascripts',"#{cache}.js")
       File.delete(file) if File.exist?(file)
       ActionController::Base.perform_caching = true

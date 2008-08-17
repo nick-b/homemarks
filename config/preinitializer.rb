@@ -10,7 +10,7 @@ class HmConfig
       :admin_email          => 'ken@homemarks.com',
       :host                 => 'dev.homemarks.com',
       :delayed_delete_days  => 3,
-      :cookie_secret        => '___pleasechangeme___'
+      :cookie_secret        => 'edd44bca0fe498336609eaf80054c2122259e0'
     },
     :demo => {
       :id                   => '',

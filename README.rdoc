@@ -17,7 +17,7 @@ up for the release of Rails 2.1. I hope that you find it useful.
 
 Simply download and/or clone the repository and run the app:bootstrap task.
 
-    $ rake app:bootstrap
+  $ rake app:bootstrap
 
 The rake task assumes that you will be running HomeMarks from your own local
 computer. The databases will use SQLite3 (rails default) and the following 
@@ -36,6 +36,6 @@ HomeMarks uses the shoulda testing plugin by Thoughtbot. The git repository is
 already tracking shoulda as a submodule. Simply do the following from the root 
 of your HomeMarks checkout:
 
-    $ git submodule init
-    $ git submodule update
+  $ git submodule init
+  $ git submodule update
 

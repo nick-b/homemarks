@@ -35,7 +35,8 @@ information is requested.
 * Email and password. Used to create your HomeMarks account.
 
 It is suggested that you setup a named host in your host file vs using the 
-script/server default of 0.0.0.0:3000.
+script/server default of 0.0.0.0:3000. If you run into any errors for required 
+gems (highline/ruby-debug) during the bootstrap process, simply install them.
 
 
 === Running Tests

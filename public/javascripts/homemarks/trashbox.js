@@ -4,7 +4,7 @@ var TrashboxClass = Class.create(HomeMarksApp,ActionBoxMixins,BookmarkSortableMi
   initialize: function($super) { 
     $super();
     this.superActionAreaMixins();
-    this.class = 'Trashbox';
+    this.klass = 'Trashbox';
     this.box = $('trashbox');
     this.id = parseInt(this.trashboxList.id.sub('trashbox_list_',''));
     this._initTrashboxEvents();

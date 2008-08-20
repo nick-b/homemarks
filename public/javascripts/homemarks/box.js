@@ -40,7 +40,7 @@ var BoxBuilder = Class.create(HomeMarksApp,{
 var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
   
   initialize: function($super,box) {
-    this.class = 'Box';
+    this.klass = 'Box';
     this.box = $(box);
     this.div = this.box.down('div.box');
     this.header = this.box.down('div.box_header');
@@ -317,7 +317,7 @@ Box.containment = function() {
 };
 
 Box.boxes = function() {
-  return Boxes.findAll(function(box){ return box.class == 'Box' });
+  return Boxes.findAll(function(box){ return box.klass == 'Box' });
 };
 
 

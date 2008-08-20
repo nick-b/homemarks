@@ -21,7 +21,7 @@ var BookmarkSortableMixins = {
       params.set('old_type',bookmark.oldType);
       Page.gainedSortable = this.sortableList();
     };
-    return params.merge({type:this.class});
+    return params.merge({type:this.klass});
   },
   
   bookmarks: function() {
@@ -95,7 +95,7 @@ var Bookmark = Class.create(HomeMarksApp,{
   },
   
   type: function() {
-    return this.box().class;
+    return this.box().klass;
   },
   
   name: function() {

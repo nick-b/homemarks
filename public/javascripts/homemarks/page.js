@@ -14,7 +14,7 @@ var ActionBoxMixins = {
   },
   
   showFieldsetProgress: function() {
-    if (!this.fieldsetProgress.visible()) { this.fieldsetProgress.blindDown({duration: 0.35}); };
+    if (!this.fieldsetProgress.visible()) { this.fieldsetProgress.show(); };
   },
   
   hideFieldsetProgress: function() {

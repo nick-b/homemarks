@@ -8,11 +8,11 @@
 .clearfix:after  { content:"."; display:block; height:0; clear:both; visibility:hidden; }
 .clearfix        { display:inline-block; }
 .clearfix        { display:block; }
-                 
+
 .w100p           { width:100% !important; }
 .w99p            { width:98% !important; }
 .w98p            { width:98% !important; }
-                 
+
 .floatr          { float:right; display:inline; }
 .floatl          { float:left; display:inline; }
 .inline          { display:inline !important; }
@@ -21,7 +21,7 @@
 .white           { color:#fff !important; }
 .red             { color:red !important; }
 .redbg           { background-color:red !important; }
-                 
+
 .vtop            { vertical-align:top !important; }
 .vtop_all *      { vertical-align:top !important; }
 .vmiddle         { vertical-align:middle !important; }
@@ -29,13 +29,13 @@
 .vbottom         { vertical-align:bottom !important; }
 .vbottom_all *   { vertical-align:bottom !important; }
 .nowrap          { white-space:nowrap; }
-                 
+
 .left            { text-align:left !important; }
 .center          { text-align:center !important; }
 .right           { text-align:right !important; }
 .bold            { font-weight:900 !important;}
 .italic          { font-style:italic !important; }
-                 
+
 .fs9             { font-size:9px !important ; }
 .fs10            { font-size:10px !important ; }
 .fs11            { font-size:11px !important ; }
@@ -45,7 +45,7 @@
 .fs15            { font-size:15px !important ; }
 .fs16            { font-size:16px !important ; }
 .fs17            { font-size:17px !important ; }
-                 
+
 .lh9             { line-height:9px !important ; }
 .lh10            { line-height:10px !important ; }
 .lh11            { line-height:11px !important ; }

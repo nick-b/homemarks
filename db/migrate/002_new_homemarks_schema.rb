@@ -1,9 +1,9 @@
 class NewHomemarksSchema < ActiveRecord::Migration
-  
+
   def self.table_exists?(table_name)
     ActiveRecord::Base.connection.tables.include?(table_name.to_s)
   end
-  
+
   def self.up
     # Chaning password field
     rename_column :users, :salted_password, :crypted_password
@@ -17,7 +17,7 @@ class NewHomemarksSchema < ActiveRecord::Migration
     # Remove Sessions if they exists
     drop_table :sessions if table_exists?(:sessions)
   end
-  
+
   def self.down
     # Chaning password field
     rename_column :users, :crypted_password, :salted_password
@@ -29,6 +29,6 @@ class NewHomemarksSchema < ActiveRecord::Migration
     # Update SupportRequest
     add_column :support_requests, :from_user, :string
   end
-  
+
 end
 

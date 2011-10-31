@@ -3,7 +3,7 @@ bob_col1_box1_bmark1:
   owner: bob_col1_box1 (Box)
   url: "www.apple.com"
   name: "Apple"
-  position: 1 
+  position: 1
 
 bob_col1_box1_bmark2:
   owner: bob_col1_box1 (Box)

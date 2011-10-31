@@ -1,25 +1,25 @@
 # == ActsAsList Hacks
-# 
-#   * Added class method scope_column() so AAL objects can request their own 
+#
+#   * Added class method scope_column() so AAL objects can request their own
 #     scope column in some new private methods.
-#   * Removed (before_create :add_to_list_bottom) callback and replaced with 
-#     (before_validation_on_create) with two methods. The first AAL standard 
-#     add_to_list_top() moves all items down and the custom set_new_to_list_top() 
-#     sets the position to 1 on the newly created list items, all before validation 
+#   * Removed (before_create :add_to_list_bottom) callback and replaced with
+#     (before_validation_on_create) with two methods. The first AAL standard
+#     add_to_list_top() moves all items down and the custom set_new_to_list_top()
+#     sets the position to 1 on the newly created list items, all before validation
 #     so it works.
-#   * Added insert_at_new_scope_and_position() which is like insert_at() but allows 
+#   * Added insert_at_new_scope_and_position() which is like insert_at() but allows
 #     for a new scope_column which must be assigned in the method's parameters.
 
 module ActiveRecord
   module Acts #:nodoc:
     module List #:nodoc:
-      
+
       class PositionError < ActiveRecordError ; end
-      
+
       def self.included(base)
         base.extend(ClassMethods)
       end
-      
+
       # This +acts_as+ extension provides the capabilities for sorting and reordering a number of objects in a list.
       # The class that has this specified needs to have a +position+ column defined as an integer on
       # the mapped database table.
@@ -37,14 +37,14 @@ module ActiveRecord
       #
       #   todo_list.first.move_to_bottom
       #   todo_list.last.move_higher
-      
+
       module ClassMethods
-        
+
         # Configuration options are:
         #
         # * +column+ - specifies the column name to use for keeping the position integer (default: +position+)
-        # * +scope+ - restricts what is to be considered a list. Given a symbol, it'll attach <tt>_id</tt> 
-        #   (if it hasn't already been added) and use that as the foreign key restriction. It's also possible 
+        # * +scope+ - restricts what is to be considered a list. Given a symbol, it'll attach <tt>_id</tt>
+        #   (if it hasn't already been added) and use that as the foreign key restriction. It's also possible
         #   to give it an entire string that is interpolated if you need a tighter scope than just a foreign key.
         #   Example: <tt>acts_as_list :scope => 'todo_list_id = #{todo_list_id} AND completed = 0'</tt>
         def acts_as_list(options = {})
@@ -77,33 +77,33 @@ module ActiveRecord
             def position_column
               '#{configuration[:column]}'
             end
-            
+
             def scope_column
               '#{options[:scope_column] || options[:scope]}'.to_sym
             end
 
             #{scope_condition_method}
-            
+
             before_create     :add_to_list_top, :set_new_to_list_top
             before_destroy    :remove_from_list
-            
+
           EOV
         end
-        
+
       end
 
       # All the methods available to a record that has had <tt>acts_as_list</tt> specified. Each method works
       # by assuming the object to be the item in the list, so <tt>chapter.move_lower</tt> would move that chapter
       # lower in the list of all chapters. Likewise, <tt>chapter.first?</tt> would return +true+ if that chapter is
       # the first in the list of all chapters.
-      
+
       module InstanceMethods
-        
+
         # Insert the item at the given position (defaults to the top position of 1).
         def insert_at(position = 1)
           insert_at_position(position)
         end
-        
+
         # Insert the item at the given position in the new scope. Both values required.
         def insert_at_new_scope_and_position(new_scope, new_position)
           new_scope = new_scope.to_i
@@ -210,15 +210,15 @@ module ActiveRecord
         def in_list?
           !send(position_column).nil?
         end
-        
-        
+
+
 
         private
-        
+
         def add_to_list_top
           increment_positions_on_all_items
         end
-        
+
         def set_new_to_list_top
           self[position_column] = 1
         end
@@ -296,9 +296,9 @@ module ActiveRecord
           increment_positions_on_lower_items(position)
           self.update_attribute(position_column, position)
         end
-        
-        
-      end 
+
+
+      end
     end
   end
 end

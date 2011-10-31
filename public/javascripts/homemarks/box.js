@@ -2,12 +2,12 @@
 var Boxes = $A();
 
 var BoxBuilder = Class.create(HomeMarksApp,{
-  
-  initialize: function($super,columnObj,id) { 
+
+  initialize: function($super,columnObj,id) {
     $super();
     this.build(columnObj,id);
   },
-  
+
   build: function(columnObj,id) {
     var boxId = 'box_'+ id;
     var sortable = columnObj.sortableElement();
@@ -34,11 +34,11 @@ var BoxBuilder = Class.create(HomeMarksApp,{
     box.blindDown({duration:0.35});
     SortableUtils.createSortableMember(sortable,box);
   }
-  
+
 });
 
 var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
-  
+
   initialize: function($super,box) {
     this.klass = 'Box';
     this.box = $(box);
@@ -52,31 +52,31 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     $super();
     this._initBoxEvents();
   },
-  
+
   sortableElement: function() {
     return this.box;
   },
-  
+
   sortableParent: function() {
     return this.box.up('div.dragable_columns');
   },
-  
+
   collapsed: function() { return !this.insides.visible() },
-  
+
   toggleActions: function(event) {
     event.stop();
     if (this.actions.hasClassName(this.downClass)) {
       this.controls.blindUp(this.effectOptions);
       this.flash('good','Box actions hidden.');
-    } 
+    }
     else {
-      if (this.collapsed()) { 
+      if (this.collapsed()) {
         this.doAjaxRequest(this.title);
         this.insertControlsHTML(true);
         this.controls.show();
         this.insides.blindDown(this.effectOptions);
       }
-      else { 
+      else {
         this.insertControlsHTML();
         this.controls.blindDown(this.effectOptions);
       };
@@ -84,7 +84,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     };
     this.actions.toggleClassName(this.downClass);
   },
-  
+
   editLinks: function(event) {
     var editHTML = DIV({id:'edit_links'},[
       IMG({src:'/stylesheets/images/modal/command_new-bookmark2.png',alt:'New Bookmark',className:'modal_command_new'}),
@@ -101,15 +101,15 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     HomeMarksModal.show(editHTML,{contentFor:'box',color:this.currentColor()});
     this._initEditLinksEvents();
   },
-  
+
   serializeEditForm: function() {
     return $H(this.editForm.serialize(true));
   },
-  
+
   startEditBox: function() {
     HomeMarksModal.startHide();
   },
-  
+
   completeEditBox: function(request) {
     var bookmarkData = request.responseJSON;
     var bookmarks = this.bookmarks();
@@ -124,21 +124,21 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     setTimeout(function() { this.sortableList().pulsate({duration:0.75}); }.bind(this),0750);
     this.flash('good','Bookmarks updated.');
   },
-  
+
   insertBookmarkRow: function() {
-    if (this.editTable.newBookmarkIndex) { this.editTable.newBookmarkIndex = this.editTable.newBookmarkIndex+1 } 
+    if (this.editTable.newBookmarkIndex) { this.editTable.newBookmarkIndex = this.editTable.newBookmarkIndex+1 }
     else { this.editTable.newBookmarkIndex = 1 };
     var newRow = this.buildBookmarkRow();
     this.editTable.insert({top:newRow});
   },
-  
+
   buildBookmarkRow: function(bookmark) {
     if (bookmark) {
       var bmUrl = bookmark.url(), bmName = bookmark.name();
       var namePrefix = 'bookmarks['+bookmark.id+']';
       var nameName = namePrefix + '[name]';
       var nameUrl = namePrefix + '[url]';
-    } 
+    }
     else {
       var bmUrl = '', bmName = '';
       var namePrefix = 'new_bookmarks['+this.editTable.newBookmarkIndex+']';
@@ -150,7 +150,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
       TD([INPUT({name:nameUrl, value:bmUrl, className:'bookmark_url_field', type:'text', size:'55'})])
     ]);
   },
-  
+
   bookmarks: function() {
     var domBookmarks = this.sortableList().adjacent('li.dragable_bmarks');
     var bookmarkObjects = domBookmarks.collect(function(dbm){
@@ -158,11 +158,11 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     });
     return bookmarkObjects;
   },
-  
+
   bookmarkRows: function() {
     return this.bookmarks().map(function(bookmark){ return this.buildBookmarkRow(bookmark); }.bind(this));
   },
-  
+
   insertControlsHTML: function(display) {
     if (!this.controls) {
       this.insides.insert({top:this._controlsHTML(display)});
@@ -170,17 +170,17 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
       this._initAllControls();
     };
   },
-  
+
   beforeChangeColor: function(element) {
     var color = this._getColorFromSwatch(element);
     var newClassName = 'box ' + color;
     this.div.className = newClassName;
   },
-  
+
   completeChangeColor: function(request) {
     this.flash('good','Box color updated.');
   },
-  
+
   completeToggleCollapse: function(request) {
     var shown = request.responseJSON;
     if (shown) {
@@ -193,7 +193,7 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
       this.flash('good','Box uncollapsed.')
     };
   },
-  
+
   completeDestroyBox: function(request,cascadeDelete) {
     var sortableParent = this.sortableParent();
     var sortableElement = this.sortableElement();
@@ -204,22 +204,22 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     if (!cascadeDelete) {
       this.flash('good','Box deleted.');
       sortableElement.fade({duration:0.35});
-      setTimeout(function(){ 
+      setTimeout(function(){
         sortableElement.remove();
         SortableUtils.destroySortableMemberPostDOM(sortableParent,sortableElement);
       }.bind(this),0500);
     };
   },
-  
+
   currentTitle: function() {
     return this.title.innerHTML;
   },
-  
+
   currentColor: function() {
     var classNames = $w(this.div.className);
     if (classNames.size() > 1) { return classNames.last() } else { return 'timberwolf' };
   },
-  
+
   startUpdateTitle: function(event) {
     var action = '/boxes/' + this.id + '/change_title';
     var parameters = $H({ title:$F(this.title_input) });
@@ -229,12 +229,12 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
       method: 'put'
     });
   },
-  
+
   completeUpdateTitle: function(request) {
     var newTitle = request.responseJSON;
     this.title.update(newTitle.escapeHTML());
   },
-  
+
   _controlsHTML: function(display) {
     var currentTitle = this.currentTitle();
     var displayStyle = (display) ? 'block' : 'none';
@@ -243,14 +243,14 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     controlContent.push(INPUT({className:'box_input',type:'text',value:currentTitle,maxlength:'64'}));
     return DIV({className:'box_controls clearfix',style:'display:'+displayStyle},controlContent);
   },
-  
+
   _initToggleCollapse: function() {
     this.title = this.header.down('span.box_titletext');
     this.title.action = '/boxes/' + this.id + '/toggle_collapse';
     this.title.method = 'put';
     this.createAjaxObserver(this.title,{onComplete:this.completeToggleCollapse});
   },
-  
+
   _initAllControls: function() {
     /* Destroy Box */
     this.destroyButton = this.controls.down('span.box_delete');
@@ -272,18 +272,18 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     this.title_input = this.controls.down('input.box_input');
     new Field.Observer(this.title_input, 0.4, this.startUpdateTitle.bind(this));
   },
-  
+
   _getColorFromSwatch: function(swatch) {
     var classes = $w(swatch.className);
     var colorClass = classes.detect(function(c){ return c.startsWith('swatch_') });
     return colorClass.sub('swatch_','');
   },
-  
+
   _initPrefAction: function() {
      this.actions = this.header.down('span.box_action');
      this.actions.observe('click',this.toggleActions.bindAsEventListener(this));
   },
-  
+
   _initEditLinksEvents: function() {
     this.editModal = $('edit_links');
     this.editTable = this.editModal.down('#bookmark_edit_table');
@@ -296,20 +296,20 @@ var Box = Class.create(HomeMarksApp,BookmarkSortableMixins,{
     if (HomeMarksModal.saveButtonObserver) { HomeMarksModal.saveButton.stopObserving('click',HomeMarksModal.saveButtonObserver); };
     HomeMarksModal.saveButtonObserver = this.createAjaxObserver(HomeMarksModal.saveButton,{before:this.startEditBox,onComplete:this.completeEditBox});
   },
-  
+
   _initBoxEvents: function() {
     this._buildBookmarksSortables();
     this._initToggleCollapse();
     this._initPrefAction();
   }
-  
+
 });
 
 
-Box.colors = $A([ 
+Box.colors = $A([
   'white',      'aqua',     'melon',  'limeade',      'lavender', 'postit', 'bisque',
   'timberwolf', 'sky_blue', 'salmon', 'spring_green', 'wistera',  'yellow', 'apricot',
-  'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna' 
+  'black',      'cerulian', 'red',    'yellow_green', 'violet',   'orange', 'raw_sienna'
 ]);
 
 Box.containment = function() {
@@ -322,7 +322,7 @@ Box.boxes = function() {
 
 
 document.observe('dom:loaded', function(){
-  $$('div.dragable_boxes').each(function(box){ 
+  $$('div.dragable_boxes').each(function(box){
     var boxObject = new Box(box);
     Boxes.push(boxObject);
   });

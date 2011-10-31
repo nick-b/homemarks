@@ -1,6 +1,6 @@
 
 namespace :app do
-  
+
   task :bootstrap => :setup do
     Debugger.start
     puts
@@ -21,7 +21,7 @@ namespace :app do
       Rake::Task["app:#{task}"].invoke
     end
   end
-  
+
   task :gather_info do
     say "STEP #1) Enter application specific information:"
     say "         The host/port is very important for some app resources. It is suggested that"
@@ -36,7 +36,7 @@ namespace :app do
     end
     puts
   end
-  
+
   task :copy_dbyml do
     db_config = "config/database.yml"
     db_config = File.readlink(db_config) if File.symlink?(db_config)
@@ -50,7 +50,7 @@ namespace :app do
     end
     puts
   end
-  
+
   task :init_app do
     say "STEP #3) Initialize and configuring the application."
     init_file = 'config/preinitializer.rb'
@@ -70,7 +70,7 @@ namespace :app do
     Rake::Task['environment'].invoke
     puts
   end
-  
+
   task :setup_databases do
     begin
       say "STEP #4) Creating your SQLite3 databases with full schema."
@@ -85,7 +85,7 @@ namespace :app do
     end
     puts
   end
-  
+
   task :create_user do
     say "STEP #5) Creating HomeMarks user for <#{@user_email}>."
     ['development','production'].each do |env|
@@ -97,7 +97,7 @@ namespace :app do
     end
     puts
   end
-  
+
   task :finished do
     puts
     say '=' * 75
@@ -109,7 +109,7 @@ namespace :app do
     say '=' * 75
     puts
   end
-  
+
   task :setup do
     require 'rubygems'
     gem 'highline'
@@ -124,6 +124,6 @@ namespace :app do
       def_delegators :@terminal, :agree, :ask, :choose, :say
     end
   end
-  
+
 end
 

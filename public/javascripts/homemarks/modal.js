@@ -1,9 +1,9 @@
 
 var HomeMarksModalClass = Class.create(HomeMarksBase,{
-  
+
   initialize: function() {
     this.build();
-    this.mask = $('modalmask'); 
+    this.mask = $('modalmask');
     this.progress = $('modal_progress');
     this.apWrapper = $('modal_html_ap-wrapper');
     this.relWrapper = $('modal_html_rel-wrapper');
@@ -13,7 +13,7 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     this.initButtons();
     this.queue = {position:'end', scope:'modalscope'};
   },
-  
+
   build: function() {
     var body = $$('body').first();
     var maskHTML = DIV({id:'modalmask',style:'display:none;'},[DIV({id:'modal_progress',style:'display:none;',onclick:'location.reload();'})]);
@@ -34,7 +34,7 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     body.insert({top:modalHTML});
     body.insert({top:maskHTML});
   },
-  
+
   show: function(content) {
     var options = Object.extend({contentFor:'misc',color:'timberwolf',showProgress:false}, arguments[1] || {});
     this.contentFor = options.contentFor;
@@ -49,20 +49,20 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     // document.stopObserving('keypress', actionAreaHelper);
     // if (this.action_bar().hasClassName('barout')) { toggleActionArea('inbox'); }
   },
-  
+
   showBookmarkModal: function(content) {
     this.show(content,{contentFor:'bookmark',showProgress:true});
     this.bmLoading = $('loadinghomemarks');
     this.bmForm = $('savehomemarks_form');
     this.bmName = $('savehomemarks_name');
-    if (this.bmLoading) { 
+    if (this.bmLoading) {
       this.bmLoading.remove();
       this.bmName.value = document.title;
     };
     this.bmForm.observe('submit',this.saveBookmarkModal.bindAsEventListener(this));
     this.saveButton.observe('click',this.saveBookmarkModal.bindAsEventListener(this));
   },
-  
+
   saveBookmarkModal: function() {
     var rjsCreate = document.createElement('script');
     rjsCreate.type = 'text/javascript';
@@ -71,23 +71,23 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     document.body.appendChild(rjsCreate);
     return false;
   },
-  
+
   startHide: function() {
     this.toggleObservers('off');
     this.toggleProgress('on');
     this.toggleModal('off');
   },
-  
+
   completeHide: function() {
     this.toggleProgress('off');
     this.toggleMask('off');
   },
-  
+
   hide: function() {
     this.startHide();
     this.completeHide();
     if (this.contentFor == 'bookmark' && !this.bmLoading) {
-      setTimeout(function(){ 
+      setTimeout(function(){
         window.location.href = $('savehomemarks_url').value;
       },0650);
     };
@@ -102,16 +102,16 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     if (content) { this.content.update(content); };
     this.center();
   },
-  
+
   showContentButtons: function() {
     this.allButtons.invoke('hide');
-    switch (this.contentFor) { 
+    switch (this.contentFor) {
       case 'misc'     : $A([this.cancelButton]).invoke('show'); break;
-      case 'box'      : $A([this.cancelButton,this.saveButton]).invoke('show'); break; 
-      case 'bookmark' : $A([this.cancelButton,this.saveButton]).invoke('show'); break; 
+      case 'box'      : $A([this.cancelButton,this.saveButton]).invoke('show'); break;
+      case 'bookmark' : $A([this.cancelButton,this.saveButton]).invoke('show'); break;
     }
   },
-  
+
   center: function() {
     this.mask.setStyle({height: this.pageSize().height + 'px'});
     this.progress.setStyle({top: (this.scroll().top + 60) + 'px'});
@@ -120,21 +120,21 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
     if (left < 0) left = 0;
     this.apWrapper.setStyle({left:left+'px'});
   },
-  
+
   dimensions: function() {
-    switch (this.contentFor) { 
+    switch (this.contentFor) {
       case 'misc'     : return { topWidth:452, contentWidth:'400px', contentHeight:'auto' };
-      case 'box'      : return { topWidth:652, contentWidth:'600px', contentHeight:'300px' }; 
-      case 'bookmark' : return { topWidth:352, contentWidth:'300px', contentHeight:'145px' }; 
+      case 'box'      : return { topWidth:652, contentWidth:'600px', contentHeight:'300px' };
+      case 'bookmark' : return { topWidth:352, contentWidth:'300px', contentHeight:'145px' };
     }
   },
-  
+
   toggleMask: function(toggle) {
     var options = { duration:0.2, queue:this.queue };
     if (toggle == 'on') { this.mask.appear(Object.extend(options,{from:0.0,to:0.9})); }
     else { this.mask.fade(options); };
   },
-  
+
   toggleObservers: function(toggle) {
     if (toggle == 'on') {
       this.modalResizeObserver = this.center.bindAsEventListener(this);
@@ -149,29 +149,29 @@ var HomeMarksModalClass = Class.create(HomeMarksBase,{
       document.stopObserving('keypress',this.keypressObserver);
     };
   },
-  
+
   toggleProgress: function(toggle) {
     var options = {duration:0.2, queue:this.queue}
     if (toggle == 'on') { this.progress.appear(options); } else { this.progress.fade(options); };
   },
-  
+
   toggleModal: function(toggle) {
-    var options = { duration:0.4 }; // Helps speed by removing: queue:this.queue} 
+    var options = { duration:0.4 }; // Helps speed by removing: queue:this.queue}
     if (toggle == 'on') { this.relWrapper.slideDown(options); } else { this.relWrapper.slideUp(options); };
   },
-  
+
   keypress: function(event) {
     if (event.keyCode == Event.KEY_ESC) { this.hide(); };
   },
-  
+
   initButtons: function() {
     this.cancelButton = $('modal_button_cancel');
     this.cancelButton.observe('click',this.hide.bindAsEventListener(this))
     this.saveButton = $('modal_button_save');
     this.allButtons = $A([this.cancelButton,this.saveButton]);
   }
-  
-  
+
+
 });
 
 

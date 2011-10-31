@@ -1,5 +1,5 @@
 module HomemarksTestHelper
-  
+
   def self.included(klass)
     klass.class_eval do
       include ActionControllerAssertions
@@ -8,13 +8,13 @@ module HomemarksTestHelper
       include SiteAssertions
     end
   end
-  
+
   module ActionControllerAssertions
-    
+
     def self.included(klass)
       klass.send :extend, ClassMethods
     end
-    
+
     module ClassMethods
 
       def should_ignore_lost_sortable_requests
@@ -26,13 +26,13 @@ module HomemarksTestHelper
       end
 
     end
-    
+
     [:good,:bad,:indif].each do |mood|
       define_method "assert_#{mood}_flash" do |contents|
         assert_match contents, flash[mood]
       end
     end
-    
+
     def assert_layout(expected=nil, message=nil)
       clean_backtrace do
         layout = @response.layout ? @response.layout.split('/').last : false
@@ -42,29 +42,29 @@ module HomemarksTestHelper
         end
       end
     end
-    
+
     def assert_json_response
       content_type = (@response.headers['Content-Type'] || @response.headers['type']).to_s
       json = 'application/json'
       msg = "Content Type #{content_type.inspect} doesn't match #{json.inspect}\n"
-      msg += "Body: #{@response.body.first(100).chomp} ..." 
+      msg += "Body: #{@response.body.first(100).chomp} ..."
       assert_match json, content_type, msg
     end
-    
+
     protected
-    
+
     def decode_json_response
       ActiveSupport::JSON.decode(@response.body)
     end
-    
+
   end
-  
+
   module ActiveRecordAssertions
-    
+
     def self.included(klass)
       klass.send :extend, ClassMethods
     end
-    
+
     module ClassMethods
 
       def should_allow_nil_and_blank_for(*attrs)
@@ -84,42 +84,42 @@ module HomemarksTestHelper
       end
 
     end
-    
+
     def assert_valid(obj)
       assert obj.valid?, "Expected [#{obj.class}] to be valid. Errors: #{inspect_errors(obj)}"
     end
-    
+
     def assert_not_valid(obj)
       assert !obj.valid?, "Expected [#{obj.class}] to not be valid"
     end
-    
+
     def inspect_errors(obj)
       obj.errors.full_messages.inspect
     end
-    
+
   end
-  
+
   module DomAssertions
-    
+
     def assert_title_heading(title=nil)
       assert_select 'h1', /#{h(title)}/i if title
     end
-    
+
     def assert_element_visible(selector,visible=true)
       style_regexp = visible ? /display:(inline|block);/ : /display:none;/
       assert_select(selector) do
         assert_select '[style=?]', style_regexp
       end
     end
-    
+
     def assert_element_hidden(selector)
       assert_element_visible(selector,visible=false)
     end
-    
+
   end
-  
+
   module SiteAssertions
-    
+
     def assert_site_page_success(options={})
       assert_response :success
       assert_layout :site
@@ -142,7 +142,7 @@ module HomemarksTestHelper
         assert_select 'img[alt=?]', all_nav_names
       end
     end
-    
+
   end
-  
+
 end

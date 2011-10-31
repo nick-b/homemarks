@@ -1,7 +1,7 @@
 class PositionIsNullable < ActiveRecord::Migration
-  
+
   # Lets ActAsList use #remove_from_list by nulling position column.
-  
+
   def self.up
     change_column :bookmarks,     :position, :integer, :null => true
     change_column :boxes,         :position, :integer, :null => true
@@ -17,5 +17,5 @@ class PositionIsNullable < ActiveRecord::Migration
     change_column :inboxmarks,    :position, :integer, :null => false
     change_column :trashboxmarks, :position, :integer, :null => false
   end
-  
+
 end

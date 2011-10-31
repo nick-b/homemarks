@@ -1,7 +1,7 @@
 class SetupInitialDatabases < ActiveRecord::Migration
-  
+
   def self.up
-    
+
     create_table "users", :force => true do |t|
       t.string   :salted_password, :limit => 40, :default => "", :null => false
       t.string   :email,           :limit => 60, :default => "", :null => false
@@ -18,8 +18,8 @@ class SetupInitialDatabases < ActiveRecord::Migration
     add_index :users, ["email", "salted_password"], :name => "indx_users_email_salted_password"
     add_index :users, ["email"], :name => "indx_users_email", :unique => true
     add_index :users, ["uuid"], :name => "indx_users_uuid", :unique => true
-    
-    
+
+
     create_table "columns", :force => true do |t|
       t.integer :user_id,  :null => false
       t.integer :position, :null => false
@@ -50,7 +50,7 @@ class SetupInitialDatabases < ActiveRecord::Migration
     add_index :bookmarks, ["box_id"], :name => "indx_bookmarks_box_id"
     add_index :bookmarks, ["id"], :name => "indx_bookmarks_id"
 
-    
+
     create_table "inboxes", :force => true do |t|
       t.integer :user_id, :null => false
     end
@@ -69,14 +69,14 @@ class SetupInitialDatabases < ActiveRecord::Migration
     add_index :inboxmarks, ["inbox_id"], :name => "indx_inboxmarks_inbox_id"
     add_index :inboxmarks, ["id"], :name => "indx_inboxmarks_id"
 
-    
+
     create_table "trashboxes", :force => true do |t|
       t.integer :user_id, :null => false
     end
     add_index :trashboxes, ["user_id"], :name => "indx_trashboxes_user_id"
     add_index :trashboxes, ["id"], :name => "indx_trashboxes_id"
-    
-    
+
+
     create_table "trashboxmarks", :force => true do |t|
       t.integer  :trashbox_id,                 :null => false
       t.string   :url,         :limit => 1024, :null => false
@@ -87,8 +87,8 @@ class SetupInitialDatabases < ActiveRecord::Migration
     end
     add_index :trashboxmarks, ["trashbox_id"], :name => "indx_trashmarks_trashbox_id"
     add_index :trashboxmarks, ["id"], :name => "indx_trashmarks_id"
-    
-    
+
+
     create_table "support_requests", :force => true do |t|
       t.string  :problem,                                     :null => false
       t.string  :details,   :limit => 510,                    :null => false
@@ -96,9 +96,9 @@ class SetupInitialDatabases < ActiveRecord::Migration
       t.integer :user_id
       t.string  :email,                                       :null => false
     end
-    
+
   end
-  
+
   def self.down
     drop_table :users
     drop_table :columns
@@ -110,7 +110,7 @@ class SetupInitialDatabases < ActiveRecord::Migration
     drop_table :trashboxmarks
     drop_table :support_requests
   end
-  
-  
+
+
 end
 

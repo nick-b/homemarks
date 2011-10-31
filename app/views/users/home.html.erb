@@ -1,17 +1,17 @@
 
 <% cache(user_home_cache) do %>
-  
+
   <div id="col_wrapper">
-    
+
     <% current_user.columns.each do |col| %>
-    
+
     <div id="col_<%= col.id %>" class="dragable_columns">
       <span class="column_ctl">
         <span class="ctl_close"></span>
         <span class="ctl_handle"></span>
         <span class="ctl_add"></span>
       </span>
-      
+
       <% col.boxes.each do |box| %>
       <div id="box_<%= box.id %>" class="dragable_boxes">
       <div class="box <%= box.style %>">
@@ -36,11 +36,11 @@
       </div>
       </div>
       <% end %>
-      
+
     </div>
-    
+
     <% end %>
-    
+
     <div id="welcome_box" style="display:<%= current_user.columns.blank? ? 'block' : 'none' %>;">
       <div id="welcome_header" class="site_yellow">
         Welcome to your <br />
@@ -52,7 +52,7 @@
         <%= link_to 'documentation and help', site_path('help') %> section.
       </div>
     </div>
-  
+
   </div>
-  
+
 <% end %>

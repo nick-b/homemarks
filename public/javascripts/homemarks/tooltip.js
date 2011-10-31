@@ -1,6 +1,6 @@
 
 var Tooltip = Class.create(HomeMarksApp,{
-  
+
   initialize: function($super,a) {
     $super();
     this.a = $(a);
@@ -12,7 +12,7 @@ var Tooltip = Class.create(HomeMarksApp,{
     this.build();
     this._initEvents();
   },
-  
+
   build: function() {
     tooltip_box = DIV({id:this.tooltipId,className:'tooltip_box',style:'display:none;'},[
       DIV({className:'tooltip_left'}),
@@ -26,41 +26,41 @@ var Tooltip = Class.create(HomeMarksApp,{
     this.a.removeAttribute('title');
     this.tooltip = $(this.tooltipId);
   },
-  
+
   reseteffect: function() {
     var effect = $(this.a).tt_effect;
     if(effect) effect.cancel();
   },
-  
+
   showTooltip: function(event) {
     this.reseteffect();
     this.a.tt_effect = new Effect.Appear(this.tooltipId,{delay:0.3,duration:0.2});
   },
-  
+
   hideTooltip: function(event) {
     this.reseteffect();
     this.a.tt_effect = new Effect.Fade(this.tooltipId,{duration:0.2});
   },
-  
+
   completeNewColumn: function(request) {
     var id = request.responseJSON;
     new ColumnBuilder(id);
     this.flash('good','New column created.');
   },
-  
+
   _initEvents: function() {
-    if (this.toolButton.id == 'button_new_column') { 
+    if (this.toolButton.id == 'button_new_column') {
       this.toolButton.action = this.a.href;
-      this.createAjaxObserver(this.toolButton,{onComplete:this.completeNewColumn}); 
+      this.createAjaxObserver(this.toolButton,{onComplete:this.completeNewColumn});
     };
   }
-  
+
 });
 
 
 document.observe('dom:loaded', function(){
   toolTipLinks = $$('a.tooltipable');
-  toolTipLinks.each( function(a) { new Tooltip(a); } );  
+  toolTipLinks.each( function(a) { new Tooltip(a); } );
 });
 
 

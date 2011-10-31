@@ -159,11 +159,11 @@ module UUID
   @@last_clock  = nil
   @@logger      = nil
   @@state_file  = File.expand_path(File.dirname(__FILE__)+'/../tmp/uuid.state')
-  
-  
-  
-  
-  
+
+
+
+
+
 
   # Generates and returns a new UUID string.
   #
@@ -248,11 +248,11 @@ module UUID
       next_sequence options
     end
   end
-  
+
   def self.state_file
     @@state_file
   end
-  
+
   def self.state_file=(value)
     @@state_file = value
   end
@@ -268,14 +268,14 @@ module UUID
       # puts "#{PACKAGE}: No UUID state file found, attempting to create one for you:"
       # Run ifconfig for UNIX, or ipconfig for Windows.
       config = ""
-      
+
       Kernel.open "|ifconfig" do |input|
         input.each_line { |line| config << line }
       end rescue nil
       # Kernel.open "|ipconfig /all" do |input|
       #   input.each_line { |line| config << line }
       # end rescue nil
-      
+
       addresses = config.scan(IFCONFIG_PATTERN).collect { |addr| addr[1..-2] }
       if addresses.empty?
         # puts "Could not find any IEEE 802 NIC MAC addresses for this machine."

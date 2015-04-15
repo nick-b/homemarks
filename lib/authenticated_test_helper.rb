@@ -1,12 +1,12 @@
 module AuthenticatedTestHelper
-  
+
   def self.included(receiver)
     receiver.extend ClassMethods
     receiver.send :include, InstanceMethods
   end
-  
+
   module ClassMethods
-    
+
     def should_require_login(actions={})
       actions.each do |action,options|
         should "Require login for '#{action}' action" do
@@ -17,21 +17,21 @@ module AuthenticatedTestHelper
         end
       end
     end
-    
+
   end
-  
+
   module InstanceMethods
-    
+
     def login_as(user)
       @request.session[:user_id] = user ? users(user).id : nil
     end
-    
+
     def logout
       @request.reset_session
     end
 
     def authorize_as(user, password='test')
-      @request.env["HTTP_AUTHORIZATION"] = user ? 
+      @request.env["HTTP_AUTHORIZATION"] = user ?
         ActionController::HttpAuthentication::Basic.encode_credentials(users(user).email,password) : nil
     end
 
@@ -59,8 +59,8 @@ module AuthenticatedTestHelper
       assert_nil session[:user_id], 'The session[:user_id] should be nil'
       assert_contains [false,nil], assigns(:current_user)
     end
-    
+
   end
-  
-  
+
+
 end

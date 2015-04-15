@@ -1,13 +1,13 @@
 
 var HomeMarksApp = Class.create(HomeMarksBase,{
-  
+
   initialize: function() {
     this.loading = $('loading');
     this.welcome = $('welcome_box');
     this.pageSortable = $('col_wrapper');
     this.hud = $('hud');
   },
-  
+
   flash: function(mood,message) {
     this.messageArea = $('message_wrapper');
     this.resetFlash();
@@ -19,35 +19,35 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
       $('message').fade();
     }.bind(this),5000);
   },
-  
+
   resetFlash: function() {
     this.flashMoods.each(function(m){ this.hud.removeClassName(m); }.bind(this));
   },
-  
+
   resetFlashEffect: function() {
     if (this.flashEffect) { clearTimeout(this.flashEffect); };
   },
-  
+
   defaultAjaxOptions: function() {
     return {};
   },
-  
+
   createAjaxObserver: function(element) {
     var options = Object.extend(this.defaultAjaxOptions(), arguments[1] || {});
     var ajaxObserver = this.startAjaxRequest.bindAsEventListener(this,options);
     Event.observe(element,'click',ajaxObserver);
     return ajaxObserver;
   },
-  
+
   startAjaxRequest: function(event) {
     var options = Object.extend(this.defaultAjaxOptions(), arguments[1] || {});
-    if (event instanceof Event) { var elmnt = event.element(); event.stop(); } 
+    if (event instanceof Event) { var elmnt = event.element(); event.stop(); }
     else { var elmnt = event; }; /* Sortable callbacks drop element as first arg */
     elmnt.blur();
     if (elmnt.confirmation) { if (confirm(elmnt.confirmation)) { this.doAjaxRequest(elmnt,options); }; }
     else { this.doAjaxRequest(elmnt,options); };
   },
-  
+
   doAjaxRequest: function(elmnt) {
     var options = Object.extend(this.defaultAjaxOptions(), arguments[1] || {});
     if (options.before) { options.before.call(this,elmnt) };
@@ -63,12 +63,12 @@ var HomeMarksApp = Class.create(HomeMarksBase,{
       method: method
     });
   },
-  
+
   completeAjaxRequest: function(request) {
     var mood = this.getRequestMood(request);
     if (mood == 'good') { this.loading.hide(); } else { window.location.reload(); };
   },
-  
+
 });
 
 

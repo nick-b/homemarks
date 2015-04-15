@@ -20,8 +20,8 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 #site_content_bottom  { width:629px; height:9px; background: url('images/site/site_content_bottom_bg.png') no-repeat 0 0 ;}
 #site_footer          { margin:10px 0 30px 0; font-size:10px; text-align:center; }
 
-#site_wrapper a, 
-#site_wrapper a:link, 
+#site_wrapper a,
+#site_wrapper a:link,
 #site_wrapper a:visited     { color:#ff5200; }
 #site_wrapper a:hover       { text-decoration:none; }
 #site_wrapper a:active      { color:#fdbe1a; }
@@ -43,24 +43,24 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 
 #site_links               { font: normal normal normal 15px/22px "Trebuchet MS", sans-serif ; position:absolute; top:19px; right:17px; }
 #site_links img           { vertical-align:top; margin-left:5px; margin-right:3px; }
-#site_links a, 
-#site_links a:link, 
+#site_links a,
+#site_links a:link,
 #site_links a:visited     { color:#fff; text-decoration:none; }
 #site_links a:hover       { color:#ff5200; text-decoration:none; }
 #site_links a:active      { color:#fdbe1a; }
 
 #site_download               { font: normal normal normal 17px/22px "Trebuchet MS", sans-serif ; }
 #site_download img           { vertical-align:top; margin-left:5px; margin-right:3px; }
-#site_download a, 
-#site_download a:link, 
+#site_download a,
+#site_download a:link,
 #site_download a:visited     { color:#fff; text-decoration:none; }
 #site_download a:hover       { color:#ff5200; text-decoration:none; }
 #site_download a:active      { color:#fdbe1a; }
 
 #ajaxforms_wrapper      { width:450px; margin: 0 auto; position:relative; border: 1px solid #666; border-top: 0 none; }
-#ajaxforms_top          { position:absolute; top:0; left:0; 
+#ajaxforms_top          { position:absolute; top:0; left:0;
                           width:452px; height:9px; background: url('/javascripts/modal_assets/modal_top.png') repeat-x; z-index:210; }
-#ajaxforms              { width:400px; padding:17px; border: 8px solid #333; border-top: 0 none; color:#000; 
+#ajaxforms              { width:400px; padding:17px; border: 8px solid #333; border-top: 0 none; color:#000;
                           background: #fff url('/stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left; }
 #ajaxforms th                   { width:80px; text-align:right; }
 #ajaxforms select,
@@ -87,8 +87,8 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 
 /*---    Welcome Message Formatting    ---*/
 
-#welcome_box a, 
-#welcome_box a:link, 
+#welcome_box a,
+#welcome_box a:link,
 #welcome_box a:visited     { color:#ff5200; }
 #welcome_box a:hover       { text-decoration:none; }
 #welcome_box a:active      { color:#fdbe1a; }
@@ -114,8 +114,8 @@ body { background: #000 url('images/page/background_blackgray_inv.png') repeat-x
 
 #header_message_box       { float:left; padding-top:5px; }
 .header_message           { color:#666; font: normal normal 12px/14px "Trebuchet MS", Georgia, serif; font-weight:normal; border-bottom:none; }
-a.header_message, 
-a.header_message:link, 
+a.header_message,
+a.header_message:link,
 a.header_message:visited  { text-decoration:none; }
 a.header_message:hover    { color:#96ff1f; }
 a.header_message:active   { color:#ff5200; }
@@ -200,8 +200,8 @@ div.box ul.sortablelist { list-style: none outside; margin:0; padding: 0 0 8px 0
 .bmrk_handle:hover  { cursor:move; }
 
 .boxlink            { display:block; float:left; width:135px; }
-.boxlink a, 
-.boxlink a:link, 
+.boxlink a,
+.boxlink a:link,
 .boxlink a:visited  { padding: 1px 0px 2px 0px; display:block; text-decoration:none; color:#000; font-family: Helvetica, sansserif; font-size:11px; line-height:13px; }
 .boxlink a:active   { color:#999; }
 
@@ -226,8 +226,8 @@ div.black                       { background-image: url('images/box/black/boxbot
 div.black .box_header           { color:#fff; background-image: url('images/box/black/boxtop.png'); }
 div.black .line                 { background-image: url('images/box/black/boxline.png'); }
 div.black .inside               { background-image: url('images/box/black/boxbody.png'); }
-div.black a, 
-div.black a:link, 
+div.black a,
+div.black a:link,
 div.black a:visited             { color:#ccc; }
 div.black a:hover               { color:#000; }
 div.black .box_titletext        { color:#fff; }
@@ -301,8 +301,8 @@ div.violet                      { background-image: url('images/box/violet/boxbo
 div.violet .box_header          { color:#fff; background-image: url('images/box/violet/boxtop.png'); }
 div.violet .line                { background-image: url('images/box/violet/boxline.png'); }
 div.violet .inside              { background-image: url('images/box/violet/boxbody.png'); }
-div.violet a, 
-div.violet a:link, 
+div.violet a,
+div.violet a:link,
 div.violet a:visited            { color:#ccc; }
 div.violet a:hover              { color:#000; }
 div.violet .box_titletext       { color:#fff; }
@@ -345,7 +345,7 @@ div.yellow_green .inside        { background-image: url('images/box/yellow_green
 .box_edit { float:left; width:72px; height:18px; margin: 0 0 3px 3px; background: url('images/box/box_control_edit.png') no-repeat 0 0; }
 .box_edit:hover { background-position: -76px 0; }
 .box_edit:active { background-position: 0 0; }
-    
+
 .box_swatch { float:left; width:16px; height:16px; margin:2px; border: 1px solid #666; }
 .box_swatch:hover { border-color: #ccc; }
 .box_swatch:active { border-color: #333; }
@@ -388,7 +388,7 @@ div.yellow_green .inside        { background-image: url('images/box/yellow_green
 #bookmark_edit_table    { font-size:14px; font-family:Tahoma,Helvetica,sansserif; }
 #bookmark_scroll        { width:600px; height:210px; overflow: auto; overflow-x: hidden; overflow-y: auto; }
 
-input.bookmark_name_field, 
+input.bookmark_name_field,
 input.bookmark_url_field  { font-size:10px; font-family:Verdana,Helvetica,sansserif; }
 .bookmark_name_field      { width:180px; }
 .bookmark_url_field       { width:385px; }
@@ -434,14 +434,14 @@ input.bookmark_url_field  { font-size:10px; font-family:Verdana,Helvetica,sansse
 
 #inbox ul.sortablelist, #trashbox ul.sortablelist   { list-style: none outside; margin: 0 0 0 0; padding: 7px 11px 7px 10px; width:159px; }
 
-#inbox .boxlink a, 
-#inbox .boxlink a:link, 
+#inbox .boxlink a,
+#inbox .boxlink a:link,
 #inbox .boxlink a:visited   { color:#ccc; }
 #inbox .boxlink a:hover     { color:#000; }
 #inbox .boxlink a:active    { color:#ccc; }
 
-#trashbox .boxlink a, 
-#trashbox .boxlink a:link, 
+#trashbox .boxlink a,
+#trashbox .boxlink a:link,
 #trashbox .boxlink a:visited   { color:#ccc; }
 #trashbox .boxlink a:hover     { color:#000; }
 #trashbox .boxlink a:active    { color:#ccc; }

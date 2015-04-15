@@ -14,7 +14,7 @@
 #modal_html_ap-wrapper  { position:fixed; top:0; left:0; z-index:999998; }
 #modal_html_rel-wrapper { position:relative; }
 #modal_html_border      { position:relative; border: 1px solid #666; border-top: 0 none; }
-#modal_html_top         { position:absolute; top:0; left:0; 
+#modal_html_top         { position:absolute; top:0; left:0;
                           height:9px; background: url('/javascripts/modal_assets/modal_top.png') repeat-x; z-index:999999; }
 #modal_html             { position: relative; padding:17px; border: 8px solid #333; border-top: 0 none; color:black!important;
                           background: #fff url('http://dev.homemarks.com/stylesheets/images/modal/bg_grey.jpg') repeat-x bottom left; }

@@ -1,19 +1,19 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ColumnsControllerTest < ActionController::TestCase
-  
+
   should_ignore_lost_sortable_requests
-  should_require_login :create  => {:method => :post}, 
-                       :destroy => {:method => :delete, :params => {:id => 1}}, 
+  should_require_login :create  => {:method => :post},
+                       :destroy => {:method => :delete, :params => {:id => 1}},
                        :sort    => {:method => :put}
-  
+
   def setup
     login_as(:bob)
     @bob = users(:bob)
   end
-  
+
   context 'Testing the CREATE action' do
-    
+
     should 'create a new colum and get back ID of new column in JSON format' do
       xhr :post, :create
       new_column = assigns(:column)
@@ -21,9 +21,9 @@ class ColumnsControllerTest < ActionController::TestCase
       assert_json_response
       assert_equal new_column.id, decode_json_response
     end
-    
+
   end
-  
+
   context 'Testing the DESTROY action' do
 
     should 'delete column and return head OK response' do
@@ -34,7 +34,7 @@ class ColumnsControllerTest < ActionController::TestCase
     end
 
   end
-  
+
   context 'Testing the SORT action' do
 
     should 'insert the column at new position and return head OK response' do
@@ -46,7 +46,7 @@ class ColumnsControllerTest < ActionController::TestCase
     end
 
   end
-  
-  
-  
+
+
+
 end

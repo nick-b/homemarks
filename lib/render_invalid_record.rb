@@ -1,11 +1,11 @@
 module RenderInvalidRecord
-  
+
   def self.included(base)
     base.rescue_from(ActiveRecord::RecordInvalid, :with => :render_invalid_record)
   end
-  
+
   protected
-  
+
   def render_invalid_record(exception)
     record = exception.record
     respond_to do |format|
@@ -15,6 +15,6 @@ module RenderInvalidRecord
       format.json { render :json => record.errors.full_messages, :status => :unprocessable_entity }
     end
   end
-  
+
 end
 

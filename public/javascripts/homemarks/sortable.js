@@ -1,8 +1,8 @@
 
 var SortableUtils = {
-  
+
   debug: function() {
-    for (var key in Sortable.sortables) { 
+    for (var key in Sortable.sortables) {
       console.group('Sortable.sortables[',key,']');
       console.log("Containment: %o",Sortable.sortables[key].containment);
       console.log("Draggables:  %o",Sortable.sortables[key].draggables);
@@ -11,7 +11,7 @@ var SortableUtils = {
       console.groupEnd()
     };
   },
-  
+
   dropDebug: function() {
     Droppables.drops.each(function(drop,index){
       console.group('Droppables.drops[',index,']');
@@ -19,7 +19,7 @@ var SortableUtils = {
       console.groupEnd()
     });
   },
-  
+
   dragDebug: function() {
     Draggables.drags.each(function(drag,index){
       console.group('Draggables.drags[',index,']');
@@ -36,11 +36,11 @@ var SortableUtils = {
       console.groupEnd()
     });
   },
-  
+
   getDragObserver: function(element) {
     return Draggables.observers.find(function(d){ return d.element == element });
   },
-  
+
   getOldNewSort: function(element) {
     var dragObserver = SortableUtils.getDragObserver(element);
     var oldSort = dragObserver.lastValue.toQueryParams()[element.id+'[]'];
@@ -49,16 +49,16 @@ var SortableUtils = {
     var newSort = Sortable.sequence(element.id);
     return {old:oldSort,now:newSort};
   },
-  
+
   getSortParams: function(sortable) {
     var sort = Try.these(
       function() { return SortableUtils.getOldNewSort(sortable.sortableList()); },
       function() { return SortableUtils.getOldNewSort(sortable.sortableElement()); }
     );
     // Find the change within the sortable
-    if (sort.old.length == sort.now.length) { 
+    if (sort.old.length == sort.now.length) {
       sort.old.each(function(id,index) {
-        if (id != sort.now[index]) { 
+        if (id != sort.now[index]) {
           /* Check to see if the draggable was moved down */
           if (sort.old[index+1] == sort.now[index]) { drag_id = id; drag_position = sort.now.indexOf(id)+1; };
           /* Check to see if the draggable was moved up */
@@ -69,11 +69,11 @@ var SortableUtils = {
       var params = { id:drag_id, position:drag_position, internal_sort:true };
     }
     // Find the new or lost draggable
-    else { 
+    else {
       /* A lost draggable is ignored by the server */
       if (sort.old.length > sort.now.length) {
         var params = { lost_sortable:true };
-      } 
+      }
       /* Find the first new draggable id and position, it will be one gained */
       else {
         sort.now.each(function(id,index) {
@@ -84,14 +84,14 @@ var SortableUtils = {
     };
     return $H(params);
   },
-  
+
   createSortableMember: function(sortable,member) {
     SortableUtils.createDraggableForSortable(sortable,member);
     SortableUtils.createDroppableForSortable(sortable,member);
     SortableUtils.resetSortableLastValue(sortable);
     SortableUtils.updateContainment(member);
   },
-  
+
   createDraggableForSortable: function(sortable,member) {
     var options = Sortable.sortables[sortable.id];
     var options_for_draggable = {
@@ -108,7 +108,7 @@ var SortableUtils = {
       new Draggable(member,options_for_draggable)
     );
   },
-  
+
   createDroppableForSortable: function(sortable,member) {
     var options = Sortable.sortables[sortable.id];
     var options_for_droppable = {
@@ -120,11 +120,11 @@ var SortableUtils = {
     Droppables.add(member,options_for_droppable);
     options.droppables.push(member);
   },
-  
+
   resetSortableLastValue: function(element) {
     SortableUtils.getDragObserver(element).onStart();
   },
-  
+
   updateSortablesDragAndDrops: function(element) {
     if (Page.gainedSortable == element) {
       var thisSortable = Sortable.sortables[element.id];
@@ -138,7 +138,7 @@ var SortableUtils = {
       thisSortable.draggables.push(dragObj);
     };
   },
-  
+
   sortablesArray: function() {
     var results = [];
     for (var property in Sortable.sortables) {
@@ -147,7 +147,7 @@ var SortableUtils = {
     };
     return results;
   },
-  
+
   updateContainment: function(newMember) {
     var classes = $w(newMember.className);
     var newColumn = classes.include('dragable_columns');
@@ -157,13 +157,13 @@ var SortableUtils = {
       var accept = 'dragable_boxes';
       var containment = Box.containment();
       var firstDrop = (Columns.size() == 0) ? null : Columns[0].column;
-    } 
+    }
     else {
       var accept = 'dragable_bmarks';
       var containment = Bookmark.containment();
       var firstDrop = Inbox.sortableList();
     };
-    SortableUtils.sortablesArray().each(function(sortable){ 
+    SortableUtils.sortablesArray().each(function(sortable){
       if (sortable.accept == accept) { sortable.containment = containment; };
     });
     Droppables.drops.each(function(drop){
@@ -171,9 +171,9 @@ var SortableUtils = {
         drop._containers = containment;
         drop.containment = containment;
       };
-    }); 
+    });
   },
-  
+
   destroySortableMember: function(parent,member) {
     /* Cherry pick from Sortable.destroy to accomodate only a droppable of the sortable. */
     var sortable = Sortable.sortables[parent.id];
@@ -190,7 +190,7 @@ var SortableUtils = {
     /* Now remove the Sortable key */
     delete Sortable.sortables[member.id];
   },
-  
+
   destroySortableSubparent: function(subparent) {
     /* Cherry pick from Sortable.destroy to accomodate an empty bookmark sortable parent. */
     var sortable = Sortable.sortables[subparent.id];
@@ -203,11 +203,11 @@ var SortableUtils = {
     /* Now remove the Sortable key */
     delete Sortable.sortables[subparent.id];
   },
-  
+
   destroySortableMemberPostDOM: function(parent,member) {
     SortableUtils.updateContainment(member);
     SortableUtils.resetSortableLastValue(parent);
   }
-  
+
 };
 

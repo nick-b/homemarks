@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>My HomeMarks</title>  
+  <title>My HomeMarks</title>
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <%= stylesheet_tags %>
@@ -16,7 +16,7 @@
   </script>
 </head>
 <body>
-  
+
   <div id="action_bar"></div>
   <div id="action_area_shim" style="display:none;">
     <div id="action_area">
@@ -39,7 +39,7 @@
       </div>
     </div>
   </div>
-  
+
   <div id="header">
     <% flash_mood = [:good,:bad,:indif].detect { |m| flash[m] } %>
     <div id="hud" class="<%= flash_mood %>">
@@ -50,7 +50,7 @@
         <%= content_tag(:span, flash_mood, :id => 'message') if flash_mood %>
       </div>
     </div>
-    
+
     <div id="button_box">
       <%= app_nav_for 'Create a new column.', 'button_new_column', columns_url %>
       <%= app_nav_for 'My HomeMarklet. Click to learn more.', 'button_bookmarklet', render_bookmarklet, :xtra_content => '<span style="display:none;">HomeMarklet</span>' %>
@@ -62,10 +62,10 @@
       <%= app_nav_for 'Log out.', 'button_logout', session_path %>
     </div>
   </div>
-  
+
   <%= yield %>
-  
+
   <div id="trashcan" class="<%= current_user.trashbox.empty? ? 'trash_empty' : 'trash_full' %>"></div>
-  
+
 </body>
 </html>

@@ -2,11 +2,11 @@
 <% title 'My HomeMarks Login' %>
 
 <div id="login_area">
-  
+
   <h1><%= yield(:title) %></h1>
 
   <p class="mb20">
-    Login into your HomeMarks start page or, signup now and <%= link_to 'create your own', new_user_path %>. If you have any 
+    Login into your HomeMarks start page or, signup now and <%= link_to 'create your own', new_user_path %>. If you have any
     problems please use our <%= link_to 'online support form', new_support_request_path(:show_form => true) %>.
   </p>
 
@@ -24,22 +24,22 @@
         <td></td>
         <td class="vbottom_all">
           <input id="forgotpw_button" type="button" value="Forgot password" />
-          <%= submit_tag 'Login' %> 
+          <%= submit_tag 'Login' %>
           <span id="form_loading"></span>
         </td>
       </tr>
     </table>
   <% end %>
-  
+
 </div>
 
 
 <div id="forgotpw_area" style="display:none;">
-  
+
   <h1>Forgot Password</h1>
 
   <p class="mb20">
-    Enter your email address in the field below and click 'Reset Password' to have instructions on how 
+    Enter your email address in the field below and click 'Reset Password' to have instructions on how
     to reset your password emailed to you.
   </p>
 
@@ -53,13 +53,13 @@
         <td></td>
         <td class="vbottom_all">
           <input id="forgotpw_cancel" type="button" value="« Cancel" />
-          <%= submit_tag 'Reset Password' %> 
+          <%= submit_tag 'Reset Password' %>
           <span id="form_loading"></span>
         </td>
       </tr>
     </table>
   <% end %>
-  
+
 </div>
 
 
